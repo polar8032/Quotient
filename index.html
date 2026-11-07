@@ -768,6 +768,27 @@ body.goaling #scrub,body.goaling #ctxbar{display:none!important}
 .answer.think .a-head .chip-kind{animation:chipSheen 1s var(--ease-out) both;background:linear-gradient(100deg,var(--accent-soft) 30%,var(--ai-soft) 50%,var(--accent-soft) 70%) 0 0/250% 100%}
 @media (prefers-reduced-motion:reduce){.a-value .av.counting{color:var(--ink);background:none}.g-in{animation:none}}
 
+
+/* straight answers */
+.a-note{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--muted);margin-top:-4px}
+.a-note svg{flex:none;color:var(--ai-c)}
+.a-bar{align-items:center}
+.a-more-btn{margin-left:auto;color:var(--muted)}
+.a-more-btn svg{transition:transform .45s var(--spring)}
+.a-more-btn[aria-expanded="true"]{color:var(--ink)}
+.a-more-btn[aria-expanded="true"] svg{transform:rotate(180deg)}
+.a-more{display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--line);padding-top:12px}
+.a-more[hidden]{display:none!important}
+.a-more.open{animation:moreIn .45s var(--spring) both}
+@keyframes moreIn{from{opacity:0;transform:translateY(-6px);filter:blur(3px)}to{opacity:1;transform:none;filter:none}}
+.a-more .a-steps{border-top:0;padding-top:0;margin-top:0}
+.a-sec .btn{font-size:12.5px}
+body:not(.details-open) #scrub{display:none!important}
+
+
+.a-sub{font-size:10.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);margin-bottom:-4px}
+.a-facts li span:last-child{color:var(--ink)}
+
 /* press feedback: a soft gradient ripple from where you touched */
 .rip{position:relative;overflow:hidden}
 .ripple{position:absolute;border-radius:50%;pointer-events:none;width:var(--d);height:var(--d);left:var(--x);top:var(--y);transform:translate(-50%,-50%) scale(0);background:radial-gradient(circle,var(--ai-glow),transparent 65%);animation:rip .7s var(--ease-out) forwards}
@@ -2631,7 +2652,7 @@ const Engine = (() => {
 
   /* ================= typo correction ================= */
   const VOCAB = new Set([...Object.keys(U).filter(k => /^[a-z ]{4,}$/.test(k)), ...MONTHS, ...DAYS, ...Object.keys(SMALL), ...Object.keys(TZ), ...Object.keys(DENS),
-    'paint','tiles','tile','bricks','brick','walls','wall','ceiling','doors','windows','coats','ohms','volts','voltage','amps','current','resistance','resistor','watts','sleep','wake','bedtime','water','intake','calories','dog','cat','human','years','lightning','thunder','markup','margin','ratio','palindrome','perfect','abundant','digits','reverse','original','points','fuel','consumption','economy','passed','progress','ate','used','spent','left',
+    'weight','height','room','rooms','sale','sales','till','make','cube','total','train','trains','shoes','shoe','double','dress','jeans','ring','oven','salary','mortgage','fuel','petrol','sleep','convert','product','difference','today','week','size','sizes','sapatos','tamanho','horas','dias','data','paint','tiles','tile','bricks','brick','walls','wall','ceiling','doors','windows','coats','ohms','volts','voltage','amps','current','resistance','resistor','watts','sleep','wake','bedtime','water','intake','calories','dog','cat','human','years','lightning','thunder','markup','margin','ratio','palindrome','perfect','abundant','digits','reverse','original','points','fuel','consumption','economy','passed','progress','ate','used','spent','left',
     'percent','percentage','average','median','between','until','christmas','halloween','valentines','tomorrow','yesterday','today','square','root','factorial','fraction','decimal','divided','multiplied','times','minus','plus','prime','factors','divisors','roman','binary','hexadecimal','octal','discount','increase','decrease','compound','interest','mortgage','loan','split','salary','hourly','weekly','monthly','yearly','annually','random','number','fibonacci','leap','easter','birthday','born','celsius','fahrenheit','kelvin','convert','calculate','scientific','notation','remainder','sine','cosine','tangent','logarithm','thousand','million','billion','hundred','between','people','minutes','hours','seconds','weeks','months','years','days','degrees','inches','feet','centimeters','kilometers','kilograms','pounds','ounces','gallons','liters','litres','meters','metres','rounded','nearest','decimal','places','squared','cubed','power','difference','change','percent','original','after','before','since','ago','from','what','much','many','long','how','when','tip','each','split','average','minimum','maximum','standard','deviation','variance','simplify','ratio','words','dice','coin','time','date','week','weekday','tonight','noon','midnight','marathon','speed','pace','distance','drive','walk','travel','invest','savings','deposit','borrow','vat','tax','total','sum','product','multiply','subtract','divide','add','quotient','factorize','solve','equation','circle','area']);
   function lev(a, b) {
     if (Math.abs(a.length - b.length) > 2) return 9;
@@ -3062,6 +3083,9 @@ const Engine = (() => {
     [/^(plot|graph|draw) (.+) from (\S+) to (\S+)$/, (m0, v, f, a, b) => /−/.test(a + b) ? `${v} ${f} from ${a.replace(/−/g, '-')} to ${b.replace(/−/g, '-')}` : m0],
     [new RegExp(`^(?:how many )?${NUMR}\\s*(cm|mm|m|in) (?:products?|items?|packs?|boxes?|facings?)(?: facings)? (?:fit )?(?:on|in|across|for) (?:a |the )?${NUMR}\\s*(cm|m|mm|ft|in) (?:shelf|bay|gondola|run)$`), 'how many facings on a $3 $4 shelf at $1 $2'],
     [new RegExp(`^${NUMR}\\s*(cm|m|mm|ft|in) (?:shelf|bay|gondola|run),? (?:with|for|of|at) ${NUMR}\\s*(cm|mm|m|in) (?:products?|items?|packs?)?(?: facings?)?$`), 'how many facings on a $1 $2 shelf at $3 $4'],
+    // "kg lb", "inch cm", "1 cup ml" → a conversion
+    [/^(\d+(?:[.,]\d+)?\s+)?([a-z°'"]{1,12}) ([a-z°'"]{1,12})$/, (m0, n, a, b) => { if (/^(to|in|into|as|and|or|of|per|vs)$/.test(a) || /^(to|in|into|as|and|or|of|per|vs)$/.test(b)) return m0; try { const ua = unit(a), ub = unit(b); if (ua && ub && ua.cat && ua.cat === ub.cat && ua !== ub) return `${(n || '1 ').trim()} ${a} to ${b}`; } catch {} return m0; }],
+    [/^(?:this |which |what )?week$/, 'week number'],
     // races and distances
     [/^(?:how far is |how long is |what is |what's )?(?:a |the )?(\d+(?:[.,]\d+)?)k(?: run| race| distance)?\s+(?:in|to|into)\s+(miles?|mi|km|kilomet(?:er|re)s?|meters?|metres?)\??$/, '$1 km to $2'],
     [/^(?:how far is |how long is |what is |what's )?(?:a |the )?(half[ -])?marathon(?: distance| length)?\s*(?:in|to|into)?\s*(miles?|mi|km|kilomet(?:er|re)s?|meters?|metres?)?\??$/, (m0, half, u) => `${half ? 21.0975 : 42.195} km to ${u || 'mi'}`],
@@ -3100,6 +3124,8 @@ const Engine = (() => {
   function solve(raw, ctx = {}, depth = 0) {
     const q = raw.trim(); if (!q) return null;
     if (/^(?:help|\?|what can (?:you|i) (?:do|ask)\??|examples|commands|how does this work\??)$/i.test(q)) return HELP;
+    // "1/3" on its own is a fraction here; the date reading is offered as the alternative
+    if (!depth && /^\d{1,3}\/\d{1,3}$/.test(q)) { const [a, b] = q.split('/'); if (+b) { const r = solve(`${a} ÷ ${b}`, ctx, 1); if (r && !r.error) { r.label = `${a}/${b}`; r.steps = [['as a decimal', fmt(sig(+a / +b, 10))]].concat((r.steps || []).filter(x => x[0] !== 'read as')); if (+a <= 31 && +b <= 12) r.alts = [{ label: `read ${q} as a date`, q: `what day is ${q}` }]; return r; } } }
     if (/^[MDCLXVI]{2,}$/.test(q)) { const v = fromRoman(q); if (v) return M('Numbers', `${q} in digits`, v); }
     { const r = textCount(q.replace(/^(?:hey|so|ok|please|can you tell me|tell me)\s+/i, '')) || colour(q); if (r) return r; }
     // chains: "15% of 240; times 3" or "5 miles to km then double it"
@@ -3246,6 +3272,68 @@ const Engine = (() => {
     return out;
   }
   const TK = {}; const TKIND = t => { if (!(t in TK)) { try { const r = solve(t, {}, 1); TK[t] = r && !r.error ? r.kind : null; } catch { TK[t] = null; } } return TK[t]; };
+  // words → the calculations they're usually about (English and Portuguese)
+  const TOPICS = [
+    [['today', 'now', 'hoje'], ['what day is today', 'week number', 'how much of the year has passed', 'days until christmas', '90 days from today']],
+    [['log', 'logarithm', 'ln', 'logaritmo'], ['log 100', 'ln 10', 'log base 2 of 64']],
+    [['difference', 'diferença'], ['difference between 50 and 30', '% difference between 80 and 92', 'time difference between lisbon and new york', 'days between 1/3/2026 and 6/11/2026']],
+    [['double', 'triple', 'dobro'], ['double 45', 'triple 12', 'how long to double money at 7%']],
+    [['cube', 'cubed', 'cubo'], ['cube root of 27', '3 cubed', 'volume of a cube side 3']],
+    [['product', 'multiply', 'times', 'produto'], ['product of 4 and 6', 'multiply 12 by 7', '7 times table']],
+    [['divide', 'divided', 'quotient', 'dividir'], ['divide 100 by 8', 'quotient of 20 and 4', 'how many times does 7 go into 100']],
+    [['total', 'sum', 'add', 'soma'], ['the total of 12, 30 and 8', 'sum of 1 to 100', 'add 45 and 30']],
+    [['convert', 'conversion', 'converter', 'unit', 'units'], ['convert 5 km to miles', '72 °F to °C', '3 cups of flour in grams', '5 ft 10 in to cm']],
+    [['shoe', 'shoes', 'sneakers', 'trainers', 'boots', 'sapato', 'sapatos', 'ténis', 'calçado'], ['eu 42 shoes to us', 'us 9 women’s shoes to eu', 'uk 8 shoes to eu', 'my foot is 26 cm, shoe size', 'eu 38 shoes to uk']],
+    [['us', 'usa', 'america', 'american', 'eua'], ['time in new york', 'us 9 shoes to eu', '3pm lisbon to new york', '5 us gallons to litres', '72 °F to °C', '30 mpg to l/100km', 'us 8 dress to eu']],
+    [['uk', 'britain', 'british', 'england', 'english', 'reino unido'], ['time in london', 'uk 8 shoes to eu', 'uk 10 dress to us', '11 stone to kg', '2 uk pints to litres', 'gas mark 4']],
+    [['eu', 'europe', 'european', 'europa'], ['eu 42 shoes to us', 'size 38 dress to us', 'jeans w32 to eu', '72 °F to °C']],
+    [['size', 'sizes', 'clothes', 'clothing', 'tamanho', 'roupa'], ['eu 42 shoes to us', 'size 38 dress to us', 'M women’s top to eu', 'jeans w32 to eu', 'ring size 7 to uk']],
+    [['dress', 'skirt', 'vestido'], ['uk 10 dress to us', 'size 38 dress to us', 'us 8 dress to eu']],
+    [['jeans', 'trousers', 'pants', 'calças'], ['jeans w32 to eu', 'jeans w30 l32 to eu']],
+    [['shirt', 'camisa', 'top'], ['men’s shirt 16 to eu', 'M women’s top to eu']],
+    [['bra', 'soutien'], ['bra 34b to eu', 'bra 75c to us']],
+    [['ring', 'anel'], ['ring size 7 to uk', 'ring size 54 to us']],
+    [['time', 'clock', 'timezone', 'zone', 'hora', 'horas', 'fuso'], ['time in new york', '3pm lisbon to tokyo', 'time difference between lisbon and new york', 'in 3 hours', 'how long until 18:00']],
+    [['temperature', 'temp', 'degrees', 'celsius', 'fahrenheit', 'weather', 'temperatura', 'graus'], ['72 °F to °C', '25 °C to °F', 'body temperature 37 in f', '180 c fan to conventional']],
+    [['oven', 'bake', 'baking', 'forno', 'gas'], ['180 c fan to conventional', 'gas mark 4', '350 °F to °C', '200 c to gas mark']],
+    [['cook', 'cooking', 'recipe', 'cup', 'cups', 'flour', 'sugar', 'butter', 'receita', 'cozinhar'], ['3 cups of flour in grams', '250 g flour for 4 people to 6 people', '1/4 cup + 2 tbsp in ml', 'how many grams in a cup of sugar', 'gas mark 4']],
+    [['fuel', 'petrol', 'diesel', 'gasoline', 'mpg', 'combustível', 'gasolina', 'gasóleo'], ['fuel cost 300 km at 6 l/100km 1.80 per litre', 'fuel consumption 450 km 32 litres', '8 l/100km to mpg', 'fuel for 500 km at 6 l/100km']],
+    [['car', 'drive', 'driving', 'trip', 'road', 'carro', 'viagem'], ['how long to drive 300 km at 90 km/h', 'fuel cost 300 km at 6 l/100km 1.80 per litre', '120 km/h to mph']],
+    [['run', 'running', 'pace', 'marathon', 'walk', 'walking', 'correr', 'corrida'], ['pace for 10k in 50 minutes', '5:30 per km to mph', 'a marathon in miles', 'how long to walk 5 km']],
+    [['speed', 'fast', 'kmh', 'velocidade'], ['120 km/h to mph', '300 km in 4 hours', '100 km/h in m/s']],
+    [['weight', 'weigh', 'heavy', 'peso', 'kilos', 'pounds'], ['70 kg to lb', 'i weigh 70 kg, what\'s that in stone', '11 stone to kg', 'bmi 70 kg 175 cm']],
+    [['height', 'tall', 'altura'], ['180 cm to feet and inches', '5 ft 10 in to cm']],
+    [['salary', 'wage', 'wages', 'hourly', 'earn', 'income', 'pay', 'salário', 'ordenado'], ['30k salary to hourly', '€15 an hour per year', 'i earn 12 an hour and work 8 hours a day', 'shift 9:00 to 17:30 with 30 min break at 6.20 an hour']],
+    [['tip', 'restaurant', 'dinner', 'gorjeta', 'jantar'], ['18% tip on 64,50 for 3 people', 'we are 4 and the bill is 100', 'the bill is 64 plus 10% service']],
+    [['bill', 'split', 'share', 'friends', 'conta', 'dividir'], ['split 120 between 4', 'we are 4 and the bill is 100', 'split 1000 60/40', 'split 500 in the ratio 3:2']],
+    [['vat', 'iva', 'tax', 'gst', 'imposto'], ['add 23% vat to 80', '100 without vat', 'vat on 50', 'how much is the vat in 80']],
+    [['discount', 'sale', 'off', 'promo', 'desconto', 'saldos'], ['25% off 79,90', 'was 80 now 60', '20% off then 10% off 100', '60 after 25% off, original price']],
+    [['shop', 'shopping', 'supermarket', 'groceries', 'cheaper', 'compras', 'supermercado'], ['3 for 5 or 1.89 each', '2.99 for 500 g or 4.49 for 1 kg, which is cheaper', '350 g of ham at 12.90 per kg', 'change from 50 for 37.85']],
+    [['mortgage', 'loan', 'borrow', 'house', 'hipoteca', 'empréstimo', 'crédito'], ['mortgage 250k at 3.2% for 25 years', 'how much can i borrow paying 800 a month at 3.5% for 30 years', 'loan 15k at 6% for 5 years']],
+    [['save', 'saving', 'savings', 'invest', 'interest', 'poupar', 'poupança', 'juros'], ['save 200 a month at 5% for 10 years', 'invest 10k at 7% for 20 years compounded monthly', 'how long to double money at 7%', 'how much interest on 1000 at 5% for 3 years']],
+    [['date', 'day', 'days', 'week', 'calendar', 'dia', 'dias'], ['days until christmas', '90 days from today', 'what day is 1 jan 2027', 'working days until christmas', 'week number']],
+    [['age', 'old', 'birthday', 'born', 'idade', 'aniversário'], ['how old am i if born 12 may 1990', 'age in days born 12 may 1990', 'how long until my birthday on 12 may']],
+    [['christmas', 'easter', 'holiday', 'natal', 'páscoa', 'feriado'], ['days until christmas', 'when is easter 2027', 'working days until christmas']],
+    [['sleep', 'bed', 'wake', 'dormir', 'acordar'], ['if i wake up at 7, when should i sleep', 'if i go to bed at 23:00 when to wake up']],
+    [['dog', 'cat', 'pet', 'cão', 'gato'], ['5 year old dog in human years', '3 year old cat in human years']],
+    [['health', 'calories', 'bmi', 'bmr', 'water', 'saúde', 'calorias'], ['bmi 70 kg 175 cm', 'bmr 70 kg 175 cm 30 years male', 'water intake 70 kg']],
+    [['paint', 'tiles', 'tile', 'bricks', 'room', 'wall', 'floor', 'tinta', 'parede', 'chão'], ['paint for a room 4 by 5 m 2.6 m high with 1 door and 2 windows', 'tiles 60x60 cm for a floor 4 by 3 m', 'area of a room 4 m by 3.5 m', 'how many bricks for a wall 5 m by 2 m']],
+    [['electricity', 'energy', 'kwh', 'watts', 'power', 'volts', 'amps', 'eletricidade', 'luz'], ['cost of 2000 w for 3 hours at 0.20 per kwh', 'ohms law 12v 2a', 'current for 60 w at 12 v']],
+    [['data', 'internet', 'download', 'gb', 'mb', 'mbps', 'wifi'], ['how long to download 5 gb at 100 mbps', '2.5 GB in MB']],
+    [['tv', 'screen', 'monitor', 'inch', 'inches', 'ecrã'], ['55 inch tv size', 'a4 size in inches']],
+    [['area', 'square', 'circle', 'volume', 'triangle', 'área'], ['area of a circle radius 5 cm', 'area of a room 4 m by 3.5 m', 'volume of a box 2 x 3 x 4 m', 'triangle base 6 height 4']],
+    [['graph', 'plot', 'chart', 'gráfico', 'function'], ['plot x^2 − 4', 'graph sin(x)', 'y = 2x + 1']],
+    [['equation', 'solve', 'algebra', 'equação'], ['2x + 3 = 11', 'x^2 − 5x + 6 = 0', 'what number plus 15 equals 40']],
+    [['fraction', 'decimal', 'fração'], ['0.375 as a fraction', '1/4 as a decimal', '3/8 in percent']],
+    [['prime', 'factor', 'factors', 'divisible', 'primo'], ['is 97 prime', 'prime factors of 360', 'is 1001 divisible by 7']],
+    [['roman', 'binary', 'hex', 'base', 'romano'], ['2026 in roman', '255 in binary', '255 in hex', '1011 binary to decimal']],
+    [['percent', 'percentage', 'percentagem', 'por cento'], ['15% of 240', '30 is what % of 120', '% change from 80 to 92', 'percentage points from 3% to 5%']],
+    [['average', 'mean', 'median', 'grade', 'grades', 'média', 'nota', 'notas'], ['average of 14, 16, 12, 18', 'what grade do i need to average 15 if i have 14 and 13', '18 out of 25', 'weighted average 80 at 30% and 90 at 70%']],
+    [['random', 'dice', 'coin', 'roll', 'flip', 'dado', 'moeda'], ['roll 2d6', 'flip a coin', 'random number between 1 and 100']],
+    [['colour', 'color', 'rgb', 'cor'], ['#ff8800 to rgb', 'rgb(30, 144, 255) to hex']],
+    [['work', 'shift', 'hours', 'trabalho', 'turno'], ['shift 9:00 to 17:30 with 30 min break at 6.20 an hour', 'start at 9:15 and work 7 hours 30, when do i finish', 'how many hours from 8:30 to 17:15']],
+    [['train', 'flight', 'bus', 'arrive', 'comboio', 'voo', 'chegar'], ['my train leaves at 14:50 and takes 2h35, when do i arrive', '3pm lisbon to tokyo']],
+  ];
   function complete(raw, ctx = {}) {
     const q = raw.replace(/\s+/g, ' ').trimStart(); const low = q.toLowerCase().trim();
     const out = []; const add = x => { if (x && x.toLowerCase().trim() !== low && !out.some(o => o.toLowerCase().trim() === x.toLowerCase().trim())) out.push(x); };
@@ -3265,9 +3353,7 @@ const Engine = (() => {
       const shape = x => x.toLowerCase().replace(/-?\d[\d.,]*k?%?/g, '#').replace(/\s+/g, ' ').trim(), ls = shape(low);
       for (const h0 of ctx.hist.slice(0, 40)) { const hs = shape(h0); if (h0.toLowerCase() === low || !/\d/.test(h0)) continue; if (hs.startsWith(ls) || (ls.length > 4 && hs.includes(ls.replace(/#.*$/, '').trim()) && ls.replace(/#.*$/, '').trim().length > 4)) { add(/\d/.test(low) ? fillNums(h0, low) : h0); if (out.length >= 2) break; } }
     }
-    if ((m = low.match(/^(?:€|\$|£)?\s*(\d+[.,]\d{2})$/))) { const p = m[1]; [`25% off ${p}`, `${p} + 23% vat`, `change from 20 for ${p}`, `3 for 2 at ${p}`, `${p} for 400 g per kg`, `${p} without 23% vat`].forEach(add); }
-    // a weight or volume → buying by weight
-    if ((m = low.match(/^(\d+(?:[.,]\d+)?)\s*(g|kg|grams?|kilos?|ml|l|litres?|liters?)$/))) { const u = /^(g|grams?|kg|kilos?)$/.test(m[2]) ? 'kg' : 'l'; [`${q.trim()} at 12.90 per ${u}`, `2.49 for ${q.trim()} per ${u}`].forEach(add); }
+    if ((m = low.match(/^(?:€|\$|£)?\s*(\d+[.,]\d{2})$/))) { const p = m[1]; const pv = parseFloat(p.replace(',', '.')), note = [5, 10, 20, 50, 100, 200, 500].find(x => x > pv); [`25% off ${p}`, `${p} + 23% vat`, note ? `change from ${note} for ${p}` : '', `${p} without 23% vat`, pv < 20 ? `3 for 2 at ${p}` : `split ${p} between 2`].filter(Boolean).forEach(add); }
     // deal shapes
     if ((m = low.match(/^(\d+) for (\d+(?:[.,]\d+)?)$/))) { [`${low} or 1.89 each`, +m[2] < +m[1] && !/[.,]/.test(m[2]) ? `${low} at 1.49` : `${low}, how much each`].forEach(add); }
     if (/^(change|chan)/.test(low)) add('change from 50 for 37.85');
@@ -3277,16 +3363,78 @@ const Engine = (() => {
       const qq = parseQty(m[1].toLowerCase()); if (qq && qq.unit) unitNames(qq.cat, qq.unit, m[3].toLowerCase().trim()).slice(0, 5).forEach(u => add(`${m[1]} ${m[2]} ${u}`));
       if (qq && qq.cat === 'length' && 'feet and inches'.startsWith(m[3].toLowerCase().trim()) && m[3]) add(`${m[1]} ${m[2]} feet and inches`);
     }
-    // "5 km" → conversions
-    if ((m = low.match(/^(-?[\d.,]+)\s*([a-zµ°'"][a-z0-9°²³\/ ]*?)$/)) && unit(m[2])) { const u = unit(m[2]); unitNames(u.cat, u).slice(0, 4).forEach(x => add(`${q.trim()} to ${x}`)); }
-    if (/^-?[\d.,]+k?$/.test(low) && !/^\d+[.,]\d{2}$/.test(low)) [`${low}% of `, `${low} in words`, `is ${low} prime`, `split ${low} between `, `${low} km to mi`, `${low} in hex`].forEach(add);
-    if ((m = low.match(/^([\d.,]+)\s*%$/))) [`${m[1]}% of `, `${m[1]}% tip on `, `add ${m[1]}% vat to `, `${m[1]}% off `].forEach(add);
+    // ---- a number with a unit: the conversions people actually want, plus what you'd do with it ----
+    let unitHit = false;
+    if ((m = low.match(/^(-?\d+(?:[.,]\d+)?)\s*([a-zµ°'"][a-z0-9°²³\/ ]*?)$/)) && !/^(for|in|at|to|of|by|or|on|and|is|it|as|per|x|times|plus|minus|less|more)$/.test(m[2].trim()) && unit(m[2])) {
+      unitHit = true; const u = unit(m[2]), n = m[1], v = parseFloat(n.replace(',', '.')), TN = { s: 'seconds', min: 'minutes', h: 'hours', d: 'days', wk: 'weeks', mo: 'months', yr: 'years' }, qq = `${n} ${u.cat === 'time' && TN[u.sym] ? (v === 1 ? TN[u.sym].replace(/s$/, '') : TN[u.sym]) : u.sym}`;
+      const CTR = { km: 'mi', m: 'ft', cm: 'in', mm: 'in', mi: 'km', ft: 'm', in: 'cm', yd: 'm', kg: 'lb', g: 'oz', lb: 'kg', oz: 'g', st: 'kg', L: 'gal', ml: 'fl oz', cup: 'ml', 'fl oz': 'ml', gal: 'L', '°F': '°C', '°C': '°F', K: '°C', 'km/h': 'mph', mph: 'km/h', 'm/s': 'km/h', 'm²': 'ft²', 'ft²': 'm²', ha: 'ac', ac: 'ha', kWh: 'kJ', kcal: 'kJ', kJ: 'kcal', hp: 'kW', kW: 'hp', GB: 'MB', MB: 'KB', TB: 'GB' };
+      const first = CTR[u.sym]; if (first) add(`${qq} to ${first}`);
+      const cat = u.cat;
+      if (cat === 'length') {
+        if (u.sym === 'cm' && v >= 100 && v <= 230) add(`${qq} to feet and inches`);
+        if (/^(km|mi)$/.test(u.sym) && v > 0 && v <= 60) { add(`how long to walk ${qq}`); add(`pace for ${qq} in ${Math.round(v * (u.sym === 'mi' ? 9 : 5.5))} minutes`); }
+        if (/^(km|mi)$/.test(u.sym) && v > 20) { add(`how long to drive ${qq} at ${u.sym === 'mi' ? 60 : 90} ${u.sym === 'mi' ? 'mph' : 'km/h'}`); add(`fuel cost ${qq} at 6 l/100km 1.80 per litre`); }
+        if (u.sym === 'cm' && v >= 20 && v <= 32) add(`my foot is ${n} cm, shoe size`);
+      } else if (cat === 'mass') {
+        if (u.sym === 'kg' && v >= 30 && v <= 250) { add(`${qq} to stone`); add(`bmi ${n} kg 175 cm`); }
+        else if (/^(g|kg)$/.test(u.sym) && v < 30) { add(`${qq} at 12.90 per kg`); add(`2.49 for ${qq} per kg`); }
+        if (u.sym === 'g' && v <= 1000) add(`${qq} of flour in cups`);
+      } else if (cat === 'temp') {
+        if (u.sym === '°C' && v >= 100 && v <= 260) { add(`${n} c fan to conventional`); add(`${n} c to gas mark`); }
+        add(`${qq} to K`);
+      } else if (cat === 'time') {
+        if (/^(min|s|h)$/.test(u.sym)) { if (!(u.sym === 'h' && Number.isInteger(v))) add(`${qq} in hours and minutes`); add(`${qq} to ${u.sym === 'h' ? 'minutes' : u.sym === 'min' ? 'hours' : 'minutes'}`); add(`in ${qq}`); if (u.sym !== 's') add(`9:00 + ${n}${u.sym === 'h' ? 'h' : 'm'}`); }
+        else { add(`${qq} from today`); add(`${qq} to hours`); if (u.sym === 'd') add(`${n} working days from today`); }
+      } else if (cat === 'volume') {
+        if (/^(L|ml)$/.test(u.sym)) add(`how many 250 ml glasses in ${qq}`); add(`${qq} to cups`);
+      } else if (cat === 'data') { add(`how long to download ${qq} at 100 mbps`); }
+      else if (cat === 'speed') { if (/^(km\/h|mph)$/.test(u.sym)) add(`how long to drive 300 km at ${qq}`); }
+      else if (cat === 'energy' || cat === 'power') { if (/^(W|kW)$/.test(u.sym)) add(`cost of ${qq} for 3 hours at 0.20 per kwh`); }
+      // other units, only where the result is a sensible size (no "180 cm to km")
+      const base = u.to ? u.to(v) : null;
+      const pref = (ALT[cat] || unitNames(cat, u).slice(0, 4)).filter(x => x !== first && x !== u.sym && !/^(bit|st|PS|ft\/s|cup|MiB|GiB|Mbit)$/.test(x));
+      if (cat !== 'time') pref.filter(x => { const t = symU(x) || unit(x); if (!t || base == null || !isFinite(v) || cat === 'temp') return true; const y = Math.abs(t.from(base)); return y >= 0.1 && y <= 1e6; }).slice(0, 3).forEach(x => add(`${qq} to ${x}`));
+    }
+    // ---- a unit word on its own: "lb", "gallons", "km" → convert one, and common amounts ----
+    if (!unitHit && /^[a-zµ°'"][a-z°²³\/ ]{0,14}$/.test(low) && !/^(a|an|in|to|at|of|by|or|on|and|is|it|as|per|for|the|day|week|month|year|time|days|hour|hours|minute)$/.test(low) && unit(low)) {
+      const u = unit(low), CT = { km: 'mi', mi: 'km', m: 'ft', ft: 'm', cm: 'in', in: 'cm', kg: 'lb', lb: 'kg', g: 'oz', oz: 'g', L: 'gal', gal: 'L', ml: 'fl oz', 'fl oz': 'ml', '°C': '°F', '°F': '°C', st: 'kg', 'km/h': 'mph', mph: 'km/h', cup: 'ml', tbsp: 'ml', tsp: 'ml', pt: 'ml', yd: 'm' }, to = CT[u.sym];
+      if (to) { unitHit = true; [`1 ${u.sym} to ${to}`, `10 ${u.sym} to ${to}`, `how many ${to} in a ${low.replace(/s$/, '')}`, `100 ${u.sym} to ${to}`].forEach(add); }
+    }
+    if (unitHit && out.length >= 2) return out.slice(0, 5);
+    // ---- topics: a word brings up what it's usually about ----
+    if (!ctx.nested && out.length < 5) {
+      const words = low.split(/[^a-z0-9%€$£ºª'’]+/).filter(Boolean), last = !/\s$/.test(raw) ? words[words.length - 1] : '';
+      const numIn = (low.match(/\d+(?:[.,]\d+)?/) || [])[0];
+      // sizes with a number: read it in the system it fits (40 → EU, 9 → US/UK, 26 → foot cm)
+      const sn = numIn ? parseFloat(numIn.replace(',', '.')) : null;
+      if (sn != null && /\b(shoes?|sneakers|trainers|boots|sapatos?|ténis)\b/.test(low) && !/\b(eu|us|uk|jp|fr|it|au)\b/.test(low)) {
+        if (sn >= 34 && sn <= 50) [`eu ${numIn} shoes to us`, `eu ${numIn} shoes to uk`, `eu ${numIn} women’s shoes to us`].forEach(add);
+        else if (sn >= 2 && sn <= 16) [`us ${numIn} shoes to eu`, `uk ${numIn} shoes to eu`, `us ${numIn} women’s shoes to eu`, `us ${numIn} shoes to uk`].forEach(add);
+        else if (sn >= 20 && sn <= 32) add(`my foot is ${numIn} cm, shoe size`);
+      }
+      if (sn != null && /\b(dress|dresses|skirt|vestido)\b/.test(low) && !/\b(eu|us|uk|fr|it)\b/.test(low)) {
+        if (sn >= 30 && sn <= 56) [`size ${numIn} dress to us`, `size ${numIn} dress to uk`].forEach(add); else if (sn <= 28) [`uk ${numIn} dress to us`, `us ${numIn} dress to eu`, `uk ${numIn} dress to eu`].forEach(add);
+      }
+      const sized = sn != null && /\b(shoes?|sneakers|trainers|boots|sapatos?|ténis|dress|dresses|skirt|vestido)\b/.test(low);
+      const STOPW = /^(are|the|and|for|how|was|can|all|any|not|but|has|had|his|her|our|out|you|too|two|way|who|why|new|one|now|get|got|put|see|use|she|him|its|let|may|say|set|try|own|off|per|via|yes|let|make|what|with|that|this|from|will|have|into|than|then|them|they|when|your|much|many|some|most|more|less|just|over|very|only|also)$/;
+      const exact = TOPICS.some(([keys]) => keys.includes(last));
+      const hits = sized ? [] : TOPICS.filter(([keys]) => keys.some(k => words.includes(k) || (!exact && last && last.length >= 3 && !STOPW.test(last) && k.length > 3 && k.startsWith(last)) || (!exact && last && last.length >= 5 && k.length >= 5 && Math.abs(k.length - last.length) <= 1 && lev(k, last) === 1)));
+      for (const [, list] of hits) for (const t of list) { if (out.length >= 5) break; add(numIn && !/^-?[\d.,]+k?%?$/.test(low) ? fillNums(t, low) : t); }
+    }
+    if (/^-?[\d.,]+k?$/.test(low) && !/^\d+[.,]\d{2}$/.test(low)) {
+      const v = parseFloat(low.replace(/k$/, '').replace(',', '.')) * (/k$/.test(low) ? 1000 : 1), int = Number.isInteger(v), year = int && v >= 1900 && v <= 2100;
+      if (year) [`is ${low} a leap year`, `${low} in roman`, v <= new Date().getFullYear() ? `how old if born in ${low}` : `how many years until ${low}`, `${low} in words`].forEach(add);
+      else if (v >= 1e6) [`${low} in words`, `${low} in scientific notation`, `${low} ÷ 12`, `${low} × 12`].forEach(add);
+      else { if (v > 0 && v <= 100) add(`${low}% of 200`); add(`${low} km to mi`); add(`${low} in words`); if (int && v > 1 && v < 1e7) add(`is ${low} prime`); if (v >= 2) add(`split ${low} between 2`); if (int && v < 1e6) add(`${low} in roman`); }
+    }
+    if ((m = low.match(/^([\d.,]+)\s*%$/))) [`${m[1]}% of 200`, `${m[1]}% off 80`, `${m[1]}% tip on 50`, `add ${m[1]}% vat to 100`, `100 is ${m[1]}% of what`].forEach(add);
+    if ((m = low.match(/^(\d+) for$/))) [`${m[1]} for 5 or 1.89 each`, `${m[1]} for 2 at 1.49`, `${m[1]} for 4.99, how much each`].forEach(add);
     if (parseClock(low) != null) [`${low} + 2h 30m`, `how long until ${low}`, `${low} lisbon to new york`, `${low} here to tokyo`].forEach(add);
     if ((m = low.match(/^(?:time in |time |what time is it in )?([a-z .]{2,})$/)) && zone(m[1]) && !/^(here|local)$/.test(m[1])) [`time in ${m[1]}`, `9am here to ${m[1]}`, `time difference between ${/lisbon|lisboa/.test(m[1]) ? 'new york' : 'lisbon'} and ${m[1]}`].forEach(add);
     const d = /[a-z]/.test(low) && low.length > 2 && !/^(time|date|today)$/.test(low) && parseDate(low); if (d) [`days until ${low}`, `what day is ${low}`, `working days until ${low}`].forEach(add);
     if (ctx.lastQ && /^(?:and|what|how|now|then|in|to|times|plus|minus|half|double)\b/.test(low)) ['times 2', 'what about 20%', 'half of that'].filter(x => x.startsWith(low)).forEach(add);
     // finish a unit name: "5 kil" → "5 kilometers"
-    if ((m = low.match(/^(-?[\d.,]+)\s*([a-z]{2,})$/)) && !unit(m[2])) {
+    if ((m = low.match(/^(-?[\d.,]+)\s*([a-z]{2,})$/)) && !unit(m[2]) && !/^(for|of|in|to|at|by|on|and|or|times|plus|minus|less|more|between|people|each|is|as)$/.test(m[2])) {
       const PREF = ['kilometer','kilogram','mile','meter','metre','gram','pound','ounce','liter','litre','gallon','inch','foot','feet','yard','hour','minute','second','celsius','fahrenheit','kelvin','kilobyte','megabyte','gigabyte','terabyte','cup','teaspoon','tablespoon','acre','hectare','centimeter','millimeter','milliliter','stone','knot','calorie','joule','horsepower','watt'];
       const names = [...new Set(Object.keys(U).filter(k => /^[a-z ]+$/.test(k) && k.length > 2 && k.startsWith(m[2])))].sort((x, y) => (PREF.includes(x) ? 0 : 1) - (PREF.includes(y) ? 0 : 1) || x.length - y.length).slice(0, 3);
       names.forEach(n => add(`${m[1]} ${n}${+m[1] !== 1 && !/s$/.test(n) && !/^(feet|inch|celsius|fahrenheit|kelvin)/.test(n) ? (/(ch|sh|x)$/.test(n) ? 'es' : 's') : ''}`));
@@ -3305,7 +3453,7 @@ const Engine = (() => {
     // typos: offer the corrected question
     if (/[a-z]{4,}/.test(low)) { const c = correct(low, ctx); if (c.fixes.length) add(c.s); }
     // phrase templates, with the user's own numbers dropped in
-    if (/[a-z%]/.test(low) && out.length < 3) {
+    if (/[a-z%]/.test(low) && out.length < 3 && low.length >= 2) {
       const words = low.split(' ').filter(Boolean), lastPart = !/\s$/.test(raw);
       const scored = TEMPLATES.map(t => {
         const tl = t.toLowerCase(), tw = tl.split(/[\s,]+/); let sc = 0;
@@ -3323,9 +3471,11 @@ const Engine = (() => {
         const k = TKIND(t); if (sc && k && ctx.kindFreq && ctx.kindFreq[k]) sc += Math.min(3, Math.log2(1 + ctx.kindFreq[k]));
         return [sc, t, tl.startsWith(low)];
       }).filter(x => x[0] >= 2).sort((a, b) => b[0] - a[0]);
-      scored.slice(0, 6).forEach(x => add(x[2] ? x[1] : fillNums(x[1], low)));
+      const lead = (low.match(/^-?\d[\d.,]*%?/) || [''])[0];
+      scored.slice(0, 6).forEach(x => { const t = x[2] ? x[1] : fillNums(x[1], low); if (lead && !t.toLowerCase().startsWith(lead) && !x[2]) return; add(t); });
     }
-    return out.slice(0, 5);
+    // nothing that is just a bare word (it would have no answer)
+    return out.filter(x => /\d|\s/.test(x.trim()) || /^(pi|today|tomorrow|now|help)$/i.test(x.trim())).slice(0, 5);
   }
 
   // which units a word could be swapped for (used by the fill-in editor)
@@ -3621,19 +3771,24 @@ const Engine = (() => {
     const L = (r.label + ' ' + q).toLowerCase(), u = (r.unit || '').trim(), out = [];
     const add = (label, query) => { if (out.length < 5 && !out.some(o => o[1] === query)) out.push([label, query]); };
     const RATES = [['per hour', 'hourly'], ['per day', 'daily'], ['per week', 'weekly'], ['per month', 'monthly'], ['per year', 'yearly']];
-    if (/per (hour|day|week|month|year)/.test(L) && r.kind === 'Money') RATES.filter(([k]) => !(u + r.label).toLowerCase().includes(k.replace('per ', 'per ')) || !L.endsWith(k)).filter(([k]) => !u.includes(k)).forEach(([k, w]) => add(k, w));
+    const listed = new Set((r.steps || []).filter(Boolean).map(s => String(s[0]).toLowerCase()));
+    if (/per (hour|day|week|month|year)/.test(L) && r.kind === 'Money') RATES.filter(([k]) => !listed.has(k)).filter(([k]) => !(u + r.label).toLowerCase().includes(k.replace('per ', 'per ')) || !L.endsWith(k)).filter(([k]) => !u.includes(k)).forEach(([k, w]) => add(k, w));
     if (r.kind === 'Money') {
       if (/each|split/.test(L)) add('round up', 'round up');
       const fin = /mortgage|loan|borrow|interest|invest|save|saving|salary|per hour|per year|inflation|compound/.test(L);
       if (/vat|iva|tax/.test(L)) { if (!/without/.test(L)) add('without VAT', 'without vat'); } else if (!fin) add('+ 23% VAT', 'plus 23% vat');
       if (!fin) add('20% off', '20% off'); if (!/per (year|month)/.test(L)) add('× 12', 'times 12'); add('÷ 2', 'divided by 2');
     } else if (r.kind === 'Units') {
-      const units = (r.steps || []).filter(s => s[0] === '≈').map(s => (String(s[1]).match(/[\d.,]+\s*(.+)$/) || [])[1]).filter(Boolean);
+      const units = (r.steps || []).filter(s => s && s[0] === '≈').map(s => { const mm = String(s[1]).match(/^([\d.,]+)\s*(.+)$/); if (!mm) return null; const val = parseFloat(mm[1].replace(/,/g, '')); return val >= 0.1 && val <= 1e6 ? mm[2] : null; }).filter(Boolean);
       units.slice(0, 3).forEach(x => add(`in ${x}`, `in ${x}`)); add('× 2', 'times 2');
     } else if (r.kind === 'Date' && /^[\d.,]+ days?\b/.test(r.value || '')) {
       add('in weeks', 'in weeks'); add('in hours', 'in hours'); if (/^days until /i.test(q)) add('working days', q.replace(/^days until/i, 'working days until'));
-    } else if (r.kind === 'Percent' || r.kind === 'Math' || r.kind === 'Stats' || r.kind === 'Numbers') {
-      if (Math.abs(r.num) < 1e15) { add('× 2', 'times 2'); add('÷ 2', 'divided by 2'); if (r.kind !== 'Percent') add('squared', 'squared'); if (Math.abs(r.num - Math.round(r.num)) > 1e-9) add('round', 'round it'); add('+ 23% VAT', 'plus 23% vat'); }
+    } else if (r.kind === 'Percent') {
+      if (!/%/.test(r.value || '')) { add('× 2', 'times 2'); add('round', 'round it'); }
+    } else if (r.kind === 'Numbers') {
+      /* yes/no and number facts: nothing to continue */
+    } else if (r.kind === 'Math' || r.kind === 'Stats') {
+      if (Math.abs(r.num) < 1e15) { add('× 2', 'times 2'); add('÷ 2', 'divided by 2'); if (r.kind !== 'Percent') add('squared', 'squared'); if (Math.abs(r.num - Math.round(r.num)) > 1e-9) add('round', 'round it'); }
     } else if (r.kind === 'Energy' || r.kind === 'Geometry' || r.kind === 'Health' || r.kind === 'Science') { add('× 2', 'times 2'); add('÷ 2', 'divided by 2'); }
     return out.filter(([, query]) => { try { const c = { ...ctx, ans: r.num, lastQ: q, lastUnit: r.kind === 'Units' ? r.unit : (/^[\d.,]+ (days?)\b/.exec(r.value || '') || [])[1] || null }; const x = Engine.solve(query, c); return x && !x.error; } catch { return false; } }).slice(0, 4);
   }
@@ -3814,6 +3969,50 @@ const Engine = (() => {
     requestAnimationFrame(step);
   }
 
+
+  /* ---------- Details that fit the answer: key facts by type, then how it was worked out ---------- */
+  const mny = v => (+v).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  function facts(r, q) {
+    if (!r || r.error || typeof r.num !== 'number' || !isFinite(r.num)) return [];
+    const n = r.num, u = (r.unit || '').toLowerCase(), L = (r.label + ' ' + q).toLowerCase(), out = [];
+    const stepKeys = new Set((r.steps || []).filter(Boolean).map(s => String(s[0]).toLowerCase()));
+    const add = (k, v) => { if (v != null && v !== '' && !stepKeys.has(k.toLowerCase()) && !out.some(o => o[0] === k)) out.push([k, v]); };
+    const solveV = s => { try { const x = Engine.solve(s, ctx); return x && !x.error ? x.value + (x.unit && x.unit.length < 12 ? ' ' + x.unit : '') : ''; } catch { return ''; } };
+    if (r.kind === 'Money') {
+      const per = (u + ' ' + r.label.toLowerCase()).match(/per (hour|day|week|month|year)/);
+      if (per) { const H = { hour: 1, day: 8, week: 40, month: 40 * 52 / 12, year: 40 * 52 }, P = per[1], perH = n / H[P];
+        ['hour', 'day', 'week', 'month', 'year'].filter(x => x !== P).forEach(x => add(`per ${x}`, mny(perH * H[x])));
+        add('assumes', '40-hour weeks, 52 weeks a year'); }
+      else if (/each|split|ways|per person/.test(L)) { add('rounded up', `${Math.ceil(n)} each`); const k = (L.match(/(\d+) (?:people|ways|persons)/) || L.match(/split (\d+)/) || [])[1]; if (k) add('rounded up, all together', mny(Math.ceil(n) * +k)); }
+      else if (/mortgage|loan|borrow/.test(L)) { /* steps already hold totals and interest */ }
+      else if (!/vat|iva|tax/.test(L)) { add('with 23% VAT', mny(n * 1.23)); add('VAT inside it (23%)', mny(n - n / 1.23)); }
+      else if (/without/.test(L)) add('VAT removed', mny(n * .23));
+    }
+    else if (r.kind === 'Percent') {
+      const p = parseFloat(String(r.value).replace(/[^\d.\-−]/g, '').replace('−', '-'));
+      if (isFinite(p) && /%/.test(r.value) && /change|from .* to|increase|decrease|rise|drop|raise/.test(L)) { add('multiplier', `× ${Engine.fmt(+(1 + p / 100).toPrecision(4))}`); add('to undo it', `${p > 0 ? '−' : '+'}${Engine.fmt(+Math.abs(100 - 100 / (1 + p / 100)).toPrecision(3))}%`); }
+      else if (isFinite(p) && /%/.test(r.value)) { const o = oneIn(Math.abs(p)); if (o) add('roughly', o); if (Math.abs(p) <= 100) add('as a decimal', Engine.fmt(+(p / 100).toPrecision(6))); const fr = solveV(`${p / 100} as a fraction`); if (fr && /\//.test(fr) && fr.length < 10) add('as a fraction', fr); }
+      else { const fr = Number.isInteger(n) ? '' : solveV(`${n} as a fraction`); if (fr && /\//.test(fr) && fr.length < 10) add('as a fraction', fr); }
+    }
+    else if (r.kind === 'Stats') { if (!Number.isInteger(n)) add('rounded', Engine.fmt(+n.toFixed(2))); }
+    else if (r.kind === 'Math' || r.kind === 'Solve') {
+      if (!Number.isInteger(n)) { add('rounded', Engine.fmt(+n.toFixed(2))); const fr = solveV(`${n} as a fraction`); if (fr && /\//.test(fr) && fr.length < 12 && fr.replace(/\s/g, '') !== q.replace(/\s/g, '')) add('as a fraction', fr); }
+      if (Number.isInteger(n) && Math.abs(n) < 1e9 && Math.abs(n) >= 10) add('in words', solveV(`${n} in words`));
+      if (Math.abs(n) >= 1e6) add('scientific', solveV(`${n} in scientific notation`));
+      if (Number.isInteger(n) && n > 1 && n < 1e7) { const pr = solveV(`is ${n} prime`); if (pr) add('prime?', pr); }
+    }
+    else if (r.kind === 'Date') {
+      const dm = String(r.value).match(/^([\d,]+) days?/); if (dm) { const d = +dm[1].replace(/,/g, ''); add('in weeks', `${Engine.fmt(+(d / 7).toFixed(1))} weeks`); if (d >= 45) add('in months', `${Engine.fmt(+(d / 30.437).toFixed(1))} months`); add('in hours', Engine.fmt(d * 24)); }
+    }
+    else if (r.kind === 'Units') {
+      const mins = { s: 1 / 60, min: 1, h: 60, d: 1440, wk: 10080 }[r.unit]; if (mins && n * mins >= 60) add('as time', humanDur(n * mins * 60));
+    }
+    else if (r.kind === 'Time') {
+      const cm = String(r.value).match(/^(\d{1,2}):(\d{2})$/); if (cm) { const h = +cm[1]; add('12-hour', `${h % 12 || 12}:${cm[2]} ${h < 12 ? 'am' : 'pm'}`); }
+    }
+    return out.slice(0, 4);
+  }
+
   /* live suggestions + history */
   let hist = store.get('quotient.hist', []); if (!Array.isArray(hist)) hist = [];
   let sugg = [], sel = 0, hIdx = -1, draft = '';
@@ -3876,7 +4075,7 @@ const Engine = (() => {
       .filter(x => x[0] > 0).sort((a, b) => b[0] - a[0]).map(x => x[1]);
     return (scored.length ? scored : ['15% of 240', '5 miles to km', 'days until christmas']).slice(0, 3);
   }
-  let lastVal = null, lastLabel = null, lastSteps = null, lastPlot = null, lastNumK = null;
+  let lastVal = null, lastLabel = null, lastSteps = null, lastPlot = null, lastNumK = null, detailsOpen = false, detailsShape = '', lastShapeK = '';
   /* graphs: canvas with nice ticks, roots, a draw-in reveal and a finger/mouse readout */
   function niceStep(span, n) { const raw = span / n, p = Math.pow(10, Math.floor(Math.log10(raw))), f = raw / p; return (f < 1.5 ? 1 : f < 3.5 ? 2 : f < 7.5 ? 5 : 10) * p; }
   function drawPlot(wrap, p, reveal) {
@@ -3940,33 +4139,49 @@ const Engine = (() => {
     const kindCls = example ? 'ex' : r.error ? 'err' : '';
     const steps = (r.steps || []).filter(Boolean).map(([a, b]) => b == null ? `<li><span class="solo">${esc(a)}</span></li>` : `<li class="${a === 'read as' || a === 'changed' || a === 'ans' || a === 'using' ? 'readas' : a === 'for scale' ? 'scale' : a === 'easier to read' ? 'easy' : ''}"><span>${esc(a)}</span><span>${esc(b)}</span></li>`).join('');
     const canSend = typeof r.num === 'number' && isFinite(r.num);
-    let actions = '';
+    let actions = '', secondary = '';
     if (r.error) {
       const near = [...sugg.filter(x => !/\s$/.test(x)), ...suggestFor($('#q').value)].filter((x, i, a) => a.indexOf(x) === i).map(x => [x, preview(x)]).filter(x => x[1]).slice(0, 3);
       actions = `<div class="suggest"><span class="lbl">${near.length && sugg.length ? 'Closest' : 'Try'}</span>${near.map(([x, pv]) => `<button type="button" class="ex" data-try="${esc(x)}">${esc(x)}<b class="pvb">${esc(pv)}</b></button>`).join('')}</div>`;
     } else if (r.kind !== 'Help') {
       const primary = example ? `<button class="btn primary" data-act="try" type="button">Try it</button><button class="btn" data-act="examples" type="button">Browse examples</button>`
         : `<button class="btn primary" data-act="keep" type="button">${r.assign ? 'Store ' + esc(r.assign.name) : 'Keep on tape'} <span class="kbd" style="border-color:color-mix(in srgb,var(--surface) 30%,transparent);color:inherit;opacity:.7">↵</span></button>`;
-      actions = `<div class="a-actions">${primary}
-        ${r.kind === 'Random' && !example ? `<button class="btn" data-act="again" type="button">Roll again</button>` : ''}
-        ${example ? '' : `<button class="btn" data-act="copy" type="button">Copy</button>`}
-        ${canSend && !example ? `<button class="btn" data-act="send" type="button">Send to calculator</button>` : ''}
+      secondary = example ? '' : `${canSend ? `<button class="btn" data-act="send" type="button">Send to calculator</button>` : ''}
         ${!example && !r.plot ? `<button class="btn" data-act="sheet" type="button">Add to sheet</button>` : ''}
-        ${!example && r.kind === 'Money' && typeof r.num === 'number' ? `<button class="btn" data-act="basket" type="button">Add to basket</button>` : ''}
-        ${!example && !r.assign ? `<button class="btn" data-act="pin" type="button"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 17v5M8 3h8l-1 6 3 3v2H6v-2l3-3z"/></svg>Pin</button>` : ''}</div>`;
+        ${!example && r.kind === 'Money' && typeof r.num === 'number' && !/per (hour|day|week|month|year)|mortgage|loan|borrow|interest|salary|invest|save|saving|inflation/i.test(r.label + ' ' + (r.unit || '') + ' ' + $('#q').value) ? `<button class="btn" data-act="basket" type="button">Add to basket</button>` : ''}
+        ${!example && !r.assign ? `<button class="btn" data-act="pin" type="button"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 17v5M8 3h8l-1 6 3 3v2H6v-2l3-3z"/></svg>Pin</button>` : ''}`;
+      actions = `<div class="a-actions a-bar">${primary}${r.kind === 'Random' && !example ? `<button class="btn" data-act="again" type="button">Roll again</button>` : ''}${example ? '' : `<button class="btn" data-act="copy" type="button">Copy</button>`}@@MORE@@</div>`;
     } else {
       actions = `<div class="suggest"><span class="lbl">Try</span>${['18% tip on 64,50 for 3 people', '3pm lisbon to tokyo', 'x^2 − 5x + 6 = 0'].map(x => `<button type="button" class="ex" data-try="${esc(x)}">${esc(x)}</button>`).join('')}</div>`;
     }
-    box.innerHTML = `
+    // straight answers: the result first; how it was worked out stays one tap away
+    const compact = !example && !r.error && r.kind !== 'Help';
+    const shape = ($('#q').value || '').toLowerCase().replace(/-?\d[\d.,]*/g, '#').trim();
+    if (shape !== detailsShape) { detailsShape = shape; detailsOpen = false; }
+    const firstStep = (r.steps || []).find(Boolean);
+    const noteTxt = compact && firstStep && /^(read as|ignored|changed|because of)$/.test(firstStep[0]) ? (firstStep[0] === 'ignored' ? `Ignored “${firstStep[1]}”` : firstStep[0] === 'changed' ? `Changed: ${firstStep[1]}` : `Read as “${firstStep[1]}”`) : '';
+    const moreSteps = compact ? (r.steps || []).filter(Boolean).filter(s => s !== firstStep || !noteTxt) : [];
+    const hasMore = compact && (facts(r, $('#q').value.trim()).length || moreSteps.length || secondary.trim() || trail.length || insight(r, $('#q').value) || nextFor(r, $('#q').value.trim()).length);
+    let html = `
       <div class="a-head"><span class="chip-kind ${kindCls}">${example ? 'Example' : esc(r.kind)}</span><span class="a-label">${esc(example ? '“' + example + '”' : r.label)}</span></div>
       ${r.value ? `<div class="a-value">${r.swatch && /^#[0-9A-F]{6}$/.test(r.swatch) ? `<span class="sw" style="background:${r.swatch}"></span>` : ''}<span class="av">${esc(r.value)}${r.unit ? `<small>${esc(r.unit)}</small>` : ''}</span>${!example && !r.error && !r.plot && !r.assign && typeof r.num === 'number' && isFinite(r.num) && revTokens($('#q').value).length ? `<button type="button" class="a-goal" data-act="rev" title="Type the answer you want: Quotient changes your question to match"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg><span>Set the answer</span></button>` : ''}</div>` : r.plot ? '' : `<div class="a-label" style="color:var(--ink);font-size:17px">${esc(r.error ? r.label : 'Ask in your own words. A few shapes that work:')}</div>`}
-      ${trail.length && !example && !r.error ? `<div class="trail"><span class="lbl">Before</span>${trail.map((t, i) => `<button type="button" data-try="${esc(t.q)}" title="${esc(t.q)}">${esc(t.v)}</button>`).join('')}</div>` : ''}
+      @@NOTE@@
       ${r.alts && r.alts.length && !example ? `<div class="alts"><span class="lbl">Or</span>${r.alts.map(a => { let pv = ''; try { const x = Engine.solve(a.q, ctx); pv = x && !x.error ? x.value + (x.unit && x.unit.length < 8 ? ' ' + x.unit : '') : ''; } catch {} return `<button type="button" class="ex" data-try="${esc(a.q)}">${esc(a.label)}${pv ? `<b>${esc(pv)}</b>` : ''}</button>`; }).join('')}</div>` : ''}
       ${r.plot ? `<div class="plot"><canvas aria-label="Graph of ${esc(r.plot.src)}" role="img"></canvas><div class="plot-read"><span>${esc(r.plot.note || 'drag across the graph to read values')}</span></div></div>` : ''}
+      @@OPENMORE@@
+      ${trail.length && !example && !r.error ? `<div class="trail"><span class="lbl">Before</span>${trail.map((t, i) => `<button type="button" data-try="${esc(t.q)}" title="${esc(t.q)}">${esc(t.v)}</button>`).join('')}</div>` : ''}
       ${!example && !r.error ? (() => { const ins = insight(r, $('#q').value); return ins ? `<div class="a-insight"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg><span>${esc(ins)}</span></div>` : ''; })() : ''}
-      ${steps ? `<ul class="a-steps">${steps}</ul>` : ''}
+      ${(() => { if (!compact) return steps ? `<ul class="a-steps">${steps}</ul>` : ''; const fx = facts(r, $('#q').value.trim()); return (fx.length ? `<div class="a-sub">Key facts</div><ul class="a-steps a-facts">${fx.map(([k, v]) => `<li><span>${esc(k)}</span><span>${esc(v)}</span></li>`).join('')}</ul>` : '') + (steps ? `<div class="a-sub">How it was worked out</div><ul class="a-steps">${steps}</ul>` : ''); })()}
       ${!example && !r.error ? (() => { const nx = nextFor(r, $('#q').value.trim()); return nx.length ? `<div class="a-next"><span class="lbl">Next</span>${nx.map(([l, qq], i) => `<button type="button" data-next="${esc(qq)}" style="--i:${i}">${esc(l)}</button>`).join('')}</div>` : ''; })() : ''}
+      @@CLOSEMORE@@
       ${actions}`;
+    html = html.replace('@@NOTE@@', noteTxt ? `<div class="a-note"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16v.5"/></svg>${esc(noteTxt)}</div>` : '')
+      .replace('@@OPENMORE@@', compact ? `<div class="a-more" id="aMore"${detailsOpen ? '' : ' hidden'}>` : '')
+      .replace('@@CLOSEMORE@@', compact ? `${secondary.trim() ? `<div class="a-actions a-sec">${secondary}</div>` : ''}</div>` : '')
+      .replace('@@MORE@@', hasMore ? `<button class="btn a-more-btn" data-act="more" type="button" aria-expanded="${detailsOpen}" aria-controls="aMore"><span>${detailsOpen ? 'Hide details' : 'Details'}</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>` : '');
+    if (compact && noteTxt) html = html.replace(/(<ul class="a-steps">)<li class="readas">[\s\S]*?<\/li>/, '$1');
+    box.innerHTML = html;
+    document.body.classList.toggle('details-open', compact ? detailsOpen : true);
     box.dataset.example = example || '';
     // tap the answer to see it in other formats
     { const ve = box.querySelector('.a-value'); const KEYS = /^(≈|fraction|in words|in hours|in minutes|12-hour|24-hour|as odds|as a decimal|decimal|e-notation|in mph|mph|km\/h|°F|in inches|mm|inches|hex|rgb|hsl|binary|octal|per km|per mile|speed|as a %|multiple|that is|in km|in miles|in US gallons|total|margin|markup|ratio|whole portions|SI value)$/;
@@ -3985,15 +4200,15 @@ const Engine = (() => {
     else {
       if (valEl && v !== lastVal) valEl.classList.add('swap');
       if (valEl && v !== lastVal && !example && !r.error) aiThink(box);
-      if (valEl && v !== lastVal && lastNumK && typeof r.num === 'number' && lastNumK.kind === r.kind && lastNumK.unit === (r.unit || '')) tweenValue(valEl.querySelector('.av'), lastNumK.num, r.num, r.value);
+      if (valEl && v !== lastVal && lastNumK && lastNumK.shape === shape && typeof r.num === 'number' && lastNumK.kind === r.kind && lastNumK.unit === (r.unit || '')) tweenValue(valEl.querySelector('.av'), lastNumK.num, r.num, r.value);
       if (labEl && r.label !== lastLabel) labEl.classList.add('swap');
       if (stEl && stepsKey !== lastSteps) stEl.classList.add('swap');
     }
-    if (!wasHidden && valEl && typeof r.num === 'number' && isFinite(r.num) && lastNumK && lastNumK.kind === r.kind && lastNumK.unit === (r.unit || '') && Math.abs(lastNumK.num - r.num) > 1e-12 && !REDUCE) {
+    if (!wasHidden && valEl && typeof r.num === 'number' && isFinite(r.num) && lastNumK && lastNumK.shape === shape && lastNumK.kind === r.kind && lastNumK.unit === (r.unit || '') && Math.abs(lastNumK.num - r.num) > 1e-12 && !REDUCE) {
       const d = r.num - lastNumK.num, b = document.createElement('span'); b.className = 'delta ' + (d > 0 ? 'up' : 'down');
       b.textContent = `${d > 0 ? '▲ +' : '▼ −'}${Engine.fmt(+Math.abs(d).toPrecision(4))}`; valEl.appendChild(b); setTimeout(() => b.classList.add('out'), 1400);
     }
-    if (typeof r.num === 'number' && isFinite(r.num)) lastNumK = { kind: r.kind, unit: r.unit || '', num: r.num };
+    if (typeof r.num === 'number' && isFinite(r.num)) lastNumK = { kind: r.kind, unit: r.unit || '', num: r.num, shape };
     lastVal = v; lastLabel = r.label; lastSteps = stepsKey;
     if (!REDUCE && !wasHidden && fromH) {
       box.style.height = 'auto'; const to = box.offsetHeight;
@@ -4014,6 +4229,7 @@ const Engine = (() => {
     if (act === 'sheet') { addToSheet($('#q').value.trim()); return; }
     if (act === 'pin') { addPin($('#q').value.trim()); return; }
     if (act === 'rev') { openGoal(); return; }
+    if (act === 'more') { detailsOpen = !detailsOpen; const m = $('#aMore'), b = e.target.closest('[data-act]'); if (m) { m.hidden = !detailsOpen; if (detailsOpen && !REDUCE) { m.classList.remove('open'); void m.offsetWidth; m.classList.add('open'); } } b.setAttribute('aria-expanded', String(detailsOpen)); b.querySelector('span').textContent = detailsOpen ? 'Hide details' : 'Details'; document.body.classList.toggle('details-open', detailsOpen); return; }
     if (act === 'basket') { addToBasket($('#q').value.trim(), current); return; }
     if (act === 'examples') { setExamples(true); exBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); return; }
     if (act === 'copy' && r && r.plot && !r.value) copy(r.label);
@@ -4201,6 +4417,8 @@ const Engine = (() => {
     { const gm = v.trim().match(GOALRE), base = goalBase(); if (gm && base && parseGoal(gm[1], 1)) { renderScrub(null); renderAnswer({ kind: 'Work backwards', label: `From your last question: “${base}”`, value: `→ ${gm[1]}`, steps: [['press Enter', 'to see which number to change, and to what']] }); return; } }
     const ac = askCtx(); const r = Engine.solve(ac.q ? v.replace(/\b(?:my |the )?basket(?: total| sum)?\b/gi, 'basket') : v, ac.c);
     renderScrub(r);
+    // just a word with suggestions showing ("us", "shoes"): let the suggestions answer, no error card
+    if (r && r.error && sugg.length && !/\d/.test(v) && v.trim().split(/\s+/).length <= 3) { lastGood = null; renderAnswer(null); return; }
     // while you are mid-sentence, keep the last good answer (dimmed) instead of flashing an error
     if (r && r.error && lastGood && !$('#answer').hidden) {
       const guess = sugg.filter(x => !/\s$/.test(x)).map(x => [x, preview(x)]).find(x => x[1]);
