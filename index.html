@@ -8,9 +8,9 @@
 <meta name="theme-color" content="#0D0E10" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
 <link rel="manifest" href="./manifest.webmanifest">
-<link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
-<link rel="icon" href="./icons/favicon-32.png" type="image/png" sizes="32x32">
-<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+<link rel="icon" href="./favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -588,9 +588,21 @@ html.calc-open .toast{bottom:calc(env(safe-area-inset-bottom,0px) + 24px)}
 .install{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:500;padding:7px 13px;border-radius:999px;color:var(--ink);background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(90deg,var(--ai-a),var(--ai-b),var(--ai-c)) border-box;border:1.5px solid transparent;box-shadow:0 8px 20px -14px var(--ai-glow);animation:chipIn .5s var(--spring) both;transition:transform .45s var(--spring)}
 .install:hover{transform:translateY(-1px)}
 .install:active{transform:scale(.95)}
-.ios-tip{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom, 0px));transform:translateX(-50%);z-index:60;max-width:min(360px,calc(100vw - 32px));background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 40px -20px rgba(0,0,0,.45);padding:14px 16px;font-size:14px;line-height:1.45;animation:cardIn .5s var(--spring) both}
+.ios-tip{position:fixed;left:0;right:0;margin-inline:auto;width:max-content;max-height:calc(100dvh - 40px);overflow:auto;bottom:calc(18px + env(safe-area-inset-bottom, 0px));z-index:60;max-width:min(360px,calc(100vw - 32px));background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 40px -20px rgba(0,0,0,.45);padding:14px 16px;font-size:14px;line-height:1.45;animation:cardIn .5s var(--spring) both}
 .ios-tip b{font-weight:600}
 .ios-tip button{float:right;margin:-4px -6px 0 8px;width:26px;height:26px;border-radius:50%;color:var(--faint)}
+.install-panel{max-width:min(420px,calc(100vw - 32px));width:calc(100vw - 32px);padding:16px 18px 14px}
+.install-panel h3{margin:0 0 6px;font-size:16px;font-weight:600;letter-spacing:-.01em}
+.install-panel .ip-steps{margin:0 0 12px;color:var(--muted);font-size:14px}
+.install-panel .ip-steps b{color:var(--ink)}
+.ip-checks{list-style:none;margin:0;padding:10px 0 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:7px;font-size:13px}
+.ip-checks li{display:flex;gap:9px;align-items:flex-start;animation:chipIn .35s var(--spring) both}
+.ip-checks i{flex:none;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:11px;font-weight:700;color:#fff;background:var(--good);margin-top:1px}
+.ip-checks li.bad i{background:var(--bad)}
+.ip-checks li span{color:var(--muted)} .ip-checks li b{color:var(--ink);font-weight:500}
+.ip-checks li.wait{color:var(--faint)}
+.ip-checks li.sum{padding-top:6px;font-weight:500;color:var(--good)} .ip-checks li.sum.bad{color:var(--bad)}
+.install.ready{box-shadow:0 0 0 4px var(--ai-soft),0 8px 20px -14px var(--ai-glow)}
 /* standalone app: respect the notch / status bar */
 @media (display-mode: standalone){body{padding-top:calc(20px + env(safe-area-inset-top, 0px))}}
 /* press feedback: a soft gradient ripple from where you touched */
@@ -3288,22 +3300,51 @@ const Engine = (() => {
   }
 
 
-  /* ---------- install as an app (only when served with a manifest, e.g. GitHub Pages) ---------- */
+  /* ---------- install as a real app (only when served with a manifest, e.g. GitHub Pages) ---------- */
   (() => {
-    const btn = $('#installBtn'), hasManifest = !!document.querySelector('link[rel="manifest"]');
-    const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
-    if (!hasManifest || standalone) return;
-    if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) navigator.serviceWorker.register('./sw.js').catch(() => {});
+    const btn = $('#installBtn'), link = document.querySelector('link[rel="manifest"]');
+    const standalone = matchMedia('(display-mode: standalone)').matches || matchMedia('(display-mode: fullscreen)').matches || navigator.standalone === true;
+    if (!link || standalone) return;
+    const secure = location.protocol === 'https:' || location.hostname === 'localhost';
+    let swReg = null; const swReady = 'serviceWorker' in navigator && secure ? navigator.serviceWorker.register('./sw.js').then(r => (swReg = r)).catch(() => null) : Promise.resolve(null);
     let deferred = null;
-    addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferred = e; btn.hidden = false; });
-    addEventListener('appinstalled', () => { btn.hidden = true; deferred = null; toast('Installed · Quotient is on your home screen'); });
-    const ios = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-    if (ios) btn.hidden = false;
+    addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferred = e; btn.hidden = false; btn.classList.add('ready'); });
+    addEventListener('appinstalled', () => { btn.hidden = true; deferred = null; closePanel(); toast('Installed · open Quotient from your home screen'); });
+    const ua = navigator.userAgent, ios = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    const iosSafari = ios && !/crios|fxios|edgios|opios/i.test(ua), android = /android/i.test(ua), samsung = /samsungbrowser/i.test(ua), firefox = /firefox|fxios/i.test(ua);
+    btn.hidden = false;
+    const closePanel = () => document.querySelector('.ios-tip')?.remove();
+    // checks the same things the phone checks before it will install a real app (instead of a shortcut with the address bar)
+    async function diagnose() {
+      const out = []; let man = null;
+      try { const r = await fetch(link.href, { cache: 'no-store' }); man = r.ok ? await r.json() : null; out.push([!!man, 'App manifest', man ? 'found' : 'manifest.webmanifest is missing next to index.html']); } catch { out.push([false, 'App manifest', 'manifest.webmanifest could not be read']); }
+      if (man) {
+        out.push([man.display === 'standalone' || man.display === 'fullscreen', 'Opens without the address bar', `display: ${man.display}`]);
+        const icons = man.icons || []; const need = [192, 512];
+        for (const n of need) { const ic = icons.find(i => (i.sizes || '').split(' ').includes(`${n}x${n}`) && (i.purpose || 'any').includes('any')); let ok = false; if (ic) { try { ok = (await fetch(new URL(ic.src, link.href), { cache: 'no-store' })).ok; } catch {} }
+          out.push([ok, `Icon ${n}×${n}`, ok ? 'found' : `${ic ? ic.src.replace('./', '') : `icon-${n}.png`} is missing: upload it next to index.html`]); }
+      }
+      out.push([secure, 'Secure link (https)', secure ? 'yes' : 'open the github.io https link']);
+      const reg = await Promise.race([swReady, new Promise(r => setTimeout(() => r(swReg), 2500))]);
+      const swOk = !!(reg && (reg.active || reg.waiting || reg.installing)); out.push([swOk, 'Offline worker', swOk ? 'running' : 'sw.js is missing or failed: upload it next to index.html']);
+      return out;
+    }
+    function steps() {
+      if (iosSafari) return 'Tap <b>Share</b> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="vertical-align:-2px"><path d="M12 15V3M8 7l4-4 4 4M5 12v8h14v-8"/></svg> → <b>Add to Home Screen</b>. Make sure <b>Open as Web App</b> is switched <b>on</b>, then tap <b>Add</b>. If you added it before, delete the old icon first.';
+      if (ios) return 'On iPhone, open this page in <b>Safari</b> (not Chrome) to install it as an app: <b>Share</b> → <b>Add to Home Screen</b>, with <b>Open as Web App</b> on.';
+      if (samsung) return 'Tap the menu <b>≡</b> → <b>Add page to</b> → <b>Home screen</b>. If you see an <b>Install</b> icon in the address bar, use that.';
+      if (firefox) return 'Tap the menu <b>⋮</b> → <b>Install</b> (or <b>Add to Home screen</b>).';
+      if (android) return 'Tap the menu <b>⋮</b> → <b>Install app</b>. If it only says <b>Add to Home screen</b> → choose <b>Install</b> in the box that opens, not <b>Create shortcut</b>. Delete any old shortcut first.';
+      return 'Use the <b>Install</b> icon at the right of the address bar, or the browser menu → <b>Install Quotient</b>.';
+    }
     btn.addEventListener('click', async () => {
-      if (deferred) { deferred.prompt(); try { await deferred.userChoice; } catch {} deferred = null; btn.hidden = true; return; }
-      if (ios && !document.querySelector('.ios-tip')) { const t = document.createElement('div'); t.className = 'ios-tip'; t.setAttribute('role', 'dialog');
-        t.innerHTML = '<button type="button" aria-label="Close">×</button>To install, tap <b>Share</b> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="vertical-align:-2px"><path d="M12 15V3M8 7l4-4 4 4M5 12v8h14v-8"/></svg> in Safari, then <b>Add to Home Screen</b>.';
-        t.querySelector('button').onclick = () => t.remove(); document.body.appendChild(t); setTimeout(() => t.remove(), 9000); }
+      if (deferred) { deferred.prompt(); try { const c = await deferred.userChoice; if (c.outcome === 'accepted') btn.hidden = true; } catch {} deferred = null; return; }
+      closePanel(); const t = document.createElement('div'); t.className = 'ios-tip install-panel'; t.setAttribute('role', 'dialog'); t.setAttribute('aria-label', 'Install Quotient');
+      t.innerHTML = '<button type="button" class="x" aria-label="Close">×</button><h3>Install as an app</h3><p class="ip-steps">' + steps() + '</p><ul class="ip-checks"><li class="wait">Checking this page…</li></ul>';
+      t.querySelector('.x').onclick = closePanel; document.body.appendChild(t);
+      const res = await diagnose(), bad = res.filter(r => !r[0]);
+      t.querySelector('.ip-checks').innerHTML = res.map(([ok, name, note]) => `<li class="${ok ? 'ok' : 'bad'}"><i>${ok ? '✓' : '!'}</i><span><b>${name}</b> · ${esc(note)}</span></li>`).join('') +
+        (bad.length ? '<li class="sum bad">Fix the items marked “!”, then reload. Until then the phone can only make a shortcut, which opens with the address bar.</li>' : '<li class="sum ok">Everything is in place. The phone can install it as a real app.</li>');
     });
   })();
 

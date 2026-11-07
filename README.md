@@ -1,24 +1,28 @@
 # Quotient
 
 A smart calculator that runs entirely in your browser: no server, no API, works offline.
-Ask in plain words ("18% tip on 64,50 for 3 people"), work a Sheet line by line, or shop with a Basket.
 
-## Put it online with GitHub Pages
+## Put it on GitHub Pages
 
-1. Create a new repository on GitHub (for example `quotient`).
-2. Upload **everything in this folder** to the root of the repository: `index.html`, `manifest.webmanifest`, `sw.js`, `.nojekyll`, `README.md` and the `icons` folder.
-   On github.com: **Add file → Upload files**, drag the files and the `icons` folder in, then **Commit changes**.
-3. Go to **Settings → Pages**. Under **Build and deployment**, choose **Deploy from a branch**, branch **main**, folder **/ (root)**, and **Save**.
-4. After a minute your app is live at `https://YOUR-USERNAME.github.io/quotient/`.
+1. Create a repository (for example `quotient`).
+2. Upload **all the files in this folder** to the **root** of the repository, all together, with no subfolders:
+   `index.html`, `manifest.webmanifest`, `sw.js`, `icon-192.png`, `icon-512.png`, `maskable-192.png`, `maskable-512.png`,
+   `apple-touch-icon.png`, `favicon-32.png`, `icon.svg` (and `README.md`).
+   On github.com: **Add file → Upload files**, select them all, **Commit changes**.
+3. **Settings → Pages → Deploy from a branch → main → / (root) → Save**.
+4. Open `https://YOUR-USERNAME.github.io/quotient/` (with **https**).
 
-## Install it
+## Install it as a real app (no address bar)
 
-- **Android / Chrome / Edge (desktop too):** open the link and tap **Install app** at the top, or use the browser menu → **Install app** / **Add to Home screen**.
-- **iPhone / iPad:** open the link in **Safari**, tap **Share**, then **Add to Home Screen**.
+Tap **Install app** at the top of the page. It shows the steps for your phone and checks the page.
+Every line should have a green tick. A red "!" names the file that's missing.
 
-Once opened, it works offline. Your tape, pins, sheet and basket stay on your device.
+- **Android (Chrome):** menu ⋮ → **Install app**. If you see a box with **Install** and **Create shortcut**, choose **Install**.
+- **iPhone / iPad:** open the link in **Safari** → Share → **Add to Home Screen** → keep **Open as Web App** switched **on** → Add.
+
+If you already added it and it opens with the address bar, **delete that icon first**. It's a shortcut, not the app.
+Then reload the page once and install again.
 
 ## Updating
 
-Upload a new `index.html` and `sw.js` (the build gives `sw.js` a new version name each time).
-The installed app picks up the new version the next time it's opened online.
+Upload the new `index.html` and `sw.js`. The installed app updates the next time it's opened online.
