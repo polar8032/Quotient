@@ -110,7 +110,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 .fill .sl.u{font-family:inherit;font-size:15px}
 .fillbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:-8px;animation:fillIn .45s var(--spring) both}
 .fb-hint{font-size:12.5px;color:var(--faint)}
-.fb-act{display:flex;align-items:center;gap:8px;margin-left:auto}
+.fb-act{display:flex;align-items:center;gap:8px;margin-left:auto;min-width:0;max-width:100%}.fb-act .btn{flex:none}
 .fb-quick{display:inline-flex;gap:5px;flex-wrap:wrap}
 .fb-quick button{font-size:12.5px;font-family:var(--f-mono);padding:3px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted);background:var(--surface);animation:chipIn .35s var(--spring) both;animation-delay:calc(var(--i,0) * 30ms)}
 .fb-quick button:hover{color:var(--ink);border-color:var(--faint)}
@@ -120,7 +120,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 .fb-pv.swap{animation:valIn .35s var(--spring) both}
 @keyframes fillIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 @keyframes bump{0%{transform:scale(1)}40%{transform:scale(1.12)}100%{transform:scale(1)}}
-@media (max-width:560px){.fb-hint{flex-basis:100%}.fb-act{flex-basis:100%}.fb-act .fb-pv{margin-right:auto}.fillbar .btn{padding:7px 12px}}
+@media (max-width:560px){.fb-hint{flex-basis:100%}.fb-act{flex-basis:100%;flex-wrap:wrap;justify-content:flex-end;min-width:0}.fb-act .fb-pv{flex:1 1 100%;max-width:none;min-width:0}.fillbar .btn{padding:7px 14px}}
 #q::placeholder{color:var(--faint)}
 .kbd{font-family:var(--f-mono);font-size:11px;color:var(--faint);border:1px solid var(--line);border-radius:6px;padding:2px 6px;white-space:nowrap}
 #qclear{width:30px;height:30px;border-radius:8px;color:var(--faint);display:grid;place-items:center}
@@ -341,6 +341,78 @@ html.scrubbing, html.scrubbing *{cursor:ew-resize!important;user-select:none!imp
 
 .toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 24px);background:var(--ink);color:var(--surface);font-size:13px;font-weight:500;opacity:0;pointer-events:none;z-index:20}
 .toast.show{opacity:1}
+.toast.has-act.show{pointer-events:auto;display:flex;align-items:center;gap:10px;padding-right:6px}
+.toast button{white-space:nowrap;flex:none;font:inherit;font-size:12px;font-weight:600;border:0;border-radius:999px;padding:5px 11px;background:color-mix(in srgb,var(--surface) 18%,transparent);color:inherit;cursor:pointer}
+.a-links{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:2px 0 10px}
+.a-links .lbl,.lk-row .lbl{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-right:2px}
+.a-links .lk{display:inline-flex;align-items:center;gap:6px;font:inherit;font-size:12.5px;padding:4px 10px 4px 8px;border-radius:999px;border:1px solid color-mix(in srgb,var(--ai-a,#6d5efc) 30%,var(--line));background:color-mix(in srgb,var(--ai-a,#6d5efc) 6%,var(--surface));color:var(--ink);cursor:pointer;animation:chipIn .35s var(--spring) both;animation-delay:calc(var(--i,0) * 40ms);transition:transform .2s var(--ease-out),border-color .2s}
+.a-links .lk:hover{transform:translateY(-1px);border-color:var(--ai-a,#6d5efc)}
+.a-links .lk b{font-weight:400;font-family:var(--f-mono);font-size:12px;color:var(--faint)}
+.a-links .lk i{width:7px;height:7px;border-radius:50%;background:var(--ai-a,#6d5efc)}
+.a-links .lk i.lk-sheet{background:var(--ai-b,#22b8cf)}.a-links .lk i.lk-tape{background:var(--ai-c,#f06595)}.a-links .lk i.lk-memory{background:var(--faint)}
+.lk-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:10px 18px;border-top:1px dashed var(--line)}
+.lk-row button{display:inline-flex;align-items:center;gap:5px;font:inherit;font-size:12.5px;padding:4px 11px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;animation:chipIn .35s var(--spring) both;transition:border-color .2s,transform .2s var(--ease-out)}
+.lk-row button:hover{border-color:var(--ai-a,#6d5efc);transform:translateY(-1px)}
+.bk-foot .lk-row{padding:12px 0 0;margin-top:4px}
+.guide-q{display:inline-grid;place-items:center;flex:none;width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-weight:600;font-size:14px;cursor:pointer}
+.top{position:relative}
+.brand-row{flex:1;min-width:0}
+.top-tools{display:flex;align-items:center;gap:8px;margin-left:auto}
+.island{position:relative}
+.isl-pill{display:inline-flex;align-items:center;gap:8px;height:34px;max-width:260px;padding:0 13px 0 11px;border-radius:999px;border:1px solid rgba(255,255,255,.1);background:#0B0C0F;color:#F4F5F7;font:inherit;cursor:pointer;box-shadow:0 10px 26px -14px rgba(0,0,0,.55);transition:max-width .55s var(--spring),padding .45s var(--spring),transform .4s var(--spring-bounce),box-shadow .4s;overflow:hidden}
+.isl-pill:hover{transform:scale(1.03)}
+.isl-pill:active{transform:scale(.97)}
+.isl-dot{flex:none;width:7px;height:7px;border-radius:50%;background:var(--good);box-shadow:0 0 0 0 color-mix(in srgb,var(--good) 60%,transparent)}
+.island.live .isl-dot{animation:islPulse 1.6s ease-out infinite}
+.island.empty .isl-dot{background:rgba(255,255,255,.4)}
+@keyframes islPulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--good) 60%,transparent)}100%{box-shadow:0 0 0 7px transparent}}
+.isl-txt{display:flex;align-items:baseline;gap:7px;min-width:0;white-space:nowrap}
+.isl-txt.flip{animation:islFlip .5s var(--spring) both}
+@keyframes islFlip{0%{opacity:0;transform:translateY(8px);filter:blur(3px)}100%{opacity:1;transform:none;filter:none}}
+.isl-v{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.isl-q{font-size:12px;opacity:.6;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.isl-n{flex:none;font-size:10.5px;font-weight:600;min-width:18px;height:18px;padding:0 5px;border-radius:9px;display:inline-grid;place-items:center;background:rgba(255,255,255,.16)}
+.isl-n:empty{display:none}
+.island.blooming .isl-pill{max-width:340px;padding:0 16px;transform:scale(1.06);box-shadow:0 14px 34px -12px var(--ai-glow)}
+.island.blooming .isl-dot{background:var(--ai-c);animation:islPulse 1s ease-out infinite}
+.island.open .isl-pill{box-shadow:0 0 0 3px var(--ai-soft)}
+.isl-panel{position:absolute;z-index:40;top:calc(100% + 10px);right:-40px;width:min(560px,calc(100vw - 32px));transform-origin:calc(100% - 80px) 0;opacity:0;transform:scale(.35,.15);border-radius:30px;filter:blur(6px);transition:opacity .25s var(--ease-out),transform .45s var(--spring),border-radius .45s var(--spring),filter .3s}
+.island.open .isl-panel{opacity:1;transform:none;border-radius:22px;filter:none}
+.isl-panel .pins{box-shadow:0 30px 70px -28px rgba(0,0,0,.45),var(--shadow);animation:none;max-height:min(70vh,560px);overflow:auto}
+.isl-empty{margin:0;font-size:13.5px;line-height:1.5;color:var(--muted)}
+.isl-empty b{color:var(--ink);font-weight:600}
+@media (max-width:560px){.isl-panel .pin-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.isl-panel .pin{padding:10px 12px}.isl-panel .pin .pv{font-size:20px}.isl-panel .pins{padding:14px}.isl-pill{max-width:150px;height:32px;padding:0 11px 0 10px}.isl-q{display:none}.island.blooming .isl-pill{max-width:230px}.island.blooming .isl-q{display:inline}.isl-panel{position:fixed;top:calc(env(safe-area-inset-top,0px) + 64px);right:16px;left:16px;width:auto;transform-origin:calc(100% - 60px) 0}}
+@media (prefers-reduced-motion:reduce){.isl-panel,.isl-pill{transition:none}}
+.guide-link{font:inherit;font-size:13px;color:var(--ink);background:none;border:0;padding:0;margin-left:4px;text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--ai-c) 50%,transparent);text-underline-offset:3px;cursor:pointer}
+.start{display:flex;flex-direction:column;gap:14px;animation:chipIn .45s var(--spring) both}
+.st-head{font-size:14px;color:var(--muted);text-wrap:balance}.st-head b{color:var(--ink);font-weight:600}
+.st-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px}
+.st-card{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;font:inherit;padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;min-width:0;animation:chipIn .4s var(--spring) both;animation-delay:calc(var(--i,0) * 50ms);transition:transform .25s var(--ease-out),border-color .25s,box-shadow .25s}
+.st-card:hover,.st-card:focus-visible{transform:translateY(-2px);border-color:color-mix(in srgb,var(--ai-c) 45%,var(--line));box-shadow:0 8px 24px -12px var(--ai-glow)}
+.st-k{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ai-a)}
+.st-q{font-size:13.5px;line-height:1.35;overflow-wrap:anywhere}
+.st-a{font-family:var(--f-mono);font-size:13px;color:var(--faint)}
+.st-try{border:1px dashed var(--line);border-radius:14px;padding:12px 14px;background:color-mix(in srgb,var(--ai-soft) 40%,transparent)}
+.st-row{display:flex;align-items:center;gap:10px}
+.st-row .lbl{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.st-prog{flex:1;height:5px;border-radius:9px;background:var(--line);overflow:hidden;min-width:40px}
+.st-prog i{display:block;height:100%;width:var(--w);border-radius:inherit;background:linear-gradient(90deg,var(--ai-a),var(--ai-b),var(--ai-c));transition:width .6s var(--spring)}
+.st-n{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.st-x{font:inherit;font-size:12px;color:var(--faint);background:none;border:0;cursor:pointer;padding:2px 4px}
+.st-try ul{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.st-try li{display:flex;align-items:center;gap:12px;justify-content:space-between;animation:chipIn .4s var(--spring) both;animation-delay:calc(var(--i,0) * 60ms)}
+.st-try li div{display:flex;flex-direction:column;min-width:0}.st-try li b{font-size:13.5px;font-weight:600}.st-try li span{font-size:12.5px;color:var(--muted)}
+.st-try li .btn{flex:none}
+.st-ver{display:flex;align-items:center;gap:10px;margin-top:10px;font-size:12px;color:var(--faint)}.st-ver b{font-family:var(--f-mono);font-weight:500;color:var(--muted)}.st-ver button{font:inherit;font-size:12px;color:var(--ink);text-decoration:underline;text-underline-offset:3px;background:none;border:0;padding:0;cursor:pointer}
+.st-done{margin:8px 0 0;font-size:13px;color:var(--muted)}
+.coach{display:flex;align-items:flex-start;gap:9px;font-size:13px;line-height:1.45;color:var(--ink);padding:10px 12px;border-radius:12px;background:var(--ai-soft);border:1px solid color-mix(in srgb,var(--ai-c) 25%,transparent);animation:chipIn .45s var(--spring) both;transition:opacity .25s,transform .25s}
+.coach svg{flex:none;margin-top:2px;color:var(--ai-c)}.coach span{flex:1;min-width:0}
+.coach kbd{font-family:var(--f-mono);font-size:11.5px;border:1px solid var(--line);border-radius:5px;padding:0 5px;background:var(--surface)}
+.coach button{flex:none;font:inherit;font-size:12px;font-weight:600;border:0;border-radius:999px;padding:4px 10px;background:var(--surface);color:var(--ink);cursor:pointer}
+.coach.out{opacity:0;transform:translateY(-4px)}
+.coach.banner{margin:0 18px 12px}
+@media (max-width:560px){.st-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.st-card{padding:10px 12px}.st-q{font-size:13px}}
+.pillv.lkp{border-color:color-mix(in srgb,var(--ai-a,#6d5efc) 30%,var(--line))}
 
 @media (max-width:480px){
   .ex-row{grid-template-columns:minmax(0,1fr);gap:6px}
@@ -867,6 +939,33 @@ body:not(.details-open) #scrub{display:none!important}
 @media (prefers-reduced-motion:reduce){.pin::after{display:none}.pin .pv.think,.pins-head h2 span,.pin.live .pk{color:inherit;background:none;-webkit-background-clip:border-box;background-clip:border-box}}
 
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ---------- tabs sit on the card, the bar breathes even at rest ---------- */
+body{padding-block:14px 112px}
+.wrap{gap:16px}
+.tabs{display:flex;position:relative;z-index:3;margin-bottom:-17px}
+.tabs .seg{background:var(--surface);border:1px solid var(--line);border-bottom:0;border-radius:16px 16px 0 0;padding:5px 5px 4px;box-shadow:0 -10px 24px -22px rgba(0,0,0,.35)}
+.tabs .seg::after{content:"";position:absolute;left:-1px;right:-1px;bottom:-2px;height:3px;background:var(--surface)}
+.tabs .seg .thumb{top:5px;bottom:4px;left:5px;width:calc((100% - 10px) / 3);background:var(--surface-2);box-shadow:0 0 0 1px var(--line)}
+.tabs .seg button{padding:6px 18px}
+.grid > .col > .ask,.sheet,.basket{border-top-left-radius:0}
+.ask{padding-top:14px}
+.searchbar{border-radius:17px;box-shadow:0 14px 34px -26px var(--ai-glow)}
+.searchbar::before{opacity:.55;border-radius:18px;animation-duration:14s}
+.searchbar::after{opacity:.35;animation:idleGlow 6s ease-in-out infinite alternate}
+.searchbar:focus-within::before{animation-duration:7s}
+.searchbar:focus-within::after{opacity:.55}
+.searchbar.thinking::after{opacity:.9;animation:roam 1.8s ease-in-out infinite alternate}
+.searchbar.got::after{animation:bloom .9s var(--ease-out)}
+@keyframes idleGlow{0%{--gx:15%}100%{--gx:85%}}
+.qlead .qicon{color:var(--ai-c);animation:qbreath 3.6s ease-in-out infinite}
+.searchbar.thinking .qicon{animation:spin 1.1s linear infinite}
+@keyframes qbreath{0%,100%{opacity:.65;transform:scale(.92) rotate(0deg)}50%{opacity:1;transform:scale(1.06) rotate(45deg)}}
+.guide-q[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+@media (max-width:560px){.tabs .seg button{padding:6px 15px}.wrap{gap:14px}.tabs{margin-bottom:-15px}}
+.qlead.known .qicon{animation:none;opacity:0;transform:scale(.6) rotate(-30deg)}
+@media (max-width:560px){html.typing #calcFab{transition:opacity .25s,transform .35s var(--spring);opacity:0;pointer-events:none;transform:translateY(20px) scale(.9)}}
+@media (prefers-reduced-motion:reduce){.searchbar::after,.qlead .qicon{animation:none!important}}
 </style>
 </head>
 <body>
@@ -876,17 +975,30 @@ body:not(.details-open) #scrub{display:none!important}
   <header class="top">
     <div class="brand-row">
       <div class="brand"><span class="mark" aria-hidden="true"><i></i></span>Quotient</div>
+      <div class="top-tools">
+        <div class="island" id="island">
+          <button type="button" class="isl-pill" id="islPill" aria-expanded="false" aria-controls="islPanel" title="Live answers"><i class="isl-dot" aria-hidden="true"></i><span class="isl-txt"><span class="isl-v" id="islV">Live</span><span class="isl-q" id="islQ"></span></span><span class="isl-n" id="islN"></span></button>
+          <div class="isl-panel" id="islPanel" role="dialog" aria-label="Live answers" hidden>
+            <section class="pins" id="pins" aria-label="Pinned answers">
+              <div class="pins-head"><h2>Live <span>updating</span></h2><span class="pins-note">Tap one to open it · pin any answer to add it here</span></div>
+              <div class="pin-grid" id="pinGrid"></div>
+            </section>
+          </div>
+        </div>
+        <button type="button" class="guide-q" data-guide aria-label="What can it do?" title="What can it do?">?</button>
+      </div>
+    </div>
+    <button type="button" class="install" id="installBtn" hidden><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Install app</button>
+  </header>
+
+  <nav class="tabs" aria-label="View">
       <div class="seg" id="seg" role="tablist" aria-label="View" data-v="ask">
         <button type="button" role="tab" aria-selected="true" data-view="ask" id="tabAsk">Ask</button>
         <button type="button" role="tab" aria-selected="false" data-view="sheet" id="tabSheet">Sheet</button>
         <button type="button" role="tab" aria-selected="false" data-view="basket" id="tabBasket">Basket</button>
         <span class="thumb" aria-hidden="true"></span>
       </div>
-    </div>
-    <button type="button" class="install" id="installBtn" hidden><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Install app</button>
-    <div class="tagline"><b>Ask</b> anything, paste a list of amounts, work a <b>Sheet</b>, or shop with a <b>Basket</b>. Runs offline.</div>
-  </header>
-
+  </nav>
   <main class="grid">
     <div class="col">
       <section class="ask" aria-label="Ask in plain English">
@@ -916,14 +1028,11 @@ body:not(.details-open) #scrub{display:none!important}
         <div class="ctxbar" id="ctxbar" hidden></div>
 
         <div class="answer" id="answer" aria-live="polite" hidden></div>
+        <div class="start" id="start" hidden></div>
 
         <div class="fold exwrap" id="exwrap" inert><div><div class="examples" id="examples"></div></div></div>
       </section>
 
-      <section class="pins" id="pins" aria-label="Pinned answers" hidden>
-        <div class="pins-head"><h2>Pinned <span>live</span></h2><span class="pins-note">Keeps updating on its own</span></div>
-        <div class="pin-grid" id="pinGrid"></div>
-      </section>
 
       <section class="tape" aria-label="Tape">
         <div class="tape-head">
@@ -946,6 +1055,7 @@ body:not(.details-open) #scrub{display:none!important}
       <div class="sh-vars" id="shVars" hidden></div>
       <div class="sheet-foot"><span>Total</span><b id="sheetTotal">0</b></div>
       <div class="sh-break" id="shBreak" hidden></div>
+      <div class="lk-row" id="shLinks" hidden></div>
       <p class="sheet-hint">Every line is worked out as you type. Write <code>Hotel: 2 × 89</code> and later use <code>hotel</code> by name; <code>total</code>, <code>average</code>, <code>max</code>, <code>min</code> or <code>median</code> work on the group above (a blank line starts a new group); misspelled names are fixed for you; <code>times 2</code> or <code>in miles</code> continue from the line above; <code>#</code> starts a heading.</p>
     </section>
 
@@ -972,6 +1082,7 @@ body:not(.details-open) #scrub{display:none!important}
           <div><span>Split between</span><b class="bk-split"><button type="button" id="bkPm" aria-label="Fewer people">−</button><span id="bkPeople">1</span><button type="button" id="bkPp" aria-label="More people">+</button><em id="bkEach"></em></b></div>
         </div>
         <p class="bk-tip" id="bkTip"></p>
+        <div class="lk-row" id="bkLinks" hidden></div>
       </div>
     </section>
 
@@ -1547,6 +1658,7 @@ const Engine = (() => {
   const near = (row, v) => { let bi = 0; row.forEach((x, i) => { if (Math.abs(x - v) < Math.abs(row[bi] - v)) bi = i; }); return bi; };
   const SIZEWORDS = /\b(shoes?|sneakers?|trainers?|boots?|footwear|heels|sandals|loafers|dress(?:es)?|clothing|clothes|tops?|skirts?|blouses?|sweaters?|jumpers?|t-?shirts?|hoodies?|shirts?|collar|neck|suits?|jackets?|blazers?|coats?|chest|jeans|trousers|pants|chinos|waist|bras?|cup|rings?|sizes?)\b/;
   function sizes(s0) {
+    if (/%|\boff\b|\bdiscount\b|\bdesconto\b|\bsale\b/i.test(s0)) return null;
     let s = s0.replace(/['’]s\b/g, 's').replace(/\s+/g, ' ').trim();
     const sizeCtx = SIZEWORDS.test(s) || /\b(my foot|foot length|foot is|foot measures)\b/.test(s) || /^(?:(?:eu|uk|us|fr|au)\s+)?\d{2,3}\s?(?:aa|a|b|c|d|dd|ddd|e|f|ff|g|gg|h)\s+(?:to|in|into|as)\s/.test(s);
     const g = /\b(womens?|ladies|ladys|female|woman|girls?|w)\b/.test(s) ? 'w' : /\b(mens?|male|man|boys?)\b/.test(s) ? 'm' : null;
@@ -2177,6 +2289,12 @@ const Engine = (() => {
   }
   function salary(s) {
     if (/%/.test(s)) return null;
+    { const m = s.match(/(\d[\d,.]*k?)\s+([a-z]+(?: [a-z]+)?)\s+(?:an?|per|each|every|por)\s+(day|week|month|year|dia|semana|mês|mes|ano)\b/);
+      if (m && !/^(?:euros?|dollars?|pounds?|eur|usd|gbp|bucks|reais|cents?|hours?|h|hrs?|minutes?|mins?|km|miles?|kg|calories|kcal)$/.test(m[2].split(' ').pop()) && !CUR && !/\b(salary|wage|earn|paid|pay|income|rent|costs?|spend|spent|price|bill|save|saving)\b/.test(s)) {
+        const D = { day: 1, dia: 1, week: 7, semana: 7, month: 30.4375, mês: 30.4375, mes: 30.4375, year: 365.25, ano: 365.25 }, src = m[3];
+        const rest = s.slice(m.index + m[0].length), tm = rest.match(/\b(day|week|month|year|decade|dia|semana|mês|mes|ano)s?\b/), tgt = tm ? tm[1] : (src === 'year' ? 'day' : 'year');
+        if (tgt !== src) { const D2 = { ...D, decade: 3652.5 }, v = pn(m[1]) / D[src] * D2[tgt], noun = m[2];
+          return { kind: 'Numbers', label: `${fmt(pn(m[1]))} ${noun} a ${src} → per ${tgt}`, value: fmt(sig(v, 6)), unit: `${noun} a ${tgt}`, num: sig(v, 12), steps: ['day', 'week', 'month', 'year'].filter(p => p !== tgt && p !== src).map(p => ['a ' + p, fmt(sig(pn(m[1]) / D[src] * D[p], 6))]).concat([['assumes', 'every day of the week, 365.25 days a year']]) }; } } }
     if (/\d\s*(?:km|mi|miles?|kilomet\w*|meters?|metres?|feet|ft|kg|lbs?|mb|gb)\b/.test(s)) return null;
     let hw = 40; s = s.replace(/(\d+(?:\.\d+)?)\s*(?:hours?|hrs?|h)\s*(?:a|per|\/|each|every)\s*week/, (m, a) => { hw = +a; return ' '; });
     const found = []; const re = /\b(?:an?|per|\/|each|every|by the|in an?)\s*(hour|hr|day|week|wk|month|mo|year|yr|annum)\b|\b(hourly|daily|weekly|monthly|yearly|annually|annual|salary)\b/g; let m;
@@ -2204,6 +2322,7 @@ const Engine = (() => {
     const pace = (secPerKm) => { const f = x => `${Math.floor(x / 60)}:${String(Math.round(x % 60)).padStart(2, '0')}`; return [f(secPerKm), f(secPerKm * 1.609344)]; };
     if (dist && !spd && !dur) { const mode = /walk|hike|hiking/.test(s) ? ['walking', 5] : /run|jog/.test(s) ? ['running', 10] : /cycl|bike|biking|ride/.test(s) ? ['cycling', 18] : /swim/.test(s) ? ['swimming', 3] : /drive|driving|car/.test(s) ? ['driving', 80] : null; if (mode) { spd = mode[1] / 3.6; const sec = dist / spd; return { kind: 'Units', label: `${fmt(sig(dist / 1000, 6))} km ${mode[0]}`, value: hms(Math.round(sec / 60) * 60), num: sec / 3600, steps: [['assumes', `${mode[1]} km/h, a typical ${mode[0]} speed`], ['tip', `add “at 6 km/h” to use your own speed`]] }; } }
     if (dist && spd && !dur) { const sec = dist / spd; return { kind: 'Units', label: `${fmt(sig(dist / 1000, 6))} km at ${fmt(sig(spd * 3.6, 6))} km/h`, value: hms(Math.round(sec)), num: sec / 3600, steps: [['in hours', fmt(sig(sec / 3600, 5)) + ' h']] }; }
+    if (dist && dur && !spd && /\bpace\b/.test(s)) { const v = dist / dur; const [pk, pm] = pace(dur / (dist / 1000)); return { kind: 'Units', label: `Pace, ${fmt(sig(dist / 1000, 6))} km in ${hms(dur)}`, value: pk, unit: 'per km', num: dur / (dist / 1000) / 60, steps: [['per mile', pm], ['speed', fmt(sig(v * 3.6, 4)) + ' km/h · ' + fmt(sig(v / .44704, 4)) + ' mph']] }; }
     if (dist && dur && !spd) { const v = dist / dur; const [pk, pm] = pace(dur / (dist / 1000)); return { kind: 'Units', label: `${fmt(sig(dist / 1000, 6))} km in ${hms(dur)}`, value: fmt(sig(v * 3.6, 4)), unit: 'km/h', num: v * 3.6, steps: [['in mph', fmt(sig(v / .44704, 4)) + ' mph'], ['pace', `${pk} per km · ${pm} per mile`]] }; }
     if (spd && dur && !dist) { const d = spd * dur; return { kind: 'Units', label: `${fmt(sig(spd * 3.6, 6))} km/h for ${hms(dur)}`, value: fmt(sig(d / 1000, 5)), unit: 'km', num: d / 1000, steps: [['in miles', fmt(sig(d / 1609.344, 5)) + ' mi']] }; }
     return null;
@@ -2413,7 +2532,7 @@ const Engine = (() => {
     if (!km || !cons) return null;
     if (!price) { const L = km * cons / 100; return { kind: 'Units', label: `${fmt(sig(km, 6))} km at ${fmt(sig(cons, 3))} L/100 km`, value: fmt(sig(L, 4)), unit: 'L of fuel', num: L, steps: [['in US gallons', fmt(sig(L / 3.785411784, 4))], ['add a price', 'e.g. “at 1.80 per litre” for the cost']] }; }
     const L = km * cons / 100, cost = L * price;
-    return { kind: 'Money', label: `${fmt(sig(km, 6))} km at ${fmt(sig(cons, 3))} L/100 km, ${money(price)} per litre`, value: money(cost), unit: 'fuel', num: sig(cost, 10), steps: [['fuel used', `${fmt(sig(L, 4))} L`], ['per km', money(cost / km)], ['return trip', money(cost * 2)]] };
+    return { kind: 'Money', label: `${fmt(sig(km, 6))} km at ${fmt(sig(cons, 3))} L/100 km, ${money(price)} per litre`, value: money(cost), num: sig(cost, 10), steps: [['fuel used', `${fmt(sig(L, 4))} L`], ['per km', money(cost / km)], ['return trip', money(cost * 2)]] };
   }
 
 
@@ -2730,6 +2849,48 @@ const Engine = (() => {
     // a lone unknown word stuck to a unit phrase (e.g. "350 g of ham") is fine to drop; keep at least two tokens
     return dropped.length && kept.length >= 2 ? { s: kept.join(' ').replace(/\b(of|the|my|our)\s+(?=of\b)/g, ''), dropped } : null;
   }
+  const BRIDGES = [
+    [/\bwhat time (?:is|would) (?:that|it) be in\b|\bwhat time (?:is )?(?:that|it) (?:is )?in\b|\bwhat(?:'s| is) that in\b(?= [a-z]+ ?[a-z]*$)/gi, ' to '],
+    [/(\d[\d.,]*) is (?:as )?an? (?:percent|percentage) of (\d[\d.,]*)/gi, '$1 is what % of $2'],
+    [/(\d[\d.,]*) (?:out of|of) (\d[\d.,]*)\b.*\bwhat (?:percent|percentage|%)(?: is (?:that|it))?\b/gi, '$1 out of $2'],
+    [/\bif (?:i|we|you) (?:save|put (?:away|aside)|invest)\b/gi, 'save'], [/\bhow much (?:will i have |would i have |do i have |is that )?(?:in|after) (\d+ (?:years?|months?|weeks?))\b/gi, 'for $1'],
+    [/\bhow much (?:is |does |do |would )?(?:that|it|each|everyone|every one|each person)(?: pay| cost| be)?\b/gi, ' each '],
+    [/\b(?:what(?:'s| is) that|how much is that|that is how much) in\b/gi, ' in '],
+  ];
+  const MON_RE = '(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*';
+  const STRONG_BRIDGES = [
+    [/^.*?(\d{1,2}(?::\d{2})?\s*(?:am|pm|h)?|\d{1,2}:\d{2}) ([a-z ]+?) (?:what time (?:is|would) (?:that|it)(?: be)? in|what time (?:is )?(?:that|it) in|what time in|and what time in|what's that in|what is that in) ([a-z ]+?)\??$/, '$1 $2 to $3'],
+    [/(\d[\d.,]*) is (?:as )?an? (?:percent|percentage) of (\d[\d.,]*)/g, '$1 is what % of $2'],
+    [/^.*?(\d[\d.,]*) (?:out of) (\d[\d.,]*)\b.*\bwhat (?:percent|percentage|%)(?: is (?:that|it))?\b.*$/, '$1 out of $2'],
+    [new RegExp(`^.*?\\b(?:on|is on|is|by|in)\\s+(\\d{1,2}(?:st|nd|rd|th)? (?:of )?${MON_RE}(?: \\d{4})?|${MON_RE} \\d{1,2}(?:st|nd|rd|th)?(?:,? \\d{4})?)\\b.*\\bhow (?:many|long)(?: (days|weeks|months|hours))?(?: (?:are )?(?:left|to go|until|away|is that|till))?\\b.*$`), (m, d, u) => `${u || 'days'} until ${d}`],
+  ];
+  const SVFILL = /^(?:hey|hi|hello|yo|ok|okay|so|um+|uh+|please|pls|plz|quick|quickly|just|can|could|would|you|u|me|tell|help|figure|out|work|need|to|know|wants?|wanna|i|my|we|our|like|basically|actually|honestly|really|real|lol|thanks|thx|again|for|her|him|them|the|a|an|is|it|that|this|what|whats|what's|how|much|many|of|on|in|at|do|does|did|be|was|were|am|are|please|buddy|mate|friend|bro|right|now|today|then|and|but|with|about|some|any|have|has|had|got|meeting|question)$/i;
+  function salvage(q, ctx) {
+    let t = ' ' + q.replace(/\s+/g, ' ').trim() + ' '; const bridged = [];
+    for (const [re, rep] of BRIDGES) { const t2 = t.replace(re, rep); if (t2 !== t) { bridged.push(1); t = t2; } }
+    t = t.replace(/\s+/g, ' ').trim();
+    const tok = t.split(' '), isNum = w => /\d/.test(w); const nIdx = tok.map((w, i) => isNum(w) ? i : -1).filter(i => i >= 0);
+    if (!nIdx.length || tok.length > 24) return null;
+    const first = nIdx[0], last = nIdx[nIdx.length - 1], cands = [];
+    // keep every number; trim words from either end (only words that look like filler or are far from the numbers)
+    for (let a = 0; a <= first; a++) for (let b = tok.length; b > last; b--) { if (a === 0 && b === tok.length && !bridged.length) continue; cands.push([a, b]); }
+    cands.sort((x, y) => (x[0] + tok.length - x[1]) - (y[0] + tok.length - y[1]));
+    let tries = 0;
+    for (const [a, b] of cands) {
+      const part = tok.slice(a, b).join(' '); if (part.split(' ').length < 2 && !/[a-z]/i.test(part)) continue; if (/\d\s+-?\d/.test(part)) continue;
+      if (++tries > 70) break;
+      let r = null; try { r = solve(part, ctx, 1); } catch {}
+      if (!r || r.error || r.kind === 'Help' || r.kind === 'Not sure') continue;
+      // a bare sum of the numbers is a weak reading when the sentence asked for something else
+      if (r.kind === 'Stats' && nIdx.length >= 2 && /\b(?:convert|in|to|percent|%|each|per|time)\b/.test(t)) continue;
+      const dropped = tok.slice(0, a).concat(tok.slice(b)).filter(w => !SVFILL.test(w.replace(/[?,.!]+$/, '')));
+      const inner = (r.steps || []).find(x => x && x[0] === 'ignored'), all = tok.slice(0, a).concat(inner ? String(inner[1]).split(/,\s*|\s+/) : [], tok.slice(b)).map(w => w.replace(/[?,.!]+$/, '')).filter(Boolean);
+      const rest = (r.steps || []).filter(x => x && x[0] !== 'read as' && x[0] !== 'ignored');
+      r.steps = all.length ? [['ignored', all.join(' ')]].concat(rest) : [['read as', part]].concat(rest);
+      return r;
+    }
+    return null;
+  }
   function wordMath(s) {
     if (/%/.test(s)) return null; const nums = [...s.matchAll(/-?\d[\d,]*(?:\.\d+)?k?/g)].map(m => pn(m[0])); if (nums.length < 2 || nums.length > 8) return null;
     const has = re => re.test(s); let op, expr, v, why;
@@ -2791,6 +2952,12 @@ const Engine = (() => {
   const F = x => parseFloat(String(x).replace(',', '.'));
   function extras(s, ctx) {
     let m;
+    // --- "round 7.456 to 2 decimals"
+    if ((m = s.match(/^(?:round|rounded)?\s*(-?\d+(?:\.\d+)?)\s*(?:rounded\s+)?(?:to|with|at)\s+(\d{1,2})\s*(?:decimal places?|decimals?|dp|places?|digits? after the (?:point|comma)|casas decimais)$/)) || (m = s.match(/^round\s+(-?\d+(?:\.\d+)?)\s+to\s+(\d{1,2})\s*(?:dp|d\.p\.)?$/))) {
+      const x = +m[1], d = +m[2]; if (d <= 12) { const v = Math.round((x + Math.sign(x) * 1e-12) * 10 ** d) / 10 ** d; return { kind: 'Math', label: `${m[1]} to ${d} decimal place${d === 1 ? '' : 's'}`, value: v.toFixed(d), num: v, steps: [['up', (Math.ceil(x * 10 ** d) / 10 ** d).toFixed(d)], ['down', (Math.floor(x * 10 ** d) / 10 ** d).toFixed(d)]] }; } }
+    // --- "my salary is 30000 a year, how much per month (before tax)"
+    if ((m = s.match(/^(?:my |the )?(?:salary|pay|income|wage|rent|budget)?\s*(?:is\s+)?(?:€|\$|£)?\s*(\d[\d,.]*k?)\s*(?:€|euros?)?\s+(?:a|per|each)\s+(year|month|week|day|hour),?\s+(?:so\s+)?(?:how much(?: is that| is it| do i get)?|what(?:'s| is) that)?\s*(?:per|a|each|in a|by)\s+(year|month|week|day|hour)(?:\s+(?:before tax|gross|brutos?))?$/))) {
+      const r = solve(`${m[1]} a ${m[2]} per ${m[3]}`, ctx, 2); if (r && !r.error) return r; }
     // --- "i have 50, how many 3.75 tickets can i buy"
     if ((m = s.match(/\b(?:i have|i've got|i got|with|budget(?: of| is)?|got)\s*(?:€|\$|£)?\s*(\d+(?:[.,]\d+)?)(?: [a-z]+)?,? (?:how many|how much)\s*(?:(?:€|\$|£)?\s*(\d+(?:[.,]\d+)?)\s*)?([a-z ]*?)\s*(?:at|for|costing|of)?\s*(?:€|\$|£)?\s*(\d+(?:[.,]\d+)?)?(?: each)?\s*(?:can i|could i|do i|would i|will i)?\s*(?:buy|get|afford|have)\b/))) {
       const have = F(m[1]), price = F(m[2] || m[4]); if (price > 0) { const n = Math.floor(have / price + 1e-9), left = have - n * price;
@@ -3127,50 +3294,69 @@ const Engine = (() => {
   }
 
   /* ---------- settle up: shared expenses → who owes whom, with the fewest payments ----------
-     understands: "Ana paid 45, Bruno 30, Carla 0", "Ana paid 30 for Bruno and Carla", "Dinner 60 paid by Ana",
-     "Taxi 20 (Bruno)", "Bruno owes Ana 10", "I paid 40", "except Dani", "Ana counts double", "Ana x2", Portuguese */
-  const NOTNAME = /^(i|me|we|us|they|he|she|it|and|the|a|an|for|of|on|in|at|to|total|bill|split|equally|evenly|each|paid|pay|pays|spent|put|gave|owes?|owed|who|whom|what|how|much|is|are|was|so|then|plus|minus|dinner|lunch|breakfast|taxi|uber|bolt|food|drinks?|beers?|wine|coffee|hotel|airbnb|fuel|gas|petrol|tickets?|groceries|rent|trip|car|train|flight|bus|parking|tolls?|snacks|pizza|museum|euros?|dollars?|pounds?|eur|usd|gbp|nothing|zero|everyone|everybody|all|people|persons|between|among|with|settle|up|except|without|not|but|by|from|share|shares|double|triple|half|times|counts?|as|x|jantar|almoço|comida|bebidas|todos|todas|pagou|paguei|pagámos|pagamos|deve|devo|quem|nada|sem|exceto|para|em|no|na|por|de|da|do|e|ou|cada|conta)$/i;
-  const PAYV = '(?:paid|pays|spent|put in|put|gave|covered|got|bought|pagou|paguei|gastou|deu|comprou)';
+     Reads the shape of each phrase instead of looking for known names: whoever is right before "paid" (or after "by",
+     or in brackets) paid; words after "for" are matched against the people already mentioned; anything else is a description. */
+  const STOPP = /^(?:i|we|they|he|she|it|and|or|the|a|an|for|of|on|in|at|to|then|so|plus|also|total|subtotal|sub|tax|vat|iva|tip|service|change|balance|saldo|who|what|how|much|is|are|was|were|be|each|everyone|everybody|all|nobody|people|split|settle|between|among|with|equally|evenly|e|ou|de|da|do|em|no|na|por|para|cada|todos|quem|conta)$/i;
+  const DESC = /^(?:dinner|lunch|breakfast|brunch|food|meal|drinks?|beers?|wine|cocktails?|coffee|snacks?|pizza|sushi|burgers?|groceries|shopping|taxi|uber|bolt|car|rental|fuel|gas|petrol|diesel|tolls?|parking|train|flight|flights|bus|tickets?|hotel|airbnb|room|rent|trip|museum|concert|cinema|movie|tour|gift|present|cake|tip|bill|stuff|everything|things|jantar|almoço|pequeno|comida|bebidas|cerveja|vinho|café|lanche|compras|táxi|gasolina|portagens|estacionamento|comboio|voo|bilhetes?|hotel|quarto|renda|viagem|presente|bolo|prenda)$/i;
+  const PAYV = '(?:paid|pays|spent|put in|put|gave|covered|got|bought|pagou|paguei|gastou|gastei|deu|comprou|pôs)';
   const AMTV = '(?:€|\\$|£)?\\s*(\\d+(?:[.,]\\d{1,2})?|nothing|zero|nada)\\s*(?:€|eur|euros?|\\$|dollars?|£|pounds?)?';
-  const NAMEV = "([A-Za-zÀ-ÿ][A-Za-zÀ-ÿ'’-]{0,20})";
+  const WORD = "[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ'’-]*";
+  const WHO = `((?:${WORD})(?:[ \\t]+${WORD}){0,3}?)`;
+  const keyOfP = n => n.toLowerCase().replace(/^(?:my|the|our|o|a|os|as|meu|minha)\s+/i, '').replace(/\s+/g, ' ').trim();
   function settleParse(s) {
     let t = ' ' + s.replace(/\r/g, '') + ' ';
     t = t.replace(/\b(?:who owes(?: (?:who|whom|what))?(?: and how much)?|who pays (?:who|whom)|settle(?: it)?(?: up)?|split (?:it |everything |the costs? )?(?:equally|evenly)(?: between (?:us|everyone|all))?|how much does each (?:one )?owe|quem deve a quem|acertar contas|dividir igualmente)\b[?.!:]?/gi, ' ');
-    t = t.replace(/(^|[\s,;(])(?:i|I)(?=\s+(?:paid|pays|spent|put|gave|covered|bought|owe))/g, '$1You').replace(/(^|[\s,;(])(?:eu)(?=\s+(?:paguei|gastei|dei))/gi, '$1Eu').replace(/\b(?:paguei|gastei)\b/gi, 'pagou').replace(/\b(paid|for|by|owes?|to)\s+me\b/gi, '$1 You').replace(/\bme\s+owes?\b/gi, 'You owe');
-    t = t.replace(/(\bfor\s+[A-ZÀ-Ý][\wÀ-ÿ'’-]+)((?:\s*,\s*[A-ZÀ-Ý][\wÀ-ÿ'’-]+)+)(\s+(?:and|e)\s+[A-ZÀ-Ý][\wÀ-ÿ'’-]+)/g, (m0, a, b, c) => a + b.replace(/\s*,\s*/g, ' and ') + c);
+    // you: "I paid", "me 0", "paid by me", "owes me"
+    t = t.replace(/(^|[\s,;(:])(?:i|I)(?=\s+(?:paid|pays|spent|put|gave|covered|bought|got|owe))/g, '$1You').replace(/\b(?:eu)(?=\s+(?:paguei|gastei|dei|pus))/gi, 'Eu').replace(/\b(?:paguei)\b/gi, 'pagou').replace(/\b(?:gastei)\b/gi, 'gastou').replace(/\b(paid|for|by|owes?|to|and)\s+(?:me|myself)\b/gi, '$1 You').replace(/(^|[,;\n]\s*)me(?=\s*(?::|=)?\s*(?:€|\$|£)?\s*(?:\d|nothing|zero))/gi, '$1You').replace(/(^|[,;\n]\s*)me(?=\s*(?:[,;\n]|$))/gi, '$1You');
+    // "for Bruno, Carla and Dani" → one list
+    t = t.replace(/(\bfor\s+[A-Za-zÀ-ÿ][\wÀ-ÿ'’-]+)((?:\s*,\s*[A-Za-zÀ-ÿ][\wÀ-ÿ'’-]+)+)(\s+(?:and|e)\s+[A-Za-zÀ-ÿ][\wÀ-ÿ'’-]+)/g, (m0, a, b, c) => a + b.replace(/\s*,\s*/g, ' and ') + c);
+    // after an amount, a new word starts a new phrase ("ana paid 45 bruno paid 30") unless it continues the same one
+    t = t.replace(/(\d(?:[.,]\d{1,2})?\s*(?:€|eur|euros?|\$|£)?)\s+(?=[A-Za-zÀ-ÿ])(?!(?:for|on|in|at|to|each|per|euros?|eur|by|paid|pago|para|em|de|da|do|x|from|as|via|with)\b|\()/gi, '$1, ');
     const amt = x => /^(nothing|zero|nada)$/i.test(x) ? 0 : parseFloat(String(x).replace(',', '.'));
-    const people = new Map(), add = (n, inferred) => { if (!n || NOTNAME.test(n)) return null; const k = n.toLowerCase(); if (!people.has(k)) people.set(k, { name: n.charAt(0).toUpperCase() + n.slice(1), paid: 0, owes: 0, w: 1, inferred: !!inferred }); return people.get(k); };
+    const people = new Map(), order = [];
+    const add = (raw, how) => { const k = keyOfP(raw || ''); if (!k || k.split(' ').some(w => STOPP.test(w)) && k.split(' ').every(w => STOPP.test(w))) return null; if (STOPP.test(k)) return null; if (!people.has(k)) { people.set(k, { name: k.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '), paid: 0, w: 1, how }); order.push(k); } return k; };
     const expenses = [], debts = [], excluded = new Set();
-    // weights: "Ana counts double", "Ana x2", "Ana pays 2 shares", "Ana (2)"
-    t = t.replace(new RegExp(NAMEV + '\\s+(?:counts?\\s+(?:as\\s+)?|is\\s+)?(double|twice|triple|half|x\\s*(\\d)|×\\s*(\\d)|(\\d)\\s+shares?|conta\\s+a\\s+dobrar)\\b', 'gi'), (m0, n, w, a1, a2, a3) => { const p = add(n); if (!p) return m0; p.w = /double|twice|dobrar/i.test(w) ? 2 : /triple/i.test(w) ? 3 : /half/i.test(w) ? .5 : +(a1 || a2 || a3); return ' '; });
-    // exclusions: "except Dani", "without Dani", "Dani didn't come", "sem o Dani"
-    t = t.replace(new RegExp('\\b(?:except|without|but not|not|sem|exceto|menos)\\s+(?:o |a )?' + NAMEV + '(?:\\s+(?:and|e)\\s+' + NAMEV + ')?', 'gi'), (m0, a, b) => { [a, b].forEach(n => { if (n && !NOTNAME.test(n)) { add(n); excluded.add(n.toLowerCase()); } }); return ' '; });
-    t = t.replace(new RegExp(NAMEV + "\\s+(?:didn'?t|did not|wasn'?t|was not|não)\\s+(?:come|go|eat|join|share|veio|foi|comeu)\\b", 'gi'), (m0, n) => { if (NOTNAME.test(n)) return m0; add(n); excluded.add(n.toLowerCase()); return ' '; });
-    // direct debts: "Bruno owes Ana 10", "Bruno deve 10 à Ana"
-    t = t.replace(new RegExp(NAMEV + '\\s+(?:owes?|deve)\\s+' + NAMEV + '\\s+' + AMTV, 'gi'), (m0, a, b, v) => { if (NOTNAME.test(a) || NOTNAME.test(b)) return m0; add(a); add(b); debts.push({ from: a.toLowerCase(), to: b.toLowerCase(), v: amt(v) }); return ' ; '; });
-    t = t.replace(new RegExp(NAMEV + '\\s+(?:deve)\\s+' + AMTV + '\\s+(?:à|ao|a|to)\\s+' + NAMEV, 'gi'), (m0, a, v, b) => { if (NOTNAME.test(a) || NOTNAME.test(b)) return m0; add(a); add(b); debts.push({ from: a.toLowerCase(), to: b.toLowerCase(), v: amt(v) }); return ' ; '; });
-    // "Dinner 60 paid by Ana", "60 for taxi by Bruno", "Taxi 20 (Bruno)"
-    t = t.replace(new RegExp("(?:^|[\\n;,])\\s*([A-Za-zÀ-ÿ][A-Za-zÀ-ÿ ]{0,30}?)?\\s*" + AMTV + "\\s*(?:\\(\\s*" + NAMEV + "\\s*\\)|(?:paid by|by|from|pago por|pagou o|pela|pelo)\\s+" + NAMEV + ")(?:\\s+for\\s+([^\\n;]+?))?(?=[\\n;,]|$)", 'gi'), (m0, what, v, n1, n2, forWho) => { const n = n1 || n2; if (!n || NOTNAME.test(n)) return m0; add(n); expenses.push({ by: n.toLowerCase(), v: amt(v), what: (what || '').trim(), forRaw: forWho || '' }); return ' ; '; });
-    // "Ana paid 45 for dinner", "Ana paid 30 for Bruno and Carla", "Ana 45", "João pagou 40"
-    const NEXT = "\\s+(?:and\\s+|e\\s+)?[A-Za-zÀ-ÿ'’-]+\\s*(?::|=|-)?\\s*(?:" + PAYV + "\\s+)?(?:€|\\$|£)?\\s*(?:\\d|nothing|zero|nada)";
-    const re = new RegExp(NAMEV + '\\s*(?::|=|-)?\\s*(?:' + PAYV + '\\s+)?' + AMTV + "((?:\\s+(?:for|on|para|em|no|na|de)\\s+(?:(?!" + NEXT + ")[^,;\\n])*)?)(?=\\s*(?:[,;\\n]|\\band\\b|\\be\\b|$)|" + NEXT + ")", 'gi');
-    let m; while ((m = re.exec(t))) { const n = m[1]; if (NOTNAME.test(n)) continue; const v = amt(m[2]); add(n); expenses.push({ by: n.toLowerCase(), v, what: '', forRaw: (m[3] || '').replace(/^\s*(?:for|on|para|em|no|na|de)\s+/i, '') }); }
-    // names on their own ("…, Carla" or "Carla paid nothing" already handled)
-    for (const w of t.split(/[,;\n]|\band\b|\be\b/i).map(x => x.trim()).filter(Boolean)) if (/^[A-Za-zÀ-ÿ'’-]{2,20}$/.test(w) && !NOTNAME.test(w)) add(w, true);
-    // who shares each expense
-    const all = () => [...people.keys()];
+    // weights and exclusions
+    t = t.replace(new RegExp(WHO + '\\s+(?:counts?\\s+(?:as\\s+)?|is\\s+)?(double|twice|triple|half|x\\s*(\\d)|×\\s*(\\d)|(\\d)\\s+shares?|conta\\s+a\\s+dobrar)\\b', 'gi'), (m0, n, w, a1, a2, a3) => { const k = add(n, 'w'); if (!k) return m0; people.get(k).w = /double|twice|dobrar/i.test(w) ? 2 : /triple/i.test(w) ? 3 : /half/i.test(w) ? .5 : +(a1 || a2 || a3); return ' '; });
+    t = t.replace(new RegExp('\\b(?:except|without|but not|not|sem|exceto|menos)\\s+(?:o |a )?' + WHO + '(?=\\s*(?:[,;\\n.]|\\band\\b|$))', 'gi'), (m0, a) => { a.split(/\s+(?:and|e)\s+/i).forEach(n => { const k = add(n, 'x'); if (k) excluded.add(k); }); return ' '; });
+    t = t.replace(new RegExp(WHO + "\\s+(?:didn'?t|did not|wasn'?t|was not|não)\\s+(?:come|go|eat|drink|join|share|veio|foi|comeu|bebeu)\\b[^,;\\n]*", 'gi'), (m0, n) => { const k = add(n, 'x'); if (!k) return m0; excluded.add(k); return ' '; });
+    // debts
+    t = t.replace(new RegExp(WHO + '\\s+(?:owes?|deve)\\s+' + WHO + '\\s+' + AMTV, 'gi'), (m0, a, b, v) => { const x = add(a, 'd'), y = add(b, 'd'); if (!x || !y) return m0; debts.push({ from: x, to: y, v: amt(v) }); return ' ; '; });
+    t = t.replace(new RegExp(WHO + '\\s+(?:deve)\\s+' + AMTV + '\\s+(?:à|ao|a|to)\\s+' + WHO, 'gi'), (m0, a, v, b) => { const x = add(a, 'd'), y = add(b, 'd'); if (!x || !y) return m0; debts.push({ from: x, to: y, v: amt(v) }); return ' ; '; });
+    // phrase by phrase
+    for (const ph0 of t.split(/\s*[,;\n\/]\s*/).map(x => x.trim()).filter(Boolean)) {
+      const ph = ph0.replace(/^(?:and|e|also|plus|then|&)\s+/i, '').replace(/[.!?]+$/, '').trim(); if (!ph) continue;
+      let m;
+      // "dinner 60 paid by Ana (for …)", "taxi 20 (Bruno)", "60 for the hotel by Ana"
+      if ((m = ph.match(new RegExp('^(.*?)\\s*' + AMTV + '\\s*(?:\\(\\s*' + WHO + '\\s*\\)|(?:paid by|by|from|pago por|pagou o|pela|pelo)\\s+' + WHO + ')(?:\\s+for\\s+(.+))?$', 'i')))) {
+        const k = add(m[3] || m[4], 'pay'); if (k) { expenses.push({ by: k, v: amt(m[2]), what: m[1].replace(/\b(?:was|were|is|cost|costs|came to)\b/gi, '').trim(), forRaw: m[5] || '' }); continue; } }
+      // "Ana paid 45 (for …)", "my brother paid 45", "José Pedro: 20", "ana 45"
+      if ((m = ph.match(new RegExp('^' + WHO + '\\s*(?::|=|-)?\\s*(' + PAYV + '\\s+)?' + AMTV + '(?:\\s+(?:for|on|para|em|no|na|de)\\s+(.+))?$', 'i')))) {
+        const who = m[1], hasVerb = !!m[2];
+        if (hasVerb || !who.split(/\s+/).some(w => DESC.test(w) || STOPP.test(w))) { const k = add(who, hasVerb ? 'pay' : 'list'); if (k) { expenses.push({ by: k, v: amt(m[3]), what: '', forRaw: m[4] || '' }); continue; } }
+        return null; // a description with an amount ("pizza 12") → not a shared-cost list
+      }
+      // a person with nothing paid
+      if (ph.split(/\s+(?:and|e|&)\s+/i).every(x => new RegExp('^' + WHO + '$', 'i').test(x) && x.split(/\s+/).length <= 3 && !x.split(/\s+/).some(w => DESC.test(w)))) { ph.split(/\s+(?:and|e|&)\s+/i).forEach(x => add(x, 'bare')); continue; }
+      if (/\d/.test(ph)) return null; // something with a number we couldn't read: let the normal calculator take it
+    }
+    // who shares each expense: words after "for" that are people mentioned anywhere count as people; the rest describe it
     for (const ex of expenses) {
-      const raw = ex.forRaw || '', fr = raw.toLowerCase(); let who = null;
-      if (raw && !/\b(everyone|everybody|all of us|all|us|the group|todos|todas|o grupo)\b/i.test(fr)) {
-        const words = raw.split(/[\s,]+|\band\b|\be\b/i).map(w => w.trim()).filter(w => w && !/\d/.test(w));
-        const names = words.filter(w => !NOTNAME.test(w) && (people.has(w.toLowerCase()) || /^[A-ZÀ-Ý][a-zà-ÿ'’-]+$/.test(w)));
-        if (names.length) { who = names.map(w => (add(w), w.toLowerCase())); if (/\b(me|myself|herself|himself|themselves|ela mesma|ele mesmo)\b/i.test(fr) || /\b(?:and|e)\s+(?:her|him)\b/i.test(fr)) who.push(ex.by); }
+      let raw = ex.forRaw.trim(), who = null; { const fm = raw.match(/^(.*)\s+(?:for|para)\s+(.+)$/i); if (fm) { ex.what = ex.what || fm[1]; raw = fm[2]; } else if (!ex.what) ex.what = ''; }
+      if (raw && !/\b(everyone|everybody|all of us|all|us|the group|todos|todas|o grupo)\b/i.test(raw)) {
+        const toks = raw.split(/\s*,\s*|\s+(?:and|e)\s+/i).map(x => x.replace(/^(?:the|a|an|o|a)\s+/i, '').trim()).filter(Boolean);
+        const known = toks.filter(x => people.has(keyOfP(x)) || /^(?:you|me|myself)$/i.test(x));
+        const looksLikePeople = toks.length >= 1 && toks.every(x => x.split(/\s+/).length <= 3 && !x.split(/\s+/).some(w => DESC.test(w) || STOPP.test(w)));
+        if (known.length || (looksLikePeople && (toks.length >= 2 || /^[A-ZÀ-Ý]/.test(toks[0])))) {
+          who = toks.filter(x => known.includes(x) || looksLikePeople).map(x => /^(?:me|myself)$/i.test(x) ? 'you' : /^(?:her|him|them|herself|himself|themselves|ela|ele)$/i.test(x) ? ex.by : add(x, 'for')).filter(Boolean);
+          if (/\b(?:me|myself|herself|himself|themselves)\b|\b(?:and|e)\s+(?:her|him)\b/i.test(raw) && !who.includes(ex.by)) who.push(ex.by);
+          if (!who.length) who = null;
+        }
       }
       ex.who = who ? [...new Set(who)] : null;
     }
-    const list = [...people.values()];
-    if (list.length < 2 || (!expenses.some(e => e.v > 0) && !debts.length)) return null;
-    return { people, expenses, debts, excluded };
+    if (people.size < 2 || (!expenses.some(e => e.v > 0) && !debts.length)) return null;
+    return { people, expenses, debts, excluded, order };
   }
   function settleUp(P) {
     const { people, expenses, debts, excluded } = P, bal = new Map([...people.keys()].map(k => [k, 0])), shareOf = new Map([...people.keys()].map(k => [k, 0]));
@@ -3183,30 +3369,45 @@ const Engine = (() => {
     for (const d of debts) { bal.set(d.from, bal.get(d.from) - d.v); bal.set(d.to, bal.get(d.to) + d.v); }
     const B = [...bal].map(([k, b]) => ({ k, name: people.get(k).name, b: Math.round(b * 100) / 100 }));
     const cred = B.filter(x => x.b > 0.004).map(x => ({ ...x })).sort((a, b) => b.b - a.b), debt = B.filter(x => x.b < -0.004).map(x => ({ ...x, b: -x.b })).sort((a, b) => b.b - a.b), moves = [];
-    // exact matches first (fewer, simpler payments), then greedy
     for (const d of debt) { const c = cred.find(c2 => Math.abs(c2.b - d.b) < 0.005 && c2.b > 0.004); if (c && d.b > 0.004) { moves.push({ from: d.name, to: c.name, amt: d.b }); c.b = 0; d.b = 0; } }
     let i = 0, j = 0; const D = debt.filter(x => x.b > 0.004), C = cred.filter(x => x.b > 0.004);
     while (i < D.length && j < C.length) { const a = Math.min(D[i].b, C[j].b); if (a > 0.004) moves.push({ from: D[i].name, to: C[j].name, amt: Math.round(a * 100) / 100 }); D[i].b -= a; C[j].b -= a; if (D[i].b < 0.005) i++; if (C[j].b < 0.005) j++; }
     return { total, moves, bal: B, shareOf };
   }
-  function settle(s) {
-    if (!/\(\s*[A-ZÀ-Ý][a-zà-ÿ'’-]+\s*\)/.test(s) && !/\b(paid|pays|spent|put|gave|covered|bought|owes?|owed|settle|who owes|split|pagou|paguei|gastou|deve|acertar|paid by|pago por)\b/i.test(s) && !/^([A-Za-zÀ-ÿ]+\s*[:=]?\s*(?:€|\$|£)?\d+(?:[.,]\d+)?\s*[,;\n]\s*){1,}[A-Za-zÀ-ÿ]+/.test(s.trim())) return null;
-    const P = settleParse(s); if (!P) return null; const list = [...P.people.values()];
-    if (!/\(\s*[A-ZÀ-Ý][a-zà-ÿ'’-]+\s*\)/.test(s) && !/\b(paid|pays|spent|put|gave|covered|bought|owes?|owed|settle|who owes|split|pagou|paguei|gastou|deve|acertar|paid by|pago por)\b/i.test(s) && !list.every(p => /^[A-ZÀ-Ý]/.test((s.match(new RegExp('\\b(' + p.name + ')\\b', 'i')) || [''])[0]))) return null;
-    // without words like "paid", a list counts as people only when it looks like a group split (whole amounts or someone at 0), not a receipt
-    if (!/\(\s*[A-ZÀ-Ý][a-zà-ÿ'’-]+\s*\)/.test(s) && !/\b(paid|pays|spent|put|gave|covered|bought|owes?|owed|settle|who owes|split|pagou|paguei|gastou|deve|acertar|paid by|pago por)\b/i.test(s)) { const vs = P.expenses.map(x => x.v); if (/\b(sub)?total\b|\b(vat|iva|tax)\b/i.test(s) || !(vs.every(v => Number.isInteger(v)) || vs.some(v => v === 0) || [...P.people.values()].some(x => x.inferred))) return null; }
+  const SETTLE_CUE = /\(\s*[A-Za-zÀ-ÿ][\wÀ-ÿ'’ -]*\s*\)|\b(paid|pays|spent|put in|gave|covered|bought|owes?|owed|settle|who owes|who pays|split|share the|pagou|paguei|gastou|gastei|deve|devo|acertar|paid by|pago por)\b/i;
+  // with no word like "paid", only a plain list of "name amount" items can be people sharing costs
+  const LW = "[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ'’-]*", LNAME = `${LW}(?:\\s+${LW}){0,2}`, LAMT = '(?:€|\\$|£)?\\s*\\d+(?:[.,]\\d{1,2})?\\s*(?:€|eur|euros?|\\$|£)?';
+  const LIST_RE = new RegExp(`^\\s*${LNAME}\\s*[:=]?\\s*${LAMT}(?:\\s*(?:[,;\\n/]|\\s(?:and|e|&)\\s|\\s)\\s*${LNAME}(?:\\s*[:=]?\\s*${LAMT})?)+\\s*[.!]?\\s*$`, 'i');
+  const NOTLIST = /\b(?:times|vezes|minus|menos|plus|mais|divided|squared|cubed|percent|por ?cento|of|off|to|in|into|em|para|as|from|until|since|after|before|ago|há|days?|weeks?|months?|years?|hours?|minutes?|seconds?|kg|g|lb|lbs|pounds?|kilos?|km|miles?|m|cm|mm|ft|feet|inch|inches|c|f|celsius|fahrenheit|degrees|us|eu|uk|size|tamanho|shoes?|sapatos|round(?:ed)?|up|down|what'?s|whats|how|convert|converter|turn|make|put|calculate|figure|take|away|less|more|than|between|base|height|width|price|cost|costs|target|sales|fixed|variable|v|a|mb|gb|kb|bmr|calories|water|intake|lightning|thunder|roll|random|rate|tax|vat|iva|total|subtotal|interest|loan|salary|hourly|year|month|day|week|apples?)\b/i;
+  const isGroupList = s => LIST_RE.test(s) && !NOTLIST.test(s) && !/[+\-*×÷^%=<>]/.test(s.replace(/(^|[,;\n/]\s*)[A-Za-zÀ-ÿ][^,;\n/]*?-[^,;\n/]*/g, '$1'));
+  // a list like "ana 45, bruno 30, carla 0": people, or just amounts to add up?
+  function looksLikeGroup(s, P) {
+    const ex = P.expenses, vs = ex.map(e => e.v), bare = [...P.people.values()].some(p => p.how === 'bare');
+    if (/\b(sub)?total\b|\b(vat|iva|tax)\b/i.test(s)) return false;
+    return bare || vs.some(v => v === 0) || ([...P.people.values()].every(p => /^[A-ZÀ-Ý]/.test((s.match(new RegExp('\\b' + p.name.split(' ')[0] + '\\b', 'i')) || [''])[0])) && vs.every(v => Number.isInteger(v)));
+  }
+  function settle(s, force) {
+    const cue = SETTLE_CUE.test(s);
+    if (!cue && !isGroupList(s)) return null;
+    const P = settleParse(s); if (!P) return null;
+    if (!cue && !force && !looksLikeGroup(s, P)) { // unclear whether these are people: add them up, offer the other reading
+      const sq = P.expenses.map(e => fmt(e.v)).join(' + '); let r = null; try { r = solve(sq, {}, 2); } catch {}
+      if (!r || r.error) return null;
+      return Object.assign(r, { label: `${P.expenses.length} amounts added up`, alts: [{ label: 'treat as people sharing costs', q: s.replace(/[\s,;.]+$/, '') + ', who owes who' }] }); }
+    const list = P.order.map(k => P.people.get(k));
     const { total, moves, bal, shareOf } = settleUp(P), cur = (s.match(/€|\$|£/) || [''])[0], mon = v => (cur || '') + money(v).replace(/^[€$£]/, '');
     const say = mv => mv.from === 'You' ? `You pay ${mv.to} ${mon(mv.amt)}` : mv.to === 'You' ? `${mv.from} pays you ${mon(mv.amt)}` : `${mv.from} pays ${mv.to} ${mon(mv.amt)}`;
     const value = moves.length ? (moves.length === 1 ? say(moves[0]) : `${moves.length} payments`) : 'All square';
     const uneven = P.expenses.some(e => e.who) || P.excluded.size || list.some(p => p.w !== 1) || P.debts.length;
     const steps = [['total spent', mon(total)]];
     if (!uneven && list.length) steps.push(['fair share each', mon(total / list.length)]);
-    for (const p of list) { const k = p.name.toLowerCase(), b = bal.find(x => x.k === k).b, paid = P.expenses.filter(e => e.by === k).reduce((a, e) => a + e.v, 0), sh = shareOf.get(k);
+    for (const k of P.order) { const p = P.people.get(k), b = bal.find(x => x.k === k).b, paid = P.expenses.filter(e => e.by === k).reduce((a, e) => a + e.v, 0), sh = shareOf.get(k);
       steps.push([p.name, `paid ${mon(paid)}${uneven ? ` · share ${mon(sh)}` : ''} → ${b > 0.004 ? `gets back ${mon(b)}` : b < -0.004 ? `owes ${mon(-b)}` : 'even'}${p.w !== 1 ? ` (counts ×${p.w})` : ''}${P.excluded.has(k) ? ' (left out of shared costs)' : ''}`]); }
     P.expenses.filter(e => e.who || e.what).forEach(e => steps.push([`${e.what || 'expense'} ${mon(e.v)}`, `paid by ${P.people.get(e.by).name}${e.who ? ', shared by ' + e.who.map(k => P.people.get(k).name).join(', ') : ''}`]));
     P.debts.forEach(d => steps.push(['owed', `${P.people.get(d.from).name} → ${P.people.get(d.to).name} ${mon(d.v)}`]));
+    const sumQ = P.expenses.filter(e => e.v).map(e => fmt(e.v)).join(' + ');
     return { kind: 'Money', label: `Settle up between ${list.length} people`, value, num: sig(moves.length ? moves[0].amt : 0, 10), settle: true,
-      lines: moves.length > 1 ? moves.map(say) : null, steps };
+      lines: moves.length > 1 ? moves.map(say) : null, steps, alts: !cue && sumQ ? [{ label: 'just add the amounts up', q: sumQ }] : null };
   }
 
   function attempt(s, ctx, solveHint) { try { const r = core(s, ctx, solveHint); return r && !r.error ? { r } : { r, err: r && r.label }; } catch (e) { return { err: e.message }; } }
@@ -3225,9 +3426,24 @@ const Engine = (() => {
     if (alts.length) r.alts = alts.slice(0, 2);
     return r;
   }
+  // a bare list of "word amount" items: only read as people sharing costs when nothing more specific understood it
   function solve(raw, ctx = {}, depth = 0) {
+    const q = String(raw || '').trim();
+    if (depth || !q || SETTLE_CUE.test(q) || !isGroupList(q)) return solve0(raw, ctx, depth);
+    const r = solve0(raw, ctx, depth), generic = !r || r.error || /^Basket/.test(r.label || '') || (/^(Math|Numbers|Stats)$/.test(r.kind) && /\+|numbers|amounts|^Read as|^Sum/i.test(r.label || ""));
+    if (!generic) return r;
+    const st = settle(q); if (st) return st;
+    if (r && !r.error && !/^Basket/.test(r.label || '') && !(q.match(/[A-Za-zÀ-ÿ]+/g) || []).every(w => /^[a-zà-ÿ]+s$/.test(w))) { try { if (settle(q, true)) r.alts = [...(r.alts || []), { label: 'treat as people sharing costs', q: q.replace(/[\s,;.]+$/, '') + ', who owes who' }].slice(0, 2); } catch {} }
+    return r;
+  }
+  function solve0(raw, ctx = {}, depth = 0) {
     const q = raw.trim(); if (!q) return null;
     if (/^(?:help|\?|what can (?:you|i) (?:do|ask)\??|examples|commands|how does this work\??)$/i.test(q)) return HELP;
+    // sentences that wrap a known calculation in their own words: rewrite the bridge first
+    if (!depth) { let b = ' ' + q.toLowerCase() + ' ';
+      for (const [re, rp] of STRONG_BRIDGES) b = b.replace(re, rp);
+      b = b.replace(/\s+/g, ' ').trim();
+      if (b !== q.toLowerCase().replace(/\s+/g, ' ').trim()) { let r = null; try { r = solve(b, ctx, 1); } catch {} if (!r || r.error) { try { r = salvage(b, ctx); } catch {} } if (r && !r.error) { r.steps = [['read as', b]].concat((r.steps || []).filter(x => x && x[0] !== 'read as')); return withAlts(r, q); } } }
     // "1/3" on its own is a fraction here; the date reading is offered as the alternative
     if (!depth && /^\d{1,3}\/\d{1,3}$/.test(q)) { const [a, b] = q.split('/'); if (+b) { const r = solve(`${a} ÷ ${b}`, ctx, 1); if (r && !r.error) { r.label = `${a}/${b}`; r.steps = [['as a decimal', fmt(sig(+a / +b, 10))]].concat((r.steps || []).filter(x => x[0] !== 'read as')); if (+a <= 31 && +b <= 12) r.alts = [{ label: `read ${q} as a date`, q: `what day is ${q}` }]; return r; } } }
     if (/^[MDCLXVI]{2,}$/.test(q)) { const v = fromRoman(q); if (v) return M('Numbers', `${q} in digits`, v); }
@@ -3245,10 +3461,10 @@ const Engine = (() => {
       }
       return { ...r, label: `${chain.length} steps, each using the one before`, steps: trail.concat((r.steps || []).filter(x => x[0] !== 'ans' && x[0] !== 'from')) };
     }
-    { const st = settle(q); if (st) return st; }
+    if (SETTLE_CUE.test(q)) { const st = settle(q); if (st) return st; }
     let { s, cur, solveHint } = normalize(q); CUR = cur;
     { const rp = depth < 3 ? rephrase(s) : null; if (rp) { const r = solve(rp.s, ctx, depth + 1); if (r && !r.error) { r.steps = [['read as', rp.s]].concat((r.steps || []).filter(x => x[0] !== 'read as')); return withAlts(r, q); } } }
-    let roundTo = null; { const rm = s.match(/,?\s*(?:and )?(?:rounded|round(?:ed)? (?:it|that)?|to)\s*(?:off|up|down)?\s*(?:to )?(?:(\d+) (?:decimal(?: places?)?|dp|decimals|places)|the nearest (whole|whole number|integer|cent|ten|hundred|thousand))?$/); if (rm && /round|decimal|dp|nearest/.test(rm[0]) && rm.index > 0) { roundTo = rm[1] != null ? { dp: +rm[1] } : rm[2] ? { step: { whole: 1, 'whole number': 1, integer: 1, cent: .01, ten: 10, hundred: 100, thousand: 1000 }[rm[2]] } : { dp: 0 }; s = s.slice(0, rm.index).trim(); } }
+    let roundTo = null; { const rm = s.match(/,?\s*(?:and )?(?:rounded|round(?:ed)? (?:it|that)?|to)\s*(?:off|up|down)?\s*(?:to )?(?:(\d+) (?:decimal(?: places?)?|dp|decimals|places)|the nearest (whole|whole number|integer|cent|ten|hundred|thousand))?$/); if (rm && /round|decimal|dp|nearest/.test(rm[0]) && rm.index > 0) { roundTo = rm[1] != null ? { dp: +rm[1] } : rm[2] ? { step: { whole: 1, 'whole number': 1, integer: 1, cent: .01, ten: 10, hundred: 100, thousand: 1000 }[rm[2]] } : { dp: 0 }; s = s.slice(0, rm.index).trim().replace(/^(?:round|rounded)\s+(?=-?\d)/, ''); } }
     if (roundTo) { const r0 = solve(s, ctx, depth + 1); if (r0 && !r0.error && typeof r0.num === 'number') { const v = roundTo.step ? Math.round(r0.num / roundTo.step) * roundTo.step : Math.round(r0.num * 10 ** roundTo.dp) / 10 ** roundTo.dp; const r = { ...r0, num: v, value: r0.kind === 'Money' ? money(v) : roundTo.dp != null ? v.toLocaleString('en-US', { minimumFractionDigits: roundTo.dp, maximumFractionDigits: roundTo.dp }) : fmt(v) }; r.steps = [['unrounded', r0.value]].concat(r0.steps || []); return r; } }
     if (!s) return null;
 
@@ -3321,6 +3537,8 @@ const Engine = (() => {
     { const d = dropUnknown(s, ctx); if (d) { const t = attempt(d.s, ctx, solveHint); if (t.r && !t.err) { t.r.steps = [['ignored', d.dropped.join(', ')]].concat(t.r.steps || []); return withAlts(t.r, q); } } }
     // work out the operation from the verbs ("spent", "left", "each", "altogether", "split")
     if (!depth) { const w = wordMath(s); if (w) return w; }
+    // a calculation hidden in a longer sentence: bridge common phrasings, then find the part it understands
+    if (!depth) { const sv = salvage(q, ctx); if (sv) return withAlts(sv, q); }
     // several questions at once: "15% of 80 and 20% of 90"
     if (!depth) {
       const parts = q.split(/\s*(?:;|\band also\b|\balso\b|\s&\s|\band\b|,)\s*/i).map(x => x.trim()).filter(Boolean);
@@ -3650,7 +3868,7 @@ const Engine = (() => {
 
   /* ---------- toast & copy ---------- */
   let tt;
-  function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.remove('show'); void t.offsetWidth; t.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 1600); }
+  function toast(msg, go) { const t = $('#toast'); t.textContent = msg; t.classList.toggle('has-act', !!go && view !== go); if (go && view !== go) { const b = document.createElement('button'); b.type = 'button'; b.textContent = 'Open ' + go.charAt(0).toUpperCase() + go.slice(1); b.onclick = () => { t.classList.remove('show'); setView(go); }; t.appendChild(b); } t.classList.remove('show'); void t.offsetWidth; t.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), go ? 3200 : 1600); }
   function copy(text) {
     const fallback = () => { const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); toast('Copied'); } catch { toast('Select the result to copy it'); } ta.remove(); };
     try { navigator.clipboard.writeText(text).then(() => toast('Copied'), fallback); } catch { fallback(); }
@@ -3680,7 +3898,7 @@ const Engine = (() => {
   function addTape(item) {
     tape = tape.filter(t => !t.ex);
     if (tape[0] && tape[0].q === item.q && tape[0].r === item.r) return;
-    tape.unshift(item); tape = tape.slice(0, 60); store.set('quotient.tape.v1', tape); tapeNew = !REDUCE; renderTape();
+    tape.unshift(item); tape = tape.slice(0, 60); store.set('quotient.tape.v1', tape); tapeNew = !REDUCE; renderTape(); linksChanged();
   }
   $('#tapeList').addEventListener('click', e => {
     const b = e.target.closest('.t-item'); if (!b) return; const it = tape[+b.dataset.i];
@@ -3883,7 +4101,22 @@ const Engine = (() => {
     const btn = $('#installBtn'), link = document.querySelector('link[rel="manifest"]');
     const standalone = matchMedia('(display-mode: standalone)').matches || matchMedia('(display-mode: fullscreen)').matches || navigator.standalone === true;
     if (!link) return;
-    if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) navigator.serviceWorker.register('./sw.js').catch(() => {});
+    if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+      // updates: check every time the app comes back to the screen, and switch to a new version as soon as it is ready
+      const hadSW = !!navigator.serviceWorker.controller; let reloading = false;
+      navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' }).then(reg => {
+        const check = () => reg.update().catch(() => {}); check();
+        document.addEventListener('visibilitychange', () => { if (!document.hidden) check(); });
+        setInterval(check, 30 * 60 * 1000);
+      }).catch(() => {});
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!hadSW || reloading) return; reloading = true;
+        const busy = $('#q').value.trim() || document.activeElement && /INPUT|TEXTAREA/.test(document.activeElement.tagName);
+        if (!busy) { try { sessionStorage.setItem('quotient.updated', '1'); } catch {} location.reload(); }
+        else toast('A new version is ready · it loads next time you open Quotient');
+      });
+      try { if (sessionStorage.getItem('quotient.updated')) { sessionStorage.removeItem('quotient.updated'); setTimeout(() => toast('Updated to the latest version'), 600); } } catch {}
+    }
     if (standalone || navigator.brave) return; // Brave only makes shortcuts that open with the address bar, so don't offer it there
     let deferred = null;
     addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferred = e; btn.hidden = false; });
@@ -4119,7 +4352,7 @@ const Engine = (() => {
   /* ---------- Details that fit the answer: key facts by type, then how it was worked out ---------- */
   const mny = v => (+v).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   function facts(r, q) {
-    if (!r || r.error) return [];
+    if (!r || r.error || r.settle) return [];
     const numeric = typeof r.num === 'number' && isFinite(r.num); if (!numeric && !/^(Time|Date|Numbers)$/.test(r.kind)) return [];
     const n = numeric ? r.num : NaN, u = (r.unit || '').toLowerCase(), L = (r.label + ' ' + q).toLowerCase(), out = [];
     const stepKeys = new Set((r.steps || []).filter(Boolean).map(s => String(s[0]).toLowerCase()));
@@ -4187,8 +4420,8 @@ const Engine = (() => {
   const previewCache = new Map();
   function preview(t) {
     if (/\s$/.test(t) || /^(help|roll|flip|random)/i.test(t)) return '';
-    const k = t + '|' + (ctx.lastQ || '') + '|' + ctx.ans; if (previewCache.has(k)) return previewCache.get(k);
-    let r = null; try { r = Engine.solve(t, ctx); } catch {}
+    const k = t + '|' + (ctx.lastQ || '') + '|' + ctx.ans + '|' + linkVer; if (previewCache.has(k)) return previewCache.get(k);
+    let r = null; try { const cmd = linkCommand(t); if (cmd) { const pv = cmd.kind === 'What if' ? cmd.value + (cmd.unit ? ' ' + cmd.unit : '') : cmd.doLabel ? '↗ ' + cmd.kind : ''; previewCache.set(k, pv); return pv; } r = solveLinked(t); } catch {}
     const v = r && !r.error && r.value ? (r.value + (r.unit && r.unit.length < 10 ? ' ' + r.unit : '')) : '';
     previewCache.set(k, v); if (previewCache.size > 300) previewCache.clear(); return v;
   }
@@ -4203,7 +4436,7 @@ const Engine = (() => {
     if (document.activeElement !== $('#q') || filling) { box.hidden = true; $('#opsRow').hidden = true; if (!filling) sugg = []; renderGhost(); return; }
     const low = v.toLowerCase().trim();
     const fromHist = low ? hist.filter(x => x.toLowerCase().startsWith(low) && x.toLowerCase() !== low).slice(0, 2) : hist.slice(0, 3);
-    sugg = [...new Set([...fromHist, ...Engine.complete(v, { ...ctx, hist })])].slice(0, 5);
+    let lsg = []; try { lsg = linkSugg(v); } catch {} sugg = [...new Set([...lsg, ...fromHist, ...Engine.complete(v, { ...ctx, hist })])].slice(0, 5);
     let opsHtml = opsFor(v); const orow = $('#opsRow');
     if (matchMedia('(max-width: 560px)').matches) { const had = !!orow.querySelector('.ops'); if (orow.dataset.k !== opsHtml) { orow.innerHTML = opsHtml.replace('class="ops"', `class="ops${had ? '' : ' in'}"`); orow.dataset.k = opsHtml; } orow.hidden = !opsHtml; opsHtml = ''; } else orow.hidden = true;
     if (!sugg.length && !opsHtml) { box.hidden = true; renderGhost(); return; }
@@ -4230,6 +4463,7 @@ const Engine = (() => {
   $('#opsRow').addEventListener('click', e => { const o = e.target.closest('[data-op], [data-ins]'); if (o) applyOp(o.dataset.op, o.dataset.ins ?? null); });
   $('#sugg').addEventListener('click', e => { const o = e.target.closest('[data-op], [data-ins]'); if (o) { applyOp(o.dataset.op, o.dataset.ins ?? null); return; } const b = e.target.closest('[data-s]'); if (b) accept(+b.dataset.s); });
   $('#q').addEventListener('blur', () => setTimeout(renderSugg, 120));
+  $('#q').addEventListener('focus', () => document.documentElement.classList.add('typing')); $('#q').addEventListener('blur', () => setTimeout(() => { if (document.activeElement !== $('#q')) document.documentElement.classList.remove('typing'); }, 150));
   $('#q').addEventListener('focus', renderSugg);
 
   let current = null;
@@ -4312,15 +4546,18 @@ const Engine = (() => {
       actions = `<div class="suggest"><span class="lbl">${near.length && sugg.length ? 'Closest' : 'Try'}</span>${near.map(([x, pv]) => `<button type="button" class="ex" data-try="${esc(x)}">${esc(x)}<b class="pvb">${esc(pv)}</b></button>`).join('')}</div>`;
     } else if (r.kind !== 'Help') {
       const primary = example ? `<button class="btn primary" data-act="try" type="button">Try it</button><button class="btn" data-act="examples" type="button">Browse examples</button>`
-        : `<button class="btn primary" data-act="keep" type="button">${r.assign ? 'Store ' + esc(r.assign.name) : 'Keep on tape'} <span class="kbd" style="border-color:color-mix(in srgb,var(--surface) 30%,transparent);color:inherit;opacity:.7">↵</span></button>`;
-      secondary = example || r.paste ? '' : `${canSend ? `<button class="btn" data-act="send" type="button">Send to calculator</button>` : ''}
+        : `<button class="btn primary" data-act="keep" type="button">${r.doLabel ? esc(r.doLabel) : r.assign ? 'Store ' + esc(r.assign.name) : 'Keep on tape'} <span class="kbd" style="border-color:color-mix(in srgb,var(--surface) 30%,transparent);color:inherit;opacity:.7">↵</span></button>`;
+      secondary = example || r.paste || r.run ? '' : `${canSend ? `<button class="btn" data-act="send" type="button">Send to calculator</button>` : ''}
         ${!example && !r.plot ? `<button class="btn" data-act="sheet" type="button">Add to sheet</button>` : ''}
-        ${!example && r.kind === 'Money' && typeof r.num === 'number' && !/per (hour|day|week|month|year)|mortgage|loan|borrow|interest|salary|invest|save|saving|inflation/i.test(r.label + ' ' + (r.unit || '') + ' ' + $('#q').value) ? `<button class="btn" data-act="basket" type="button">Add to basket</button>` : ''}
+        ${!example && r.kind === 'Money' && typeof r.num === 'number' && !(r.links || []).some(l => l.src === 'basket') && !/per (hour|day|week|month|year)|mortgage|loan|borrow|interest|salary|invest|save|saving|inflation/i.test(r.label + ' ' + (r.unit || '') + ' ' + $('#q').value) ? `<button class="btn" data-act="basket" type="button">Add to basket</button>` : ''}
         ${!example && !r.assign ? `<button class="btn" data-act="pin" type="button"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 17v5M8 3h8l-1 6 3 3v2H6v-2l3-3z"/></svg>Pin</button>` : ''}`;
       actions = `<div class="a-actions a-bar">${primary}${r.kind === 'Random' && !example ? `<button class="btn" data-act="again" type="button">Roll again</button>` : ''}${example ? '' : `<button class="btn" data-act="copy" type="button">Copy</button>`}${r.paste ? `<button class="btn" data-act="psheet" type="button">Open as sheet</button><button class="btn" data-act="pbasket" type="button">Add to basket</button>` : ''}@@MORE@@</div>`;
     } else {
       actions = `<div class="suggest"><span class="lbl">Try</span>${['18% tip on 64,50 for 3 people', '3pm lisbon to tokyo', 'x^2 − 5x + 6 = 0'].map(x => `<button type="button" class="ex" data-try="${esc(x)}">${esc(x)}</button>`).join('')}</div>`;
     }
+    if (r.info) actions = '';
+    if (r.run && !example) actions = `<div class="a-actions a-bar"><button class="btn primary" data-act="keep" type="button">${esc(r.doLabel)} <span class="kbd" style="border-color:color-mix(in srgb,var(--surface) 30%,transparent);color:inherit;opacity:.7">↵</span></button></div>`;
+    if (r.links && r.links.length && !example && !r.error) actions = linkRow(r.links) + actions;
     // straight answers: the result first; how it was worked out stays one tap away
     const compact = !example && !r.error && r.kind !== 'Help';
     const shape = ($('#q').value || '').toLowerCase().replace(/-?\d[\d.,]*/g, '#').trim();
@@ -4331,7 +4568,7 @@ const Engine = (() => {
     const hasMore = compact && (facts(r, $('#q').value.trim()).length || moreSteps.length || secondary.trim() || trail.length || insight(r, $('#q').value) || nextFor(r, $('#q').value.trim()).length);
     let html = `
       <div class="a-head"><span class="chip-kind ${kindCls}">${example ? 'Example' : esc(r.kind)}</span><span class="a-label">${esc(example ? '“' + example + '”' : r.label)}</span></div>
-      ${r.value ? `<div class="a-value">${r.swatch && /^#[0-9A-F]{6}$/.test(r.swatch) ? `<span class="sw" style="background:${r.swatch}"></span>` : ''}<span class="av">${esc(r.value)}${r.unit ? `<small>${esc(r.unit)}</small>` : ''}</span>${!example && !r.error && !r.plot && !r.assign && !r.paste && !r.lines && typeof r.num === 'number' && isFinite(r.num) && revTokens($('#q').value).length ? `<button type="button" class="a-goal" data-act="rev" title="Type the answer you want: Quotient changes your question to match"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg><span>Set the answer</span></button>` : ''}</div>` : r.plot ? '' : `<div class="a-label" style="color:var(--ink);font-size:17px">${esc(r.error ? r.label : 'Ask in your own words. A few shapes that work:')}</div>`}
+      ${r.value ? `<div class="a-value">${r.swatch && /^#[0-9A-F]{6}$/.test(r.swatch) ? `<span class="sw" style="background:${r.swatch}"></span>` : ''}<span class="av">${esc(r.value)}${r.unit ? `<small>${esc(r.unit)}</small>` : ''}</span>${!example && !r.error && !r.plot && !r.assign && !r.paste && !r.lines && !r.settle && typeof r.num === 'number' && isFinite(r.num) && revTokens($('#q').value).length ? `<button type="button" class="a-goal" data-act="rev" title="Type the answer you want: Quotient changes your question to match"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg><span>Set the answer</span></button>` : ''}</div>` : r.plot ? '' : `<div class="a-label" style="color:var(--ink);font-size:17px">${esc(r.error ? r.label : 'Ask in your own words. A few shapes that work:')}</div>`}
       ${r.lines && r.lines.length ? `<ul class="a-lines">${r.lines.map((x, i) => `<li style="--i:${i}">${esc(x)}</li>`).join('')}</ul>` : ''}
       @@NOTE@@
       ${r.alts && r.alts.length && !example ? `<div class="alts"><span class="lbl">Or</span>${r.alts.map(a => { let pv = ''; try { const x = Engine.solve(a.q, ctx); pv = x && !x.error ? x.value + (x.unit && x.unit.length < 8 ? ' ' + x.unit : '') : ''; } catch {} return `<button type="button" class="ex" data-try="${esc(a.q)}">${esc(a.label)}${pv ? `<b>${esc(pv)}</b>` : ''}</button>`; }).join('')}</div>` : ''}
@@ -4387,6 +4624,7 @@ const Engine = (() => {
     }
   }
   $('#answer').addEventListener('click', e => {
+    const gv = e.target.closest('[data-goview]'); if (gv) { const w = gv.dataset.goview; if (w === 'basket' || w === 'sheet') setView(w); else if (w === 'tape') { const tl = $('#tapeList'); tl && tl.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } return; }
     const nx = e.target.closest('[data-next]'); if (nx) { const q0 = $('#q').value.trim(); if (current && !current.error) { keep(); } $('#q').value = nx.dataset.next; runAsk(); $('#q').focus(); if (typeof barThinking === 'function') barThinking(); return; }
     const t = e.target.closest('[data-try]'); if (t) { $('#q').value = t.dataset.try; runAsk(); $('#q').focus(); return; }
     const b = e.target.closest('[data-act]'); if (!b) return; const act = b.dataset.act;
@@ -4412,6 +4650,8 @@ const Engine = (() => {
     const parts = [];
     if (ctx.lastQ) parts.push(`<span class="lbl">Continuing</span><span class="pillv ans" title="${esc(ctx.lastQ)}"><span>${esc(ctx.lastShown || Engine.fmt(ctx.ans))}</span><button type="button" data-clear="last" aria-label="Forget last answer">×</button></span><span class="hint">try “times 2”, ${ctx.lastUnit ? '“in ' + (ctx.lastUnit === '°C' ? '°F' : 'another unit') + '”, ' : ''}“what about …”</span>`);
     if (vars.length) parts.push(`<span class="lbl" style="margin-left:${ctx.lastQ ? '6px' : '0'}">Memory</span>` + vars.map(([k, v]) => `<span class="pillv"><span data-ins="${esc(k)}" style="cursor:pointer">${esc(k)} = ${esc(Engine.fmt(v))}</span><button type="button" data-clear="${esc(k)}" aria-label="Forget ${esc(k)}">×</button></span>`).join(''));
+    try { const { v } = linkVars(), lk = []; if ('basket' in v && v.basket) lk.push(['basket', 'basket', m2(v.basket)]); if ('left' in v) lk.push(['left', "what's left of the budget", m2(v.left)]); if ('sheet' in v && v.sheet) lk.push(['sheet', 'sheet total', Engine.fmt(+(+v.sheet).toPrecision(10))]);
+      if (lk.length) parts.push(`<span class="lbl" style="margin-left:${parts.length ? '6px' : '0'}">Linked</span>` + lk.map(([k, ins, val]) => `<span class="pillv lkp"><span data-ins="${esc(ins)}" style="cursor:pointer" title="Use it in a question">${esc(k)} ${esc(val)}</span></span>`).join('')); } catch {}
     bar.innerHTML = parts.join(''); bar.hidden = !parts.length;
   }
   $('#ctxbar').addEventListener('click', e => {
@@ -4422,6 +4662,7 @@ const Engine = (() => {
   function keep() {
     const q = $('#q').value.trim() || (current && current.qText) || ''; if ($('#answer').classList.contains('stale')) { toast('Finish the question first'); return; }
     if (!current || current.error || current.kind === 'Help' || !q) return;
+    if (current.run) { const run = current.run; current = null; $('#q').value = ''; run(); if (view === 'ask') runAsk(); return; }
     hist = [q, ...hist.filter(x => x !== q)].slice(0, 40); store.set('quotient.hist', hist); hIdx = -1;
     if (current && current.kind && !current.error) { ctx.kindFreq[current.kind] = (ctx.kindFreq[current.kind] || 0) + 1; saveCtx(); }
     if (current.assign) {
@@ -4507,7 +4748,7 @@ const Engine = (() => {
     let v = d.v0 + steps * d.step; if (!d.neg && v < 0) v = 0; v = +v.toFixed(10);
     const s = setTok(d.n, v); if (s == null) return; d.el.textContent = s; buzz(); runAsk(true); if (spark) drawSpark(steps);
   });
-  const endDrag = () => { if (!dragging) return; const n = dragging.n; dragging.el.classList.remove('drag'); dragging = null; document.documentElement.classList.remove('scrubbing'); runAsk(true); spark = buildSpark(n); drawSpark(0); };
+  const endDrag = () => { if (!dragging) return; try { found('scrub'); } catch {} const n = dragging.n; dragging.el.classList.remove('drag'); dragging = null; document.documentElement.classList.remove('scrubbing'); runAsk(true); spark = buildSpark(n); drawSpark(0); };
   $('#scrub').addEventListener('pointerup', endDrag); $('#scrub').addEventListener('pointercancel', endDrag);
   $('#scrub').addEventListener('keydown', e => {
     const k = e.target.closest('.knob'); if (!k || !/^Arrow(Up|Down|Left|Right)$/.test(e.key)) return; e.preventDefault();
@@ -4534,7 +4775,8 @@ const Engine = (() => {
   const savePins = () => store.set('quotient.pins', pins);
   function cd(ms) { const neg = ms < 0; ms = Math.abs(ms); const d = Math.floor(ms / 864e5), h = Math.floor(ms / 36e5) % 24, m = Math.floor(ms / 6e4) % 60, s = Math.floor(ms / 1e3) % 60; return `${neg ? '−' : ''}${d ? d + 'd ' : ''}${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`; }
   function renderPins(animateIdx) {
-    const box = $('#pins'), grid = $('#pinGrid'); box.hidden = !pins.length || view !== 'ask'; if (!pins.length) { grid.innerHTML = ''; return; }
+    const grid = $('#pinGrid'); islUpdate(true); if (!pins.length) { grid.innerHTML = '<p class="isl-empty">Nothing live yet. Under any answer, open <b>Details</b> and tap <b>Pin</b>, or type <b>pin it</b>. Countdowns, time zones and your budget keep updating here.</p>'; return; }
+    if (grid.querySelector('.isl-empty')) grid.innerHTML = '';
     const first = !grid.children.length;
     grid.innerHTML = pins.map((p, i) => `<div class="pin${first && !REDUCE ? ' in' : ''}${i === animateIdx && !REDUCE ? ' working in' : ''}" style="--i:${i}" role="button" tabindex="0" data-pin="${i}" title="Open in the search bar"><span class="pk"></span><span class="pq">${esc(p.q)}</span><span class="pv"></span><span class="pt"></span><button type="button" class="px" data-unpin="${i}" aria-label="Unpin">×</button></div>`).join('');
     tickPins(true);
@@ -4544,7 +4786,7 @@ const Engine = (() => {
     const now = Date.now();
     $$('#pinGrid .pin').forEach((el, i) => {
       const p = pins[i]; if (!p) return;
-      if (force || !p.r || p.live || now - (p.at || 0) > 30000) { try { p.r = Engine.solve(p.q, ctx); } catch { p.r = null; } p.at = now; p.live = p.r && (p.r.target || p.r.live || p.r.kind === 'Time' || /\b(now|today|time|unix|timestamp|until|since|ago|from now)\b/i.test(p.q)); }
+      if (force || !p.r || p.live || now - (p.at || 0) > 30000) { try { p.r = solveLinked(p.q); } catch { p.r = null; } p.at = now; p.live = p.r && (p.r.target || p.r.live || p.r.kind === 'Time' || /\b(now|today|time|unix|timestamp|until|since|ago|from now)\b/i.test(p.q)); }
       const r = p.r, pv = el.querySelector('.pv'), pt = el.querySelector('.pt'), pk = el.querySelector('.pk');
       pk.textContent = r && !r.error ? r.kind : 'Not understood';
       const html = r && !r.error ? `${esc(r.value || r.label)}${r.unit && r.unit.length < 14 ? `<small>${esc(r.unit)}</small>` : ''}` : '—';
@@ -4560,25 +4802,52 @@ const Engine = (() => {
       }
     });
   }
+  /* ---------- the island: live answers in a pill that opens ---------- */
+  let islI = 0, islT = 0, islBloomT = null;
+  const islShort = (s, n) => s.length > n ? s.slice(0, n - 1).trimEnd() + '…' : s;
+  function islVal(p) { const r = p && p.r; if (!r || r.error) return null; const now = Date.now();
+    if (r.target && Math.abs(r.target - now) < 864e5 * 2) return cd(r.target - now).replace(/^0d /, '');
+    return (r.value || r.label) + (r.unit && r.unit.length < 6 ? ' ' + r.unit : ''); }
+  function islUpdate(force) {
+    if ($('#island').classList.contains('blooming') && !force) return;
+    const n = pins.length; $('#island').classList.toggle('empty', !n); $('#islN').textContent = n > 1 ? n : '';
+    if (!n) { $('#islV').textContent = 'Live'; $('#islQ').textContent = ''; return; }
+    islI = islI % n; const p = pins[islI]; if (!p.r) { try { p.r = solveLinked(p.q); } catch {} }
+    const v = islVal(p) || '—', q = islShort(p.q, 22), vEl = $('#islV');
+    $('#island').classList.toggle('live', !!(p.r && (p.r.target || p.r.kind === 'Time' || p.live)));
+    if (vEl.textContent !== v || $('#islQ').textContent !== q) { const changedPin = $('#islQ').textContent !== q; vEl.textContent = v; $('#islQ').textContent = q; if (changedPin && !REDUCE) { const t = $('#islPill .isl-txt'); t.classList.remove('flip'); void t.offsetWidth; t.classList.add('flip'); } }
+  }
+  function islTick() { islT++; if (pins.length > 1 && islT % 5 === 0 && !$('#island').classList.contains('open')) islI = (islI + 1) % pins.length; islUpdate(); }
+  function islOpen(open) {
+    const isl = $('#island'), panel = $('#islPanel'), on = open == null ? !isl.classList.contains('open') : open;
+    if (on === isl.classList.contains('open')) return;
+    $('#islPill').setAttribute('aria-expanded', String(on));
+    if (on) { panel.hidden = false; void panel.offsetWidth; isl.classList.add('open'); tickPins(true); }
+    else { isl.classList.remove('open'); setTimeout(() => { if (!isl.classList.contains('open')) panel.hidden = true; }, REDUCE ? 0 : 380); }
+  }
+  // a new pin blooms out of the pill, then settles back
+  function islBloom(i) {
+    const isl = $('#island'); islI = i; const p = pins[i]; try { p.r = solveLinked(p.q); } catch {}
+    isl.classList.add('blooming'); $('#islV').textContent = islVal(p) || 'Pinned'; $('#islQ').textContent = 'Pinned · ' + islShort(p.q, 26); isl.classList.remove('empty');
+    clearTimeout(islBloomT); islBloomT = setTimeout(() => { isl.classList.remove('blooming'); islUpdate(true); }, 2400);
+  }
+  $('#islPill').addEventListener('click', e => { e.stopPropagation(); islOpen(); });
+  document.addEventListener('click', e => { if ($('#island').classList.contains('open') && !e.target.closest('#island')) islOpen(false); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && $('#island').classList.contains('open')) islOpen(false); });
   function addPin(q) {
     if (!q) return; if (pins.some(p => p.q === q)) { toast('Already pinned'); return; }
-    pins.unshift({ q }); pins = pins.slice(0, 8); savePins(); renderPins(0); toast('Pinned · it updates live');
+    pins.unshift({ q }); pins = pins.slice(0, 8); savePins(); renderPins(0); islBloom(0);
   }
-  $('#pinGrid').addEventListener('click', e => {
+  $('#pinGrid').addEventListener('click', e => { if (e.target.closest('[data-pin]') && !e.target.closest('[data-unpin]')) setTimeout(() => islOpen(false), 60);
     const x = e.target.closest('[data-unpin]'); if (x) { e.stopPropagation(); pins.splice(+x.dataset.unpin, 1); savePins(); renderPins(); return; }
     const p = e.target.closest('[data-pin]'); if (p) { if (!REDUCE) { p.classList.remove('send'); void p.offsetWidth; p.classList.add('send'); } $('#q').value = pins[+p.dataset.pin].q; if (typeof barThinking === 'function') barThinking(); runAsk(); $('#q').focus(); window.scrollTo({ top: 0, behavior: REDUCE ? 'auto' : 'smooth' }); }
   });
   $('#pinGrid').addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.closest('[data-pin]') && !e.target.closest('[data-unpin]')) { e.preventDefault(); e.target.click(); } });
-  setInterval(() => { if (pins.length && !document.hidden && view === 'ask') tickPins(false); }, 1000);
+  setInterval(() => { if (pins.length && !document.hidden) { tickPins(false); islTick(); } }, 1000);
 
   // the search bar can use names from your Sheet and your Basket total
   let sheetVarsStale = true;
-  function askCtx() {
-    const extra = {};
-    try { if (!sheet.ex) { if (sheetVarsStale || !Object.keys(lastSheetVars).length) { lastSheetVars = evalVarsOf(evalSheet().out); sheetVarsStale = false; } for (const [k, v] of Object.entries(lastSheetVars)) if (k.length > 2 && !/^(total|sum|subtotal|tip|tax|vat|prev|above|ans|pi|e)$/.test(k)) extra[k] = v; } } catch {}
-    let hasBasket = false; try { if (!bk.ex && bk.items.length) { const { tot } = bkTotals(); extra.basket = +tot.toFixed(2); hasBasket = true; if (bk.budget) extra.budget = bk.budget; } } catch {}
-    return Object.keys(extra).length ? { c: { ...ctx, vars: { ...extra, ...(ctx.vars || {}) } }, q: hasBasket } : { c: ctx, q: false };
-  }
+  function askCtx() { const { v } = linkVars(); return { c: { ...ctx, vars: { ...v } }, q: 'basket' in v }; }
   let lastGood = null, errT = null;
   function runAsk(fromScrub) {
     const qel = $('#q'); if (/\n/.test(qel.value)) qel.value = qel.value.replace(/\s*\n+\s*/g, ' ');
@@ -4586,7 +4855,7 @@ const Engine = (() => {
     if (!fromScrub) renderSugg(); clearTimeout(errT);
     if (!v.trim()) { lastGood = null; trail = []; trailKey = null; renderAnswer(null); renderScrub(null); return; }
     { const gm = v.trim().match(GOALRE), base = goalBase(); if (gm && base && parseGoal(gm[1], 1)) { renderScrub(null); renderAnswer({ kind: 'Work backwards', label: `From your last question: “${base}”`, value: `→ ${gm[1]}`, steps: [['press Enter', 'to see which number to change, and to what']] }); return; } }
-    const ac = askCtx(); const r = Engine.solve(ac.q ? v.replace(/\b(?:my |the )?basket(?: total| sum)?\b/gi, 'basket') : v, ac.c);
+    let r = null; try { r = linkCommand(v); } catch {} if (!r) r = solveLinked(v); noteLast(v.trim(), r);
     renderScrub(r);
     // just a word with suggestions showing ("us", "shoes"): let the suggestions answer, no error card
     if (r && r.error && sugg.length && !/\d/.test(v) && v.trim().split(/\s+/).length <= 3) { lastGood = null; renderAnswer(null); return; }
@@ -4742,7 +5011,7 @@ const Engine = (() => {
   const SHEET_EX = { title: 'Weekend in Porto', ex: true, lines: ['# Getting there', 'Train: 2 × 24,50', 'Fuel: fuel 40 km at 6 l/100km 1.80 per litre', '# Staying', 'Hotel: 2 × 89', 'Dinners: 3 × 45', 'Tip: 10% of dinners', 'Museum: 2 × 12', 'total', 'Each of us: total / 2', '', 'Days to go: days until 18 december', 'Drive back: 3h 20m + 45 min'] };
   let sheet = store.get('quotient.sheet', null);
   if (!sheet || !Array.isArray(sheet.lines)) sheet = JSON.parse(JSON.stringify(SHEET_EX));
-  const saveSheet = () => { store.set('quotient.sheet', sheet); sheetVarsStale = true; };
+  const saveSheet = () => { store.set('quotient.sheet', sheet); sheetVarsStale = true; linksChanged(); };
   const SUMMABLE = new Set(['Math', 'Money', 'Percent', 'Memory']);
   const slug = t => t.toLowerCase().replace(/[^a-z0-9 ]/g, '').trim().replace(/\s+/g, '_');
   let lastRes = [], lastTotal = '';
@@ -4758,7 +5027,8 @@ const Engine = (() => {
         const v = /average|avg|mean/.test(kw[1]) ? (block.length ? bsum / block.length : 0) : kw[1] === 'count' ? block.length : /grand/.test(kw[1]) ? all.reduce((a, b) => a + b, 0) : /max|biggest|largest|highest/.test(kw[1]) ? (so.length ? so[so.length - 1] : 0) : /min|smallest|lowest|cheapest/.test(kw[1]) ? (so.length ? so[0] : 0) : kw[1] === 'median' ? med : kw[1] === 'range' ? (so.length ? so[so.length - 1] - so[0] : 0) : bsum; out.push({ t: 'sum', text: Engine.fmt(+v.toPrecision(12)) }); prev = v; prevUnit = null; vars['line' + (i + 1)] = v; return; }
       const c = { ...ctx, vars: { ...vars, sum: block.length ? bsum : all.reduce((x, y) => x + y, 0), total: block.length ? bsum : all.reduce((x, y) => x + y, 0), subtotal: bsum, grand_total: all.reduce((x, y) => x + y, 0), prev: prev ?? 0, above: prev ?? 0 }, ans: prev ?? 0, lastQ: prev != null ? 'previous line' : null, lastUnit: prevUnit };
       const lm = line.match(/^([^:=\d#][^:=]{0,40}?)\s*:\s*(.+)$/); const label = lm && !/\d/.test(lm[1]) ? lm[1] : null;
-      let r = null, fixed = null; try { r = Engine.solve(label ? lm[2] : line, c); if ((!r || r.error) && label) r = Engine.solve(line, c); } catch {}
+      const sl = x => { const L = resolveLinks(x, 'sheet'); const cc = { ...c, vars: { ...L.vars, ...c.vars } }; const rr = Engine.solve(L.q, cc); return (!rr || rr.error) && L.changed ? Engine.solve(x, cc) : rr; };
+      let r = null, fixed = null; try { r = sl(label ? lm[2] : line); if ((!r || r.error) && label) r = sl(line); } catch {}
       // a misspelled name from an earlier line ("hotle × 2") is read as that name
       if (!r || r.error) { const names = Object.keys(vars).filter(k => !/^line\d+$/.test(k) && k.length > 2); const body = label ? lm[2] : line; let changed = body, fx = [];
         for (const w of new Set((body.toLowerCase().match(/[a-z_][a-z_0-9]{2,}/g) || []))) { if (names.includes(w)) continue; let best = null; for (const n of names) { const d = lev(w, n); if (d <= (n.length > 5 ? 2 : 1) && (!best || d < best[1])) best = [n, d]; } if (best) { changed = changed.replace(new RegExp('\\b' + w + '\\b', 'gi'), best[0]); fx.push(`${w} → ${best[0]}`); } }
@@ -4843,13 +5113,13 @@ const Engine = (() => {
     const b = e.currentTarget; if (!newArm && !sheet.ex && sheet.lines.some(l => l.trim())) { b.textContent = 'Tap again to clear'; newArm = setTimeout(() => { b.textContent = 'New sheet'; newArm = null; }, 2600); return; }
     clearTimeout(newArm); newArm = null; b.textContent = 'New sheet'; sheet = { title: 'Untitled sheet', ex: false, lines: [''] }; saveSheet(); renderLines(0);
   });
-  function addToSheet(q) { if (!q) return; if (sheet.ex) sheet = { title: 'My sheet', ex: false, lines: [] }; if (sheet.lines.length && !sheet.lines[sheet.lines.length - 1].trim()) sheet.lines.pop(); sheet.lines.push(q); saveSheet(); renderLines(); toast('Added to your sheet'); }
+  function addToSheet(q) { if (!q) return; if (sheet.ex) sheet = { title: 'My sheet', ex: false, lines: [] }; if (sheet.lines.length && !sheet.lines[sheet.lines.length - 1].trim()) sheet.lines.pop(); sheet.lines.push(q); saveSheet(); renderLines(); toast('Added to your sheet', 'sheet'); }
 
 
   /* ---------- Basket: a smart shopping list with prices, budget and split ---------- */
   const BK_EX = { ex: true, budget: 25, people: 1, items: [{ name: 'milk', qty: 2, price: 1.09 }, { name: 'bread', qty: 1, price: .85 }, { name: 'ham, 350 g at 12.90/kg', qty: 1, price: 4.52 }, { name: 'yogurts (3 for 2.50)', qty: 3, price: 2.5 / 3, got: true }, { name: 'olive oil', qty: 1, price: 6.49 }, { name: 'bananas', qty: 1, price: 0 }] };
   let bk = store.get('quotient.basket', null); if (!bk || !Array.isArray(bk.items)) bk = JSON.parse(JSON.stringify(BK_EX));
-  const saveBk = () => store.set('quotient.basket', bk);
+  const saveBk = () => { store.set('quotient.basket', bk); linksChanged(); };
   const m2 = v => v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const num = x => { const v = parseFloat(String(x).replace(/[€$£\s]/g, '').replace(',', '.')); return isFinite(v) ? v : null; };
   function parseItems(text) {
@@ -4986,7 +5256,7 @@ const Engine = (() => {
   $('#bkPp').addEventListener('click', () => { bk.people = Math.min(50, (bk.people || 1) + 1); $('#bkPeople').textContent = bk.people; bkTouch(); updateBk(); });
   let bkArm = null;
   $('#bkClear').addEventListener('click', e => { const b = e.currentTarget; if (!bkArm && !bk.ex && bk.items.length) { b.textContent = 'Tap again to clear'; bkArm = setTimeout(() => { b.textContent = 'Clear'; bkArm = null; }, 2600); return; } clearTimeout(bkArm); bkArm = null; b.textContent = 'Clear'; bk = { items: [], budget: bk.ex ? 0 : bk.budget, people: 1 }; saveBk(); renderBasket(); $('#bkInput').focus(); });
-  function addToBasket(q, r) { if (bk.ex) bk = { items: [], budget: bk.budget, people: 1 }; const its = parseItems(q); bkAddItems(its.length && its.some(x => x.price) ? its : [{ name: q, qty: 1, price: r && typeof r.num === 'number' ? r.num : 0 }]); saveBk(); toast('Added to your basket'); }
+  function addToBasket(q, r) { if (bk.ex) bk = { items: [], budget: bk.budget, people: 1 }; const its = parseItems(q); bkAddItems(its.length && its.some(x => x.price) ? its : [{ name: q, qty: 1, price: r && typeof r.num === 'number' ? r.num : 0 }]); saveBk(); toast('Added to your basket', 'basket'); }
 
   /* ---------- Smart paste: any text with amounts → totals, checks, categories, who owes whom ---------- */
   const AMT = /(^|[^\w.,])([-−+]?)\s*(€|\$|£)?\s*(\d{1,3}(?:[.,  ]\d{3})+(?:[.,]\d{1,2})?|\d+(?:[.,]\d{1,2})?)(?:\s*(€|eur|euros?|\$|usd|£|gbp))?(?![\w%])/gi;
@@ -5084,7 +5354,10 @@ const Engine = (() => {
     try { const st = Engine.solve(oneLine, ctx); if (st && !st.error && st.settle) return { r: st, data: null }; } catch {}
     const p = parsePaste(text); if (p.items.filter(i => i.kind === 'item').length < 2) return null;
     const data = { ...p, moneyish: p.items.some(i => i.cur || !Number.isInteger(i.v)) };
-    return { r: summarise(data), data };
+    const r = summarise(data);
+    // a list that could also be people sharing costs: offer that reading with one tap
+    if (!p.csv && data.items.length <= 12) { const aq = oneLine.split('\n').join(', ').replace(/[\s,;.]+$/, '') + ', who owes who'; try { const st = Engine.solve(aq, ctx); if (st && st.settle && /^\s*[A-Za-zÀ-ÿ]/.test(oneLine)) r.alts = [...(r.alts || []), { label: 'treat as people sharing costs', q: aq }].slice(0, 2); } catch {} }
+    return { r, data };
   }
   function showPaste(text) {
     const res = pasteResult(text); if (!res) return false; pasteData = res.data;
@@ -5113,13 +5386,310 @@ const Engine = (() => {
   function pasteToBasket() { if (!pasteData) return; if (bk.ex) bk = { items: [], budget: bk.budget, people: 1 }; bkAddItems(pasteData.items.filter(i => i.kind === 'item' && !i.off && i.v > 0).map(i => ({ name: i.label, qty: 1, price: +i.v.toFixed(2) }))); saveBk(); toast('Added to your basket'); }
 
   /* views: Ask, Sheet and Basket */
+  /* ---------- Links: the bar, answers, Basket, Sheet, Pins and Tape share one live picture ---------- */
+  let linkVer = 0, linkLast = '', linkLastT = null, linkPending = false, sheetTotalCache = 0;
+  const LINK_SRC = { basket: 'Basket', sheet: 'Sheet', tape: 'Tape', memory: 'Memory' };
+  function sheetLive() {
+    if (sheet.ex) return { vars: {}, total: null };
+    if (sheetVarsStale || !Object.keys(lastSheetVars).length) { const ev = evalSheet(); lastSheetVars = evalVarsOf(ev.out); sheetTotalCache = ev.total; sheetVarsStale = false; }
+    return { vars: lastSheetVars, total: sheetTotalCache };
+  }
+  // every number that lives somewhere else in the app, with where it came from
+  function linkVars(from) {
+    const v = {}, src = {};
+    try { if (!bk.ex && bk.items.length) { const { tot, got } = bkTotals(); v.basket = +tot.toFixed(2); src.basket = 'basket'; v.trolley = +got.toFixed(2); src.trolley = 'basket';
+      if (bk.people > 1) { v.each = +(tot / bk.people).toFixed(2); src.each = 'basket'; }
+      if (bk.budget) { v.budget = bk.budget; v.left = +(bk.budget - tot).toFixed(2); src.budget = src.left = 'basket'; } } } catch {}
+    if (from !== 'sheet') try { const S = sheetLive(); if (S.total != null) { for (const [k, x] of Object.entries(S.vars)) if (k.length > 2 && !/^(total|sum|subtotal|tip|tax|vat|prev|above|ans|pi|e|left|each|basket|budget|sheet|tape|trolley)$/.test(k)) { v[k] = x; src[k] = 'sheet'; } v.sheet = +(+S.total).toPrecision(12); src.sheet = 'sheet'; } } catch {}
+    try { const ns = tape.filter(t => !t.ex && typeof t.num === 'number' && isFinite(t.num)); if (ns.length) { v.tape = +ns.reduce((a, t) => a + t.num, 0).toPrecision(12); src.tape = 'tape'; } } catch {}
+    for (const [k, x] of Object.entries(ctx.vars || {})) { v[k] = x; src[k] = 'memory'; }
+    return { v, src };
+  }
+  const reEsc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  // turn phrases about other places into names the calculator knows
+  function resolveLinks(q, from) {
+    const { v, src } = linkVars(from); let s = ' ' + q + ' '; const used = new Map(), sub = [];
+    const use = k => { if (k in v) used.set(k, v[k]); };
+    const R = (re, rep, need) => { if (need.every(k => k in v) && re.test(s)) { re.lastIndex = 0; s = s.replace(re, rep); need.forEach(use); } };
+    R(/\b(?:what'?s |whats |how much is |how much (?:do i have |have i got )?)?(?:left (?:of|in|on) (?:my |the )?(?:budget|basket)|(?:my |the )?(?:basket|budget) (?:left|remaining)|left to spend|remaining budget|what'?s left|how much (?:is )?left)\b\??/gi, ' left ', ['left']);
+    s = s.replace(/\b(?:split |share |divide )(?:my |the )?basket (?:between |among |by |in |into |for )?(\d{1,2})(?: people| ways| of us| persons)?\b|\b(?:my |the )?basket (?:split |shared |divided )(?:between |among |by |in |into |for )?(\d{1,2})(?: people| ways| of us)?\b/gi, (m, a, b) => { if (!('basket' in v)) return m; use('basket'); return ` basket ÷ ${a || b} `; });
+    R(/\b(?:my |the )?basket (?:each|per person|a head|per head)\b|\beach pays\b/gi, ' each ', ['each']);
+    R(/\b(?:in the trolley|ticked so far|got so far|(?:my |the )?basket ticked)\b/gi, ' trolley ', ['trolley']);
+    R(/\b(?:my |the )?(?:basket|cart|trolley|shopping) (?:total|sum|cost)\b|\b(?:total|cost) of (?:my |the )?(?:basket|shopping)\b|\b(?:my|the) basket\b/gi, ' basket ', ['basket']);
+    R(/\b(?:my |the )?sheet (?:total|sum)\b|\b(?:total|sum) (?:of|on) (?:my |the )?sheet\b|\b(?:my|the) sheet\b/gi, ' sheet ', ['sheet']);
+    R(/\b(?:my |the )?tape (?:total|sum)\b|\b(?:total|sum) (?:of|on) (?:my |the )?tape\b/gi, ' tape ', ['tape']);
+    // prices of things in the basket: "price of milk", "milk price", "3 milk + 2 bread"
+    if (!bk.ex) { const seen = new Set(); for (const it of [...bk.items].sort((a, b) => keyOf(b.name).length - keyOf(a.name).length)) { const k = keyOf(it.name); if (!it.price || k.length < 3 || seen.has(k) || k in v) continue; seen.add(k); const n = reEsc(k).replace(/ /g, '\\s+'), p = +it.price.toFixed(2);
+      let hit = false;
+      s = s.replace(new RegExp(`\\b(?:the )?(?:price|cost) of (?:the |a |an |one )?${n}s?\\b|\\b${n}s? (?:price|cost)\\b|\\bone ${n}\\b`, 'gi'), () => { hit = true; return ` ${p} `; });
+      s = s.replace(new RegExp(`\\b(\\d{1,3})\\s*(?:x|×)?\\s*(?:more )?${n}s?\\b(?!\\s*(?:€|\\d))`, 'gi'), (m, c) => { hit = true; return ` ${c} × ${p} `; });
+      if (hit) sub.push([k, p]); } }
+    s = s.replace(/\s+/g, ' ').trim();
+    // plain names typed straight in
+    for (const k of Object.keys(v)) if (!used.has(k) && new RegExp(`(^|[^a-z_])${reEsc(k)}([^a-z_0-9]|$)`, 'i').test(s)) use(k);
+    const vars = {}; for (const k of Object.keys(v)) if (!/^(left|each|trolley|tape|sheet)$/.test(k) || used.has(k)) vars[k] = v[k];
+    const links = [...used].filter(([k]) => src[k]).map(([k, x]) => ({ k, v: x, src: src[k] })).concat(sub.map(([k, p]) => ({ k, v: p, src: 'basket', item: true })));
+    return { q: s, vars, links, changed: s !== q.replace(/\s+/g, ' ').trim() };
+  }
+  function solveLinked(q, from) {
+    const L = resolveLinks(q, from), c = { ...ctx, vars: { ...L.vars } };
+    let r = Engine.solve(L.q, c);
+    if (L.changed && (!r || r.error)) { const r0 = Engine.solve(q, c); if (r0 && !r0.error) return r0; }
+    const items = L.links.filter(l => l.item);
+    // "price of milk" → just that price
+    if (items.length && /^-?\d+(?:\.\d+)?$/.test(L.q)) return { kind: 'Money', label: `${cap1(items[0].k)} · price in your basket`, value: m2(+L.q), num: +L.q, links: L.links, steps: [['from', 'your Basket']] };
+    if (r && !r.error && L.links.length) {
+      r.links = L.links;
+      if (items.length && L.changed && !(r.steps || []).some(x => x && x[0] === 'read as')) r.steps = [['read as', L.q]].concat(r.steps || []);
+      // basket numbers are money: show them that way, with names you recognise
+      if (L.links.every(l => l.src === 'basket') && /^(Math|Numbers)$/.test(r.kind) && typeof r.num === 'number' && isFinite(r.num)) {
+        r.kind = 'Money'; r.value = m2(r.num); r.steps = (r.steps || []).filter(x => x && !/^(fraction|rounded|in words)$/.test(x[0]));
+        r.label = cap1(String(r.label).replace(/\bleft\b/, 'left of budget').replace(/\beach\b/, 'basket per person').replace(/\btrolley\b/, 'in the trolley'));
+      } else if (/^(sheet|tape)$/.test(String(r.label).trim())) r.label = r.label.trim() + ' total';
+    }
+    return r;
+  }
+  function linksChanged() {
+    linkVer++; sheetVarsStale = true;
+    try { previewCache.clear(); if (view === 'ask') { tickPins(true); renderCtx(); } else linkPending = true; renderLinkRows(); } catch {}
+  }
+  const fmtL = l => l.src === 'basket' || l.k === 'sheet' ? m2(l.v) : Engine.fmt(+(+l.v).toPrecision(10));
+  const linkName = l => l.item ? `${l.k} each` : l.k === 'left' ? 'left of budget' : l.k === 'each' ? 'each person' : l.k === 'trolley' ? 'in the trolley' : l.k === 'sheet' || l.k === 'tape' || l.k === 'basket' ? 'total' : l.k;
+  function linkRow(links) {
+    const by = {}; links.forEach(l => (by[l.src] = by[l.src] || []).push(l));
+    return `<div class="a-links"><span class="lbl">Linked</span>${Object.entries(by).map(([src, ls], i) => `<button type="button" class="lk" data-goview="${src === 'memory' ? 'memory' : src}" style="--i:${i}" title="${src === 'memory' ? 'Stored in memory' : 'Open ' + LINK_SRC[src]}"><i class="lk-${src}"></i><span>${LINK_SRC[src]}</span>${ls.map(l => `<b>${esc(linkName(l))} ${esc(fmtL(l))}</b>`).join('')}${src === 'memory' ? '' : '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>'}</button>`).join('')}</div>`;
+  }
+
+  // the last question that had an answer, so "pin it" or "add it to the sheet" know what "it" is
+  function noteLast(q, r) { clearTimeout(linkLastT); if (!r || r.error || r.run || q.length < 3) return; linkLastT = setTimeout(() => { if ($('#q').value.trim() === q) linkLast = q; }, 900); }
+  function lastThing() { return linkLast || (tape.find(t => !t.ex && t.src === 'ask') || {}).q || ctx.lastQ || hist[0] || ''; }
+
+  /* ---------- What if: change one number and see everything it touches, before you commit ---------- */
+  function snapshot() {
+    sheetVarsStale = true; const { v } = linkVars(); const S = sheet.ex ? { vars: {}, total: null } : sheetLive();
+    const out = new Map(), put = (k, label, val, money) => { if (val != null && isFinite(val)) out.set(k, { label, val, money }); };
+    if ('basket' in v) { put('basket', 'Basket total', v.basket, 1); if ('left' in v) put('left', 'Left of budget', v.left, 1); if ('each' in v) put('each', 'Each person pays', v.each, 1); }
+    if (S.total != null) { put('sheet', 'Sheet total', S.total); for (const [k, x] of Object.entries(S.vars)) put('s:' + k, `Sheet · ${k}`, x); }
+    pins.forEach((p, i) => { let r = null; try { r = solveLinked(p.q); } catch {} if (r && !r.error && typeof r.num === 'number') put('p:' + i, `Pin · ${p.q}`, r.num, r.kind === 'Money'); });
+    return out;
+  }
+  // a name the app knows → how to change it for a moment, and how to make it real
+  function wiTarget(name) {
+    const n = name.toLowerCase().replace(/^(?:the|my|our|o|a)\s+/, '').replace(/\s+(?:price|cost)$/, '').replace(/^(?:price|cost) of (?:the )?/, '').trim(), k = slug(n);
+    if (/^(?:budget|orçamento)$/.test(n) && !bk.ex) return { label: 'the budget', get: () => bk.budget || 0, set: x => { bk.budget = x; }, save: saveBk, money: 1 };
+    if (/^(?:people|we|us|persons|pessoas)$/.test(n) && !bk.ex) return { label: 'the number of people', get: () => bk.people, set: x => { bk.people = Math.max(1, Math.round(x)); }, save: saveBk, whole: 1 };
+    if (!bk.ex) { const it = bk.items.find(i => keyOf(i.name) === keyOf(n)) || bk.items.find(i => keyOf(i.name).startsWith(keyOf(n)) && keyOf(n).length > 2); if (it) return { label: `${keyOf(it.name)} (each)`, get: () => it.price || 0, set: x => { it.price = x; }, save: () => { rememberPrice(it.name, it.price); saveBk(); }, money: 1 }; }
+    if (!sheet.ex) { const i = sheet.lines.findIndex(l => { const m = l.match(/^([^:=\d#][^:=]{0,40}?)\s*:\s*(.+)$/); return m && slug(m[1]) === k; }); if (i >= 0) { const head = sheet.lines[i].replace(/:\s*(.+)$/, ''), old = sheet.lines[i]; let cur = null; try { cur = sheetLive().vars[k]; } catch {} return { label: k, get: () => cur, set: x => { sheet.lines[i] = `${head}: ${Engine.plain(x)}`; }, unset: () => { sheet.lines[i] = old; }, save: () => { saveSheet(); renderLines(); } }; } }
+    if (ctx.vars && k in ctx.vars) { const old = ctx.vars[k]; return { label: k, get: () => old, set: x => { ctx.vars[k] = x; }, unset: () => { ctx.vars[k] = old; }, save: () => { saveCtx(); renderCtx(); linksChanged(); } }; }
+    return null;
+  }
+  function whatIf(t) {
+    let m = t.match(/^(?:what if|and if|suppose|imagine|if|e se|imagina)\s+(?:we (?:are|were) |there (?:are|were) )(\d{1,2})(?: people| of us| pessoas)?\s*\??$/i);
+    let name, to, how;
+    if (m) { name = 'people'; to = +m[1]; how = 'set'; }
+    else if ((m = t.match(/^(?:what if|and if|suppose|imagine|e se|imagina)\s+(?:the |my |o |a )?(.+?)\s+(?:goes |went |go |was |is |were )?(up|down|rises?|rose|falls?|fell|drops?|dropped|increases?|decreases?|sobe|desce)\s+(?:by\s+)?(?:€|\$|£)?\s*(\d+(?:[.,]\d+)?)\s*(%)?\s*\??$/i))) { name = m[1]; how = /up|rise|rose|increase|sobe/i.test(m[2]) ? (m[4] ? 'pct+' : '+') : (m[4] ? 'pct-' : '-'); to = num(m[3]); }
+    else if ((m = t.match(/^(?:what if|and if|suppose|imagine|e se|imagina)\s+(?:the |my |o |a )?(.+?)\s+(?:is|was|were|costs?|cost|=|went up to|goes up to|go up to|drops? to|dropped to|falls? to|fell to|becomes?|became|changes? to|é|fosse|custa|custasse|for)\s+(?:€|\$|£)?\s*(\d+(?:[.,]\d+)?)\s*(?:€|euros?)?\s*\??$/i))) { name = m[1]; to = num(m[2]); how = 'set'; }
+    else if ((m = t.match(/^(?:what if|e se)\s+(?:the |my )?(.+?)\s*\+\s*(\d+(?:[.,]\d+)?)\s*(%)?\s*\??$/i))) { name = m[1]; to = num(m[2]); how = m[3] ? 'pct+' : '+'; }
+    if (!name || to == null) return null;
+    const T = wiTarget(name); if (!T) return null;
+    const old = +T.get() || 0, nv = how === 'set' ? to : how === '+' ? old + to : how === '-' ? old - to : how === 'pct+' ? old * (1 + to / 100) : old * (1 - to / 100);
+    const before = snapshot(); const keepBk = JSON.stringify(bk); let after;
+    try { T.set(+nv.toFixed(6)); after = snapshot(); } finally { if (T.unset) T.unset(); bk = JSON.parse(keepBk); sheetVarsStale = true; }
+    const f = (x, money) => money ? m2(x) : Engine.fmt(+(+x).toPrecision(10)), changes = [];
+    for (const [k, a] of after) { const b0 = before.get(k); if (!b0) { changes.push({ k, text: `${a.label}: ${f(a.val, a.money)} (new)`, d: a.val, a, b0: { val: 0 } }); continue; } if (Math.abs(a.val - b0.val) < 1e-9) continue; const d = a.val - b0.val; changes.push({ k, text: `${a.label}: ${f(b0.val, a.money)} → ${f(a.val, a.money)} (${d > 0 ? '+' : '−'}${f(Math.abs(d), a.money)})`, d, a, b0 }); }
+    const fmtT = x => T.whole ? String(Math.round(x)) : T.money ? m2(x) : Engine.fmt(+(+x).toPrecision(10));
+    const main = changes.find(c => c.k === 'left') || changes.find(c => c.k === 'each') || changes.find(c => c.k === 'basket') || changes.find(c => c.k === 'sheet') || changes[0];
+    const warn = after.has('left') && after.get('left').val < 0 && !(before.get('left').val < 0) ? [`That would put the basket ${m2(-after.get('left').val)} over budget`] : [];
+    return { kind: 'What if', label: `If ${T.label} ${T.whole ? 'were' : 'was'} ${fmtT(nv)} instead of ${fmtT(old)}`, value: main ? `${f(main.a.val, main.a.money)}` : 'Nothing else changes', unit: main ? main.a.label.replace(/^Pin · /, '').toLowerCase() : '',
+      lines: changes.length > 1 || warn.length ? warn.concat(changes.slice(0, 8).map(c => c.text)) : null, steps: changes.length ? [['changes', `${changes.length} number${changes.length > 1 ? 's' : ''} in your app`]].concat(changes.length === 1 ? [[changes[0].a.label, changes[0].text.replace(/^[^:]+:\s*/, '')]] : []) : [['nothing depends on it', 'yet']],
+      doLabel: 'Make it real', run: () => { const T2 = wiTarget(name); if (!T2) return; T2.set(+nv.toFixed(6)); T2.save(); toast(`Changed ${T.label} to ${fmtT(nv)}`); } };
+  }
+  // things you can tell the bar to do somewhere else
+  function linkCommand(raw) {
+    const t = raw.trim().replace(/[.!]+$/, ''); let m;
+    { const wi = /^(?:what if|and if|suppose|imagine|if we|e se|imagina)\b/i.test(t) ? whatIf(t) : null; if (wi) return wi; }
+    const IT = '(?:it|this|that|the (?:last )?(?:answer|result)|this answer|that one)';
+    const it = () => { const q = lastThing(); let r = null; try { r = q ? solveLinked(q) : null; } catch {} return q && r && !r.error ? { q, r } : null; };
+    const shown = r => (r.value || r.label) + (r.unit && r.unit.length < 10 ? ' ' + r.unit : '');
+    const goTo = v => () => setView(v);
+    if ((m = t.match(/^(?:open|show|go to|switch to|abre|abrir|ver)\s+(?:my |the |o |a )?(basket|cart|shopping list|cesto|sheet|folha|ask)$/i))) { const v = /sheet|folha/i.test(m[1]) ? 'sheet' : /ask/i.test(m[1]) ? 'ask' : 'basket'; return { kind: 'Go', label: `Open ${v === 'sheet' ? 'the Sheet' : v === 'basket' ? 'the Basket' : 'Ask'}`, value: '', doLabel: 'Open', run: goTo(v), quiet: true }; }
+    // basket ← items
+    if ((m = t.match(/^(?:add|put|throw|pop|stick|adiciona(?:r)?|põe|poe)\s+(.+?)\s+(?:to|in|into|on|no|ao|na)\s+(?:my |the |o )?(?:basket|cart|trolley|shopping(?: list)?|cesto|carrinho)$/i)) || (m = t.match(/^(?:basket|cesto)\s*[:+]\s*(.+)$/i))) {
+      if (new RegExp('^' + IT + '$', 'i').test(m[1])) { const x = it(); if (!x || typeof x.r.num !== 'number') return { info: true, kind: 'Basket', label: 'Nothing to add yet', value: 'Ask something with a price first', error: false, steps: [] };
+        return { kind: 'Basket', label: `Add “${x.q}” to the Basket`, value: shown(x.r), doLabel: 'Add to basket', run: () => { addToBasket(x.q, x.r); }, steps: [['item', x.q], ['price', m2(x.r.num)]] }; }
+      const its = parseItems(m[1]); if (!its.length) return null;
+      its.forEach(i => { if (!i.price) { const p = recalled(i.name); if (p) { i.price = p; i.mem = true; } } });
+      const add = its.reduce((a, i) => a + i.qty * (i.price || 0), 0), now = bk.ex ? 0 : bkTotals().tot;
+      return { kind: 'Basket', label: `Add ${its.length === 1 ? its[0].name : its.length + ' items'} to the Basket`, value: add ? `+ ${m2(add)}` : its.map(i => (i.qty > 1 ? i.qty + ' × ' : '') + i.name).join(', '), doLabel: 'Add to basket',
+        steps: its.map(i => [i.name, `${i.qty > 1 ? i.qty + ' × ' : ''}${i.price ? m2(i.price) + (i.mem ? ' (last price)' : '') : 'no price yet'}`]).concat(add ? [['basket after', m2(now + add)]].concat(bk.budget && !bk.ex ? [['left of budget', m2(bk.budget - now - add)]] : []) : []),
+        run: () => { if (bk.ex) bk = { items: [], budget: bk.budget, people: 1 }; const res = bkAddItems(its); saveBk(); toast(`${res.added + res.merged} added to your basket`, 'basket'); } };
+    }
+    if ((m = t.match(/^(?:remove|delete|take|drop|tira(?:r)?)\s+(?:the |o |a )?(.+?)\s+(?:from|out of|off|do|da)\s+(?:my |the |o )?(?:basket|cart|trolley|cesto)$/i))) { const c = bkCommand('remove ' + m[1]); if (c) return { kind: 'Basket', label: c.label, value: '', doLabel: 'Remove', run: () => { c.run(); saveBk(); toast(c.label.replace(/^Remove/, 'Removed'), 'basket'); } }; }
+    if ((m = t.match(/^(?:tick|check|got)\s+(?:off\s+)?(?:the )?(.+?)(?:\s+(?:in|on|off)\s+(?:my |the )?(?:basket|list))?$/i)) && !bk.ex) { const k = keyOf(m[1]), item = bk.items.find(i => keyOf(i.name) === k) || bk.items.find(i => keyOf(i.name).includes(k) && k.length > 2); if (item) return { kind: 'Basket', label: `Tick ${item.name}`, value: item.got ? 'already ticked' : `${m2(item.qty * (item.price || 0))} in the trolley`, doLabel: 'Tick', run: () => { item.got = true; saveBk(); toast(`Ticked ${item.name}`, 'basket'); } }; }
+    if ((m = t.match(/^(?:set\s+)?(?:my |the |o )?(?:basket\s+|shopping\s+)?(?:budget|orçamento)\s*(?:to|is|of|=|:|para|é)?\s*(?:€|\$|£)?\s*(\d+(?:[.,]\d+)?)\s*(?:€|euros?)?$/i))) { const b = num(m[1]), now = bk.ex ? 0 : bkTotals().tot; return { kind: 'Basket', label: 'Set the Basket budget', value: m2(b), doLabel: 'Set budget', steps: now ? [['basket now', m2(now)], ['left', m2(b - now)]] : [], run: () => { if (bk.ex) bk = { items: [], budget: b, people: 1 }; bk.budget = b; saveBk(); toast(`Budget set to ${m2(b)}`, 'basket'); } }; }
+    // pins
+    if ((m = t.match(new RegExp('^(?:pin|fixa(?:r)?)\\s+' + IT + '$', 'i')))) { const x = it(); if (!x) return { info: true, kind: 'Pin', label: 'Nothing to pin yet', value: 'Ask something first, then “pin it”', steps: [] }; return { kind: 'Pin', label: `Pin “${x.q}”`, value: shown(x.r), doLabel: 'Pin it', run: () => addPin(x.q) }; }
+    if ((m = t.match(/^(?:pin|fixa(?:r)?)\s+(.{3,})$/i))) { let r = null; try { r = solveLinked(m[1]); } catch {} if (r && !r.error) return { kind: 'Pin', label: `Pin “${m[1]}”`, value: shown(r), doLabel: 'Pin it', steps: [['updates', r.links ? 'whenever ' + [...new Set(r.links.map(l => LINK_SRC[l.src]))].join(' or ') + ' changes' : 'live']], run: () => addPin(m[1]) }; }
+    // sheet ← answers, lines, the basket
+    if ((m = t.match(/^(?:send|copy|move|put|add)\s+(?:my |the )?basket\s+(?:to|in|into|on)\s+(?:a |the |my )?sheet$|^basket to sheet$/i)) && !bk.ex && bk.items.length) return { kind: 'Sheet', label: 'Copy the Basket into the Sheet', value: `${bk.items.length} lines`, doLabel: 'Copy to sheet', steps: [['total', m2(bkTotals().tot)]], run: () => basketToSheet() };
+    if ((m = t.match(new RegExp('^(?:add|put|send|save|copy)\\s+' + IT + '\\s+(?:to|in|into|on)\\s+(?:the |my |a )?sheet(?:\\s+as\\s+(.+))?$', 'i'))) || (m = t.match(/^(?:add|put)\s+(?:to|on)\s+(?:the |my )?sheet(?:\s+as\s+(.+))?$/i))) {
+      const x = it(); if (!x) return { info: true, kind: 'Sheet', label: 'Nothing to add yet', value: 'Ask something first', steps: [] };
+      const name = (m[1] || '').trim(), line = name ? `${cap1(name)}: ${x.q}` : x.q;
+      return { kind: 'Sheet', label: 'Add to the Sheet', value: line, doLabel: 'Add to sheet', steps: [['shows', shown(x.r)]].concat(name ? [['use it as', slug(name)]] : []), run: () => { addToSheet(line); } };
+    }
+    if ((m = t.match(/^(?:add|put|write)\s+(.+?)\s+(?:to|in|into|on)\s+(?:the |my |a )?sheet$/i)) || (m = t.match(/^sheet\s*[:+]\s*(.+)$/i))) {
+      let body = m[1].trim(), line = body, mm;
+      if ((mm = body.match(/^(?:€|\$|£)?\s*(\d+(?:[.,]\d+)?)\s*(?:€|euros?)?\s+(?:for|on|as)\s+(.+)$/i))) line = `${cap1(mm[2])}: ${mm[1]}`;
+      else if ((mm = body.match(/^([A-Za-zÀ-ÿ][\wÀ-ÿ' -]{0,30}?)\s*:?\s+((?:€|\$|£)?\s*\d[\d.,]*(?:\s*(?:[×x*/+−-]|times|per)\s*.+)?)$/i)) && !/\b(of|to|in|times|plus|minus)$/i.test(mm[1])) line = `${cap1(mm[1])}: ${mm[2]}`;
+      let r = null; try { r = solveLinked(line.replace(/^[^:]+:\s*/, '')); } catch {}
+      return { kind: 'Sheet', label: 'Add a line to the Sheet', value: line, doLabel: 'Add to sheet', steps: r && !r.error ? [['shows', shown(r)]] : [], run: () => addToSheet(line) };
+    }
+    // memory
+    if ((m = t.match(new RegExp('^(?:save|store|call|name|keep|remember)\\s+' + IT + '\\s+as\\s+([A-Za-z][A-Za-z0-9_ ]{0,20})$', 'i')))) { const x = it(), k = slug(m[1]); if (!x || typeof x.r.num !== 'number' || !/^[a-z][a-z0-9_]*$/.test(k)) return null; return { kind: 'Memory', label: `Save as “${k}”`, value: `${k} = ${Engine.fmt(x.r.num)}`, doLabel: 'Save', steps: [['from', x.q], ['use it', `type “${k}” in any question, sheet line or pin`]], run: () => { ctx.vars[k] = x.r.num; saveCtx(); renderCtx(); linksChanged(); toast(`Saved ${k}`); } }; }
+    return null;
+  }
+  function basketToSheet() {
+    if (bk.ex || !bk.items.length) return; if (sheet.ex) sheet = { title: 'My sheet', ex: false, lines: [] };
+    while (sheet.lines.length && !sheet.lines[sheet.lines.length - 1].trim()) sheet.lines.pop();
+    if (sheet.lines.length) sheet.lines.push('');
+    sheet.lines.push('# Basket'); bk.items.forEach(i => sheet.lines.push(`${cap1(keyOf(i.name) || i.name).replace(/:/g, ' ')}: ${i.qty > 1 ? i.qty + ' × ' : ''}${(i.price || 0).toFixed(2)}`)); sheet.lines.push('total');
+    if (bk.people > 1) sheet.lines.push(`each: total ÷ ${bk.people}`);
+    saveSheet(); renderLines(); toast('Basket copied to your sheet', 'sheet');
+  }
+  // suggestions that point at your own numbers
+  function linkSugg(v) {
+    const low = v.toLowerCase().trim(); if (!low || low.length < 2) return [];
+    const { v: L } = linkVars(), out = [], has = k => k in L;
+    const pre = w => w.startsWith(low) || low.startsWith(w) || (low.split(/\s+/).pop().length >= 2 && w.startsWith(low.split(/\s+/).pop()));
+    if (has('basket') && (pre('basket') || /^(?:what'?s )?left|^how much (?:is )?left|^split b/.test(low))) { if (has('left')) out.push("what's left of the budget"); out.push(bk.people > 1 ? 'basket each' : 'split basket 2'); out.push('basket + 10%'); }
+    if (has('sheet') && pre('sheet')) out.push('sheet total', 'sheet total ÷ 12');
+    if (has('tape') && pre('tape')) out.push('tape total');
+    const last = low.split(/\s+/).pop(); if (last.length >= 2) for (const k of Object.keys(L)) if (!/^(basket|budget|left|each|trolley|sheet|tape)$/.test(k) && k.startsWith(last) && k !== last) { out.push(v.replace(/\S+$/, k), v.replace(/\S+$/, k) + ' × 12'); break; }
+    if (/^(?:wh|what|what i|what if)(?:\s|$)/.test(low) && low.length >= 4 || /^what if\b/.test(low)) { const after = low.replace(/^what if\s*/, ''); const it = !bk.ex && bk.items.find(i => i.price && keyOf(i.name).startsWith(after.split(' ')[0] || '')); const sn = Object.keys(sheetLive().vars || {}).find(k => k.startsWith(after.split(' ')[0] || '') && k.length > 2);
+      if (it) out.push(`what if ${keyOf(it.name)} goes up 20%`); if (sn) out.push(`what if ${sn} is ${Engine.plain(Math.round(sheetLive().vars[sn] * 1.1))}`); if (bk.budget && !bk.ex && 'budget'.startsWith(after.split(' ')[0] || '')) out.push(`what if the budget is ${Math.round(bk.budget * 1.25)}`); }
+    if (/^pin\b/.test(low) || 'pin'.startsWith(low)) { if (lastThing()) out.push('pin it'); if (has('left')) out.push("pin what's left of the budget"); }
+    if (/^add\b/.test(low) && low.length <= 12) { if (lastThing()) out.push('add it to the sheet'); if (has('basket')) out.push('add basket to sheet'); }
+    if (/^save\b/.test(low) && lastThing()) out.push('save it as ');
+    return [...new Set(out)].filter(x => x.toLowerCase() !== low).slice(0, 3);
+  }
+  // Basket and Sheet: one tap to use their numbers elsewhere
+  function renderLinkRows() {
+    const bb = $('#bkLinks'), sb = $('#shLinks');
+    if (bb) { const on = !bk.ex && bk.items.length; bb.hidden = !on; const k = on ? [bk.budget ? 1 : 0, bk.people, bk.items.length].join() : ''; if (on && bb.dataset.k !== k) { bb.dataset.k = k; bb.innerHTML = `<span class="lbl">Use it</span>
+      <button type="button" data-lk="pin" data-q="${esc(bk.budget ? "what's left of the budget" : 'basket total')}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 17v5M8 3h8l-1 6 3 3v2H6v-2l3-3z"/></svg>Pin ${bk.budget ? 'what’s left' : 'the total'}</button>
+      <button type="button" data-lk="tosheet">Copy to sheet</button>
+      <button type="button" data-lk="ask" data-q="basket ">Ask about it</button>`; } }
+    if (sb) { const S = sheet.ex ? null : sheetLive(), on = S && S.total; sb.hidden = !on; if (on && !sb.innerHTML) sb.innerHTML = `<span class="lbl">Use it</span>
+      <button type="button" data-lk="pin" data-q="sheet total"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 17v5M8 3h8l-1 6 3 3v2H6v-2l3-3z"/></svg>Pin the total</button>
+      <button type="button" data-lk="ask" data-q="sheet total ">Ask about it</button>`; }
+  }
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-lk]'); if (!b) return; const a = b.dataset.lk;
+    if (a === 'pin') { addPin(b.dataset.q); return; }
+    if (a === 'tosheet') { basketToSheet(); return; }
+    if (a === 'ask') { setView('ask'); const q = $('#q'); q.value = b.dataset.q; q.focus(); q.setSelectionRange(q.value.length, q.value.length); runAsk(); return; }
+  });
+
+  /* ---------- Discover: a first-time guide that learns what you've already found ---------- */
+  let disc = store.get('quotient.discover', null); if (!disc || typeof disc !== 'object') disc = { done: {}, seen: {}, hidden: false };
+  const saveDisc = () => store.set('quotient.discover', disc);
+  try { if (!disc.done.ask && (hist.length || tape.some(t => !t.ex))) { disc.done.ask = disc.done.keep = 1; saveDisc(); } } catch {}
+  const QVER = 'f92ced7e';
+  const SAMPLE_PASTE = 'Coffee 2.40\nCroissant 1.80\nOrange juice 3.20\nTotal 7.40';
+  const FEATS = [
+    { id: 'ask', t: 'Ask in your own words', d: 'Type it the way you would say it', q: '18% tip on 64,50 for 3 people' },
+    { id: 'keep', t: 'Keep answers on the tape', d: 'Press Enter after an answer', q: '120 km/h to mph', tip: 'Now press Enter' },
+    { id: 'follow', t: 'Carry on from an answer', d: 'After keeping one, type “times 2” or “in miles”', q: '5 km to miles', tip: 'Press Enter, then type “times 2”' },
+    { id: 'scrub', t: 'Drag a number', d: 'Slide a number under the bar and watch the answer move', q: 'loan 200k at 3.5% for 30 years', tip: 'Drag a number just under the bar' },
+    { id: 'units', t: 'Convert anything', d: 'Units, sizes, time zones, cooking', q: '3 cups of flour in grams' },
+    { id: 'settle', t: 'Who owes who', d: 'Say who paid what; it works out the fewest payments', q: 'Ana paid 45, Bruno 30, Carla 0' },
+    { id: 'paste', t: 'Paste a list', d: 'A receipt, bank lines or a chat: it adds them up', act: () => { showPaste(SAMPLE_PASTE); } },
+    { id: 'sheet', t: 'Work a Sheet', d: 'Lines that calculate as you type, with names you can reuse', act: () => setView('sheet') },
+    { id: 'basket', t: 'Shop with a Basket', d: 'Prices, a budget and splitting the bill', act: () => setView('basket') },
+    { id: 'pin', t: 'Pin a live answer', d: 'Pins keep updating: countdowns, time zones, your budget', q: 'days until christmas', tip: 'Open Details and tap Pin' },
+    { id: 'goal', t: 'Set the answer you want', d: 'Say the result you need; it changes your question to match', q: 'mortgage 250k at 3.2% for 25 years', after: () => setTimeout(() => openGoal(), 250) },
+    { id: 'whatif', t: 'Ask “what if”', d: 'Change one number and see everything it affects', q: () => !bk.ex && bk.items.some(i => i.price) ? `what if ${keyOf(bk.items.find(i => i.price).name)} goes up 20%` : 'add 2 milk 1.09, bread 0.85 to my basket', tip: () => !bk.ex && bk.items.some(i => i.price) ? '' : 'Press Enter to add them, then try “what if milk goes up 20%”' },
+    { id: 'keypad', t: 'Use the keypad', d: 'A full calculator, one tap away', act: () => setCalc(true) },
+  ];
+  function found(id) { if (!id || disc.done[id]) return; disc.done[id] = Date.now(); saveDisc(); if (!$('#start').hidden) renderStart(); const n = FEATS.filter(f => disc.done[f.id]).length; if (n === FEATS.length) toast('You’ve found everything Quotient can do'); }
+  const STARTERS = [['Just ask', '18% tip on 64,50 for 3 people'], ['Convert', '5 ft 10 in to cm'], ['Who owes who', 'Ana paid 45, Bruno 30, Carla 0'], ['Dates & time', '3pm lisbon to tokyo']];
+  function renderStart(force) {
+    const el = $('#start'); if (!el) return;
+    const n = FEATS.filter(f => disc.done[f.id]).length, all = n === FEATS.length;
+    const show = view === 'ask' && !$('#q').value.trim() && $('#answer').hidden && (force || !disc.hidden) && (!all || force);
+    if (!show) { el.hidden = true; return; }
+    const next = FEATS.filter(f => !disc.done[f.id]).slice(0, 3), newbie = n < 3;
+    const pv = q => { try { const r = Engine.solve(q, ctx); return r && !r.error ? (r.value + (r.unit && r.unit.length < 8 ? ' ' + r.unit : '')) : ''; } catch { return ''; } };
+    el.innerHTML = `
+      ${newbie ? `<div class="st-head"><b>Type the way you talk.</b> Quotient works out what you mean. Tap one to see.</div>
+      <div class="st-cards">${STARTERS.map(([t, q], i) => `<button type="button" class="st-card" data-stq="${esc(q)}" style="--i:${i}"><span class="st-k">${esc(t)}</span><span class="st-q">${esc(q)}</span><span class="st-a">${esc(pv(q))}</span></button>`).join('')}</div>` : ''}
+      <div class="st-try">
+        <div class="st-row"><span class="lbl">Things to try</span><span class="st-prog" aria-label="${n} of ${FEATS.length} found"><i style="--w:${(n / FEATS.length * 100).toFixed(0)}%"></i></span><span class="st-n">${n}/${FEATS.length}</span><button type="button" class="st-x" data-sthide>${all ? 'Close' : 'Hide'}</button></div>
+        ${'serviceWorker' in navigator && location.protocol === 'https:' && !/claude/.test(location.hostname) ? `<div class="st-ver">Version <b>${esc(QVER)}</b><button type="button" data-forceupd>Check for updates</button></div>` : ''}
+        ${all ? '<p class="st-done">You’ve found everything. Examples (top right of the bar) has more to try.</p>' : `<ul>${next.map((f, i) => `<li style="--i:${i}"><div><b>${esc(f.t)}</b><span>${esc(f.d)}</span></div><button type="button" class="btn" data-stf="${f.id}">Show me</button></li>`).join('')}</ul>`}
+      </div>`;
+    el.hidden = false;
+  }
+  // a tip next to the answer, once, while it's still news
+  let coachTip = null;
+  function coachFor(r) {
+    if (!r || r.error || r.kind === 'Help' || r.run) return null;
+    if (coachTip && !disc.done[coachTip.id]) return coachTip;
+    const numeric = typeof r.num === 'number' && isFinite(r.num);
+    if (numeric && !disc.done.keep && !disc.seen.keep) return { id: 'keep', text: 'Press <kbd>Enter</kbd> to keep this answer on your tape. Quotient then remembers it for your next question.' };
+    if (numeric && disc.done.keep && !disc.done.follow && !disc.seen.follow && ctx.lastQ) return { id: 'follow', text: 'It remembers your last answer: type <b>times 2</b>, <b>in miles</b> or <b>what about 20%?</b> to carry on.' };
+    if (numeric && disc.done.keep && !disc.done.scrub && !disc.seen.scrub && $('#scrub').offsetParent && $('#scrub').offsetHeight > 4) return { id: 'scrub', text: 'Drag a number just under the bar left or right: the answer follows.' };
+    if (!$('#answer [data-act="more"]') || disc.seen.details || !disc.done.keep) return null;
+    return { id: 'details', text: '<b>Details</b> shows how it was worked out, related numbers and what to ask next.' };
+  }
+  function renderCoach(r) {
+    const box = $('#answer'); if (box.hidden) return; const old = box.querySelector('.coach'); if (old) old.remove();
+    const c = coachFor(r); if (!c) return;
+    const d = document.createElement('div'); d.className = 'coach'; d.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg><span>${c.text}</span><button type="button" data-coach="${c.id}">Got it</button>`;
+    box.appendChild(d);
+  }
+  function viewCoach(v) {
+    const sec = v === 'sheet' ? $('#sheet') : v === 'basket' ? $('#basket') : null; if (!sec) return;
+    const old = sec.querySelector('.coach'); if (disc.seen[v] || disc.done[v + 'Used']) { if (old) old.remove(); return; } if (old) return;
+    const txt = v === 'sheet' ? 'One calculation per line, worked out as you type. Name a line like <b>Rent: 850</b>, then use <b>rent</b> on other lines, in the search bar or in a pin.' : 'Type items like <b>2 milk 1.09</b>; prices are remembered next time. Set a budget, then ask the search bar <b>what’s left of the budget</b>.';
+    const d = document.createElement('div'); d.className = 'coach banner'; d.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg><span>${txt}</span><button type="button" data-coach="${v}">Got it</button>`;
+    sec.insertBefore(d, sec.children[1] || null);
+  }
+  document.addEventListener('click', e => {
+    const c = e.target.closest('[data-coach]'); if (c) { disc.seen[c.dataset.coach] = 1; if (coachTip && coachTip.id === c.dataset.coach) coachTip = null; saveDisc(); const box = c.closest('.coach'); if (box) { box.classList.add('out'); setTimeout(() => box.remove(), REDUCE ? 0 : 260); } return; }
+    const s = e.target.closest('[data-stq]'); if (s) { found('starter'); $('#q').value = s.dataset.stq; runAsk(); $('#q').focus(); return; }
+    if (e.target.closest('[data-forceupd]')) { toast('Getting the latest version…'); (async () => { try { const rs = await navigator.serviceWorker.getRegistrations(); await Promise.all(rs.map(r => r.unregister())); const ks = await caches.keys(); await Promise.all(ks.map(k => caches.delete(k))); } catch {} location.replace(location.pathname + '?v=' + Date.now()); })(); return; }
+    if (e.target.closest('[data-sthide]')) { disc.hidden = true; saveDisc(); $('#start').hidden = true; toast('Hidden · “What can it do?” brings it back'); return; }
+    const f = e.target.closest('[data-stf]'); if (f) { const F = FEATS.find(x => x.id === f.dataset.stf); if (!F) return;
+      if (F.act) { F.act(); return; }
+      const q = typeof F.q === 'function' ? F.q() : F.q, tip = typeof F.tip === 'function' ? F.tip() : F.tip;
+      $('#q').value = q; coachTip = tip ? { id: F.id, text: esc(tip) } : null; runAsk(); $('#q').focus(); if (F.after) F.after(); return; }
+    if (e.target.closest('[data-guide]')) { e.preventDefault(); const g = e.target.closest('[data-guide]'); if (view === 'ask' && !$('#start').hidden) { disc.hidden = true; saveDisc(); $('#start').hidden = true; g.setAttribute('aria-pressed', 'false'); return; } setView('ask'); $('#q').value = ''; runAsk(); disc.hidden = false; saveDisc(); renderStart(true); g.setAttribute('aria-pressed', 'true'); $('#start').scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+  });
+  // notice what you've used, wherever you used it
+  function observe(r) {
+    if (!r || r.error) return; const q = $('#q').value.trim();
+    if (q && !r.run) found('ask');
+    if (r.kind === 'Units' || r.kind === 'Sizes') found('units');
+    if (r.settle) found('settle');
+    if (r.kind === 'What if') found('whatif');
+    const s0 = (r.steps || []).find(Boolean); if (s0 && /^(from|changed|ans)$/.test(s0[0])) found('follow');
+  }
+  { const _ra = renderAnswer; renderAnswer = function (r, ex) { _ra(r, ex); try { if (!ex) { observe(r); renderCoach(r); } renderStart(); } catch {} }; }
+  { const _k = keep; keep = function () { const had = current && !current.error && !current.run; _k(); if (had) found('keep'); }; }
+  { const _p = addPin; addPin = function (q) { _p(q); found('pin'); }; }
+  { const _g = openGoal; openGoal = function (x) { _g(x); found('goal'); }; }
+  { const _sp = showPaste; showPaste = function (t) { const ok = _sp(t); if (ok) found('paste'); return ok; }; }
+  { const _c = setCalc; setCalc = function (o) { _c(o); if (o) found('keypad'); }; }
+  { const _sv = setView; setView = function (v, first) { _sv(v, first); if (v !== 'ask') { found(v); viewCoach(v); } renderStart(); }; }
   let view = 'ask';
   function setView(v, first) {
     view = v; const isSheet = v === 'sheet', isBk = v === 'basket';
     $('#seg').dataset.v = v; $('#tabAsk').setAttribute('aria-selected', String(v === 'ask')); $('#tabSheet').setAttribute('aria-selected', String(isSheet)); $('#tabBasket').setAttribute('aria-selected', String(isBk));
     document.querySelector('.grid > .col').hidden = v !== 'ask'; $('#sheet').hidden = !isSheet; $('#basket').hidden = !isBk; if (typeof renderPins === 'function') renderPins();
     if (!first && !REDUCE) { const el = isSheet ? $('#sheet') : isBk ? $('#basket') : document.querySelector('.grid > .col'); el.classList.remove('enter'); void el.offsetWidth; el.classList.add('enter'); }
-    if (isSheet) renderLines(); if (isBk) renderBasket('all');
+    if (isSheet) renderLines(); if (isBk) renderBasket('all'); try { renderLinkRows(); } catch {}
+    if (v === 'ask' && linkPending && !first) { linkPending = false; renderCtx(); if ($('#q').value.trim()) runAsk(); }
     try { history.replaceState(null, '', v === 'ask' ? location.pathname + location.search : '#' + v); } catch {}
   }
   $('#seg').addEventListener('click', e => { const b = e.target.closest('[data-view]'); if (b && b.dataset.view !== view) setView(b.dataset.view); });
@@ -5128,7 +5698,13 @@ const Engine = (() => {
   const PH = ['change from 20 for 13.47', '3 for 5 or 1.89 each', '350 g of ham at 12.90 per kg', 'area of a circle radius 5 cm', 'how long to download 5 gb at 100 mbps', '3pm lisbon to new york and tokyo', '12, 15, 18, 22', '18% tip on 64,50 for 3 people', 'how long between 9:15 and 17:40', '3 cups of flour in grams', 'x^2 − 5x + 6 = 0', 'working days until christmas', '3pm lisbon to tokyo', '100 without vat', 'what’s twenty percent more than fifty'];
   let ph = 0;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!reduce) setInterval(() => { const q = $('#q'); if (document.activeElement === q || q.value) return; ph = (ph + 1) % PH.length; q.placeholder = 'Ask anything, e.g. ' + PH[ph]; }, 3800);
+  // the hint always fits on one line: short examples on small screens
+  const phFor = i => { const q = $('#q'), w = q.clientWidth || 300, ch = w / 9.2, ex = PH[i % PH.length];
+    if (('Ask anything, e.g. ' + ex).length <= ch) return 'Ask anything, e.g. ' + ex;
+    if (('e.g. ' + ex).length <= ch) return 'e.g. ' + ex; return 'Ask anything…'; };
+  const setPh = () => { const q = $('#q'); let n = 0; while (n < PH.length && phFor(ph).endsWith('…')) { ph = (ph + 1) % PH.length; n++; } q.placeholder = phFor(ph); };
+  setPh(); addEventListener('resize', () => { if (!$('#q').value) setPh(); });
+  if (!reduce) setInterval(() => { const q = $('#q'); if (document.activeElement === q || q.value) return; let n = 0; do { ph = (ph + 1) % PH.length; n++; } while (n < PH.length && phFor(ph).endsWith('…')); q.placeholder = phFor(ph); }, 3800);
   let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { if (current && current.plot) { const el = $('#answer .plot'); if (el) drawPlot(el, current.plot, false); } }, 150); });
   matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', () => { if (current && current.plot) { const el = $('#answer .plot'); if (el) drawPlot(el, current.plot, false); } });
   renderTape();
