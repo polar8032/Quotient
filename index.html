@@ -605,6 +605,169 @@ html.calc-open .toast{bottom:calc(env(safe-area-inset-bottom,0px) + 24px)}
 .install.ready{box-shadow:0 0 0 4px var(--ai-soft),0 8px 20px -14px var(--ai-glow)}
 /* standalone app: respect the notch / status bar */
 @media (display-mode: standalone){body{padding-top:calc(20px + env(safe-area-inset-top, 0px))}}
+
+/* smarter answers */
+.a-insight{display:flex;align-items:center;gap:7px;font-size:13.5px;color:var(--muted);margin-top:-2px}
+.a-insight svg{flex:none;color:var(--ai-c)}
+.a-insight span{background:linear-gradient(90deg,var(--muted) 0 40%,var(--ai-c) 48%,var(--ai-b) 54%,var(--muted) 62% 100%) 0 0/300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:resolve 1.2s var(--ease-out) .15s both}
+.a-next{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.a-next .lbl{font-size:12px;color:var(--faint);margin-right:2px}
+.a-next button{font-size:12.5px;padding:4px 11px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);animation:chipIn .4s var(--spring) both;animation-delay:calc(var(--i,0) * 40ms + .1s);transition:color .2s,border-color .2s,transform .4s var(--spring)}
+.a-next button:hover{color:var(--ink);border-color:transparent;background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(90deg,var(--ai-a),var(--ai-b),var(--ai-c)) border-box}
+.a-next button:active{transform:scale(.94)}
+@media (prefers-reduced-motion:reduce){.a-insight span{color:var(--muted);background:none}}
+
+
+/* basket intelligence */
+.bk-item{position:relative}
+.bk-dot{position:absolute;left:4px;top:50%;width:4px;height:18px;margin-top:-9px;border-radius:3px;opacity:.85}
+.bk-note{grid-column:2 / span 3;font-size:11px;color:var(--ai-c);margin-top:-8px;padding-bottom:2px}
+.bk-item.bumped{animation:rowGlow 1.2s var(--ease-out)}
+.bk-item.bumped .bk-qty span{animation:settle .5s var(--spring-bounce);color:var(--ai-c)}
+.bk-aisle{display:flex;align-items:center;gap:8px;padding:10px 16px 4px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line);animation:rowIn .4s var(--spring) both}
+.bk-aisle i{width:8px;height:8px;border-radius:50%;background:var(--c)}
+.bk-aisle span{margin-left:auto;font-family:var(--f-mono);font-weight:500;letter-spacing:0;color:var(--faint)}
+#bkGroup[aria-pressed="true"]{border-color:transparent;background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(90deg,var(--ai-a),var(--ai-b),var(--ai-c)) border-box}
+.bk-preview span i,.bk-usual i{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:1px}
+.bk-preview span.cmd{background:var(--ai-soft);color:var(--ink)}
+.bk-usual{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:0 18px 12px}
+.bk-usual .lbl{font-size:12px;color:var(--faint);margin-right:2px}
+.bk-usual button{font-size:12.5px;padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);animation:chipIn .35s var(--spring) both;animation-delay:calc(var(--i,0) * 30ms)}
+.bk-usual button b{font-family:var(--f-mono);font-weight:400;color:var(--faint);margin-left:6px;font-size:11.5px}
+.bk-usual button:hover{color:var(--ink);border-color:transparent;background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(90deg,var(--ai-a),var(--ai-b),var(--ai-c)) border-box}
+
+
+/* smarter sheet */
+.lines .res.fixed{text-decoration:underline dotted color-mix(in srgb,var(--ai-c) 70%,transparent);text-underline-offset:3px}
+.sh-vars{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:10px 18px;border-top:1px dashed var(--line)}
+.sh-vars .lbl,.sh-break .lbl{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-right:4px}
+.sh-vars button{font-size:12.5px;font-family:var(--f-mono);padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);animation:chipIn .35s var(--spring) both;animation-delay:calc(var(--i,0) * 25ms)}
+.sh-vars button b{font-weight:400;color:var(--faint);margin-left:7px}
+.sh-vars button:hover{border-color:transparent;background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(90deg,var(--ai-a),var(--ai-b),var(--ai-c)) border-box}
+.sh-break{display:flex;flex-direction:column;gap:7px;padding:4px 18px 14px}
+.sb-row{display:grid;grid-template-columns:minmax(0,150px) 1fr 44px;gap:10px;align-items:center;font-size:12.5px;color:var(--muted)}
+.sb-row span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-row i{height:6px;border-radius:999px;background:var(--line);position:relative;overflow:hidden}
+.sb-row i::after{content:"";position:absolute;inset:0 auto 0 0;width:var(--w);border-radius:inherit;background:linear-gradient(90deg,var(--ai-a),var(--ai-b),var(--ai-c));animation:barIn .8s var(--spring) both;animation-delay:calc(var(--i,0) * 60ms)}
+.sb-row.rest i::after{background:var(--faint);opacity:.5}
+.sb-row b{font-family:var(--f-mono);font-weight:500;color:var(--ink);text-align:right}
+@keyframes barIn{from{width:0}to{width:var(--w)}}
+
+
+/* work backwards */
+.rv-btn svg{color:var(--ai-c)}
+.reverse{position:relative;border-radius:16px;padding:14px 16px 12px;background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(120deg,var(--ai-a),var(--ai-b),var(--ai-c)) border-box;border:1.5px solid transparent;box-shadow:0 16px 36px -24px var(--ai-glow);display:flex;flex-direction:column;gap:10px;min-width:0}
+.reverse.in{animation:cardIn .5s var(--spring) both}
+.rv-head{display:flex;align-items:center;justify-content:space-between}
+.rv-title{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ai-c)}
+.rv-x{width:26px;height:26px;border-radius:50%;color:var(--faint);font-size:16px}.rv-x:hover{background:var(--line);color:var(--ink)}
+.rv-goal{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:15px;color:var(--muted)}
+.rv-goal input{width:140px;max-width:100%;font:inherit;font-family:var(--f-mono);font-size:20px;color:var(--ink);padding:6px 10px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);outline:none;transition:border-color .2s,box-shadow .35s var(--spring)}
+.rv-goal input:focus{border-color:transparent;background:linear-gradient(var(--surface),var(--surface)) padding-box,conic-gradient(from var(--ang),var(--ai-a),var(--ai-b),var(--ai-c),var(--ai-a)) border-box;box-shadow:0 0 0 4px var(--ai-soft);animation:spin 3s linear infinite}
+#rvUnit{font-size:13px;color:var(--faint)}
+.rv-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.rv-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding:8px 10px;border-radius:12px;background:var(--surface-2);animation:chipIn .4s var(--spring) both;animation-delay:calc(var(--i,0) * 50ms)}
+.rv-row svg{color:var(--faint);flex:none}
+.rv-from{font-family:var(--f-mono);font-size:14px;color:var(--muted);text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--faint) 60%,transparent)}
+.rv-to{font-family:var(--f-mono);font-size:17px;font-weight:500;background:linear-gradient(90deg,var(--ink) 0 38%,var(--ai-c) 46%,var(--ai-b) 52%,var(--ink) 62% 100%) 0 0/300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:resolve 1s var(--ease-out) both}
+.rv-ch{font-size:11.5px;font-family:var(--f-mono);padding:1px 7px;border-radius:999px}
+.rv-ch.up{color:var(--good);background:color-mix(in srgb,var(--good) 12%,transparent)}.rv-ch.down{color:var(--bad);background:color-mix(in srgb,var(--bad) 12%,transparent)}
+.rv-extra{font-size:12px;color:var(--faint);flex-basis:100%;order:9;padding-left:2px}
+.rv-row .btn{margin-left:auto;padding:5px 12px}
+.rv-row.none{background:none;padding:2px 10px;opacity:.75}
+.rv-row.none .rv-from{text-decoration:none}
+.rv-note{font-size:12.5px;color:var(--faint);padding:2px 2px}
+.rv-note b{color:var(--ink);font-weight:500}
+.rv-note.ok{color:var(--good)}
+.rv-note.thinking{background:linear-gradient(90deg,var(--faint) 30%,var(--ai-c) 50%,var(--faint) 70%) 0 0/300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:textSheen 1s linear infinite}
+@media (prefers-reduced-motion:reduce){.rv-to,.rv-note.thinking{color:var(--ink);background:none}}
+
+
+/* work backwards, clearer */
+.rv-help{margin:-4px 0 0;font-size:13px;color:var(--muted)}
+.rv-now{font-size:13px;color:var(--faint)} .rv-now b{color:var(--ink);font-weight:500;font-family:var(--f-mono)}
+.rv-quick{display:flex;flex-wrap:wrap;gap:6px}
+.rv-quick button{font-size:12.5px;font-family:var(--f-mono);padding:4px 11px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);animation:chipIn .35s var(--spring) both;animation-delay:calc(var(--i,0) * 30ms)}
+.rv-quick button:hover,.rv-quick button.on{color:var(--ink);border-color:transparent;background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(90deg,var(--ai-a),var(--ai-b),var(--ai-c)) border-box}
+.rv-sum{margin:0;font-size:14.5px;line-height:1.5;color:var(--muted)} .rv-sum:empty{display:none}
+.rv-sum b{color:var(--ink);font-weight:600}
+.rv-pair{font-family:var(--f-mono);white-space:nowrap} .rv-pair s{color:var(--faint)} .rv-pair em{font-style:normal;font-weight:600;color:var(--ai-c)}
+.rv-or{color:var(--faint);font-size:13px}
+.rv-sum .ok{color:var(--good)} .rv-sum .bad{color:var(--bad)}
+.rv-row{display:flex;flex-direction:column;align-items:stretch;gap:5px;padding:10px 12px}
+.rv-row.best{background:linear-gradient(var(--surface-2),var(--surface-2)) padding-box,linear-gradient(120deg,var(--ai-a),var(--ai-b),var(--ai-c)) border-box;border:1px solid transparent}
+.rv-top{display:flex;align-items:center;gap:8px}
+.rv-role{font-size:12px;font-weight:600;letter-spacing:.04em;color:var(--ink)}
+.rv-badge{font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ai-c);background:var(--ai-soft);padding:2px 7px;border-radius:999px}
+.rv-top .rv-ch{margin-left:auto}
+.rv-mid{display:flex;align-items:center;gap:9px}
+.rv-mid .btn{margin-left:auto}
+.rv-q{font-size:13px;color:var(--muted);line-height:1.45;overflow-wrap:anywhere}
+.rv-q mark{background:var(--ai-soft);color:var(--ink);border-radius:5px;padding:0 4px;font-family:var(--f-mono)}
+.rv-res{font-family:var(--f-mono);color:var(--ink);white-space:nowrap} .rv-res.hit{color:var(--good)}
+.rv-row .rv-extra{order:0;flex-basis:auto;padding:0;font-size:12px}
+.rv-row.none{flex-direction:row;flex-wrap:wrap;align-items:baseline;gap:8px}
+.rv-sens{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:var(--muted);padding:6px 10px;border-radius:10px;background:var(--surface-2);animation:chipIn .35s var(--spring) both;animation-delay:calc(var(--i,0) * 40ms)}
+.rv-sens i{font-style:normal;font-family:var(--f-mono);color:var(--faint);margin-left:4px} .rv-sens span:last-child{font-family:var(--f-mono);color:var(--ink)}
+
+
+/* ===== Set the answer (inline goal) ===== */
+.a-goal{margin-left:auto;align-self:center;display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:500;letter-spacing:0;padding:6px 12px;border-radius:999px;color:var(--ink);background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(110deg,var(--ai-a),var(--ai-b),var(--ai-c)) border-box;border:1.5px solid transparent;box-shadow:0 8px 18px -14px var(--ai-glow);transition:transform .45s var(--spring),box-shadow .3s;font-family:var(--f-ui)}
+.a-goal svg{color:var(--ai-c);transition:transform .6s var(--spring)}
+.a-goal:hover{transform:translateY(-1px);box-shadow:0 10px 22px -12px var(--ai-glow)} .a-goal:hover svg{transform:rotate(-200deg)}
+.a-goal:active{transform:scale(.95)}
+@media (max-width:560px){.a-goal span{display:none}.a-goal{padding:8px}}
+.answer.goaling > :not(.a-head):not(.goal){display:none!important}
+.goal{display:flex;flex-direction:column;gap:12px;animation:goalIn .5s var(--spring) both}
+@keyframes goalIn{from{opacity:0;transform:translateY(6px) scale(.985);filter:blur(4px)}to{opacity:1;transform:none;filter:none}}
+.g-row{display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap}
+.g-row .g-lbl{flex-basis:100%}
+.g-row .g-in{flex:1 1 180px;max-width:300px}
+.g-unit{flex:none}
+.g-lbl{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.g-in{flex:0 1 260px;min-width:0;width:100%;font:inherit;font-size:clamp(30px,5vw,44px);font-weight:300;letter-spacing:-.03em;font-variant-numeric:tabular-nums;color:var(--ink);padding:4px 14px;border-radius:14px;border:1.5px solid transparent;background:linear-gradient(var(--surface-2),var(--surface-2)) padding-box,conic-gradient(from var(--ang),var(--ai-a),var(--ai-b),var(--ai-c),var(--ai-a)) border-box;outline:none;box-shadow:0 0 0 5px var(--ai-soft);animation:spin 4s linear infinite}
+.goal.thinking .g-in{animation-duration:1.2s}
+.g-unit{font-size:16px;color:var(--muted)}
+.g-hint{font-size:13.5px;color:var(--muted);line-height:1.5} .g-hint b{color:var(--ink);font-weight:500;font-family:var(--f-mono)}
+.g-by{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.g-by:empty{display:none}
+.g-by button{display:inline-flex;align-items:center;gap:6px;font-size:13px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);animation:chipIn .4s var(--spring) both;animation-delay:calc(var(--i,0) * 45ms);transition:background .25s,border-color .25s,transform .4s var(--spring)}
+.g-by button[aria-checked="true"]{border-color:transparent;background:linear-gradient(var(--ai-soft),var(--ai-soft)) padding-box,linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(110deg,var(--ai-a),var(--ai-b),var(--ai-c)) border-box;font-weight:500}
+.g-by button:not([disabled]):hover{transform:translateY(-1px)}
+.g-by button[disabled]{color:var(--faint);border-style:dashed;cursor:default}
+.g-by button small{font-size:11px;color:var(--faint)}
+.g-best{font-style:normal;font-size:11px;color:var(--ai-c)}
+.goal.thinking .g-by button,.goal.thinking .g-prev{opacity:.55;filter:saturate(.6);transition:opacity .2s}
+.g-prev{display:flex;flex-direction:column;gap:6px;padding:12px 14px;border-radius:14px;background:var(--surface-2);position:relative;overflow:hidden}
+.g-prev:empty{display:none}
+.g-prev::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,var(--ai-soft) 50%,transparent 65%) 0 0/260% 100% no-repeat;animation:sweep .9s var(--ease-out) both;pointer-events:none}
+.goal.thinking .g-prev::after{animation:textSheen 1s linear infinite}
+.g-q{font-size:15px;line-height:1.55;color:var(--muted);overflow-wrap:anywhere}
+.g-swap{display:inline-flex;align-items:baseline;gap:5px;margin:0 2px}
+.g-swap s{color:var(--faint);font-family:var(--f-mono);font-size:13px;text-decoration-color:color-mix(in srgb,var(--faint) 70%,transparent);animation:fadeSoft .4s both}
+.g-swap mark{font-family:var(--f-mono);font-weight:600;color:var(--ink);background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(110deg,var(--ai-a),var(--ai-b),var(--ai-c)) border-box;border:1.5px solid transparent;border-radius:8px;padding:0 6px;font-variant-numeric:tabular-nums;animation:settle .55s var(--spring-bounce)}
+.g-res{font-size:13.5px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.g-res b{font-family:var(--f-mono);font-weight:500;color:var(--ink);font-size:15px}
+.g-res.hit b{color:var(--good)} .g-res i{font-style:normal;color:var(--good);display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;background:color-mix(in srgb,var(--good) 14%,transparent);font-size:11px;animation:pop .45s var(--spring-bounce) .2s both}
+.g-none{font-size:14px;color:var(--bad)}
+.g-act{display:flex;gap:8px;flex-wrap:wrap}
+.g-act .btn.primary[disabled]{opacity:.4;cursor:default}
+body.goaling #scrub,body.goaling #ctxbar{display:none!important}
+.g-by .g-lbl{margin-right:4px}
+/* the number that changed glows in the search bar */
+.ghost .g-flash{color:transparent;border-radius:6px;background:var(--ai-soft);box-shadow:0 0 0 2px color-mix(in srgb,var(--ai-c) 35%,transparent),0 0 18px var(--ai-glow);animation:flashTok 1.4s var(--ease-out) forwards}
+@keyframes flashTok{0%{opacity:0}15%{opacity:1}70%{opacity:1}100%{opacity:0}}
+/* ===== richer "thinking" motion ===== */
+.qwrap::after{content:"";position:absolute;inset:6px -4px;border-radius:8px;pointer-events:none;background:linear-gradient(100deg,transparent 0 38%,color-mix(in srgb,var(--ai-c) 16%,transparent) 48%,color-mix(in srgb,var(--ai-b) 12%,transparent) 52%,transparent 62% 100%) 0 0/260% 100% no-repeat;background-position:120% 0;opacity:0}
+.qwrap.read::after{animation:readSweep .85s var(--ease-out)}
+@keyframes readSweep{0%{opacity:1;background-position:120% 0}100%{opacity:1;background-position:-20% 0}}
+.a-value .av.counting{background:linear-gradient(90deg,var(--ink),var(--ai-c),var(--ink)) 0 0/200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:textFlow 1s linear infinite}
+.a-value .av.counting small{color:var(--muted)}
+.searchbar.thinking .qkind{animation:kindThink 1s ease-in-out infinite}
+@keyframes kindThink{50%{filter:brightness(1.08) saturate(1.3);box-shadow:0 0 0 3px var(--ai-soft)}}
+.answer.think .a-head .chip-kind{animation:chipSheen 1s var(--ease-out) both;background:linear-gradient(100deg,var(--accent-soft) 30%,var(--ai-soft) 50%,var(--accent-soft) 70%) 0 0/250% 100%}
+@media (prefers-reduced-motion:reduce){.a-value .av.counting{color:var(--ink);background:none}.g-in{animation:none}}
+
 /* press feedback: a soft gradient ripple from where you touched */
 .rip{position:relative;overflow:hidden}
 .ripple{position:absolute;border-radius:50%;pointer-events:none;width:var(--d);height:var(--d);left:var(--x);top:var(--y);transform:translate(-50%,-50%) scale(0);background:radial-gradient(circle,var(--ai-glow),transparent 65%);animation:rip .7s var(--ease-out) forwards}
@@ -742,21 +905,25 @@ html.calc-open .toast{bottom:calc(env(safe-area-inset-bottom,0px) + 24px)}
         <button class="btn" id="sheetNew" type="button">New sheet</button>
       </div>
       <div class="lines" id="lines"></div>
+      <div class="sh-vars" id="shVars" hidden></div>
       <div class="sheet-foot"><span>Total</span><b id="sheetTotal">0</b></div>
-      <p class="sheet-hint">Every line is worked out as you type. Write <code>Hotel: 2 × 89</code> and later use <code>hotel</code> by name; <code>total</code> adds up everything above (a blank line starts a new group); <code>times 2</code> or <code>in miles</code> continue from the line above; <code>#</code> starts a heading.</p>
+      <div class="sh-break" id="shBreak" hidden></div>
+      <p class="sheet-hint">Every line is worked out as you type. Write <code>Hotel: 2 × 89</code> and later use <code>hotel</code> by name; <code>total</code>, <code>average</code>, <code>max</code>, <code>min</code> or <code>median</code> work on the group above (a blank line starts a new group); misspelled names are fixed for you; <code>times 2</code> or <code>in miles</code> continue from the line above; <code>#</code> starts a heading.</p>
     </section>
 
     <section class="basket" id="basket" aria-label="Basket" hidden>
       <div class="bk-head">
         <h2>Basket</h2><span class="chip-kind ex" id="bkEx" hidden>Example</span>
         <label class="bk-budget" for="bkBudget">Budget <input id="bkBudget" type="text" inputmode="decimal" placeholder="none" autocomplete="off"></label>
+        <button class="btn" id="bkGroup" type="button" aria-pressed="false" title="Sort the list the way you walk the shop">By aisle</button>
         <button class="btn" id="bkClear" type="button">Clear</button>
       </div>
       <form class="bk-add" id="bkAdd" autocomplete="off">
-        <input id="bkInput" type="text" spellcheck="false" placeholder="Add items: 2 x milk 1.09, ham 350 g at 12.90 per kg, 3 for 5 yogurts" aria-label="Add items">
+        <input id="bkInput" type="text" spellcheck="false" placeholder="Add: 2 x milk 1.09, ham 350 g at 12.90/kg · or: remove milk, budget 30" aria-label="Add items">
         <button class="btn primary" type="submit">Add</button>
       </form>
       <div class="bk-preview" id="bkPreview" aria-live="polite"></div>
+      <div class="bk-usual" id="bkUsual" hidden></div>
       <ul class="bk-list" id="bkList"></ul>
       <div class="bk-foot">
         <div class="bk-bar" id="bkBar" hidden><i id="bkBarFill"></i></div>
@@ -2586,6 +2753,41 @@ const Engine = (() => {
   const F = x => parseFloat(String(x).replace(',', '.'));
   function extras(s, ctx) {
     let m;
+    // --- "i have 50, how many 3.75 tickets can i buy"
+    if ((m = s.match(/\b(?:i have|i've got|i got|with|budget(?: of| is)?|got)\s*(?:€|\$|£)?\s*(\d+(?:[.,]\d+)?)(?: [a-z]+)?,? (?:how many|how much)\s*(?:(?:€|\$|£)?\s*(\d+(?:[.,]\d+)?)\s*)?([a-z ]*?)\s*(?:at|for|costing|of)?\s*(?:€|\$|£)?\s*(\d+(?:[.,]\d+)?)?(?: each)?\s*(?:can i|could i|do i|would i|will i)?\s*(?:buy|get|afford|have)\b/))) {
+      const have = F(m[1]), price = F(m[2] || m[4]); if (price > 0) { const n = Math.floor(have / price + 1e-9), left = have - n * price;
+        return { kind: 'Money', label: `${money(have)} at ${money(price)} each`, value: fmt(n), num: n, unit: (m[3] || 'of them').trim() || 'of them', steps: [['work', `${money(have)} ÷ ${money(price)} = ${fmt(sig(have / price, 6))}, rounded down`], ['left over', money(left)], ['one more needs', money((n + 1) * price - have)]] }; }
+    }
+    // --- "how many 2.5 l bottles do i need for 12 litres"
+    if ((m = s.match(/^how many (\d+(?:[.,]\d+)?)\s*([a-zµ°]+)? ?([a-z ]+?) (?:do (?:i|we|you) need|are needed|would (?:i|we) need|will (?:i|we) need|to fill|needed|fit|for|in|to make) (?:for |to fill |in |into |to make )?(?:a |an )?(\d+(?:[.,]\d+)?)\s*([a-zµ°]+)?/))) {
+      let size = F(m[1]), total = F(m[4]), note = '';
+      if (m[2] && m[5]) { let a = null, b = null; try { a = parseQty(`${m[1]} ${m[2]}`); b = parseQty(`${m[4]} ${m[5]}`); } catch {} if (a && b && a.unit && b.unit && a.cat === b.cat) { size = a.base; total = b.base; note = `${m[4]} ${m[5]} ÷ ${m[1]} ${m[2]}`; } }
+      if (size > 0 && total > 0) { const exact = total / size, n = Math.ceil(exact - 1e-9), spare = n * size - total;
+        return { kind: 'Math', label: `${m[3].trim()} of ${m[1]}${m[2] ? ' ' + m[2] : ''} for ${m[4]}${m[5] ? ' ' + m[5] : ''}`, value: fmt(n), num: n, unit: m[3].trim(), steps: [['work', `${note || `${m[4]} ÷ ${m[1]}`} = ${fmt(sig(exact, 6))}, rounded up`], spare > 1e-9 ? ['spare', `${fmt(sig(spare / (size / F(m[1])), 6))}${m[2] ? ' ' + m[2] : ''} left in the last one`] : ['fits', 'exactly']] }; }
+    }
+    // --- pay from an hourly rate and hours: "i earn 12 an hour and work 8 hours"
+    if ((m = s.match(/(?:earn|make|paid|get|rate (?:is|of)?|at)\s*(?:€|\$|£)?\s*(\d+(?:[.,]\d+)?)\s*(?:an|per|a|\/)\s*(?:hour|hr|h)\b/)) && /\b(?:work(?:ed|ing|s)?|for|do|did|shift of)\s+(\d+(?:[.,]\d+)?)\s*(?:hours?|hrs?|h)\b/.test(s)) {
+      const rate = F(m[1]), hm = s.match(/\b(?:work(?:ed|ing|s)?|for|do|did|shift of)\s+(\d+(?:[.,]\d+)?)\s*(?:hours?|hrs?|h)\b(?:\s*(?:a|per|each|every)\s*(day|week|month))?/), hrs = F(hm[1]), per = hm[2], pay = rate * hrs;
+      const steps = [['work', `${money(rate)} × ${fmt(hrs)} h`]]; if (per === 'day') steps.push(['5-day week', money(pay * 5)], ['a month (≈21.7 days)', money(pay * 21.67)]); else if (per === 'week') steps.push(['a month', money(pay * 52 / 12)], ['a year', money(pay * 52)]); else if (per === 'month') steps.push(['a year', money(pay * 12)]);
+      return { kind: 'Money', label: `${fmt(hrs)} hours at ${money(rate)} an hour`, value: money(pay), num: sig(pay, 10), unit: per ? `per ${per}` : '', steps };
+    }
+    // --- saving a fixed amount: "i saved 150 a month for 2 years"
+    if ((m = s.match(/\b(?:saved?|saving|put (?:away|aside)|set aside|put in|deposit(?:ed)?|invest(?:ed)?|pay(?:ing)?|paid|spend(?:ing)?|spent)\s*(?:€|\$|£)?\s*(\d+(?:[.,]\d+)?)\s*(?:a|per|each|every)\s*(day|week|month|year)\s*(?:for|over|during)\s*(\d+(?:[.,]\d+)?|a|one)\s*(days?|weeks?|months?|years?)\b/)) && !/%/.test(s)) {
+      const amt = F(m[1]), PY = { day: 365, week: 52, month: 12, year: 1 }, n = /^(a|one)$/.test(m[3]) ? 1 : F(m[3]), dur = m[4].replace(/s$/, ''), times = n * (dur === m[2] ? 1 : dur === 'week' && m[2] === 'day' ? 7 : dur === 'month' && m[2] === 'day' ? 30.4375 : PY[m[2]] / PY[dur]), tot = amt * times;
+      return { kind: 'Money', label: `${money(amt)} a ${m[2]} for ${fmt(n)} ${m[4]}`, value: money(tot), num: sig(tot, 10), steps: [['work', `${money(amt)} × ${fmt(sig(times, 6))} ${m[2]}s`], ['no interest', 'add “at 3%” to include growth']] };
+    }
+    // --- VAT amounts: "vat on 50", "how much is the vat in 80 with 23% included"
+    if ((m = s.match(/^(?:how much is |what(?:'s| is) )?(?:the )?(vat|iva|tax|gst)(?: amount)? (?:on|for|of) (?:€|\$|£)?\s*(\d+(?:[.,]\d+)?)(?: at (\d+(?:[.,]\d+)?)\s*%)?\??$/))) { const v = F(m[2]), p = F(m[3] || 23);
+      return { kind: 'Money', label: `${p}% ${m[1].toUpperCase()} on ${money(v)}`, value: money(v * p / 100), num: sig(v * p / 100, 10), unit: m[1].toUpperCase(), steps: [['price with it', money(v * (1 + p / 100))], ['if 50 already includes it', `${m[1].toUpperCase()} is ${money(v - v / (1 + p / 100))}`]] }; }
+    if ((m = s.match(/(?:€|\$|£)?\s*(\d+(?:[.,]\d+)?) (?:with|including|incl\.?|inc) (\d+(?:[.,]\d+)?)\s*% (vat|iva|tax|gst)(?: included)?.*\b(?:how much|what) (?:is|was) (?:the )?(?:vat|iva|tax|gst)\b/) || s.match(/^(?:how much|what) (?:is|was) (?:the )?(vat|iva|tax|gst) in (?:€|\$|£)?\s*(\d+(?:[.,]\d+)?)(?: at (\d+(?:[.,]\d+)?)\s*%)?\??$/))) {
+      let v, p, w; if (/^\d|^(?:€|\$|£)/.test(m[1])) { v = F(m[1]); p = F(m[2]); w = m[3]; } else { w = m[1]; v = F(m[2]); p = F(m[3] || 23); } const net = v / (1 + p / 100);
+      return { kind: 'Money', label: `${w.toUpperCase()} inside ${money(v)} at ${p}%`, value: money(v - net), num: sig(v - net, 10), unit: w.toUpperCase(), steps: [['price without it', money(net)], ['work', `${money(v)} − ${money(v)} ÷ ${1 + p / 100}`]] };
+    }
+    // --- the grade you need: "what grade do i need on the next test to average 15 if i have 14 and 13"
+    if ((m = s.match(/\b(?:grade|score|mark|result) (?:do|would|will) i need\b.*?\b(?:average|mean|an average of|get) (\d+(?:[.,]\d+)?)\b.*?\b(?:have|got|had|scored)\s+((?:\d+(?:[.,]\d+)?(?:,? and |, | ))*\d+(?:[.,]\d+)?)/) || s.match(/\bif i (?:have|got|had|scored)\s+((?:\d+(?:[.,]\d+)?(?:,? and |, | ))*\d+(?:[.,]\d+)?)\b.*?\b(?:grade|score|mark) (?:do|would) i need\b.*?\b(?:average|mean) (?:of )?(\d+(?:[.,]\d+)?)/))) {
+      const [tgtS, listS] = /^\d/.test(m[1]) && m[2] && /\s|,/.test(m[2]) ? [m[1], m[2]] : [m[2], m[1]]; const xs = listS.split(/,? and |, | /).filter(Boolean).map(F), tgt = F(tgtS), need = tgt * (xs.length + 1) - xs.reduce((a, b) => a + b, 0);
+      return { kind: 'Stats', label: `Next result to average ${fmt(tgt)}`, value: fmt(sig(need, 6)), num: sig(need, 8), steps: [['so far', `${xs.join(', ')} (average ${fmt(sig(xs.reduce((a, b) => a + b, 0) / xs.length, 4))})`], ['work', `${fmt(tgt)} × ${xs.length + 1} − ${fmt(xs.reduce((a, b) => a + b, 0))}`], need > 20 && tgt <= 20 ? ['note', 'more than 20 — not reachable on a 0–20 scale'] : null].filter(Boolean) };
+    }
     // --- "i ate 3 of 8 apples", "used 40 of 250 ml" → what's left
     if ((m = s.match(/^(?:i |we |she |he |they |you )?(ate|eaten|used|spent|sold|gave away|lost|drank|took|removed|picked|finished|read|watched|paid off) (\d+(?:[.,]\d+)?) (?:of|out of|from) (?:the |my |our |his |her |their )?(\d+(?:[.,]\d+)?)\b(.*?)(?:,? how many (?:are |is |do i have )?(?:left|remain(?:ing)?)\??)?$/))) {
       const a = F(m[2]), b = F(m[3]); if (a <= b) return { kind: 'Math', label: `${m[1]} ${fmt(a)} of ${fmt(b)}${m[4] || ''}`, value: fmt(b - a), num: b - a, unit: 'left', steps: [['work', `${fmt(b)} − ${fmt(a)}`], ['share used', `${fmt(sig(a / b * 100, 4))}%`]] };
@@ -2822,6 +3024,44 @@ const Engine = (() => {
     // rounding
     [new RegExp(`^(?:the )?nearest (?:whole number|integer|number) (?:to|for|of) ${NUMR}$`), 'round $1'],
     [new RegExp(`^${NUMR} rounded( up| down)?(?: to (?:the nearest )?(?:whole|integer))?$`), (m0, n, d) => d ? `round ${n} ${d.trim()}` : `round ${n}`],
+    // ===== everyday sentences (batch 2) =====
+    // money rates over time: "5 coffees a week at 1.20 each per month"
+    [new RegExp(`^${NUMR} [a-z ]*?(?:a|per|each|every) (day|week|month|year) (?:at|for|costing|@) ${NUMR}(?: each| a piece)?,? (?:per|a|each|in a|every|for a) (day|week|month|year)$`), (m0, n, p1, price, p2) => `${+F(n) * F(price)} a ${p1} to ${{ day: 'daily', week: 'weekly', month: 'monthly', year: 'yearly' }[p2]}`],
+    // percent change of a salary or price
+    [new RegExp(`^.*\\b(?:went|rose|increased|grew|dropped|fell|changed|jumped|climbed|decreased|went up|went down|moved) (?:up |down )?from ${NUMR} to ${NUMR}\\b.*?(?:%|percent|raise|increase|decrease|change|rise|drop|growth).*$`), '% change from $1 to $2'],
+    // the price before a rise or a cut
+    [new RegExp(`^.*\\b(?:rose|went up|increased|grew|was raised|raised|up|jumped) (?:by )?${NUMR}\\s*% to ${NUMR}\\b.*$`), '$2 after $1% increase, original price'],
+    [new RegExp(`^.*\\b(?:dropped|fell|went down|decreased|was reduced|reduced|cut|discounted|down|marked down) (?:by )?${NUMR}\\s*% to ${NUMR}\\b.*$`), '$2 after $1% off, original price'],
+    // "1 apple costs 0.48, how much for 12"
+    [new RegExp(`^(?:1|one|a|an) [a-z ]+? (?:costs?|is|are|sells for) ${NUMR},? (?:how much|what) (?:for|is|are|do|would|will|about) ${NUMR}(?: [a-z ]+)?(?: cost)?\\??$`), '$2 at $1 each'],
+    // "share 1000 between anna and bob 60/40"
+    [new RegExp(`^(?:share|split|divide) ${NUMR} (?:between|among|with) [a-z ,&]+? (\\d+)\\s*[\\/:]\\s*(\\d+)$`), 'split $1 $2/$3'],
+    // durations: "how long are 3 episodes of 42 minutes"
+    [new RegExp(`^(?:how long (?:are|is|would|will|do) )?${NUMR} [a-z]+ (?:of|at|lasting|that last) ${NUMR}\\s*(minutes?|mins?|hours?|hrs?|seconds?|secs?)(?: each)?(?: take| last| be)?\\??$`), '$2 $3 × $1'],
+    // clock + duration: "start at 9:15 and work 7 hours 30", "leaves at 14:50 and takes 2h35"
+    [/^.*?\b(?:start|starts|begin|begins|leave|leaves|depart|departs|set off|sets off|start work|clock in|begin work)?\s*(?:at )?(\d{1,2}[:h.]\d{2}|\d{1,2}\s*(?:am|pm)|(?<=\bat )\d{1,2}(?= ))\b.*?\b(?:and |then )?(?:work|works|takes?|lasts?|drive|drives|for|it takes|i work|ride|fly|flies|walk|plus)\s+(\d+(?:[.,]\d+)?)\s*(?:h|hours?|hrs?)?\s*(?:and\s*)?(\d{1,2})?\s*(?:m|min|mins|minutes)?\b.*?(?:finish|end|arrive|done|get there|be back|land|over|get home|stop)\b.*$/, (m0, c, h, mm) => `${/^\d{1,2}$/.test(c) ? c + ':00' : c.replace(/h|\./, ':')} + ${F(h)}h${mm ? ' ' + mm + 'm' : ''}`],
+    [new RegExp(`^.*\\b(?:have|got|budget(?: of| is)?)\\s*(?:€|\\$|£)?\\s*${NUMR}[^,]*?,? how many (?:[a-z ]+? )?(?:can|could|do|would) (?:i|we) (?:buy|get|afford)(?: [a-z ]+?)? (?:at|for|costing) (?:€|\\$|£)?\\s*${NUMR}(?: each)?\\??$`), 'i have $1, how many $2 can i buy'],
+    // fraction of an hour
+    [new RegExp(`^${NUMR} (minutes?|mins?) (?:as|in|is) (?:a |an )?(fraction|%|percent|percentage|decimal) of an? hour$`), (m0, n, u, kind) => `${n}/60 as a ${/fraction/.test(kind) ? 'fraction' : /decimal/.test(kind) ? 'decimal' : 'percentage'}`],
+    [/^(?:a |one )?half of (.+)$/, (m0, rest) => /^\(?[\d.\/ ×*()]+$/.test(rest) ? `0.5 × ${rest}` : m0],
+    // nested fractions: "half of a third of 90"
+    [new RegExp(`^((?:(?:a |one )?(?:half|third|quarter|fifth|tenth|two thirds|three quarters)s? of (?:a |an |the )?)+)${NUMR}$`), (m0, fr, n) => { const F2 = { 'half': '0.5', 'third': '(1/3)', 'quarter': '0.25', 'fifth': '0.2', 'tenth': '0.1', 'two thirds': '(2/3)', 'three quarters': '0.75' }; const parts = [...fr.matchAll(/(two thirds|three quarters|half|third|quarter|fifth|tenth)/g)].map(x => F2[x[1]]); return parts.concat(n).join(' × '); }],
+    // "twice as much as 35", "3 times as many as 20", "half as much as 50"
+    [new RegExp(`^(twice|double|triple|thrice|half|${NUMR} times) as (?:much|many|big|long|heavy|tall|far|expensive) as ${NUMR}$`), (m0, k, n1, n2) => `${{ twice: 2, double: 2, triple: 3, thrice: 3, half: 0.5 }[k] ?? F(n1)} × ${n2}`],
+    // "5 less than 12" (a sum, not a question), "12 more than 30"
+    [new RegExp(`^${NUMR} (less|fewer|smaller|lower|more|greater|bigger|higher|larger) than ${NUMR}$`), (m0, a, w, b) => /less|fewer|smaller|lower/.test(w) ? `${b} − ${a}` : `${b} + ${a}`],
+    // "the sum of 5, 10 and 15 divided by 3", "the difference of 50 and 20 times 2"
+    [/^(?:the )?(sum|total|product|difference) of ((?:-?\d+(?:[.,]\d+)?(?:,? and |, | ))+-?\d+(?:[.,]\d+)?) (divided by|over|times|multiplied by|plus|minus) (-?\d+(?:[.,]\d+)?)$/, (m0, op, list, op2, n) => { const xs = list.split(/,? and |, | /).filter(Boolean); const j = { sum: ' + ', total: ' + ', product: ' × ', difference: ' − ' }[op]; return `(${xs.join(j)}) ${{ 'divided by': '÷', over: '÷', times: '×', 'multiplied by': '×', plus: '+', minus: '−' }[op2]} ${n}`; }],
+    // word equations: "what number plus 15 equals 40", "a number times 4 is 36"
+    [new RegExp(`^(?:what|which|a|the|some) number (plus|\\+|minus|−|-|times|×|\\*|multiplied by|divided by|over|÷|\\/) ${NUMR} (?:=|is|equals|makes|gives|gets you|is equal to)\\s*${NUMR}\\??$`), (m0, op, a, b) => `x ${{ plus: '+', minus: '−', times: '×', 'multiplied by': '×', 'divided by': '÷', over: '÷' }[op] || op} ${a} = ${b}`],
+    [new RegExp(`^(?:x|n) (plus|\\+|minus|−|-|times|×|\\*|multiplied by|divided by|over|÷|\\/) ${NUMR} (?:is|equals|makes|gives|is equal to)\\s*${NUMR}\\??$`), (m0, op, a, b) => `x ${{ plus: '+', minus: '−', times: '×', 'multiplied by': '×', 'divided by': '÷', over: '÷' }[op] || op} ${a} = ${b}`],
+    [new RegExp(`^(twice|double|triple|half of|${NUMR} times) (?:a|the|what|which|some) number (?:is|equals|=|makes)\\s*${NUMR}\\??$`), (m0, k, n1, b) => `${{ twice: 2, double: 2, triple: 3, 'half of': 0.5 }[k] ?? F(n1)} × x = ${b}`],
+    // fixes for older phrasings
+    [/^how old (?:if|when) (?:i was |born |i was born )?(?:born )?(.+)$/, 'how old am i if born $1'],
+    [/^(?:the )?distance (?:to|from (?:the )?earth to) (?:the )?(moon|sun|mars) (?:in|to|into) (.+)$/, (m0, b, u) => `${{ moon: 384400, sun: 149597870.7, mars: 225000000 }[b]} km to ${u}`],
+    [/^(plot|graph|draw) (.+) from (\S+) to (\S+)$/, (m0, v, f, a, b) => /−/.test(a + b) ? `${v} ${f} from ${a.replace(/−/g, '-')} to ${b.replace(/−/g, '-')}` : m0],
+    [new RegExp(`^(?:how many )?${NUMR}\\s*(cm|mm|m|in) (?:products?|items?|packs?|boxes?|facings?)(?: facings)? (?:fit )?(?:on|in|across|for) (?:a |the )?${NUMR}\\s*(cm|m|mm|ft|in) (?:shelf|bay|gondola|run)$`), 'how many facings on a $3 $4 shelf at $1 $2'],
+    [new RegExp(`^${NUMR}\\s*(cm|m|mm|ft|in) (?:shelf|bay|gondola|run),? (?:with|for|of|at) ${NUMR}\\s*(cm|mm|m|in) (?:products?|items?|packs?)?(?: facings?)?$`), 'how many facings on a $1 $2 shelf at $3 $4'],
     // races and distances
     [/^(?:how far is |how long is |what is |what's )?(?:a |the )?(\d+(?:[.,]\d+)?)k(?: run| race| distance)?\s+(?:in|to|into)\s+(miles?|mi|km|kilomet(?:er|re)s?|meters?|metres?)\??$/, '$1 km to $2'],
     [/^(?:how far is |how long is |what is |what's )?(?:a |the )?(half[ -])?marathon(?: distance| length)?\s*(?:in|to|into)?\s*(miles?|mi|km|kilomet(?:er|re)s?|meters?|metres?)?\??$/, (m0, half, u) => `${half ? 21.0975 : 42.195} km to ${u || 'mi'}`],
@@ -2887,7 +3127,7 @@ const Engine = (() => {
     if (hasLast) {
       let m;
       if (ctx.lastUnit && (m = low.match(/^(?:and |now |what about |how about |so |ok )?(?:in|to|into|as) (.+)$/))) {
-        const u = symU(ctx.lastUnit), tgt = normalize(m[1]).s;
+        const u = symU(ctx.lastUnit) || unit(ctx.lastUnit), tgt = normalize(m[1]).s;
         const r = u && convertQty({ cat: u.cat, base: u.to(ctx.ans), unit: u, v: ctx.ans, text: `${fmt(sig(ctx.ans, 8))} ${u.sym}` }, tgt);
         if (r) { r.steps = [['from', 'your last answer']].concat(r.steps || []); return r; }
       }
@@ -2898,6 +3138,33 @@ const Engine = (() => {
         else if (/^(\d+) (?:people|persons|ways|friends)$/.test(part) && /\d+ (?:people|persons|ways|friends)|(?:split|between|by|among) \d+/.test(lastN)) nq = lastN.replace(/\d+(?= (?:people|persons|ways|friends))|(?<=(?:split|between|by|among) )\d+/, part.split(' ')[0]);
         else if (/^-?[\d.,]+k?$/.test(part) && /-?\d[\d,]*(?:\.\d+)?k?(?![\d%])/.test(lastN)) nq = lastN.replace(/-?\d[\d,]*(?:\.\d+)?k?(?![\d%.,])/, part);
         if (nq) { CUR = cur || last.cur; const t = attempt(nq, ctx, false); if (t.r && !t.err) { t.r.steps = [['changed', `${ctx.lastQ} → ${m[1]}`]].concat(t.r.steps || []); return t.r; } CUR = cur; }
+      }
+      // smarter follow-ups: tax, % changes, rounding, swapping a quantity, a date or a rate
+      {
+        const A = ctx.ans || 0, AS = String(sig(A, 12)); let nq = null, why = null;
+        const lead = '^(?:and |now |then |ok |so )?';
+        if ((m = low.match(new RegExp(lead + '(?:plus|add|with|\\+|including|incl\\.?|inc) (?:(\\d+(?:[.,]\\d+)?)\\s*% )?(vat|iva|tax|gst|sales tax)$')))) { nq = `${AS} plus ${m[1] || 23}% vat`; why = `add ${m[1] || 23}% ${m[2]}`; }
+        else if ((m = low.match(new RegExp(lead + '(?:without|minus|remove|less|ex|excluding|take off|take out)(?: the)? (vat|iva|tax|gst)$')))) { nq = `${AS} without vat`; why = `remove ${m[1]}`; }
+        else if ((m = low.match(new RegExp(lead + '(plus|add|\\+|more|up|increase(?: it)?(?: by)?|raise(?: it)?(?: by)?|minus|less|−|-|take off|off|discount|down|reduce(?: it)?(?: by)?|cut(?: it)?(?: by)?)\\s*(\\d+(?:[.,]\\d+)?)\\s*%(?: off| discount| more| extra| less)?$')))) {
+          const down = /minus|less|−|-|off|discount|down|reduce|cut/.test(m[1]) || /\b(off|discount|less)$/.test(low); nq = `${AS} ${down ? '−' : '+'} ${m[2]}%`; why = `${down ? '−' : '+'}${m[2]}%`; }
+        else if ((m = low.match(new RegExp(lead + '(\\d+(?:[.,]\\d+)?)\\s*% (off|discount|less|more|extra|increase|cheaper)$')))) { const down = /off|discount|less|cheaper/.test(m[2]); nq = `${AS} ${down ? '−' : '+'} ${m[1]}%`; why = `${down ? '−' : '+'}${m[1]}%`; }
+        else if ((m = low.match(new RegExp(lead + 'round(?:ed)?(?: it| that| this)?(?: (up|down))?(?: to (?:the )?(?:nearest )?(\\d+|ten|hundred|thousand|whole(?: number)?|integer|cent))?$')))) {
+          const step = { ten: 10, hundred: 100, thousand: 1000 }[m[2]] || (/^\d+$/.test(m[2] || '') ? +m[2] : 1), f = m[1] === 'up' ? Math.ceil : m[1] === 'down' ? Math.floor : Math.round;
+          const v = m[2] === 'cent' ? f(A * 100) / 100 : f(A / step) * step;
+          return { kind: 'Math', label: `${fmt(sig(A, 10))} rounded${m[1] ? ' ' + m[1] : ''}${step !== 1 ? ' to the nearest ' + fmt(step) : ''}`, value: fmt(v), num: v, steps: [['from', 'your last answer'], ['difference', fmt(sig(v - A, 8))]] };
+        }
+        else if (ctx.lastQ && (m = low.match(/^(?:and |but |ok )?(?:what about|how about|and|now|try|for|instead|with)\s+(.+?)(?:\s+instead)?$/))) {
+          const part = normalize(m[1]).s, last = normalize(ctx.lastQ).s, pq = parseQty(part);
+          if (pq && pq.unit) { for (const x of last.matchAll(/(-?\d[\d.,]*)\s*([a-zµ°'"][a-z°²³\/]*(?: [a-z]+)?)/g)) { let q2 = null; for (const cand of [x[0], x[1] + ' ' + x[2].split(' ')[0]]) { try { q2 = parseQty(cand); } catch {} if (q2 && q2.unit && q2.cat === pq.cat) { nq = last.replace(cand, part); const tm = nq.match(/^(.*)\s+(to|in|into|as)\s+(.+)$/); let tu = null; try { tu = tm && parseQty('1 ' + tm[3]); } catch {} if (tu && tu.unit && tu.unit.sym === pq.unit.sym) nq = `${part} to ${q2.unit.sym}`; break; } } if (nq) break; } }
+          if (!nq) { const dm = last.match(/^(.*\b(?:until|till|to|since|before|from|after))\s+(.+)$/); let d = null; try { d = parseDate(part); } catch {} if (dm && d && /\b(days?|weeks?|months?|working|how long|time)\b/.test(dm[1])) nq = `${dm[1]} ${part}`; }
+          if (!nq) { const RATE = /(hourly|yearly|annually|annual|monthly|weekly|daily|per (?:hour|year|month|week|day)|an hour|a year|a month|a week|a day)$/; const rm = last.match(new RegExp('^(.*?)\\s+(?:to|in|into|as)\\s+' + RATE.source)); if (rm && RATE.test(part)) nq = `${rm[1]} to ${part.match(RATE)[1]}`; }
+          if (nq) why = `${ctx.lastQ} → ${m[1]}`;
+        }
+        else if (ctx.lastQ && (m = low.match(/^(?:and |what about |in |to |as )?(hourly|yearly|annually|monthly|weekly|daily|per (?:hour|year|month|week|day)|an hour|a year|a month|a week|a day)$/))) {
+          const last = normalize(ctx.lastQ).s, rm = last.match(/^(.*?)\s+(?:to|in|into|as)\s+(hourly|yearly|annually|annual|monthly|weekly|daily|per (?:hour|year|month|week|day)|an hour|a year|a month|a week|a day)$/);
+          if (rm) { nq = `${rm[1]} to ${m[1]}`; why = `${ctx.lastQ} → ${m[1]}`; }
+        }
+        if (nq) { const t = attempt(nq, ctx, false); if (t.r && !t.err) { t.r.steps = [['changed', why]].concat((t.r.steps || []).filter(x => x[0] !== 'changed')); return t.r; } }
       }
       const LEAD = /^(?:\+|\*|\/|×|÷|\^|plus\b|times\b|minus\b|divided by\b|multiplied by\b|over\b|squared\b|cubed\b|mod\b|% of\b|to the\b)/;
       if (LEAD.test(s)) { const t = attempt('ans ' + s, ctx, false); if (t.r && !t.err) { t.r.steps = [['ans', `${fmt(sig(ctx.ans || 0, 10))} (your last answer)`]].concat(t.r.steps || []); return t.r; } }
@@ -2960,6 +3227,9 @@ const Engine = (() => {
     'ohms law 12v 2a', 'current for 60 w at 12 v', 'what resistor for 5v and 20 ma', 'paint for a room 4 by 5 m 2.6 m high with 1 door and 2 windows', 'how much paint for 30 m2', 'tiles 60x60 cm for a floor 4 by 3 m', 'how many bricks for a wall 5 m by 2 m',
     'bmr 70 kg 175 cm 30 years male', 'daily calories 80 kg 180 cm 40 years male moderate', 'water intake 70 kg', '5 year old dog in human years', '3 year old cat in human years', 'if i wake up at 7, when should i sleep', 'if i go to bed at 23:00 when to wake up',
     'how much of the year has passed', 'how far through the week', 'age in days born 12 may 1990', 'fuel consumption 450 km 32 litres', 'lightning 5 seconds', '18 out of 25', 'i ate 3 of 8 apples',
+    'i earn 12 an hour and work 8 hours a day', 'i have 50, how many 3.75 tickets can i buy', 'we are 4 and the bill is 100', 'the bill is 64 plus 10% service', 'i spent 30 of my 200', 'increase 80 by 15%', 'decrease 90 by a quarter', 'twice as much as 35', 'half of 75', 'what time is it in tokyo', 'is 97 prime',
+    'convert 5 km to miles', 'calculate 15% of 240', 'x + 15 = 40', 'what number plus 15 equals 40', '1/4 as a decimal', 'sqrt 144', 'start at 9:15 and work 7 hours 30, when do i finish', 'my train leaves at 14:50 and takes 2h35, when do i arrive', 'how many 2.5 l bottles for 12 litres', 'vat on 50', 'how much is the vat in 80',
+    'save 150 a month for 2 years', '5 coffees a week at 1.20 each per month', 'my salary went from 1200 to 1350, % raise', 'the price rose 15% to 69, what was it before', '1 apple costs 0.48, how much for 12', 'what grade do i need to average 15 if i have 14 and 13', 'how long are 3 episodes of 42 minutes', '5 less than 12', 'the sum of 5, 10 and 15 divided by 3',
     'roll 2d6', 'flip a coin', 'random number between 1 and 100', 'bmi 70 kg 175 cm', 'help'];
   const NUMRE = /-?\d[\d,.]*k?%?/g;
   function fillNums(t, low) {
@@ -2982,7 +3252,19 @@ const Engine = (() => {
     // nothing typed: offer to continue from the last answer
     if (!low) { if (ctx.lastQ) { add('times 2'); add(ctx.lastUnit && symU(ctx.lastUnit) ? `in ${unitNames(symU(ctx.lastUnit).cat, symU(ctx.lastUnit))[0]}` : 'half of that'); if (/%/.test(ctx.lastQ)) add('what about 20%'); } return out; }
     let m;
-    // a price on its own → things you do with prices
+    // lead-in words: complete what comes after "calculate", "convert", "what's", "how much is" …
+    { const pm = q.match(/^(calculate|compute|work out|figure out|tell me|what is|what's|whats|how much is|convert|find|please calculate|can you calculate)\s+(.+)$/i);
+      if (pm && pm[2].trim()) { const rest = pm[2].toLowerCase().trim(), sub = complete(pm[2], { ...ctx, nested: true }).filter(x => !x.toLowerCase().startsWith(pm[1].toLowerCase()) && x.toLowerCase().startsWith(rest)); for (const x of sub) add(`${pm[1]} ${x}`); if (out.length >= 3) return out.slice(0, 5); } }
+    // a bare starter word: offer what people usually mean by it
+    const STARTERS = { calculate: ['calculate 15% of 240', 'calculate 1,240 × 12 + 15%', 'calculate (3 + 4) × 5'], convert: ['convert 5 km to miles', 'convert 72 °F to °C', 'convert 3 cups of flour to grams', 'convert 2.5 GB to MB'], is: ['is 97 prime', 'is 2028 a leap year', 'is 1 kg heavier than 2 lb', 'is 1001 divisible by 7'],
+      'i earn': ['i earn 12 an hour and work 8 hours a day', 'i earn 1500 a month, how much a year'], 'i have': ['i have 50, how many 3.75 tickets can i buy', 'i have 120 and need to split it 3 ways'], 'i spent': ['i spent 30 of my 200', 'i spent 4 a day on coffee, how much a year'], 'we are': ['we are 4 and the bill is 100'], 'the bill': ['the bill is 64 plus 10% service', 'the bill is 90, we are 3'],
+      twice: ['twice as much as 35'], half: ['half of 75', 'half of a third of 90'], increase: ['increase 80 by 15%', 'increase 50 by a third'], decrease: ['decrease 90 by 25%'], 'what time': ['what time is it in tokyo', 'what time will it be in 3 hours'], when: ['when is easter 2027', 'when is 30 days from now'], how: ['how many days until christmas', 'how long between 9:15 and 17:40', 'how much is 15% of 240'] };
+    if (STARTERS[low]) STARTERS[low].forEach(add);
+    // your own past questions, with the numbers you're typing now
+    if (!ctx.nested && Array.isArray(ctx.hist) && /[a-z]{2,}/.test(low)) {
+      const shape = x => x.toLowerCase().replace(/-?\d[\d.,]*k?%?/g, '#').replace(/\s+/g, ' ').trim(), ls = shape(low);
+      for (const h0 of ctx.hist.slice(0, 40)) { const hs = shape(h0); if (h0.toLowerCase() === low || !/\d/.test(h0)) continue; if (hs.startsWith(ls) || (ls.length > 4 && hs.includes(ls.replace(/#.*$/, '').trim()) && ls.replace(/#.*$/, '').trim().length > 4)) { add(/\d/.test(low) ? fillNums(h0, low) : h0); if (out.length >= 2) break; } }
+    }
     if ((m = low.match(/^(?:€|\$|£)?\s*(\d+[.,]\d{2})$/))) { const p = m[1]; [`25% off ${p}`, `${p} + 23% vat`, `change from 20 for ${p}`, `3 for 2 at ${p}`, `${p} for 400 g per kg`, `${p} without 23% vat`].forEach(add); }
     // a weight or volume → buying by weight
     if ((m = low.match(/^(\d+(?:[.,]\d+)?)\s*(g|kg|grams?|kilos?|ml|l|litres?|liters?)$/))) { const u = /^(g|grams?|kg|kilos?)$/.test(m[2]) ? 'kg' : 'l'; [`${q.trim()} at 12.90 per ${u}`, `2.49 for ${q.trim()} per ${u}`].forEach(add); }
@@ -3000,7 +3282,7 @@ const Engine = (() => {
     if (/^-?[\d.,]+k?$/.test(low) && !/^\d+[.,]\d{2}$/.test(low)) [`${low}% of `, `${low} in words`, `is ${low} prime`, `split ${low} between `, `${low} km to mi`, `${low} in hex`].forEach(add);
     if ((m = low.match(/^([\d.,]+)\s*%$/))) [`${m[1]}% of `, `${m[1]}% tip on `, `add ${m[1]}% vat to `, `${m[1]}% off `].forEach(add);
     if (parseClock(low) != null) [`${low} + 2h 30m`, `how long until ${low}`, `${low} lisbon to new york`, `${low} here to tokyo`].forEach(add);
-    if ((m = low.match(/^(?:time in |time |what time is it in )?([a-z .]{2,})$/)) && zone(m[1]) && !/^(here|local)$/.test(m[1])) [`time in ${m[1]}`, `9am here to ${m[1]}`, `time difference between lisbon and ${m[1]}`].forEach(add);
+    if ((m = low.match(/^(?:time in |time |what time is it in )?([a-z .]{2,})$/)) && zone(m[1]) && !/^(here|local)$/.test(m[1])) [`time in ${m[1]}`, `9am here to ${m[1]}`, `time difference between ${/lisbon|lisboa/.test(m[1]) ? 'new york' : 'lisbon'} and ${m[1]}`].forEach(add);
     const d = /[a-z]/.test(low) && low.length > 2 && !/^(time|date|today)$/.test(low) && parseDate(low); if (d) [`days until ${low}`, `what day is ${low}`, `working days until ${low}`].forEach(add);
     if (ctx.lastQ && /^(?:and|what|how|now|then|in|to|times|plus|minus|half|double)\b/.test(low)) ['times 2', 'what about 20%', 'half of that'].filter(x => x.startsWith(low)).forEach(add);
     // finish a unit name: "5 kil" → "5 kilometers"
@@ -3259,7 +3541,7 @@ const Engine = (() => {
   function aiThink(box) { if (REDUCE) return; box.classList.remove('think'); void box.offsetWidth; box.classList.add('think'); clearTimeout(box._tk); box._tk = setTimeout(() => box.classList.remove('think'), 1100); }
   function barThinking() {
     if (REDUCE) return; const sb = $('.searchbar'); sb.classList.add('thinking'); clearTimeout(thinkT);
-    thinkT = setTimeout(() => { sb.classList.remove('thinking'); if (current && !current.error && $('#q').value.trim()) { sb.classList.remove('got'); void sb.offsetWidth; sb.classList.add('got'); clearTimeout(gotT); gotT = setTimeout(() => sb.classList.remove('got'), 950); } }, 420);
+    thinkT = setTimeout(() => { sb.classList.remove('thinking'); if (current && !current.error && $('#q').value.trim()) { sb.classList.remove('got'); void sb.offsetWidth; sb.classList.add('got'); const qw = sb.querySelector('.qwrap'); if (qw) { qw.classList.remove('read'); void qw.offsetWidth; qw.classList.add('read'); } clearTimeout(gotT); gotT = setTimeout(() => sb.classList.remove('got'), 950); } }, 420);
   }
   $('#q').addEventListener('input', barThinking);
   $('#fill').addEventListener('input', barThinking);
@@ -3300,53 +3582,237 @@ const Engine = (() => {
   }
 
 
-  /* ---------- install as a real app (only when served with a manifest, e.g. GitHub Pages) ---------- */
+  /* ---------- install as an app: the button only appears when this browser can really install it ---------- */
   (() => {
     const btn = $('#installBtn'), link = document.querySelector('link[rel="manifest"]');
     const standalone = matchMedia('(display-mode: standalone)').matches || matchMedia('(display-mode: fullscreen)').matches || navigator.standalone === true;
-    if (!link || standalone) return;
-    const secure = location.protocol === 'https:' || location.hostname === 'localhost';
-    let swReg = null; const swReady = 'serviceWorker' in navigator && secure ? navigator.serviceWorker.register('./sw.js').then(r => (swReg = r)).catch(() => null) : Promise.resolve(null);
+    if (!link) return;
+    if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) navigator.serviceWorker.register('./sw.js').catch(() => {});
+    if (standalone || navigator.brave) return; // Brave only makes shortcuts that open with the address bar, so don't offer it there
     let deferred = null;
-    addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferred = e; btn.hidden = false; btn.classList.add('ready'); });
-    addEventListener('appinstalled', () => { btn.hidden = true; deferred = null; closePanel(); toast('Installed · open Quotient from your home screen'); });
-    const ua = navigator.userAgent, ios = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-    const iosSafari = ios && !/crios|fxios|edgios|opios/i.test(ua), android = /android/i.test(ua), samsung = /samsungbrowser/i.test(ua), firefox = /firefox|fxios/i.test(ua);
-    btn.hidden = false;
-    const closePanel = () => document.querySelector('.ios-tip')?.remove();
-    // checks the same things the phone checks before it will install a real app (instead of a shortcut with the address bar)
-    async function diagnose() {
-      const out = []; let man = null;
-      try { const r = await fetch(link.href, { cache: 'no-store' }); man = r.ok ? await r.json() : null; out.push([!!man, 'App manifest', man ? 'found' : 'manifest.webmanifest is missing next to index.html']); } catch { out.push([false, 'App manifest', 'manifest.webmanifest could not be read']); }
-      if (man) {
-        out.push([man.display === 'standalone' || man.display === 'fullscreen', 'Opens without the address bar', `display: ${man.display}`]);
-        const icons = man.icons || []; const need = [192, 512];
-        for (const n of need) { const ic = icons.find(i => (i.sizes || '').split(' ').includes(`${n}x${n}`) && (i.purpose || 'any').includes('any')); let ok = false; if (ic) { try { ok = (await fetch(new URL(ic.src, link.href), { cache: 'no-store' })).ok; } catch {} }
-          out.push([ok, `Icon ${n}×${n}`, ok ? 'found' : `${ic ? ic.src.replace('./', '') : `icon-${n}.png`} is missing: upload it next to index.html`]); }
-      }
-      out.push([secure, 'Secure link (https)', secure ? 'yes' : 'open the github.io https link']);
-      const reg = await Promise.race([swReady, new Promise(r => setTimeout(() => r(swReg), 2500))]);
-      const swOk = !!(reg && (reg.active || reg.waiting || reg.installing)); out.push([swOk, 'Offline worker', swOk ? 'running' : 'sw.js is missing or failed: upload it next to index.html']);
-      return out;
-    }
-    function steps() {
-      if (iosSafari) return 'Tap <b>Share</b> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="vertical-align:-2px"><path d="M12 15V3M8 7l4-4 4 4M5 12v8h14v-8"/></svg> → <b>Add to Home Screen</b>. Make sure <b>Open as Web App</b> is switched <b>on</b>, then tap <b>Add</b>. If you added it before, delete the old icon first.';
-      if (ios) return 'On iPhone, open this page in <b>Safari</b> (not Chrome) to install it as an app: <b>Share</b> → <b>Add to Home Screen</b>, with <b>Open as Web App</b> on.';
-      if (samsung) return 'Tap the menu <b>≡</b> → <b>Add page to</b> → <b>Home screen</b>. If you see an <b>Install</b> icon in the address bar, use that.';
-      if (firefox) return 'Tap the menu <b>⋮</b> → <b>Install</b> (or <b>Add to Home screen</b>).';
-      if (android) return 'Tap the menu <b>⋮</b> → <b>Install app</b>. If it only says <b>Add to Home screen</b> → choose <b>Install</b> in the box that opens, not <b>Create shortcut</b>. Delete any old shortcut first.';
-      return 'Use the <b>Install</b> icon at the right of the address bar, or the browser menu → <b>Install Quotient</b>.';
-    }
-    btn.addEventListener('click', async () => {
-      if (deferred) { deferred.prompt(); try { const c = await deferred.userChoice; if (c.outcome === 'accepted') btn.hidden = true; } catch {} deferred = null; return; }
-      closePanel(); const t = document.createElement('div'); t.className = 'ios-tip install-panel'; t.setAttribute('role', 'dialog'); t.setAttribute('aria-label', 'Install Quotient');
-      t.innerHTML = '<button type="button" class="x" aria-label="Close">×</button><h3>Install as an app</h3><p class="ip-steps">' + steps() + '</p><ul class="ip-checks"><li class="wait">Checking this page…</li></ul>';
-      t.querySelector('.x').onclick = closePanel; document.body.appendChild(t);
-      const res = await diagnose(), bad = res.filter(r => !r[0]);
-      t.querySelector('.ip-checks').innerHTML = res.map(([ok, name, note]) => `<li class="${ok ? 'ok' : 'bad'}"><i>${ok ? '✓' : '!'}</i><span><b>${name}</b> · ${esc(note)}</span></li>`).join('') +
-        (bad.length ? '<li class="sum bad">Fix the items marked “!”, then reload. Until then the phone can only make a shortcut, which opens with the address bar.</li>' : '<li class="sum ok">Everything is in place. The phone can install it as a real app.</li>');
-    });
+    addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferred = e; btn.hidden = false; });
+    addEventListener('appinstalled', () => { btn.hidden = true; deferred = null; toast('Installed · open Quotient from your home screen'); });
+    btn.addEventListener('click', async () => { if (!deferred) return; deferred.prompt(); try { await deferred.userChoice; } catch {} deferred = null; btn.hidden = true; });
   })();
+
+
+  /* ---------- smarter answers: a "good to know" line and next-step chips ---------- */
+  const TSEC = { s: 1, sec: 1, min: 60, h: 3600, d: 86400, day: 86400, days: 86400, wk: 604800, week: 604800, weeks: 604800, mo: 2629746, yr: 31556952 };
+  function humanDur(sec) { const parts = []; const U2 = [['year', 31556952], ['day', 86400], ['hour', 3600], ['minute', 60], ['second', 1]]; for (const [n, f] of U2) { const k = Math.floor(sec / f + 1e-9); if (k) { parts.push(`${k} ${n}${k > 1 ? 's' : ''}`); sec -= k * f; } if (parts.length === 2) break; } return parts.join(' ') || '0 seconds'; }
+  function oneIn(p) { if (!(p > 0 && p < 100)) return ''; let best = null; for (const d of [2, 3, 4, 5, 6, 8, 10, 12, 20, 25, 50, 100]) { const n = Math.round(p / 100 * d); if (n < 1) continue; const err = Math.abs(n / d * 100 - p); if (!best || err < best.err - .4) best = { n, d, err }; if (err < .6) break; } return best && best.err < 3 ? `about ${best.n} in ${best.d}` : ''; }
+  function insight(r, q) {
+    if (!r || r.error || typeof r.num !== 'number' || !isFinite(r.num)) return '';
+    const n = r.num, u = (r.unit || '').trim(), v = String(r.value || ''), out = [];
+    if (/%/.test(v) && !/[a-z]{3,}/i.test(v.replace(/off|more|points?/g, ''))) { const p = parseFloat(v.replace(/[^\d.\-−]/g, '').replace('−', '-')); const s = oneIn(Math.abs(p)); if (s) out.push(s); if (Math.abs(p) >= 100 && /change|from|up|more/i.test(r.label)) out.push(`${Engine.fmt(+(1 + p / 100).toFixed(2))}× the start`); }
+    if (r.kind === 'Units' || r.kind === 'Date') {
+      const unitWord = u || (/^[\d.,]+ (\w+)/.exec(v) || [])[1] || '';
+      if (TSEC[unitWord] && n * TSEC[unitWord] >= 90 && !/^(d|days?)$/.test(unitWord) || (/^(d|days?)$/.test(unitWord) && n >= 14)) out.push(/^(d|days?)$/.test(unitWord) ? `${Engine.fmt(+(n / 7).toFixed(1))} weeks${n >= 60 ? ` · ${Engine.fmt(+(n / 30.437).toFixed(1))} months` : ''}` : humanDur(n * TSEC[unitWord]));
+      const KM = { km: 1, mi: 1.609344, m: .001 }[u];
+      if (KM && n * KM >= .3 && n * KM <= 3000) { const km = n * KM, walk = km / 5 * 60, drive = km / 90 * 60; const f = mins => mins < 60 ? `${Math.round(mins)} min` : `${Math.floor(mins / 60)} h ${String(Math.round(mins % 60)).padStart(2, '0')}`; out.push(km <= 40 ? `≈ ${f(walk)} on foot · ${f(drive)} by car` : `≈ ${f(drive)} by car at 90 km/h`); }
+      if (u === '°C' || u === '°F') { const c = u === '°C' ? n : (n - 32) * 5 / 9; out.push(c < 0 ? 'freezing' : c < 10 ? 'cold' : c < 18 ? 'cool' : c < 25 ? 'mild' : c < 30 ? 'warm' : c < 38 ? 'hot' : c < 60 ? 'very hot' : c < 100 ? 'cooking hot' : 'boiling or hotter'); }
+      if (u === 'km/h' || u === 'mph') { const kmh = u === 'mph' ? n * 1.609344 : n; if (kmh > 1) out.push(`1 km every ${kmh >= 60 ? Engine.fmt(+(3600 / kmh).toFixed(0)) + ' s' : Engine.fmt(+(60 / kmh).toFixed(1)) + ' min'}`); }
+    }
+    if (Math.abs(n) >= 1e5 && /^(Math|Money|Stats|Numbers|Percent|Science)$/.test(r.kind) && !/\b(prime|digits|binary|hex|roman)\b/i.test(r.label)) { try { out.push(new Intl.NumberFormat('en', { notation: 'compact', compactDisplay: 'long', maximumFractionDigits: 1 }).format(n)); } catch {} }
+    if (r.kind === 'Money' && /each|split/.test(r.label + ' ' + u) && Math.abs(n - Math.round(n)) > .004) out.push(`round up to ${Engine.fmt(Math.ceil(n))} each and the bill is covered`);
+    return [...new Set(out)].slice(0, 2).join(' · ');
+  }
+  function nextFor(r, q) {
+    if (!r || r.error || typeof r.num !== 'number' || !isFinite(r.num) || r.assign) return [];
+    const L = (r.label + ' ' + q).toLowerCase(), u = (r.unit || '').trim(), out = [];
+    const add = (label, query) => { if (out.length < 5 && !out.some(o => o[1] === query)) out.push([label, query]); };
+    const RATES = [['per hour', 'hourly'], ['per day', 'daily'], ['per week', 'weekly'], ['per month', 'monthly'], ['per year', 'yearly']];
+    if (/per (hour|day|week|month|year)/.test(L) && r.kind === 'Money') RATES.filter(([k]) => !(u + r.label).toLowerCase().includes(k.replace('per ', 'per ')) || !L.endsWith(k)).filter(([k]) => !u.includes(k)).forEach(([k, w]) => add(k, w));
+    if (r.kind === 'Money') {
+      if (/each|split/.test(L)) add('round up', 'round up');
+      const fin = /mortgage|loan|borrow|interest|invest|save|saving|salary|per hour|per year|inflation|compound/.test(L);
+      if (/vat|iva|tax/.test(L)) { if (!/without/.test(L)) add('without VAT', 'without vat'); } else if (!fin) add('+ 23% VAT', 'plus 23% vat');
+      if (!fin) add('20% off', '20% off'); if (!/per (year|month)/.test(L)) add('× 12', 'times 12'); add('÷ 2', 'divided by 2');
+    } else if (r.kind === 'Units') {
+      const units = (r.steps || []).filter(s => s[0] === '≈').map(s => (String(s[1]).match(/[\d.,]+\s*(.+)$/) || [])[1]).filter(Boolean);
+      units.slice(0, 3).forEach(x => add(`in ${x}`, `in ${x}`)); add('× 2', 'times 2');
+    } else if (r.kind === 'Date' && /^[\d.,]+ days?\b/.test(r.value || '')) {
+      add('in weeks', 'in weeks'); add('in hours', 'in hours'); if (/^days until /i.test(q)) add('working days', q.replace(/^days until/i, 'working days until'));
+    } else if (r.kind === 'Percent' || r.kind === 'Math' || r.kind === 'Stats' || r.kind === 'Numbers') {
+      if (Math.abs(r.num) < 1e15) { add('× 2', 'times 2'); add('÷ 2', 'divided by 2'); if (r.kind !== 'Percent') add('squared', 'squared'); if (Math.abs(r.num - Math.round(r.num)) > 1e-9) add('round', 'round it'); add('+ 23% VAT', 'plus 23% vat'); }
+    } else if (r.kind === 'Energy' || r.kind === 'Geometry' || r.kind === 'Health' || r.kind === 'Science') { add('× 2', 'times 2'); add('÷ 2', 'divided by 2'); }
+    return out.filter(([, query]) => { try { const c = { ...ctx, ans: r.num, lastQ: q, lastUnit: r.kind === 'Units' ? r.unit : (/^[\d.,]+ (days?)\b/.exec(r.value || '') || [])[1] || null }; const x = Engine.solve(query, c); return x && !x.error; } catch { return false; } }).slice(0, 4);
+  }
+
+
+  /* ---------- Work backwards: say the answer you want, find which number in the question must change ---------- */
+  const REVRE = /(^|[^\d:.,\/a-z])(-?\d+(?:[.,]\d+)*)(k|m)?(%?)(?![\d:\/])/gi;
+  function revTokens(q) {
+    const out = []; if (!q || /\d{1,2}:\d{2}/.test(q) && !/[+×*÷\/]/.test(q.replace(/\d{1,2}:\d{2}/g, ''))) { /* clock-only questions are still fine below */ }
+    for (const m of q.matchAll(REVRE)) {
+      const raw = m[2], start = m.index + m[1].length, end = start + raw.length + (m[3] || '').length + m[4].length;
+      if (/\d{1,2}:\d{2}/.test(q.slice(Math.max(0, start - 3), end + 3)) && /:/.test(q.slice(start - 1, end + 1))) continue;
+      if (/^\d{4}$/.test(raw) && /\b(19|20)\d{2}\b/.test(raw) && /\b(born|in|since|until|year|jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\b/i.test(q)) continue;
+      const comma = /^\d+,\d{1,2}$/.test(raw), v0 = parseFloat(comma ? raw.replace(',', '.') : raw.replace(/,/g, '')); if (!isFinite(v0)) continue;
+      const mult = m[3] ? ({ k: 1e3, m: 1e6 })[m[3].toLowerCase()] : 1;
+      const dec = comma ? (raw.split(',')[1] || '').length : (raw.split('.')[1] || '').length;
+      const after = q.slice(end, end + 18).toLowerCase(), before = q.slice(Math.max(0, start - 14), start).toLowerCase();
+      const countish = !m[4] && !dec && /^\s*(people|persons|friends|ways|of us|items?|pieces|boxes|bags|packs?|tickets|years?|months?|weeks?|days?|hours?|times|nights|cans|bottles)\b/.test(after) || /\b(for|between|among|by|into)\s*$/.test(before) && !dec && !m[4] && v0 < 100;
+      out.push({ start, end, v: v0 * mult, pct: !!m[4], comma, dec, suf: m[3] || '', mult, countish, raw: q.slice(start, end) });
+    }
+    return out.slice(0, 6);
+  }
+  const revFmt = (t, x) => { const v = x / t.mult; const d = t.countish ? 0 : t.fix != null ? t.fix : t.dec ? t.dec : (Math.abs(v) < 100 ? 2 : Math.abs(v) < 10000 ? 1 : 0); let s = String(+v.toFixed(d)); if (t.dec) { const [i, f = ''] = s.split('.'); s = i + '.' + f.padEnd(t.dec, '0'); } if (t.comma) s = s.replace('.', ','); return s + t.suf + (t.pct ? '%' : ''); };
+  function evalWith(q, t, x, c) { const num = String(+(x / t.mult).toPrecision(12)).replace(/e\+?(-?\d+)/, (m0, p) => ' × 10^' + p); const s = q.slice(0, t.start) + num + t.suf + (t.pct ? '%' : '') + q.slice(t.end); try { const r = Engine.solve(s, c); return r && !r.error && typeof r.num === 'number' && isFinite(r.num) ? r.num : NaN; } catch { return NaN; } }
+  // find x so that f(x) = target: secant from the current value, then a widening scan + bisection
+  function seek(f, x0, target) {
+    const g = x => f(x) - target, tol = Math.max(1e-9, Math.abs(target) * 1e-7);
+    let a = x0, b = x0 === 0 ? 1 : x0 * 1.05, ga = g(a), gb = g(b);
+    for (let i = 0; i < 40 && isFinite(ga) && isFinite(gb); i++) { if (Math.abs(gb) < tol) return b; if (gb === ga) break; const c = b - gb * (b - a) / (gb - ga); if (!isFinite(c)) break; a = b; ga = gb; b = c; gb = g(b); }
+    const pts = [x0]; for (let k = 1; k <= 24; k++) { pts.push(x0 * Math.pow(1.6, k), x0 / Math.pow(1.6, k)); } if (x0 === 0) pts.push(1, 10, 100, 1000);
+    let lo = null; const vals = pts.map(x => [x, g(x)]).filter(p => isFinite(p[1])).sort((p, q) => p[0] - q[0]);
+    for (let i = 0; i + 1 < vals.length; i++) if (Math.sign(vals[i][1]) !== Math.sign(vals[i + 1][1])) { lo = [vals[i], vals[i + 1]]; if (Math.abs(vals[i][0] - x0) < Math.abs(vals[i + 1][0] - x0) * 4) break; }
+    if (!lo) return null; let [[l, gl], [r]] = lo;
+    for (let i = 0; i < 80; i++) { const m = (l + r) / 2, gm = g(m); if (!isFinite(gm)) return null; if (Math.abs(gm) < tol || Math.abs(r - l) < 1e-12 * Math.max(1, Math.abs(m))) return m; if (Math.sign(gm) === Math.sign(gl)) { l = m; gl = gm; } else r = m; }
+    return (l + r) / 2;
+  }
+  // what each number in the question stands for, in plain words
+  function roleOf(q, t) {
+    const lowq = q.toLowerCase(), before = lowq.slice(Math.max(0, t.start - 28), t.start).trim(), after = lowq.slice(t.end, t.end + 26).trim();
+    const aw = (after.match(/^(?:per |a |an )?([a-zµ°²³\/]+(?: (?:per|a) [a-z]+)?)/) || [])[1] || '', lastB = (before.match(/([a-z%]+)\s*$/) || [])[1] || '';
+    if (t.pct) { if (/^(tip|gratuity|service)/.test(aw) || /tip/.test(lowq)) return 'tip'; if (/^(vat|iva|tax|gst)/.test(aw)) return 'tax rate'; if (/^(off|discount)/.test(aw) || /discount|off/.test(after)) return 'discount'; if (/^(markup)/.test(aw)) return 'markup'; if (/^(margin)/.test(aw)) return 'margin';
+      if (/\b(mortgage|loan|borrow|invest|save|savings|interest|apr|compound|inflation|grow)\b/.test(lowq)) return /inflation/.test(lowq) ? 'inflation' : 'interest rate'; if (/^of\b/.test(after)) return 'percentage'; return 'percentage'; }
+    if (/^(people|persons|friends|of us|ways|guests|pessoas)\b/.test(aw) || /\b(between|among|for)\s*$/.test(before) && /\b(split|share|people|each|bill)\b/.test(lowq) && t.countish) return 'number of people';
+    if (/^(years?|months?|weeks?|days?|hours?|minutes?|nights?)\b/.test(aw)) return { y: 'years', m: 'months', w: 'weeks', d: 'days', h: 'hours', n: 'nights' }[aw[0] === 'm' && /^min/.test(aw) ? 'x' : aw[0]] || aw;
+    if (/(tip|gratuity) (?:on|for|of)$|bill(?: of| is)?$|check(?: of)?$/.test(before)) return 'bill';
+    if (/(mortgage|loan|borrow|borrowed|invest|invested|save|saving|deposit|put)\s*(?:of)?$/.test(before)) return /mortgage|loan|borrow/.test(before) ? 'amount borrowed' : 'amount';
+    if (/(paying|pay)$/.test(before)) return 'payment';
+    if (/^(per|a|an|\/)\s*(litre|liter|l|kg|kilo|kwh|hour|month|week|year|day)\b/.test(after) || /^each\b/.test(after)) return 'price ' + (after.match(/^(per [a-z]+|a [a-z]+|an [a-z]+|each)/) || [''])[0].replace(/^a |^an /, 'per ');
+    if (/^(km|kms|mi|miles?|m|metres?|meters?|ft|feet|kg|g|lb|lbs|l|litres?|liters?|ml|cm|mm|in|°c|°f|gb|mb|w|kw|kwh|l\/100km)\b/.test(aw)) return aw.replace(/s$/, '') === 'l/100km' ? 'fuel use' : aw;
+    if (/\b(cost|costs|price|for|at)$/.test(lastB) && (t.dec || t.comma)) return 'price';
+    if (/^(of)$/.test(lastB) || /% of$/.test(before)) return 'amount';
+    if (/\b(split|share|divide)\s*$/.test(before)) return 'amount to split';
+    if (/\b(from)$/.test(lastB)) return 'starting value'; if (/\b(to)$/.test(lastB)) return 'end value';
+    if (aw && /^[a-z]{3,}$/.test(aw) && !/^(and|for|the|with|from|then|each|plus|minus|times|over|into|what|how)$/.test(aw)) return aw;
+    return 'this number';
+  }
+  const cap1 = s => s.charAt(0).toUpperCase() + s.slice(1);
+  // understands "20", "under 20", "at least 1000", "+10%", "-5%", "half", "double", "5 more", "3 less"
+  function parseGoal(s, cur) {
+    let t = String(s).trim().toLowerCase().replace(/[€$£]/g, '').replace(/\s+/g, ' '), side = 0, m;
+    if (!t) return null;
+    if ((m = t.match(/^(?:under|below|less than|at most|max(?:imum)?|no more than|up to|<=?|≤)\s*(.+)$/))) { side = -1; t = m[1]; }
+    else if ((m = t.match(/^(?:over|above|more than|at least|min(?:imum)?|no less than|>=?|≥)\s*(.+)$/))) { side = 1; t = m[1]; }
+    const num = x => { x = x.trim(); const v = /^-?\d+,\d{1,2}$/.test(x) ? parseFloat(x.replace(',', '.')) : parseFloat(x.replace(/,/g, '')); return isFinite(v) && /^[-+]?[\d.,]+k?$/.test(x) ? v * (/k$/.test(x) ? 1000 : 1) : NaN; };
+    if (/^(half|halve|halved|50% less)$/.test(t)) return { v: cur / 2, side, how: 'half' };
+    if (/^(double|twice|x ?2|× ?2|doubled)$/.test(t)) return { v: cur * 2, side, how: 'double' };
+    if ((m = t.match(/^([+\-−])\s*(\d+(?:[.,]\d+)?)\s*%$/))) { const p = parseFloat(m[2].replace(',', '.')) * (m[1] === '+' ? 1 : -1); return { v: cur * (1 + p / 100), side, how: `${p > 0 ? '+' : '−'}${Math.abs(p)}%` }; }
+    if ((m = t.match(/^(\d+(?:[.,]\d+)?)\s*% (more|higher|bigger|less|lower|smaller|cheaper)$/))) { const p = parseFloat(m[1].replace(',', '.')) * (/more|higher|bigger/.test(m[2]) ? 1 : -1); return { v: cur * (1 + p / 100), side, how: `${p > 0 ? '+' : '−'}${Math.abs(p)}%` }; }
+    if ((m = t.match(/^([+\-−])\s*(\d+(?:[.,]\d+)?)$/))) { const d = parseFloat(m[2].replace(',', '.')) * (m[1] === '+' ? 1 : -1); return { v: cur + d, side, how: `${d > 0 ? '+' : '−'}${Math.abs(d)}` }; }
+    if ((m = t.match(/^(\d+(?:[.,]\d+)?) (more|higher|less|lower|cheaper|fewer)$/))) { const d = parseFloat(m[1].replace(',', '.')) * (/more|higher/.test(m[2]) ? 1 : -1); return { v: cur + d, side, how: `${d > 0 ? '+' : '−'}${Math.abs(d)}` }; }
+    const v = num(t.replace(/\s*(each|per [a-z]+|a month|a year|[a-z%°]+)$/, '')); return isFinite(v) ? { v, side, how: '' } : null;
+  }
+  const fmtAns = y => current && current.kind === 'Money' ? (+y).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : Engine.fmt(+(+y).toPrecision(6));
+  // ---------- Set the answer: type the result you want, the question adapts ----------
+  let goalState = null, goalT = null;
+  // every way to reach the goal by changing one number of the question
+  function solveGoal(q, goal) {
+    const c = askCtx().c, rows = [], target = goal.v, tolHit = Math.max(.005, Math.abs(target) * 5e-4);
+    for (const t of revTokens(q)) {
+      const f = x => evalWith(q, t, x, c), y0 = f(t.v); if (!isFinite(y0)) continue; const role = roleOf(q, t);
+      const d = t.countish || t.pct ? 1 : Math.max(Math.abs(t.v) * .01, t.dec ? Math.pow(10, -t.dec) : 1), dy = f(t.v + d) - y0;
+      const row = { t, role, y0, sens: isFinite(dy) ? { d, dy } : null };
+      if (t.countish) {
+        const top = Math.max(60, Math.ceil(t.v * 12)); let prev = null, hit = null;
+        for (let n = t.v >= 2 ? 2 : 1; n <= top; n++) { const y = f(n); if (!isFinite(y)) { prev = null; continue; } if (Math.abs(y - target) <= tolHit) { hit = { exact: { n, y } }; break; } if (prev && Math.sign(prev.y - target) !== Math.sign(y - target)) { hit = { lo: prev, hi: { n, y } }; break; } prev = { n, y }; }
+        if (!hit) { rows.push({ ...row, none: 'not with a whole number' }); continue; }
+        if (hit.exact) { rows.push({ ...row, x: hit.exact.n, y: hit.exact.y, shown: String(hit.exact.n) }); continue; }
+        const cand = [hit.lo, hit.hi]; let best = goal.side < 0 ? cand.find(p => p.y <= target) : goal.side > 0 ? cand.find(p => p.y >= target) : null; best = best || cand.reduce((a, b) => Math.abs(a.y - target) <= Math.abs(b.y - target) ? a : b);
+        const other = best === hit.lo ? hit.hi : hit.lo; rows.push({ ...row, x: best.n, y: best.y, shown: String(best.n), whole: other }); continue;
+      }
+      const x = seek(f, t.v, target);
+      if (x == null || !isFinite(x) || !isFinite(f(x)) || Math.abs(f(x) - target) > Math.max(.005, Math.abs(target) * 1e-4)) { rows.push({ ...row, none: 'can’t reach it' }); continue; }
+      if (t.v > 0 && x <= 0) { rows.push({ ...row, none: 'would go below zero' }); continue; }
+      if (t.pct && x > 100 && /discount|tax|tip/.test(role)) { rows.push({ ...row, none: `would need ${Engine.fmt(+x.toPrecision(3))}%` }); continue; }
+      const base = t.dec || (Math.abs(x / t.mult) < 100 ? 2 : Math.abs(x / t.mult) < 10000 ? 1 : 0); let shown = '', xr = x, yr = NaN;
+      for (let dd = t.dec || 0; dd <= (t.dec >= 2 && !t.pct ? t.dec : Math.max(base, t.dec) + 3); dd++) { const s = revFmt({ ...t, fix: dd }, x), xv = parseFloat(s.replace(',', '.').replace(/[%km]$/i, '')) * t.mult, yv = f(xv); shown = s; xr = xv; yr = yv; if (isFinite(yv) && Math.abs(yv - target) <= tolHit && (!goal.side || (goal.side < 0 ? yv <= target + 1e-9 : yv >= target - 1e-9))) break; }
+      if (goal.side && isFinite(yr) && (goal.side < 0 ? yr > target + 1e-9 : yr < target - 1e-9)) { const st = (t.dec ? Math.pow(10, -t.dec) : 1) * t.mult * (t.suf ? .1 : 1); for (const dir of [1, -1]) { const y2 = f(xr + dir * st); if (isFinite(y2) && (goal.side < 0 ? y2 <= target : y2 >= target)) { xr += dir * st; yr = y2; shown = revFmt(t, xr); break; } } }
+      rows.push({ ...row, x: xr, y: isFinite(yr) ? yr : f(x), shown });
+    }
+    rows.forEach(r => { if (!r.none && Math.abs(r.x - r.t.v) < 1e-9 * Math.max(1, Math.abs(r.t.v))) r.none = r.t.countish ? 'already the closest' : 'no change needed'; });
+    const ok = rows.filter(r => !r.none).map(r => ({ ...r, ch: (r.x - r.t.v) / Math.abs(r.t.v || 1) * 100 })).sort((a, b) => Math.abs(a.ch) - Math.abs(b.ch));
+    return { rows, ok, tolHit };
+  }
+  function openGoal(goalText) {
+    const box = $('#answer'); if (!current || current.error || typeof current.num !== 'number') return;
+    const q = $('#q').value.trim(); if (!revTokens(q).length) { toast('This question has no number to change'); return; }
+    goalState = { q, r: current, pick: null, res: null };
+    box.classList.add('goaling'); document.body.classList.add('goaling');
+    const g = document.createElement('div'); g.className = 'goal'; g.id = 'goal';
+    g.innerHTML = `<div class="g-row"><label class="g-lbl" for="gIn">I want</label><input id="gIn" class="g-in" type="text" autocomplete="off" spellcheck="false" inputmode="decimal" value="${esc(goalText || current.value)}" aria-label="The answer you want"><span class="g-unit">${esc(current.unit || '')}</span></div>
+      <div class="g-by" id="gBy" role="radiogroup" aria-label="Which number to change"></div>
+      <div class="g-prev" id="gPrev" aria-live="polite"></div>
+      <div class="g-hint" id="gHint"></div>
+      <div class="g-act"><button type="button" class="btn primary" id="gApply" disabled>Apply to my question</button><button type="button" class="btn" id="gCancel">Cancel</button></div>`;
+    const val = box.querySelector('.a-value'); (val || box.querySelector('.a-head')).after(g);
+    const inp = g.querySelector('#gIn'); inp.focus(); if (!goalText) inp.select();
+    inp.addEventListener('input', () => { clearTimeout(goalT); g.classList.add('thinking'); goalT = setTimeout(goalUpdate, 160); });
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); goalApply(); } if (e.key === 'Escape') { e.preventDefault(); goalClose(); } });
+    g.querySelector('#gBy').addEventListener('click', e => { const b = e.target.closest('[data-k]'); if (!b || b.disabled) return; goalState.pick = +b.dataset.k; goalRender(true); });
+    g.querySelector('#gApply').addEventListener('click', goalApply); g.querySelector('#gCancel').addEventListener('click', () => goalClose());
+    goalUpdate();
+  }
+  function goalClose(silent) { const box = $('#answer'); box.classList.remove('goaling'); document.body.classList.remove('goaling'); $('#goal')?.remove(); goalState = null; clearTimeout(goalT); if (!silent) $('#q').focus(); }
+  function goalUpdate() {
+    const g = $('#goal'); if (!g || !goalState) return; g.classList.remove('thinking');
+    const goal = parseGoal(g.querySelector('#gIn').value, goalState.r.num);
+    if (!goal || Math.abs(goal.v - goalState.r.num) < Math.max(1e-9, Math.abs(goal.v) * 1e-6)) { goalState.res = null; g.querySelector('#gBy').innerHTML = ''; g.querySelector('#gPrev').innerHTML = ''; g.querySelector('#gApply').disabled = true;
+      g.querySelector('#gHint').innerHTML = `Now it’s <b>${esc(goalState.r.value)}</b>. Type the answer you want, like <b>${esc(quickGoals(goalState.r.num)[0])}</b>, <b>under ${esc(quickGoals(goalState.r.num)[0])}</b> or <b>−10%</b>, and Quotient changes one number in your question to get there.`; return; }
+    goalState.goal = goal; goalState.res = solveGoal(goalState.q, goal);
+    if (goalState.pick != null && !goalState.res.ok.some(r => r.t.start === goalState.pick)) goalState.pick = null;
+    goalRender(false);
+  }
+  function goalRender(fromPick) {
+    const g = $('#goal'), st = goalState; if (!g || !st || !st.res) return; const { rows, ok, tolHit } = st.res, goal = st.goal, q = st.q;
+    const by = g.querySelector('#gBy'), prev = g.querySelector('#gPrev'), hint = g.querySelector('#gHint'), apply = g.querySelector('#gApply');
+    const sel = ok.find(r => r.t.start === st.pick) || ok[0]; st.sel = sel;
+    const goalTxt = `${goal.side < 0 ? 'at most ' : goal.side > 0 ? 'at least ' : ''}${fmtAns(goal.v)}${st.r.unit ? ' ' + st.r.unit : ''}`;
+    by.innerHTML = `<span class="g-lbl">by changing</span>` + rows.map((r, i) => { const o = ok.find(x => x.t.start === r.t.start); return `<button type="button" role="radio" aria-checked="${o && sel && o.t.start === sel.t.start}" data-k="${r.t.start}" ${o ? '' : 'disabled'} title="${o ? `${r.t.raw} → ${o.shown}` : esc(r.none)}" style="--i:${i}">${esc(cap1(r.role))}${o ? '' : `<small>${esc(r.none)}</small>`}</button>`; }).join('');
+    if (!sel) { prev.innerHTML = `<div class="g-none">No single number in the question gets to <b>${esc(goalTxt)}</b>.</div>`; hint.innerHTML = 'Try a value closer to the current answer.'; apply.disabled = true; return; }
+    const hit = Math.abs(sel.y - goal.v) <= tolHit || (goal.side < 0 && sel.y <= goal.v) || (goal.side > 0 && sel.y >= goal.v);
+    prev.innerHTML = `<div class="g-q">${esc(q.slice(0, sel.t.start))}<span class="g-swap"><s>${esc(sel.t.raw)}</s><mark id="gNum">${esc(sel.shown)}</mark></span>${esc(q.slice(sel.t.end))}</div>
+      <div class="g-res ${hit ? 'hit' : 'near'}"><span>${hit ? 'gives' : 'closest'}</span> <b>${esc(fmtAns(sel.y))}${st.r.unit ? ' ' + esc(st.r.unit) : ''}</b> ${hit ? '<i>✓</i>' : ''}</div>`;
+    const chg = `${sel.ch > 0 ? '+' : '−'}${Engine.fmt(+Math.abs(sel.ch).toPrecision(3))}%`;
+    hint.innerHTML = sel.whole ? `${esc(cap1(sel.role))} has to be a whole number: ${sel.x} gives ${esc(fmtAns(sel.y))}, ${sel.whole.n} gives ${esc(fmtAns(sel.whole.y))}.`
+      : `${ok.length > 1 && sel === ok[0] ? 'Smallest change: ' : ''}the ${esc(sel.role)} goes ${sel.ch > 0 ? 'up' : 'down'} ${Engine.fmt(+Math.abs(sel.ch).toPrecision(3))}%.${ok.length > 1 ? ` You can also change ${ok.filter(o => o !== sel).map(o => 'the ' + esc(o.role)).join(' or ')}.` : ''}`;
+    apply.disabled = false;
+    // the new number counts its way from the old one
+    if (!REDUCE) { const el = prev.querySelector('#gNum'), from = sel.t.v, to = sel.x, t0 = performance.now(), D = 520; const step = now => { const k = Math.min(1, (now - t0) / D), e = 1 - Math.pow(1 - k, 3); if (!document.contains(el)) return; el.textContent = k < 1 ? revFmt(sel.t.countish ? { ...sel.t } : sel.t, from + (to - from) * e) : sel.shown; if (k < 1) requestAnimationFrame(step); }; requestAnimationFrame(step); }
+  }
+  function goalApply() {
+    const st = goalState; if (!st || !st.sel) return; const q = $('#q'), s = st.sel, nv = st.q.slice(0, s.t.start) + s.shown + st.q.slice(s.t.end);
+    goalClose(); q.value = nv; runAsk(); flashToken(s.t.start, s.shown.length); if (typeof barThinking === 'function') barThinking(); buzz();
+  }
+  // glow over the number that just changed in the search bar
+  function flashToken(start, len) {
+    if (REDUCE) return; const q = $('#q'), ghost = $('#ghost'); const v = q.value;
+    ghost.innerHTML = `<span class="t">${esc(v.slice(0, start))}</span><span class="g-flash">${esc(v.slice(start, start + len))}</span>`;
+    setTimeout(() => { if (ghost.querySelector('.g-flash')) ghost.innerHTML = ''; }, 1400);
+  }
+  function quickGoals(n) {
+    const a = Math.abs(n); if (!a) return ['10']; const step = Math.pow(10, Math.floor(Math.log10(a))) / (a / Math.pow(10, Math.floor(Math.log10(a))) < 2.5 ? 4 : 2);
+    const lo = Math.floor(n / step) * step; return [Engine.fmt(+(lo === n ? n - step : lo).toPrecision(6))];
+  }
+
+  // from the search bar: "make it 20", "i want 20 each", "how do i get under 1000", "target 15"
+  const GOALRE = /^(?:make it|make that|i want(?: it to be)?|i need(?: it to be)?|to get|get it to|so (?:it'?s|that it'?s)|target|aim for|how (?:do|can|could) i (?:get|make it|reach)|what (?:would|do) i (?:need|have to change) (?:to get|for))\s+(.+?)\??$/i;
+
+  function goalBase() { return ctx.lastQ || hist[0] || ''; }
+
+  /* numbers count to their new value, keeping the answer's own format */
+  function tweenValue(av, from, to, finalText) {
+    if (REDUCE || !av || !isFinite(from) || !isFinite(to) || from === to) return; const node = av.firstChild; if (!node || node.nodeType !== 3) return;
+    const m = String(finalText).match(/^([^\d−-]*)([−-]?)([\d,]+)(\.(\d+))?([^\d]*)$/); if (!m) return;
+    const dec = m[5] ? m[5].length : 0, pre = m[1], post = m[6], grouped = /,/.test(m[3]) || Math.abs(to) >= 1000;
+    const f = x => { const neg = x < 0; let s = Math.abs(x).toFixed(dec); if (grouped) { const [i, d] = s.split('.'); s = i.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (d ? '.' + d : ''); } return pre + (neg ? '−' : '') + s + post; };
+    const t0 = performance.now(), D = Math.min(700, 320 + Math.log10(1 + Math.abs(to - from)) * 60); av.classList.add('counting');
+    const step = now => { const k = Math.min(1, (now - t0) / D), e = 1 - Math.pow(1 - k, 4); if (av.firstChild !== node) return; node.textContent = k < 1 ? f(from + (to - from) * e) : finalText; if (k < 1) requestAnimationFrame(step); else av.classList.remove('counting'); };
+    requestAnimationFrame(step);
+  }
 
   /* live suggestions + history */
   let hist = store.get('quotient.hist', []); if (!Array.isArray(hist)) hist = [];
@@ -3371,7 +3837,7 @@ const Engine = (() => {
     if (document.activeElement !== $('#q') || filling) { box.hidden = true; $('#opsRow').hidden = true; if (!filling) sugg = []; renderGhost(); return; }
     const low = v.toLowerCase().trim();
     const fromHist = low ? hist.filter(x => x.toLowerCase().startsWith(low) && x.toLowerCase() !== low).slice(0, 2) : hist.slice(0, 3);
-    sugg = [...new Set([...fromHist, ...Engine.complete(v, ctx)])].slice(0, 5);
+    sugg = [...new Set([...fromHist, ...Engine.complete(v, { ...ctx, hist })])].slice(0, 5);
     let opsHtml = opsFor(v); const orow = $('#opsRow');
     if (matchMedia('(max-width: 560px)').matches) { const had = !!orow.querySelector('.ops'); if (orow.dataset.k !== opsHtml) { orow.innerHTML = opsHtml.replace('class="ops"', `class="ops${had ? '' : ' in'}"`); orow.dataset.k = opsHtml; } orow.hidden = !opsHtml; opsHtml = ''; } else orow.hidden = true;
     if (!sugg.length && !opsHtml) { box.hidden = true; renderGhost(); return; }
@@ -3463,6 +3929,7 @@ const Engine = (() => {
   }
   function growQ() { const q = $('#q'); q.style.height = '50px'; const h = Math.max(50, q.scrollHeight); q.style.height = h + 'px'; }
   function renderAnswer(r, example) {
+    if (goalState || $('#answer').classList.contains('goaling')) goalClose(true);
     renderPill(r);
     const box = $('#answer'); current = example ? null : r; box.classList.remove('stale');
     box.classList.toggle('live', !example);
@@ -3492,11 +3959,13 @@ const Engine = (() => {
     }
     box.innerHTML = `
       <div class="a-head"><span class="chip-kind ${kindCls}">${example ? 'Example' : esc(r.kind)}</span><span class="a-label">${esc(example ? '“' + example + '”' : r.label)}</span></div>
-      ${r.value ? `<div class="a-value">${r.swatch && /^#[0-9A-F]{6}$/.test(r.swatch) ? `<span class="sw" style="background:${r.swatch}"></span>` : ''}<span class="av">${esc(r.value)}${r.unit ? `<small>${esc(r.unit)}</small>` : ''}</span></div>` : r.plot ? '' : `<div class="a-label" style="color:var(--ink);font-size:17px">${esc(r.error ? r.label : 'Ask in your own words. A few shapes that work:')}</div>`}
+      ${r.value ? `<div class="a-value">${r.swatch && /^#[0-9A-F]{6}$/.test(r.swatch) ? `<span class="sw" style="background:${r.swatch}"></span>` : ''}<span class="av">${esc(r.value)}${r.unit ? `<small>${esc(r.unit)}</small>` : ''}</span>${!example && !r.error && !r.plot && !r.assign && typeof r.num === 'number' && isFinite(r.num) && revTokens($('#q').value).length ? `<button type="button" class="a-goal" data-act="rev" title="Type the answer you want: Quotient changes your question to match"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg><span>Set the answer</span></button>` : ''}</div>` : r.plot ? '' : `<div class="a-label" style="color:var(--ink);font-size:17px">${esc(r.error ? r.label : 'Ask in your own words. A few shapes that work:')}</div>`}
       ${trail.length && !example && !r.error ? `<div class="trail"><span class="lbl">Before</span>${trail.map((t, i) => `<button type="button" data-try="${esc(t.q)}" title="${esc(t.q)}">${esc(t.v)}</button>`).join('')}</div>` : ''}
       ${r.alts && r.alts.length && !example ? `<div class="alts"><span class="lbl">Or</span>${r.alts.map(a => { let pv = ''; try { const x = Engine.solve(a.q, ctx); pv = x && !x.error ? x.value + (x.unit && x.unit.length < 8 ? ' ' + x.unit : '') : ''; } catch {} return `<button type="button" class="ex" data-try="${esc(a.q)}">${esc(a.label)}${pv ? `<b>${esc(pv)}</b>` : ''}</button>`; }).join('')}</div>` : ''}
       ${r.plot ? `<div class="plot"><canvas aria-label="Graph of ${esc(r.plot.src)}" role="img"></canvas><div class="plot-read"><span>${esc(r.plot.note || 'drag across the graph to read values')}</span></div></div>` : ''}
+      ${!example && !r.error ? (() => { const ins = insight(r, $('#q').value); return ins ? `<div class="a-insight"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg><span>${esc(ins)}</span></div>` : ''; })() : ''}
       ${steps ? `<ul class="a-steps">${steps}</ul>` : ''}
+      ${!example && !r.error ? (() => { const nx = nextFor(r, $('#q').value.trim()); return nx.length ? `<div class="a-next"><span class="lbl">Next</span>${nx.map(([l, qq], i) => `<button type="button" data-next="${esc(qq)}" style="--i:${i}">${esc(l)}</button>`).join('')}</div>` : ''; })() : ''}
       ${actions}`;
     box.dataset.example = example || '';
     // tap the answer to see it in other formats
@@ -3505,7 +3974,7 @@ const Engine = (() => {
       const uniq = fm.filter((x, i) => fm.indexOf(x) === i);
       if (uniq.length > 1) { let ci = 0; ve.classList.add('cyc'); ve.title = 'Tap to see other formats'; ve.tabIndex = 0; ve.setAttribute('role', 'button');
         const ind = document.createElement('span'); ind.className = 'cycn'; ind.textContent = `1/${uniq.length}`; ve.appendChild(ind);
-        const cycle = () => { ci = (ci + 1) % uniq.length; const av = ve.querySelector('.av'); av.innerHTML = ci === 0 ? `${esc(r.value)}${r.unit ? `<small>${esc(r.unit)}</small>` : ''}` : esc(uniq[ci]); ind.textContent = `${ci + 1}/${uniq.length}`; av.classList.remove('swap2'); void av.offsetWidth; av.classList.add('swap2'); };
+        const cycle = e => { if (e && e.target && e.target.closest && e.target.closest('[data-act]')) return; ci = (ci + 1) % uniq.length; const av = ve.querySelector('.av'); av.innerHTML = ci === 0 ? `${esc(r.value)}${r.unit ? `<small>${esc(r.unit)}</small>` : ''}` : esc(uniq[ci]); ind.textContent = `${ci + 1}/${uniq.length}`; av.classList.remove('swap2'); void av.offsetWidth; av.classList.add('swap2'); };
         ve.addEventListener('click', cycle); ve.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); cycle(); } }); } }
     const plotEl = box.querySelector('.plot');
     if (plotEl) { const key = JSON.stringify(r.plot); drawPlot(plotEl, r.plot, key !== lastPlot); lastPlot = key; } else lastPlot = null;
@@ -3516,6 +3985,7 @@ const Engine = (() => {
     else {
       if (valEl && v !== lastVal) valEl.classList.add('swap');
       if (valEl && v !== lastVal && !example && !r.error) aiThink(box);
+      if (valEl && v !== lastVal && lastNumK && typeof r.num === 'number' && lastNumK.kind === r.kind && lastNumK.unit === (r.unit || '')) tweenValue(valEl.querySelector('.av'), lastNumK.num, r.num, r.value);
       if (labEl && r.label !== lastLabel) labEl.classList.add('swap');
       if (stEl && stepsKey !== lastSteps) stEl.classList.add('swap');
     }
@@ -3534,6 +4004,7 @@ const Engine = (() => {
     }
   }
   $('#answer').addEventListener('click', e => {
+    const nx = e.target.closest('[data-next]'); if (nx) { const q0 = $('#q').value.trim(); if (current && !current.error) { keep(); } $('#q').value = nx.dataset.next; runAsk(); $('#q').focus(); if (typeof barThinking === 'function') barThinking(); return; }
     const t = e.target.closest('[data-try]'); if (t) { $('#q').value = t.dataset.try; runAsk(); $('#q').focus(); return; }
     const b = e.target.closest('[data-act]'); if (!b) return; const act = b.dataset.act;
     const r = current || Engine.solve($('#answer').dataset.example, ctx);
@@ -3542,6 +4013,7 @@ const Engine = (() => {
     if (act === 'again') runAsk();
     if (act === 'sheet') { addToSheet($('#q').value.trim()); return; }
     if (act === 'pin') { addPin($('#q').value.trim()); return; }
+    if (act === 'rev') { openGoal(); return; }
     if (act === 'basket') { addToBasket($('#q').value.trim(), current); return; }
     if (act === 'examples') { setExamples(true); exBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); return; }
     if (act === 'copy' && r && r.plot && !r.value) copy(r.label);
@@ -3574,7 +4046,7 @@ const Engine = (() => {
     addTape({ q, r: shown, num: typeof current.num === 'number' ? current.num : null, src: 'ask' });
     if (typeof current.num === 'number' && isFinite(current.num)) {
       ctx.ans = current.num; ctx.lastQ = q; ctx.lastShown = shown;
-      ctx.lastUnit = current.kind === 'Units' && current.unit ? current.unit : null;
+      ctx.lastUnit = current.kind === 'Units' && current.unit ? current.unit : (/^[\d.,]+ (days?|weeks?|hours?|minutes?|months?|years?)\b/.exec(current.value || '') || [])[1] || (/^(days?|weeks?|hours?|minutes?|months?|years?)$/.test(current.unit || '') ? current.unit : null);
       saveCtx(); renderCtx();
     }
     toast('Kept on the tape');
@@ -3712,13 +4184,22 @@ const Engine = (() => {
   $('#pinGrid').addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.closest('[data-pin]') && !e.target.closest('[data-unpin]')) { e.preventDefault(); e.target.click(); } });
   setInterval(() => { if (pins.length && !document.hidden && view === 'ask') tickPins(false); }, 1000);
 
+  // the search bar can use names from your Sheet and your Basket total
+  let sheetVarsStale = true;
+  function askCtx() {
+    const extra = {};
+    try { if (!sheet.ex) { if (sheetVarsStale || !Object.keys(lastSheetVars).length) { lastSheetVars = evalVarsOf(evalSheet().out); sheetVarsStale = false; } for (const [k, v] of Object.entries(lastSheetVars)) if (k.length > 2 && !/^(total|sum|subtotal|tip|tax|vat|prev|above|ans|pi|e)$/.test(k)) extra[k] = v; } } catch {}
+    let hasBasket = false; try { if (!bk.ex && bk.items.length) { const { tot } = bkTotals(); extra.basket = +tot.toFixed(2); hasBasket = true; if (bk.budget) extra.budget = bk.budget; } } catch {}
+    return Object.keys(extra).length ? { c: { ...ctx, vars: { ...extra, ...(ctx.vars || {}) } }, q: hasBasket } : { c: ctx, q: false };
+  }
   let lastGood = null, errT = null;
   function runAsk(fromScrub) {
     const qel = $('#q'); if (/\n/.test(qel.value)) qel.value = qel.value.replace(/\s*\n+\s*/g, ' ');
     const v = qel.value; $('#qclear').hidden = !v; growQ();
     if (!fromScrub) renderSugg(); clearTimeout(errT);
     if (!v.trim()) { lastGood = null; trail = []; trailKey = null; renderAnswer(null); renderScrub(null); return; }
-    const r = Engine.solve(v, ctx);
+    { const gm = v.trim().match(GOALRE), base = goalBase(); if (gm && base && parseGoal(gm[1], 1)) { renderScrub(null); renderAnswer({ kind: 'Work backwards', label: `From your last question: “${base}”`, value: `→ ${gm[1]}`, steps: [['press Enter', 'to see which number to change, and to what']] }); return; } }
+    const ac = askCtx(); const r = Engine.solve(ac.q ? v.replace(/\b(?:my |the )?basket(?: total| sum)?\b/gi, 'basket') : v, ac.c);
     renderScrub(r);
     // while you are mid-sentence, keep the last good answer (dimmed) instead of flashing an error
     if (r && r.error && lastGood && !$('#answer').hidden) {
@@ -3728,18 +4209,19 @@ const Engine = (() => {
       errT = setTimeout(() => renderAnswer(r), 900); return;
     }
     if (r && !r.error) lastGood = r;
+
     updateTrail(v.trim(), r);
     renderAnswer(r);
   }
   addEventListener('resize', () => growQ());
-  $('#q').addEventListener('input', () => { sel = 0; hIdx = -1; moved = false; scrubBase = null; spark = null; runAsk(); });
+  $('#q').addEventListener('input', () => { if (goalState) goalClose(true); sel = 0; hIdx = -1; moved = false; scrubBase = null; spark = null; runAsk(); });
   ['keyup', 'click'].forEach(ev => $('#q').addEventListener(ev, e => { if (ev === 'click' || /Arrow(Left|Right)|Home|End/.test(e.key)) renderGhost(); }));
   $('#q').addEventListener('keydown', e => {
     const q = $('#q');
     const open = sugg.length && !$('#sugg').hidden;
     if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) return;
     if (e.key === 'Enter' && e.shiftKey) { e.preventDefault(); return; }
-    if (e.key === 'Enter') { e.preventDefault(); if (open && (moved || !q.value.trim())) { accept(sel); moved = false; return; } keep(); return; }
+    if (e.key === 'Enter') { e.preventDefault(); { const gm = q.value.trim().match(GOALRE), base = goalBase(); if (gm && base && parseGoal(gm[1], 1)) { q.value = base; runAsk(); setTimeout(() => openGoal(gm[1].replace(/\s+(each|per person|a month|a year)$/i, '')), 30); return; } } if (open && (moved || !q.value.trim())) { accept(sel); moved = false; return; } keep(); return; }
     if (e.key === 'Tab' && !e.shiftKey && open) { e.preventDefault(); accept(sel); return; }
     if (e.key === 'ArrowRight' && open && $('#ghost').textContent && q.selectionStart === q.value.length) { e.preventDefault(); accept(sel); return; }
     if ((e.key === 'ArrowUp' && q.selectionStart > 0 && q.scrollHeight > 52 && q.value.slice(0, q.selectionStart).length > 0 && !open) ) return;
@@ -3871,7 +4353,7 @@ const Engine = (() => {
   const SHEET_EX = { title: 'Weekend in Porto', ex: true, lines: ['# Getting there', 'Train: 2 × 24,50', 'Fuel: fuel 40 km at 6 l/100km 1.80 per litre', '# Staying', 'Hotel: 2 × 89', 'Dinners: 3 × 45', 'Tip: 10% of dinners', 'Museum: 2 × 12', 'total', 'Each of us: total / 2', '', 'Days to go: days until 18 december', 'Drive back: 3h 20m + 45 min'] };
   let sheet = store.get('quotient.sheet', null);
   if (!sheet || !Array.isArray(sheet.lines)) sheet = JSON.parse(JSON.stringify(SHEET_EX));
-  const saveSheet = () => store.set('quotient.sheet', sheet);
+  const saveSheet = () => { store.set('quotient.sheet', sheet); sheetVarsStale = true; };
   const SUMMABLE = new Set(['Math', 'Money', 'Percent', 'Memory']);
   const slug = t => t.toLowerCase().replace(/[^a-z0-9 ]/g, '').trim().replace(/\s+/g, '_');
   let lastRes = [], lastTotal = '';
@@ -3882,11 +4364,16 @@ const Engine = (() => {
       if (!line) { block = []; out.push({ t: 'blank' }); return; }
       if (/^#/.test(line)) { out.push({ t: 'head' }); return; }
       const bsum = block.reduce((a, b) => a + b, 0);
-      const kw = line.toLowerCase().replace(/[:=]\s*$/, '').match(/^(sum|total|subtotal|sum above|total above|grand total|average|avg|mean|count)$/);
-      if (kw) { const v = /average|avg|mean/.test(kw[1]) ? (block.length ? bsum / block.length : 0) : kw[1] === 'count' ? block.length : /grand/.test(kw[1]) ? all.reduce((a, b) => a + b, 0) : bsum; out.push({ t: 'sum', text: Engine.fmt(+v.toPrecision(12)) }); prev = v; prevUnit = null; vars['line' + (i + 1)] = v; return; }
-      const c = { ...ctx, vars: { ...vars, sum: bsum, total: bsum, subtotal: bsum, prev: prev ?? 0, above: prev ?? 0 }, ans: prev ?? 0, lastQ: prev != null ? 'previous line' : null, lastUnit: prevUnit };
+      const kw = line.toLowerCase().replace(/[:=]\s*$/, '').match(/^(sum|total|subtotal|sum above|total above|grand total|average|avg|mean|count|max|maximum|biggest|largest|highest|min|minimum|smallest|lowest|cheapest|median|range)$/);
+      if (kw) { const so = [...block].sort((a, b) => a - b), med = so.length ? (so.length % 2 ? so[(so.length - 1) / 2] : (so[so.length / 2 - 1] + so[so.length / 2]) / 2) : 0;
+        const v = /average|avg|mean/.test(kw[1]) ? (block.length ? bsum / block.length : 0) : kw[1] === 'count' ? block.length : /grand/.test(kw[1]) ? all.reduce((a, b) => a + b, 0) : /max|biggest|largest|highest/.test(kw[1]) ? (so.length ? so[so.length - 1] : 0) : /min|smallest|lowest|cheapest/.test(kw[1]) ? (so.length ? so[0] : 0) : kw[1] === 'median' ? med : kw[1] === 'range' ? (so.length ? so[so.length - 1] - so[0] : 0) : bsum; out.push({ t: 'sum', text: Engine.fmt(+v.toPrecision(12)) }); prev = v; prevUnit = null; vars['line' + (i + 1)] = v; return; }
+      const c = { ...ctx, vars: { ...vars, sum: block.length ? bsum : all.reduce((x, y) => x + y, 0), total: block.length ? bsum : all.reduce((x, y) => x + y, 0), subtotal: bsum, grand_total: all.reduce((x, y) => x + y, 0), prev: prev ?? 0, above: prev ?? 0 }, ans: prev ?? 0, lastQ: prev != null ? 'previous line' : null, lastUnit: prevUnit };
       const lm = line.match(/^([^:=\d#][^:=]{0,40}?)\s*:\s*(.+)$/); const label = lm && !/\d/.test(lm[1]) ? lm[1] : null;
-      let r = null; try { r = Engine.solve(label ? lm[2] : line, c); if ((!r || r.error) && label) r = Engine.solve(line, c); } catch {}
+      let r = null, fixed = null; try { r = Engine.solve(label ? lm[2] : line, c); if ((!r || r.error) && label) r = Engine.solve(line, c); } catch {}
+      // a misspelled name from an earlier line ("hotle × 2") is read as that name
+      if (!r || r.error) { const names = Object.keys(vars).filter(k => !/^line\d+$/.test(k) && k.length > 2); const body = label ? lm[2] : line; let changed = body, fx = [];
+        for (const w of new Set((body.toLowerCase().match(/[a-z_][a-z_0-9]{2,}/g) || []))) { if (names.includes(w)) continue; let best = null; for (const n of names) { const d = lev(w, n); if (d <= (n.length > 5 ? 2 : 1) && (!best || d < best[1])) best = [n, d]; } if (best) { changed = changed.replace(new RegExp('\\b' + w + '\\b', 'gi'), best[0]); fx.push(`${w} → ${best[0]}`); } }
+        if (fx.length) { try { const r2 = Engine.solve(changed, c); if (r2 && !r2.error) { r = r2; fixed = fx.join(', '); } } catch {} } }
       if (!r || r.error) { out.push({ t: 'err', text: r && r.steps && r.steps[0] ? r.steps[0][1] : '' }); return; }
       if (r.assign) vars[r.assign.name] = r.assign.value;
       const text = r.assign ? Engine.fmt(r.assign.value) : (r.value || r.label) + (r.unit && r.unit.length < 14 ? ' ' + r.unit : '');
@@ -3896,9 +4383,11 @@ const Engine = (() => {
         const derived = /\b(total|sum|subtotal|prev|above|line\d+)\b/i.test(label ? lm[2] : line) || (r.steps && r.steps[0] && /^(ans|from|changed)$/.test(r.steps[0][0]));
         if (SUMMABLE.has(r.kind) && !derived) { block.push(r.num); all.push(r.num); }
       }
-      out.push({ t: 'ok', text, kind: r.kind });
+      const note = fixed ? `read as ${fixed}` : r.steps && r.steps[0] && /^(read as|changed|ignored)$/.test(r.steps[0][0]) ? `${r.steps[0][0]} ${r.steps[0][1]}` : '';
+      const summed = typeof r.num === 'number' && isFinite(r.num) && SUMMABLE.has(r.kind) && !(/\b(total|sum|subtotal|prev|above|line\d+)\b/i.test(label ? lm[2] : line) || (r.steps && r.steps[0] && /^(ans|from|changed)$/.test(r.steps[0][0])));
+      out.push({ t: 'ok', text, kind: r.kind, note, fixed: !!fixed, label: label || null, num: r.num, summed });
     });
-    return { out, total: all.reduce((a, b) => a + b, 0), anyMoney: false };
+    return { out, total: all.reduce((a, b) => a + b, 0), anyMoney: false, vars };
   }
   function updateSheet() {
     const { out, total } = evalSheet(); const rows = $$('#lines .ln');
@@ -3906,13 +4395,31 @@ const Engine = (() => {
       const row = rows[i]; if (!row) return; const res = row.querySelector('.res');
       row.classList.toggle('head', o.t === 'head'); row.classList.toggle('sumline', o.t === 'sum');
       const txt = o.t === 'ok' || o.t === 'sum' ? o.text : o.t === 'err' && sheet.lines[i].trim().length > 2 ? '?' : '';
-      res.classList.toggle('err', o.t === 'err'); res.title = o.t === 'err' ? (o.text || 'Not understood yet') : 'Copy';
+      res.classList.toggle('err', o.t === 'err'); res.classList.toggle('fixed', !!o.fixed); res.title = o.t === 'err' ? (o.text || 'Not understood yet') : o.note ? `${o.note} · tap to copy` : 'Copy';
       if (res.textContent !== txt) { res.textContent = txt; if (txt && lastRes[i] !== undefined && !REDUCE) { res.classList.remove('swap'); void res.offsetWidth; res.classList.add('swap'); } }
       lastRes[i] = txt;
     });
     const t = $('#sheetTotal'), tt = Engine.fmt(+total.toPrecision(12)); if (t.textContent !== tt) { t.textContent = tt; if (lastTotal) { t.classList.remove('swap'); void t.offsetWidth; t.classList.add('swap'); } lastTotal = tt; }
     $('#sheetEx').hidden = !sheet.ex;
+    // names you can reuse: tap to insert
+    const vb = $('#shVars'), named = Object.entries(lastSheetVars = evalVarsOf(out)).slice(0, 12);
+    vb.hidden = !named.length; const vh = named.length ? '<span class="lbl">Names</span>' + named.map(([k, v], i) => `<button type="button" data-var="${esc(k)}" style="--i:${i}" title="Insert ${esc(k)}">${esc(k)}<b>${esc(Engine.fmt(+(+v).toPrecision(8)))}</b></button>`).join('') : '';
+    if (vb.dataset.k !== vh) { vb.innerHTML = vh; vb.dataset.k = vh; }
+    // breakdown: what makes up the total
+    const parts = out.filter(o => o.t === 'ok' && o.summed && o.num > 0).map((o, i) => ({ name: o.label || sheet.lines[out.indexOf(o)].replace(/\s*\/\/.*$/, '').slice(0, 26), v: o.num })), T = parts.reduce((a, b) => a + b.v, 0), bb = $('#shBreak');
+    if (parts.length >= 2 && T > 0) { const top = [...parts].sort((a, b) => b.v - a.v).slice(0, 4); const rest = T - top.reduce((a, b) => a + b.v, 0);
+      const html = '<span class="lbl">Biggest</span>' + top.map((p, i) => `<div class="sb-row" style="--w:${(p.v / T * 100).toFixed(1)}%;--i:${i}"><span>${esc(p.name)}</span><i></i><b>${Math.round(p.v / T * 100)}%</b></div>`).join('') + (rest > 0.0001 ? `<div class="sb-row rest" style="--w:${(rest / T * 100).toFixed(1)}%"><span>everything else</span><i></i><b>${Math.round(rest / T * 100)}%</b></div>` : '');
+      if (bb.dataset.k !== html) { bb.innerHTML = html; bb.dataset.k = html; } bb.hidden = false; } else bb.hidden = true;
   }
+  let lastSheetVars = {}, lastSrc = null;
+  function evalVarsOf(out) { const v = {}; out.forEach((o, i) => { if (o.t === 'ok' && o.label) { const k = slug(o.label); if (/^[a-z][a-z0-9_]*$/.test(k) && k.length <= 24 && typeof o.num === 'number') v[k] = o.num; } }); return v; }
+  function lev(a, b) { if (Math.abs(a.length - b.length) > 2) return 9; const d = Array.from({ length: a.length + 1 }, (_, i) => [i]); for (let j = 1; j <= b.length; j++) d[0][j] = j; for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1), i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1] ? d[i - 2][j - 2] + 1 : 99); return d[a.length][b.length]; }
+  $('#lines').addEventListener('focusin', e => { if (e.target.closest('.src')) lastSrc = e.target; });
+  $('#shVars').addEventListener('mousedown', e => e.preventDefault());
+  $('#shVars').addEventListener('click', e => { const b = e.target.closest('[data-var]'); if (!b) return; let inp = lastSrc && document.contains(lastSrc) ? lastSrc : null;
+    if (!inp) { if (sheet.lines[sheet.lines.length - 1].trim()) { sheet.lines.push(''); renderLines(); } const all = $$('#lines .src'); inp = all[all.length - 1]; }
+    const s0 = inp.selectionStart ?? inp.value.length, s1 = inp.selectionEnd ?? s0, v = inp.value, pre = v.slice(0, s0), ins = (pre && !/[\s(×*+\-−÷\/]$/.test(pre) ? ' ' : '') + b.dataset.var + ' ';
+    inp.value = pre + ins + v.slice(s1); inp.focus(); const c = (pre + ins).length; inp.setSelectionRange(c, c); inp.dispatchEvent(new Event('input', { bubbles: true })); buzz(); });
   function renderLines(focusIdx, caret, newIdx) {
     const box = $('#lines'); box.innerHTML = ''; lastRes = [];
     sheet.lines.forEach((t, i) => {
@@ -3924,7 +4431,7 @@ const Engine = (() => {
     updateSheet();
     if (focusIdx != null) { const el = $$('#lines .src')[focusIdx]; if (el) { el.focus(); const c = caret ?? el.value.length; el.setSelectionRange(c, c); } }
   }
-  const touchSheet = () => { if (sheet.ex) { sheet.ex = false; } saveSheet(); };
+  const touchSheet = () => { if (sheet.ex) { sheet.ex = false; } saveSheet(); sheetVarsStale = true; };
   $('#lines').addEventListener('input', e => { const inp = e.target.closest('.src'); if (!inp) return; const i = +inp.closest('.ln').dataset.i; sheet.lines[i] = inp.value; touchSheet(); updateSheet(); });
   $('#lines').addEventListener('keydown', e => {
     const inp = e.target.closest('.src'); if (!inp) return; const i = +inp.closest('.ln').dataset.i, pos = inp.selectionStart, end = inp.selectionEnd;
@@ -3972,20 +4479,74 @@ const Engine = (() => {
     }
     return out.map(it => ({ ...it, name: it.name.replace(/^of\s+/i, '').trim() }));
   }
+
+  /* ---------- Basket intelligence: aisles, remembered prices, usual items, merging and commands ---------- */
+  const AISLES = [
+    ['Frozen', '#5B8DEF', /\b(frozen|ice ?cream|gelados?|congelad\w*|fish fingers|frozen peas)\b/],
+    ['Fruit & veg', '#3E9B5F', /\b(apples?|bananas?|oranges?|lemons?|limes?|tomato(e?s)?|potato(e?s)?|onions?|garlic|carrots?|lettuce|salad|spinach|peppers?|cucumbers?|avocados?|grapes?|berr(y|ies)|strawberr(y|ies)|pears?|melons?|broccoli|mushrooms?|courgettes?|zucchini|herbs|parsley|coriander|fruit|veg(etables?)?|maçãs?|laranjas?|limões|limão|tomates?|batatas?|cebolas?|alho|cenouras?|alface|fruta|legumes|peras?|uvas?|morangos?)\b/],
+    ['Bakery', '#C9853B', /\b(bread|baguettes?|croissants?|rolls?|bagels?|cakes?|muffins?|tortillas?|wraps?|pão|pães|bolos?|broa|tostas?)\b/],
+    ['Dairy & eggs', '#E0B21B', /\b(milk|cheese|yog(h)?urts?|butter|cream|eggs?|kefir|mozzarella|cheddar|parmesan|leite|queijos?|iogurtes?|manteiga|natas|ovos?)\b/],
+    ['Meat & fish', '#C85A54', /\b(chicken|beef|pork|ham|bacon|sausages?|turkey|mince|steaks?|lamb|fish|salmon|tuna|cod|shrimps?|prawns?|frango|carne|porco|fiambre|presunto|chouriço|peixe|bacalhau|atum|salmão|peru)\b/],
+    ['Drinks', '#3BA6B8', /\b(water|juice|soda|cola|lemonade|beers?|wines?|coffee beans|sparkling|água|sumos?|cervejas?|vinhos?|refrigerantes?)\b/],
+    ['Pantry', '#9A7B4F', /\b(rice|pasta|spaghetti|noodles|flour|sugar|salt|oil|olive oil|vinegar|sauce|ketchup|mayo(nnaise)?|mustard|beans|lentils|chickpeas|cereal|oats|granola|coffee|tea|honey|jam|spices?|stock|tinned|canned|soup|arroz|massa|farinha|açúcar|sal|azeite|óleo|vinagre|molho|feijão|grão|café|chá|mel|compota|cereais|enlatados?)\b/],
+    ['Snacks', '#B7609E', /\b(chips|crisps|chocolates?|biscuits?|cookies|nuts|snacks?|popcorn|sweets|candy|bolachas?|amendoins|pipocas|doces)\b/],
+    ['Household', '#6F7C8F', /\b(toilet (paper|roll)|kitchen roll|paper towels?|detergent|washing up|dish(washer)? (soap|tabs|liquid)|soap|shampoo|conditioner|toothpaste|toothbrush|bin bags|sponges?|bleach|cleaner|foil|cling film|batteries|light ?bulbs?|tissues|deodorant|papel higiénico|guardanapos|detergente|sabão|sabonete|champô|pasta de dentes|lixívia|esponjas?|sacos do lixo)\b/],
+    ['Baby & pet', '#8E7CC3', /\b(nappies|diapers|wipes|baby|formula|cat food|dog food|cat litter|pet|fraldas|toalhitas|ração|areia)\b/]];
+  const aisleOf = name => { const n = String(name).toLowerCase(); for (const [a, c, re] of AISLES) if (re.test(n)) return [a, c]; return ['Other', '#9AA0A8']; };
+  const keyOf = name => String(name).toLowerCase().replace(/\(.*?\)|,.*$|\b\d+(?:[.,]\d+)?\s*(g|kg|ml|l|x)\b/g, '').replace(/[^a-zà-ú ]/g, ' ').replace(/\s+/g, ' ').trim();
+  let priceMem = store.get('quotient.prices', {}); if (!priceMem || typeof priceMem !== 'object') priceMem = {};
+  let bkFreq = store.get('quotient.bkfreq', {}); if (!bkFreq || typeof bkFreq !== 'object') bkFreq = {};
+  const rememberPrice = (name, price) => { const k = keyOf(name); if (!k || !(price > 0)) return; priceMem[k] = { p: +price.toFixed(4), at: Date.now() }; store.set('quotient.prices', priceMem); };
+  const recalled = name => { const m = priceMem[keyOf(name)]; return m && m.p > 0 ? m.p : 0; };
+  // typed commands: "remove milk", "no bread", "clear ticked", "budget 30", "split 3"
+  function bkCommand(text) {
+    const t = text.trim().toLowerCase(); let m;
+    if ((m = t.match(/^(?:remove|delete|drop|no|without|tira(?:r)?|sem)\s+(?:the\s+)?(.+)$/))) { const k = keyOf(m[1]); const idx = bk.items.findIndex(it => keyOf(it.name) === k) >= 0 ? bk.items.findIndex(it => keyOf(it.name) === k) : bk.items.findIndex(it => keyOf(it.name).includes(k) && k.length > 2); return idx >= 0 ? { label: `Remove ${bk.items[idx].name}`, run: () => { bk.items.splice(idx, 1); } } : { label: `No “${m[1]}” in the basket`, run: null }; }
+    if (/^(?:clear|remove|delete) (?:ticked|done|got|checked|bought|the ticked ones)$/.test(t)) { const n = bk.items.filter(i => i.got).length; return { label: n ? `Remove ${n} ticked item${n > 1 ? 's' : ''}` : 'Nothing ticked yet', run: n ? () => { bk.items = bk.items.filter(i => !i.got) } : null }; }
+    if ((m = t.match(/^(?:budget|orçamento|limit)\s*(?:is|of|=|:)?\s*(?:€|\$|£)?\s*(\d+(?:[.,]\d+)?)$/))) return { label: `Set the budget to ${m2(num(m[1]))}`, run: () => { bk.budget = num(m[1]); } };
+    if ((m = t.match(/^(?:split|share|divide)?\s*(?:between|among|for|by)?\s*(\d{1,2})\s*(?:people|persons|ways|of us|pessoas)?$/)) && /split|share|divide|between|among|people|ways|pessoas/.test(t)) return { label: `Split between ${m[1]}`, run: () => { bk.people = Math.max(1, Math.min(50, +m[1])); } };
+    if (/^(?:tick|check|got) all$/.test(t)) return { label: 'Tick everything', run: () => bk.items.forEach(i => i.got = true) };
+    return null;
+  }
+  // add with merging and remembered prices; returns [added, merged]
+  function bkAddItems(its) {
+    let added = 0, merged = 0, recalledN = 0;
+    for (const it of its) {
+      if (!it.price) { const p = recalled(it.name); if (p) { it.price = p; it.mem = true; recalledN++; } } else rememberPrice(it.name, it.price);
+      const k = keyOf(it.name); bkFreq[k] = (bkFreq[k] || 0) + 1;
+      const same = bk.items.find(x => keyOf(x.name) === k && !x.got && (!it.price || !x.price || Math.abs(x.price - it.price) < .005));
+      if (same) { same.qty += it.qty; if (!same.price && it.price) { same.price = it.price; same.mem = it.mem; } same.bump = true; merged++; }
+      else { bk.items.push(it); added++; }
+    }
+    store.set('quotient.bkfreq', bkFreq);
+    return { added, merged, recalledN };
+  }
+  function renderUsual() {
+    const box = $('#bkUsual'); const have = new Set(bk.items.map(i => keyOf(i.name)));
+    const top = Object.entries(bkFreq).filter(([k]) => k && !have.has(k)).sort((a, b) => b[1] - a[1]).slice(0, 8);
+    box.hidden = !top.length; if (!top.length) { box.innerHTML = ''; return; }
+    box.innerHTML = '<span class="lbl">Usual</span>' + top.map(([k], i) => { const p = recalled(k); return `<button type="button" data-usual="${esc(k)}" style="--i:${i}"><i style="background:${aisleOf(k)[1]}"></i>${esc(k)}${p ? `<b>${m2(p)}</b>` : ''}</button>`; }).join('');
+  }
+
   let bkLastTotal = '';
   function bkTotals() { const tot = bk.items.reduce((a, it) => a + it.qty * (it.price || 0), 0), got = bk.items.filter(i => i.got).reduce((a, it) => a + it.qty * (it.price || 0), 0); return { tot, got }; }
   function renderBasket(newIdx) {
     const ul = $('#bkList');
     if (!bk.items.length) ul.innerHTML = '<li class="bk-empty">Your basket is empty. Type items above, with or without prices: “milk 1.09, 6 eggs, cheese 200 g at 14.90 per kg”.</li>';
-    else ul.innerHTML = bk.items.map((it, i) => `<li class="bk-item${it.got ? ' got' : ''}" data-i="${i}" style="${i === newIdx || (newIdx === 'all') ? '' : 'animation:none'}" ${typeof newIdx === 'number' && i >= newIdx ? 'data-new="1"' : ''}>
+    else ul.innerHTML = (() => { const idx = bk.items.map((it, i) => i); const order = AISLES.map(a => a[0]).concat('Other');
+      if (bk.group) idx.sort((a, b) => order.indexOf(aisleOf(bk.items[a].name)[0]) - order.indexOf(aisleOf(bk.items[b].name)[0]) || (bk.items[a].got ? 1 : 0) - (bk.items[b].got ? 1 : 0) || a - b);
+      let lastA = null; return idx.map(i => { const it = bk.items[i], [an, ac] = aisleOf(it.name); const head = bk.group && an !== lastA ? `<li class="bk-aisle" style="--c:${ac}"><i></i>${an}<span>${m2(bk.items.filter(x => aisleOf(x.name)[0] === an).reduce((s, x) => s + x.qty * (x.price || 0), 0))}</span></li>` : ''; lastA = an; return head + rowHtml(it, i, ac, an); }).join(''); })();
+    bk.items.forEach(it => { delete it.bump; });
+    renderUsual();
+    function rowHtml(it, i, ac, an) { return `<li class="bk-item${it.got ? ' got' : ''}${it.bump ? ' bumped' : ''}" data-i="${i}" style="${i === newIdx || (newIdx === 'all') ? '' : 'animation:none'}" ${typeof newIdx === 'number' && i >= newIdx ? 'data-new="1"' : ''}>
         <button type="button" class="bk-check" data-act="got" aria-label="${it.got ? 'Not in the trolley yet' : 'Got it'}" aria-pressed="${!!it.got}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></button>
         <input class="bk-name" data-act="name" value="${esc(it.name)}" aria-label="Item name">
         <span class="bk-qty"><button type="button" data-act="minus" aria-label="One less">−</button><span>${it.qty}</span><button type="button" data-act="plus" aria-label="One more">+</button></span>
         <input class="bk-price${it.price ? '' : ' empty'}" data-act="price" inputmode="decimal" value="${it.price ? m2(it.price) : ''}" placeholder="price" aria-label="Price each">
         <span class="bk-line">${it.price ? m2(it.qty * it.price) : '—'}</span>
-        <button type="button" class="bk-del" data-act="del" aria-label="Remove">×</button></li>`).join('');
+        <button type="button" class="bk-del" data-act="del" aria-label="Remove">×</button>${it.mem ? '<span class="bk-note">price from last time</span>' : ''}<i class="bk-dot" style="background:${ac}" title="${an}"></i></li>`; }
     $$('#bkList [data-new]').forEach((li, k) => { li.classList.add('in-new'); li.style.animationDelay = (k * 60) + 'ms'; li.style.animation = ''; });
-    $('#bkBudget').value = bk.budget ? m2(bk.budget) : ''; $('#bkPeople').textContent = bk.people || 1;
+    $('#bkBudget').value = bk.budget ? m2(bk.budget) : ''; $('#bkPeople').textContent = bk.people || 1; $('#bkGroup').setAttribute('aria-pressed', String(!!bk.group));
     updateBk();
   }
   function updateBk() {
@@ -3997,16 +4558,28 @@ const Engine = (() => {
     else { $('#bkLeftL').textContent = 'Left of budget'; $('#bkLeft').textContent = '—'; }
     // a smart tip
     const priced = bk.items.filter(i => i.price), missing = bk.items.length - priced.length; let tip = '';
-    if (B && tot > B) { const over = tot - B; const fits = priced.map(i => ({ i, v: i.qty * i.price })).filter(x => x.v >= over).sort((a, b) => a.v - b.v)[0]; const one = priced.filter(i => i.qty > 1 && i.price >= over).sort((a, b) => a.price - b.price)[0];
-      tip = one && (!fits || one.price < fits.v) ? `You’re <b>${m2(over)}</b> over. Taking one less <b>${esc(one.name)}</b> (−${m2(one.price)}) gets you back under.` : fits ? `You’re <b>${m2(over)}</b> over. Removing <b>${esc(fits.i.name)}</b> (−${m2(fits.v)}) gets you back under.` : `You’re <b>${m2(over)}</b> over budget.`; }
+    if (B && tot > B) { const over = tot - B; const opts = [];
+      // every way to get back under with one change: remove one line, or take fewer of something
+      for (const it of priced) { opts.push({ save: it.qty * it.price, text: `removing <b>${esc(it.name)}</b> (−${m2(it.qty * it.price)})` }); if (it.qty > 1) { const k = Math.ceil((over - 1e-9) / it.price); if (k < it.qty) opts.push({ save: k * it.price, text: `${k === 1 ? 'one' : k} fewer <b>${esc(it.name)}</b> (−${m2(k * it.price)})` }); } }
+      const ok = opts.filter(o => o.save >= over - 1e-9).sort((a, b) => a.save - b.save);
+      const got = bk.items.filter(i => i.got && i.price).length;
+      tip = ok.length ? `You’re <b>${m2(over)}</b> over. Smallest fix: ${ok[0].text}${ok[1] ? `, or ${ok[1].text}` : ''}.` : `You’re <b>${m2(over)}</b> over budget; no single item covers it.`;
+      if (got && !ok.length) tip += ' Untick something you haven’t picked up yet.'; }
     else if (B && priced.length) { const cheap = priced.reduce((a, b) => a.price < b.price ? a : b); const k = Math.floor((B - tot) / cheap.price); tip = `<b>${m2(B - tot)}</b> left${k > 0 ? `, room for about ${k} more ${esc(cheap.name)}` : ''}.`; }
     else if (priced.length > 1) { const top = priced.map(i => ({ i, v: i.qty * i.price })).sort((a, b) => b.v - a.v)[0]; tip = `Biggest cost: <b>${esc(top.i.name)}</b>, ${m2(top.v)} (${Math.round(top.v / tot * 100)}% of the basket). Set a budget to track what’s left.`; }
     if (missing) tip += `${tip ? ' ' : ''}${missing} item${missing > 1 ? 's' : ''} still need${missing > 1 ? '' : 's'} a price.`;
     $('#bkTip').innerHTML = tip; $('#bkEx').hidden = !bk.ex;
   }
   const bkTouch = () => { if (bk.ex) bk.ex = false; saveBk(); };
-  $('#bkInput').addEventListener('input', e => { const its = e.target.value.trim() ? parseItems(e.target.value) : []; $('#bkPreview').innerHTML = its.map(it => `<span class="${it.price ? '' : 'nop'}">${it.qty > 1 ? it.qty + ' × ' : ''}${esc(it.name)}${it.price ? ' · ' + m2(it.qty * it.price) : ' · no price yet'}</span>`).join(''); });
-  $('#bkAdd').addEventListener('submit', e => { e.preventDefault(); const its = parseItems($('#bkInput').value); if (!its.length) return; if (bk.ex) bk = { items: [], budget: bk.budget, people: 1 }; const start = bk.items.length; bk.items.push(...its); bkTouch(); $('#bkInput').value = ''; $('#bkPreview').innerHTML = ''; renderBasket(start); buzz(); });
+  $('#bkInput').addEventListener('input', e => { const v = e.target.value; const cmd = v.trim() ? bkCommand(v) : null;
+    if (cmd) { $('#bkPreview').innerHTML = `<span class="cmd${cmd.run ? '' : ' nop'}">${esc(cmd.label)}${cmd.run ? ' · Enter' : ''}</span>`; return; }
+    const its = v.trim() ? parseItems(v) : []; $('#bkPreview').innerHTML = its.map(it => { const p = it.price || recalled(it.name), dup = !bk.ex && bk.items.some(x => keyOf(x.name) === keyOf(it.name) && !x.got); return `<span class="${p ? '' : 'nop'}"><i style="background:${aisleOf(it.name)[1]}"></i>${it.qty > 1 ? it.qty + ' × ' : ''}${esc(it.name)}${p ? ' · ' + m2(it.qty * p) + (it.price ? '' : ' (last time)') : ' · no price yet'}${dup ? ' · adds to the one in the list' : ''}</span>`; }).join(''); });
+  $('#bkAdd').addEventListener('submit', e => { e.preventDefault(); const v = $('#bkInput').value; const cmd = bkCommand(v);
+    if (cmd) { if (cmd.run) { if (bk.ex) bk.ex = false; cmd.run(); bkTouch(); renderBasket(); toast(cmd.label); $('#bkInput').value = ''; $('#bkPreview').innerHTML = ''; } return; }
+    const its = parseItems(v); if (!its.length) return; if (bk.ex) bk = { items: [], budget: bk.budget, people: 1, group: bk.group }; const start = bk.items.length; const res = bkAddItems(its); bkTouch(); $('#bkInput').value = ''; $('#bkPreview').innerHTML = ''; renderBasket(start); buzz();
+    if (res.merged || res.recalledN) toast([res.merged ? `${res.merged} added to items already in the list` : '', res.recalledN ? `${res.recalledN} price${res.recalledN > 1 ? 's' : ''} from last time` : ''].filter(Boolean).join(' · ')); });
+  $('#bkUsual').addEventListener('click', e => { const b = e.target.closest('[data-usual]'); if (!b) return; if (bk.ex) bk = { items: [], budget: bk.budget, people: 1, group: bk.group }; const start = bk.items.length; bkAddItems([{ name: b.dataset.usual, qty: 1, price: 0 }]); bkTouch(); renderBasket(start); buzz(); });
+  $('#bkGroup').addEventListener('click', e => { bk.group = !bk.group; e.currentTarget.setAttribute('aria-pressed', String(bk.group)); bkTouch(); renderBasket('all'); });
   $('#bkList').addEventListener('click', e => {
     const b = e.target.closest('[data-act]'); if (!b || b.tagName === 'INPUT') return; const li = b.closest('.bk-item'), i = +li.dataset.i, it = bk.items[i];
     if (b.dataset.act === 'got') { it.got = !it.got; li.classList.toggle('got', it.got); b.setAttribute('aria-pressed', String(!!it.got)); buzz(); }
@@ -4016,7 +4589,7 @@ const Engine = (() => {
     bkTouch(); updateBk();
   });
   $('#bkList').addEventListener('input', e => { const inp = e.target, li = inp.closest('.bk-item'); if (!li) return; const it = bk.items[+li.dataset.i];
-    if (inp.dataset.act === 'name') it.name = inp.value; if (inp.dataset.act === 'price') { it.price = num(inp.value) || 0; inp.classList.toggle('empty', !it.price); li.querySelector('.bk-line').textContent = it.price ? m2(it.qty * it.price) : '—'; } bkTouch(); updateBk(); });
+    if (inp.dataset.act === 'name') it.name = inp.value; if (inp.dataset.act === 'price') { it.price = num(inp.value) || 0; it.mem = false; rememberPrice(it.name, it.price); inp.classList.toggle('empty', !it.price); li.querySelector('.bk-line').textContent = it.price ? m2(it.qty * it.price) : '—'; } bkTouch(); updateBk(); });
   $('#bkList').addEventListener('change', e => { if (e.target.dataset.act === 'price') { const it = bk.items[+e.target.closest('.bk-item').dataset.i]; e.target.value = it.price ? m2(it.price) : ''; } });
   $('#bkBudget').addEventListener('input', e => { bk.budget = num(e.target.value) || 0; bkTouch(); updateBk(); });
   $('#bkBudget').addEventListener('change', e => { e.target.value = bk.budget ? m2(bk.budget) : ''; });
@@ -4024,7 +4597,7 @@ const Engine = (() => {
   $('#bkPp').addEventListener('click', () => { bk.people = Math.min(50, (bk.people || 1) + 1); $('#bkPeople').textContent = bk.people; bkTouch(); updateBk(); });
   let bkArm = null;
   $('#bkClear').addEventListener('click', e => { const b = e.currentTarget; if (!bkArm && !bk.ex && bk.items.length) { b.textContent = 'Tap again to clear'; bkArm = setTimeout(() => { b.textContent = 'Clear'; bkArm = null; }, 2600); return; } clearTimeout(bkArm); bkArm = null; b.textContent = 'Clear'; bk = { items: [], budget: bk.ex ? 0 : bk.budget, people: 1 }; saveBk(); renderBasket(); $('#bkInput').focus(); });
-  function addToBasket(q, r) { if (bk.ex) bk = { items: [], budget: bk.budget, people: 1 }; const its = parseItems(q); if (its.length && its.some(x => x.price)) bk.items.push(...its); else bk.items.push({ name: q, qty: 1, price: r && typeof r.num === 'number' ? r.num : 0 }); saveBk(); toast('Added to your basket'); }
+  function addToBasket(q, r) { if (bk.ex) bk = { items: [], budget: bk.budget, people: 1 }; const its = parseItems(q); bkAddItems(its.length && its.some(x => x.price) ? its : [{ name: q, qty: 1, price: r && typeof r.num === 'number' ? r.num : 0 }]); saveBk(); toast('Added to your basket'); }
 
   /* views: Ask, Sheet and Basket */
   let view = 'ask';

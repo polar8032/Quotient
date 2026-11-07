@@ -14,14 +14,13 @@ A smart calculator that runs entirely in your browser: no server, no API, works 
 
 ## Install it as a real app (no address bar)
 
-Tap **Install app** at the top of the page. It shows the steps for your phone and checks the page.
-Every line should have a green tick. A red "!" names the file that's missing.
+**Android:** open the link in **Chrome** (or Samsung Internet / Edge) and tap **Install app** at the top, or menu ⋮ → **Install app**.
+Brave can't install web apps on Android. It only makes shortcuts that open in Brave with the address bar.
+Brave can stay your default browser: the installed app still opens on its own.
 
-- **Android (Chrome):** menu ⋮ → **Install app**. If you see a box with **Install** and **Create shortcut**, choose **Install**.
-- **iPhone / iPad:** open the link in **Safari** → Share → **Add to Home Screen** → keep **Open as Web App** switched **on** → Add.
+**iPhone / iPad:** open the link in **Safari** → Share → **Add to Home Screen** → keep **Open as Web App** on → Add.
 
-If you already added it and it opens with the address bar, **delete that icon first**. It's a shortcut, not the app.
-Then reload the page once and install again.
+If an old icon opens with the address bar, delete it first. It's a shortcut, not the app.
 
 ## Updating
 
