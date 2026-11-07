@@ -7,7 +7,7 @@ A smart calculator that runs entirely in your browser: no server, no API, works 
 1. Create a repository (for example `quotient`).
 2. Upload **all the files in this folder** to the **root** of the repository, all together, with no subfolders:
    `index.html`, `manifest.webmanifest`, `sw.js`, `icon-192.png`, `icon-512.png`, `maskable-192.png`, `maskable-512.png`,
-   `apple-touch-icon.png`, `favicon-32.png`, `icon.svg` (and `README.md`).
+   `home-icon-180.png`, `favicon-32.png`, `icon.svg` (and `README.md`).
    On github.com: **Add file → Upload files**, select them all, **Commit changes**.
 3. **Settings → Pages → Deploy from a branch → main → / (root) → Save**.
 4. Open `https://YOUR-USERNAME.github.io/quotient/` (with **https**).
