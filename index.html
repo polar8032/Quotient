@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Quotient: a smart offline calculator. Ask in plain words, work a sheet, shop with a basket.">
-<meta name="theme-color" content="#E4E6E9" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0D0E10" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#E8E9ED" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#07080A" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icon.svg" type="image/svg+xml">
@@ -24,11 +24,12 @@
 [hidden]{display:none!important}
 /* Layout: a calm paper desk (ask bar + tape) beside one physical object, a graphite pocket calculator with amber equals. */
 :root{
-  --bg:#E4E6E9; --dots:#CBD0D6; --surface:#F7F8FA; --surface-2:#EEF0F3; --line:#D6DADF;
-  --ink:#15171B; --muted:#5D636D; --faint:#8A9099;
+  /* neutrals: cool and quiet, a hair of violet so the greys belong with the AI accent */
+  --bg:#E8E9ED; --dots:#D3D5DC; --surface:#FBFBFD; --surface-2:#F2F3F6; --line:#DDDFE5; --line-strong:#C9CCD4;
+  --ink:#0F1013; --muted:#50555E; --faint:#7E838D;
   --accent:#E09612; --accent-text:#9A5F00; --accent-soft:rgba(224,150,18,.14); --accent-ink:#1C1305;
   --good:#2F7D4F; --bad:#B3402F;
-  --shadow:0 1px 0 rgba(255,255,255,.7) inset, 0 18px 40px -24px rgba(20,24,32,.35);
+  --shadow:0 1px 0 rgba(255,255,255,.95) inset, 0 1px 2px rgba(15,16,22,.04), 0 14px 36px -20px rgba(15,16,22,.20);
   /* the device is one object, identical in both themes */
   --dev-body:#1F2024; --dev-edge:#34363C; --dev-screen:#111214; --dev-ink:#F1EFEA; --dev-dim:#878A91;
   --key-num:#2D2E34; --key-num-ink:#EEECE7; --key-op:#393A41; --key-op-ink:#F4B24A;
@@ -43,20 +44,20 @@
   --f-mono:"Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#0D0E10; --dots:#1D1F23; --surface:#15161A; --surface-2:#1B1C21; --line:#2A2C32;
-  --ink:#ECEDEF; --muted:#9BA1AA; --faint:#6D727B;
+  --bg:#07080A; --dots:#15161A; --surface:#101114; --surface-2:#17181C; --line:#23252A; --line-strong:#33363D;
+  --ink:#F3F4F6; --muted:#A3A8B1; --faint:#6C717B;
   --accent:#F2A93B; --accent-text:#F4B65A; --accent-soft:rgba(242,169,59,.13); --accent-ink:#1C1305;
   --good:#5FBE86; --bad:#E07A68;
-  --shadow:0 1px 0 rgba(255,255,255,.03) inset, 0 24px 50px -30px rgba(0,0,0,.8);
+  --shadow:0 1px 0 rgba(255,255,255,.045) inset, 0 0 0 1px rgba(255,255,255,.012), 0 26px 60px -30px rgba(0,0,0,.95);
   --dev-body:#222328; --dev-edge:#3A3C43;
   color-scheme:dark;
 }}
 :root[data-theme="dark"]{
-  --bg:#0D0E10; --dots:#1D1F23; --surface:#15161A; --surface-2:#1B1C21; --line:#2A2C32;
-  --ink:#ECEDEF; --muted:#9BA1AA; --faint:#6D727B;
+  --bg:#07080A; --dots:#15161A; --surface:#101114; --surface-2:#17181C; --line:#23252A; --line-strong:#33363D;
+  --ink:#F3F4F6; --muted:#A3A8B1; --faint:#6C717B;
   --accent:#F2A93B; --accent-text:#F4B65A; --accent-soft:rgba(242,169,59,.13); --accent-ink:#1C1305;
   --good:#5FBE86; --bad:#E07A68;
-  --shadow:0 1px 0 rgba(255,255,255,.03) inset, 0 24px 50px -30px rgba(0,0,0,.8);
+  --shadow:0 1px 0 rgba(255,255,255,.045) inset, 0 0 0 1px rgba(255,255,255,.012), 0 26px 60px -30px rgba(0,0,0,.95);
   --dev-body:#222328; --dev-edge:#3A3C43;
   color-scheme:dark;
 }
@@ -143,8 +144,8 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 .a-steps span:last-child{color:var(--ink);overflow-wrap:anywhere;min-width:0}
 .a-steps .solo{grid-column:1/-1;color:var(--muted)!important}
 .a-actions{display:flex;gap:8px;flex-wrap:wrap;padding-top:4px}
-.btn{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:500;padding:7px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);transition:background .12s,border-color .12s}
-.btn:hover{border-color:var(--faint)}
+.btn{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:500;padding:7px 12px;border-radius:10px;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);transition:background .12s,border-color .12s}
+.btn:hover{border-color:var(--faint);background:var(--surface-2)}
 .btn.primary{background:var(--ink);color:var(--surface);border-color:var(--ink)}
 .btn.primary:hover{opacity:.9}
 
@@ -1074,6 +1075,214 @@ body{padding-block:14px 112px}
 .tabs .seg button[aria-selected="true"]{animation:tabLift .45s var(--spring) both}
 @keyframes tabLift{0%{transform:translateY(2px)}100%{transform:none}}
 @media (prefers-reduced-motion:reduce){.a-value .av .ch.in,.answer.enter,.answer.leaving,.a-more.closing,.sw.on,.start.leaving,.sugg:not([hidden]),.tape li.new,.tabs .seg button[aria-selected="true"]{animation:none!important}}
+
+/* ---------- tone: premium neutrals ---------- */
+.btn.primary{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.btn.primary:hover{background:color-mix(in srgb,var(--ink) 88%,var(--ai-c));border-color:transparent}
+.ask,.tape,.sheet,.basket,.isl-panel .pins{background:var(--surface);border-color:var(--line)}
+.answer{background:linear-gradient(180deg,color-mix(in srgb,var(--surface-2) 70%,var(--surface)),var(--surface-2));border-style:solid;border-color:var(--line)}
+.searchbar{background:var(--surface-2);border-color:var(--line-strong)}
+.sw,.a-back,.lk-row button,.sh-vars button,.pillv,.st-card{border-color:var(--line-strong)}
+.sw.on{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.a-more{background:color-mix(in srgb,var(--surface) 55%,var(--surface-2));border-color:var(--line)}
+.a-more .a-facts li{background:var(--surface);border-color:var(--line)}
+.tabs .seg{background:var(--surface);border-color:var(--line)}
+.tabs .seg .thumb{background:var(--surface-2);box-shadow:0 0 0 1px var(--line-strong)}
+.seg button{color:var(--faint)}.seg button[aria-selected="true"]{color:var(--ink)}
+.chip-kind{letter-spacing:.09em}
+.tape li + li,.t-item{border-color:var(--line)}
+::selection{background:color-mix(in srgb,var(--ai-c) 28%,transparent)}
+
+/* ---------- details you can use ---------- */
+.a-bd{display:flex;flex-direction:column;gap:8px}
+.bd-bar{display:flex;height:10px;border-radius:999px;overflow:hidden;background:var(--line);gap:2px}
+.bd-bar i{width:var(--w);border-radius:999px;animation:bdGrow .8s var(--spring) both;transform-origin:left}
+.bd-bar i.p0{background:linear-gradient(90deg,color-mix(in srgb,var(--ink) 75%,var(--surface)),var(--ink))}
+.bd-bar i.p1{background:linear-gradient(90deg,var(--ai-c),var(--ai-b));animation-delay:.12s}
+@keyframes bdGrow{from{transform:scaleX(0);opacity:.3}to{transform:none;opacity:1}}
+.bd-leg{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12.5px;color:var(--muted)}
+.bd-leg span{display:inline-flex;align-items:baseline;gap:6px}
+.bd-leg span::before{content:"";width:8px;height:8px;border-radius:50%;align-self:center}
+.bd-leg .p0::before{background:var(--ink)}.bd-leg .p1::before{background:linear-gradient(135deg,var(--ai-c),var(--ai-b))}
+.bd-leg b{font-weight:500;color:var(--muted)}
+.bd-leg span{font-family:var(--f-mono);color:var(--ink);font-size:13px}.bd-leg b{font-family:var(--f-ui);font-size:12.5px}
+.bd-leg em{font-style:normal;color:var(--faint);font-size:11.5px}
+.a-more .a-facts li{padding:0;border:0;background:none;animation:chipIn .45s var(--spring) both;animation-delay:calc(var(--i,0) * 45ms)}
+.a-more .a-facts .fact{position:relative;width:100%;height:100%;display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;font:inherit;padding:9px 12px;border-radius:12px;background:var(--surface);border:1px solid var(--line);color:var(--ink);cursor:pointer;transition:transform .3s var(--spring),border-color .25s,box-shadow .3s}
+.a-more .a-facts .fact:hover{border-color:color-mix(in srgb,var(--ai-c) 40%,var(--line));box-shadow:0 6px 18px -12px var(--ai-glow)}
+.a-more .a-facts .fact:active{transform:scale(.97)}
+.a-more .a-facts .fact span:first-child{font-size:11px;letter-spacing:.04em;color:var(--faint)}
+.a-more .a-facts .fact span:nth-child(2){font-size:15px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere;padding-right:14px}
+.a-more .a-facts .f-go{position:absolute;top:9px;right:9px;color:var(--faint);transition:color .2s,transform .3s var(--spring)}
+.a-more .a-facts .fact:hover .f-go{color:var(--ai-c);transform:translate(1px,-1px)}
+.st-v{cursor:copy;border-radius:6px;transition:background .25s}
+.st-v:hover{background:var(--ai-soft)}
+[data-copy].copied{animation:copied .7s var(--ease-out)}
+@keyframes copied{0%{box-shadow:0 0 0 0 var(--ai-glow)}40%{background:var(--ai-soft)}100%{box-shadow:0 0 0 8px transparent}}
+
+/* ---------- Sheet, redone ---------- */
+.sheet-head{padding:0 14px 12px 14px;gap:8px;flex-wrap:nowrap}
+#sheetTitle{min-width:0}
+.sh-list-btn{flex:none;display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 10px;border-radius:10px;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);font:inherit;font-size:12.5px;cursor:pointer;transition:transform .3s var(--spring),border-color .2s}
+.sh-list-btn b{font-family:var(--f-mono);font-weight:500;color:var(--muted)}.sh-list-btn b:empty{display:none}
+.sh-list-btn[aria-expanded="true"]{border-color:var(--ink);background:var(--surface-2)}
+.sh-panel{margin:0 14px 12px;padding:12px;border-radius:16px;background:var(--surface-2);border:1px solid var(--line)}
+.sh-panel.in{animation:panelIn .45s var(--spring) both}
+@keyframes panelIn{from{opacity:0;transform:translateY(-6px) scale(.985);filter:blur(4px)}to{opacity:1;transform:none;filter:none}}
+.sh-panel.leaving{animation:panelOut .22s var(--ease-out) both}
+.shp-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.shp-head b{font-size:13px;font-weight:600}
+.shp-tpl{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.tpl{display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;font:inherit;padding:11px 12px;border-radius:13px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;animation:chipIn .4s var(--spring) both;animation-delay:calc(var(--i,0) * 40ms);transition:transform .3s var(--spring),border-color .2s,box-shadow .3s}
+.tpl:hover{border-color:color-mix(in srgb,var(--ai-c) 45%,var(--line));box-shadow:0 8px 20px -14px var(--ai-glow);transform:translateY(-1px)}
+.tpl:active{transform:scale(.97)}
+.tpl b{font-size:13.5px;font-weight:600}.tpl span:not(.tpl-ic){font-size:12px;color:var(--muted);line-height:1.35}
+.tpl-ic{width:22px;height:22px;border-radius:7px;margin-bottom:4px;background:var(--surface-2);border:1px solid var(--line);position:relative}
+.tpl-ic::after{content:"";position:absolute;inset:5px;border-radius:2px}
+.tpl-note::after{border-top:2px solid var(--faint);border-bottom:2px solid var(--faint);inset:6px 4px}
+.tpl-list::after,.tpl-shop::after{border:2px solid var(--ai-c);border-radius:4px;inset:5px}
+.tpl-budget::after{background:linear-gradient(90deg,var(--ink) 60%,var(--ai-c) 60%);inset:9px 4px;border-radius:9px}
+.tpl-table::after{background:linear-gradient(var(--faint),var(--faint)) 50% 0/1.5px 100% no-repeat,linear-gradient(var(--faint),var(--faint)) 0 50%/100% 1.5px no-repeat;inset:4px}
+.tpl-trip::after{border-radius:50%;border:2px solid var(--accent);inset:5px}
+.tpl-answers::after{background:linear-gradient(135deg,var(--ai-a),var(--ai-c));border-radius:50%;inset:6px}
+.shp-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.shp-list li{display:flex;align-items:stretch;gap:6px;animation:chipIn .4s var(--spring) both;animation-delay:calc(var(--i,0) * 35ms)}
+.shp-open{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;font:inherit;padding:9px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;transition:border-color .2s,transform .3s var(--spring)}
+.shp-list li.on .shp-open{border-color:var(--ink)}
+.shp-t{font-size:14px;font-weight:600;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.shp-m{font-size:12px;color:var(--faint);font-family:var(--f-mono)}
+.shp-del{flex:none;min-width:34px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--faint);font:inherit;font-size:13px;cursor:pointer;transition:all .25s}
+.shp-del.arm{color:var(--surface);background:var(--bad);border-color:var(--bad);padding:0 10px;font-size:12px;font-weight:600}
+.shp-empty{font-size:13px;color:var(--faint)}
+#sheet.flip .lines{animation:sheetFlip .5s var(--spring) both}
+@keyframes sheetFlip{from{opacity:0;transform:translateX(14px);filter:blur(4px)}to{opacity:1;transform:none;filter:none}}
+/* lines: no code-style numbers, a gutter that shows what kind of line it is */
+.ln{grid-template-columns:0 minmax(0,1fr) auto 24px;gap:8px;padding:0 6px 0 8px;border-bottom:0;border-radius:10px;margin:0 6px;min-height:40px}
+.ln .no{display:none}
+.ln .mk{display:grid;place-items:center;height:100%}
+.ln .mk .dot{width:6px;height:6px;border-radius:50%;background:var(--muted)}
+.ln .ck{width:18px;height:18px;border-radius:6px;border:1.5px solid var(--line-strong);background:var(--surface);color:transparent;display:grid;place-items:center;cursor:pointer;padding:0;transition:background .25s,border-color .25s,color .2s,transform .35s var(--spring-bounce)}
+.ln .ck[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--surface)}
+.ln .ck:active{transform:scale(.85)}
+.ln.done .src{color:var(--faint);text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--faint) 70%,transparent)}
+.ln.done .res{color:var(--faint)}
+.ln.tick .ck{animation:tickPop .45s var(--spring-bounce)}
+@keyframes tickPop{0%{transform:scale(.7)}60%{transform:scale(1.15)}100%{transform:none}}
+.ln.blank{min-height:16px}.ln.blank .src{padding:0;height:16px}.ln.blank:focus-within{min-height:40px}.ln.blank:focus-within .src{height:auto;padding:10px 0}
+.ln.head{margin-top:8px}.ln.head .src{font-size:17px;font-weight:650}
+.ln.note .src{color:var(--ink)}
+.ln .res:empty{padding:0}
+.ln .ln-ask{opacity:0;width:24px;height:24px;border-radius:8px;border:0;background:none;color:var(--faint);display:grid;place-items:center;cursor:pointer;transition:opacity .2s,color .2s,background .2s}
+.ln:hover .ln-ask,.ln:focus-within .ln-ask{opacity:1}
+.ln.note .ln-ask,.ln.head .ln-ask,.ln.trow .ln-ask{display:none}
+.ln .ln-ask:hover{color:var(--ai-c);background:var(--ai-soft)}
+@media (hover:none){.ln .ln-ask{opacity:.55}}
+/* tables */
+.tbl{align-self:stretch;min-width:0;max-width:calc(100% - 24px);margin:6px 12px 10px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface);animation:chipIn .4s var(--spring) both}
+.ln.trow{width:100%;display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));gap:0;margin:0;padding:0;border-radius:0;min-height:38px;border-bottom:1px solid var(--line)}
+.ln.trow .cell{min-width:0;width:100%;border:0;border-right:1px solid var(--line);background:none;outline:none;font:inherit;font-size:14.5px;color:var(--ink);padding:9px 12px}
+.ln.trow .cell:last-of-type{border-right:0}
+.ln.trow .cell.num{font-family:var(--f-mono);font-size:13.5px;text-align:right;font-variant-numeric:tabular-nums}
+.ln.trow .cell:focus{background:var(--ai-soft)}
+.ln.thead{background:var(--surface-2)}.ln.thead .cell{font-weight:600;font-size:13px;letter-spacing:.01em}
+.tfoot{display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));background:var(--surface-2);font-size:13px;color:var(--muted)}
+.tfoot span{padding:9px 12px;border-right:1px solid var(--line)}.tfoot span:last-child{border-right:0}
+.tfoot span.num{font-family:var(--f-mono);text-align:right;color:var(--ink);font-weight:600}
+.tfoot.swap span.num{animation:valIn .4s var(--spring) both}
+.ttools{display:flex;gap:6px;padding:7px 8px;border-top:1px solid var(--line)}
+.ttools button{font:inherit;font-size:12px;font-weight:500;padding:4px 10px;border-radius:999px;border:1px dashed var(--line-strong);background:none;color:var(--muted);cursor:pointer;transition:color .2s,border-color .2s}
+.ttools button:hover{color:var(--ink);border-color:var(--ink)}
+/* quick ways to write */
+.sh-tips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:10px 14px 12px;border-top:1px dashed var(--line)}
+.sh-tips::-webkit-scrollbar{display:none}
+.sh-tips button{flex:none;font-family:var(--f-mono);font-size:12px;padding:4px 10px;border-radius:999px;border:1px solid var(--line-strong);background:var(--surface);color:var(--muted);cursor:pointer;animation:chipIn .4s var(--spring) both;animation-delay:calc(var(--i,0) * 30ms);transition:color .2s,border-color .2s,transform .3s var(--spring)}
+.sh-tips button:hover{color:var(--ink);border-color:var(--ink)}
+.sh-tips button:active{transform:scale(.95)}
+#sheet.is-empty .sheet-foot,#sheet.is-empty .sh-vars{display:none}
+.sheet-foot[hidden]{display:none!important}
+/* add-to-sheet picker on an answer */
+.sheet-pick{display:flex;flex-wrap:wrap;gap:6px;align-items:center;width:100%;padding:10px;margin-top:6px;border-radius:14px;background:var(--surface-2);border:1px solid var(--line);animation:panelIn .35s var(--spring) both}
+.sheet-pick .lbl{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-right:4px}
+.sheet-pick button{font:inherit;font-size:12.5px;padding:5px 11px;border-radius:999px;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);cursor:pointer}
+.sheet-pick button.on{border-color:var(--ink)}
+@media (max-width:560px){.sheet-head .btn{padding:7px 10px}#sheetCopy,#sheetEx{display:none}.shp-tpl{grid-template-columns:repeat(2,minmax(0,1fr))}.ln{margin:0 2px;padding:0 6px 0 8px}}
+
+/* ---------- maths tools ---------- */
+.qlead{cursor:pointer;border-radius:999px;transition:background .25s}
+.qlead:hover .qicon,.qlead[aria-expanded="true"] .qicon{color:var(--ai-c);transform:rotate(45deg) scale(1.1)}
+.qlead:focus-visible{outline:2px solid var(--ai-c);outline-offset:2px}
+.qlead .qicon{transition:transform .5s var(--spring),color .25s,opacity .3s}
+.math-menu,.composer{border:1px solid var(--line);border-radius:18px;background:var(--surface-2);padding:12px;margin-top:-6px}
+.math-menu.in,.composer.in{animation:panelIn .45s var(--spring) both}
+.math-menu.leaving,.composer.leaving{animation:panelOut .22s var(--ease-out) both}
+.mm-head{font-size:13px;font-weight:600;margin:0 2px 10px;display:flex;align-items:baseline;gap:8px}.mm-head span{font-weight:400;color:var(--faint);font-size:12px}
+.mm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.mm-grid button{display:grid;grid-template-columns:40px minmax(0,1fr);grid-template-rows:auto auto;column-gap:10px;align-items:center;text-align:left;font:inherit;padding:10px;border-radius:13px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;animation:chipIn .4s var(--spring) both;animation-delay:calc(var(--i,0) * 35ms);transition:transform .3s var(--spring),border-color .2s,box-shadow .3s}
+.mm-grid button:hover{border-color:color-mix(in srgb,var(--ai-c) 45%,var(--line));box-shadow:0 8px 20px -14px var(--ai-glow)}
+.mm-grid button:active{transform:scale(.96)}
+.mm-grid i{grid-row:1/3;width:40px;height:40px;border-radius:11px;display:grid;place-items:center;font-style:normal;font-family:var(--f-mono);font-size:14px;font-weight:600;color:var(--ai-c);background:var(--ai-soft)}
+.mm-grid b{font-size:13.5px;font-weight:600}.mm-grid span{font-size:12px;color:var(--muted)}
+.cm-top{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.cm-top b{font-size:14px;font-weight:600}
+.cm-back,.cm-x{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--muted);display:grid;place-items:center;font:inherit;font-size:16px;cursor:pointer}
+.cm-x{margin-left:auto}
+.cm-choose,.cm-ops{display:inline-flex;padding:3px;border-radius:999px;background:var(--surface);border:1px solid var(--line);gap:2px}
+.cm-choose button,.cm-ops button{font:inherit;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;border:0;background:none;color:var(--muted);cursor:pointer;transition:background .25s,color .25s}
+.cm-choose button[aria-pressed="true"],.cm-ops button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+.cm-ops{flex-direction:column;border-radius:14px}.cm-ops button{font-size:16px;padding:2px 10px}
+.cm-fields{display:flex;flex-wrap:wrap;gap:8px}
+.cm-f{flex:1 1 220px;display:flex;align-items:center;gap:8px;padding:0 12px;border-radius:13px;border:1px solid var(--line-strong);background:var(--surface);min-width:0}
+.cm-f.small{flex:1 1 90px}
+.cm-f span{font-family:var(--f-mono);font-size:13px;color:var(--faint);white-space:nowrap}
+.cm-f:focus-within{border-color:var(--ai-c);box-shadow:0 0 0 3px var(--ai-soft)}
+.cm-in{flex:1;min-width:0;width:100%;border:0;background:none;outline:none;font:inherit;font-size:17px;color:var(--ink);padding:11px 0;font-variant-numeric:tabular-nums}
+.cm-frac{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;padding:4px 0}
+.cm-frac .fr{display:flex;flex-direction:column;align-items:center;gap:4px;animation:chipIn .35s var(--spring) both}
+.cm-frac .fr .cm-in{width:84px;text-align:center;padding:8px 6px;border-radius:11px;border:1px solid var(--line-strong);background:var(--surface);font-family:var(--f-mono);font-size:18px}
+.cm-frac .fr .cm-in:focus{border-color:var(--ai-c);box-shadow:0 0 0 3px var(--ai-soft)}
+.cm-frac .fr i{width:96px;height:2px;border-radius:2px;background:var(--ink)}
+.cm-more{width:32px;height:32px;border-radius:50%;border:1px dashed var(--line-strong);background:none;color:var(--muted);font:inherit;font-size:16px;cursor:pointer}
+.cm-keys{display:grid;grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:6px;margin-top:10px}
+.cm-keys button{height:40px;border-radius:11px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-family:var(--f-mono);font-size:15px;cursor:pointer;display:grid;place-items:center;transition:transform .25s var(--spring),background .2s,border-color .2s}
+.cm-keys button:hover{border-color:var(--ai-c)}
+.cm-keys button:active{transform:scale(.9);background:var(--ai-soft)}
+.kf{display:inline-flex;flex-direction:column;align-items:center;line-height:1;font-size:11px}.kf i{font-style:normal}.kf i:first-child{border-bottom:1.5px solid currentColor;padding:0 3px 1px}
+.cm-prev{margin-top:12px;min-height:44px;display:flex;flex-direction:column;gap:4px;padding:10px 12px;border-radius:13px;background:var(--surface);border:1px dashed var(--line)}
+.cm-hint{font-size:12.5px;color:var(--faint)}
+.cm-math{font-size:18px;color:var(--ink);line-height:1.6;overflow-wrap:anywhere}
+.mf{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 2px;font-size:.85em;line-height:1.1}
+.mf > span:first-child{border-bottom:1.5px solid currentColor;padding:0 3px 1px}.mf > span:last-child{padding:1px 3px 0}
+.ov{border-top:1.5px solid currentColor;padding:0 2px;margin-left:1px}
+.cm-res{display:flex;align-items:baseline;gap:8px;font-size:15px;color:var(--muted)}
+.cm-res b{font-family:var(--f-mono);font-size:19px;font-weight:500;color:var(--ink)}
+.cm-res b.in{animation:chIn .55s cubic-bezier(.22,1,.36,1) both}
+.cm-res em{font-style:normal;font-size:11.5px;color:var(--ai-c);background:var(--ai-soft);padding:2px 8px;border-radius:999px;margin-left:auto}
+.cm-res.none{font-size:12.5px;color:var(--faint)}
+.cm-act{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+.cm-chrow{flex-basis:100%;overflow-x:auto;scrollbar-width:none;margin:2px -2px 0;padding:0 2px}.cm-chrow::-webkit-scrollbar{display:none}
+.cm-chrow .cm-choose{white-space:nowrap}
+#cmFrac{gap:8px;padding:8px 0 2px}
+#cmFrac .ft{display:flex;align-items:center;gap:6px;animation:chipIn .35s var(--spring) both}
+#cmFrac .fr{display:flex;flex-direction:column;align-items:center;gap:4px;animation:none}
+#cmFrac input{width:64px;min-width:0;text-align:center;padding:8px 4px;border-radius:11px;border:1px solid var(--line-strong);background:var(--surface);font:inherit;font-family:var(--f-mono);font-size:18px;color:var(--ink);outline:none;font-variant-numeric:tabular-nums;transition:border-color .2s,box-shadow .2s}
+#cmFrac input:focus{border-color:var(--ai-c);box-shadow:0 0 0 3px var(--ai-soft)}
+#cmFrac input::placeholder{color:var(--faint);opacity:.55}
+#cmFrac .fw{width:52px;font-size:22px;padding:14px 4px}
+#cmFrac .fr i{width:72px;height:2px;border-radius:2px;background:var(--ink)}
+.fop{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:18px;cursor:pointer;display:grid;place-items:center;animation:chipIn .35s var(--spring) both}
+.fop:hover{border-color:var(--ai-c)}.fop.spin{animation:fopSpin .4s var(--spring)}
+@keyframes fopSpin{from{transform:rotate(-90deg) scale(.7)}to{transform:none}}
+.cm-fkeys{grid-template-columns:repeat(4,minmax(40px,1fr)) minmax(56px,1.3fr) minmax(64px,1.5fr)}
+.cm-fkeys button{font-size:18px}.cm-fkeys .wide{font-size:13px;font-family:inherit;font-weight:600;gap:4px;display:inline-flex;align-items:center;justify-content:center}
+.kmix{display:inline-flex;align-items:center;gap:3px;font-family:var(--f-mono);font-size:14px}
+.cm-tip{margin:8px 2px 0;font-size:12px;color:var(--faint);line-height:1.6}
+.cm-tip kbd{font-family:var(--f-mono);font-size:11px;padding:0 5px;border-radius:5px;border:1px solid var(--line);background:var(--surface);color:var(--muted)}
+.cm-also{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.cm-also > span{display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono);font-size:13px;color:var(--ink);padding:3px 9px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);animation:chipIn .4s var(--spring) both}
+.cm-also em{font-style:normal;font-family:var(--f-ui,inherit);font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--faint)}
+.cm-res b .mf,.cm-also .mf{font-size:.8em}
+.cm-edit{display:inline-flex;align-items:center;gap:6px}
+@media (max-width:420px){#cmFrac input{width:54px;font-size:17px}#cmFrac .fr i{width:60px}#cmFrac .fw{width:44px}}
+@media (max-width:560px){.mm-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.mm-grid button{grid-template-columns:34px minmax(0,1fr);padding:9px}.mm-grid i{width:34px;height:34px;font-size:12.5px}.mm-grid span{display:none}.cm-keys{grid-template-columns:repeat(7,minmax(0,1fr))}.cm-frac .fr .cm-in{width:70px}.cm-frac .fr i{width:80px}}
 </style>
 </head>
 <body>
@@ -1123,6 +1332,8 @@ body{padding-block:14px 112px}
             <span>Examples</span>
           </button>
         </label>
+        <div class="math-menu" id="mathMenu" role="menu" aria-label="Maths tools" hidden></div>
+        <div class="composer" id="composer" role="dialog" aria-label="Write maths" hidden></div>
         <div class="fillbar" id="fillbar" hidden>
           <span class="fb-hint" id="fbHint">Edit the values, then press Enter</span>
           <span class="fb-quick" id="fbQuick"></span>
@@ -1154,17 +1365,19 @@ body{padding-block:14px 112px}
 
     <section class="sheet" id="sheet" aria-label="Sheet" hidden>
       <div class="sheet-head">
-        <input id="sheetTitle" type="text" aria-label="Sheet title" spellcheck="false" autocomplete="off">
+        <button class="sh-list-btn" id="shListBtn" type="button" aria-expanded="false" aria-controls="shPanel" title="Your sheets"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="13" height="16" rx="2.5"/><path d="M8 21h9.5a2.5 2.5 0 0 0 2.5-2.5V7"/><path d="M8 8h5M8 12h5"/></svg><b></b></button>
+        <input id="sheetTitle" type="text" aria-label="Sheet title" spellcheck="false" autocomplete="off" placeholder="Untitled">
         <span class="chip-kind ex" id="sheetEx" hidden>Example</span>
         <button class="btn" id="sheetCopy" type="button">Copy</button>
-        <button class="btn" id="sheetNew" type="button">New sheet</button>
+        <button class="btn primary" id="sheetNew" type="button">+ New</button>
       </div>
+      <div class="sh-panel" id="shPanel" hidden></div>
       <div class="lines" id="lines"></div>
+      <div class="sh-tips" id="shTips" aria-label="Quick ways to write"></div>
       <div class="sh-vars" id="shVars" hidden></div>
-      <div class="sheet-foot"><span>Total</span><b id="sheetTotal">0</b></div>
+      <div class="sheet-foot"><span id="sheetFootL">Total</span><b id="sheetTotal">0</b></div>
       <div class="sh-break" id="shBreak" hidden></div>
       <div class="lk-row" id="shLinks" hidden></div>
-      <p class="sheet-hint">Every line is worked out as you type. Write <code>Hotel: 2 × 89</code> and later use <code>hotel</code> by name; <code>total</code>, <code>average</code>, <code>max</code>, <code>min</code> or <code>median</code> work on the group above (a blank line starts a new group); misspelled names are fixed for you; <code>times 2</code> or <code>in miles</code> continue from the line above; <code>#</code> starts a heading.</p>
     </section>
 
     <section class="basket" id="basket" aria-label="Basket" hidden>
@@ -2246,6 +2459,11 @@ const Engine = (() => {
     return M('Math', `${fmt(a)} to the nearest ${w}`, sig(f(a / step) * step, 12));
   });
   on(['round (up|down)? ?#', '#,? rounded( up| down)?'], m => { const up = m.input.includes('up'), dn = m.input.includes('down'); const a = pn(/^round/.test(m.input) ? m[2] : m[1]); return M('Math', `Round ${fmt(a)}${up ? ' up' : dn ? ' down' : ''}`, up ? Math.ceil(a) : dn ? Math.floor(a) : Math.round(a)); });
+  on('(.+?) (?:as|in|to|into) (?:an? )?(?:mixed (?:number|fraction)|whole and fraction)', (m, ctx) => {
+    const x = tryEval(m[1], ctx); if (x === null || !isFinite(x)) return null; const [h, k] = toFraction(x);
+    const whole = Math.trunc(h / k), rem = Math.abs(h % k), v = k === 1 ? fmt(h) : whole ? `${whole} ${rem}/${k}` : `${h}/${k}`;
+    return { kind: 'Numbers', label: `${fmt(sig(x, 10))} as a mixed number`, value: v, num: x, steps: [['improper fraction', k === 1 ? fmt(h) : `${h}/${k}`], whole && rem ? ['how', `${Math.abs(h)} ÷ ${k} = ${Math.abs(whole)} remainder ${rem}`] : null, ['decimal', fmt(sig(x, 10))]].filter(Boolean) };
+  });
   on('(.+?) (?:as|in|to|into) (?:a )?(?:fraction|ratio)', (m, ctx) => {
     const x = tryEval(m[1], ctx); if (x === null || !isFinite(x)) return null; const [h, k] = toFraction(x);
     const whole = Math.trunc(h / k), rem = Math.abs(h % k), exact = Math.abs(h / k - x) < 1e-10;
@@ -2397,7 +2615,7 @@ const Engine = (() => {
   }
   function salary(s) {
     if (/%/.test(s)) return null;
-    { const m = s.match(/(\d[\d,.]*k?)\s+([a-z]+(?: [a-z]+)?)\s+(?:an?|per|each|every|por)\s+(day|week|month|year|dia|semana|mês|mes|ano)\b/);
+    { const m = s.match(/(\d[\d,.]*k?)\s+(?!(?:an?|per|each|every|por|um|uma)\b)([a-z]+(?: (?!(?:an?|per|each|every)\b)[a-z]+)?)\s+(?:an?|per|each|every|por)\s+(day|week|month|year|dia|semana|mês|mes|ano)\b/);
       if (m && !/^(?:euros?|dollars?|pounds?|eur|usd|gbp|bucks|reais|cents?|hours?|h|hrs?|minutes?|mins?|km|miles?|kg|calories|kcal)$/.test(m[2].split(' ').pop()) && !CUR && !/\b(salary|wage|earn|paid|pay|income|rent|costs?|spend|spent|price|bill|save|saving)\b/.test(s)) {
         const D = { day: 1, dia: 1, week: 7, semana: 7, month: 365 / 12, mês: 365 / 12, mes: 365 / 12, year: 365, ano: 365 }, src = m[3];
         const rest = s.slice(m.index + m[0].length), tm = rest.match(/\b(day|week|month|year|decade|dia|semana|mês|mes|ano)s?\b/), tgt = tm ? tm[1] : (src === 'year' ? 'day' : 'year');
@@ -2430,7 +2648,8 @@ const Engine = (() => {
     const pace = (secPerKm) => { const f = x => `${Math.floor(x / 60)}:${String(Math.round(x % 60)).padStart(2, '0')}`; return [f(secPerKm), f(secPerKm * 1.609344)]; };
     if (dist && !spd && !dur) { const mode = /walk|hike|hiking/.test(s) ? ['walking', 5] : /run|jog/.test(s) ? ['running', 10] : /cycl|bike|biking|ride/.test(s) ? ['cycling', 18] : /swim/.test(s) ? ['swimming', 3] : /drive|driving|car/.test(s) ? ['driving', 80] : null; if (mode) { spd = mode[1] / 3.6; const sec = dist / spd; return { kind: 'Units', label: `${fmt(sig(dist / 1000, 6))} km ${mode[0]}`, value: hms(Math.round(sec / 60) * 60), num: sec / 3600, steps: [['assumes', `${mode[1]} km/h, a typical ${mode[0]} speed`], ['tip', `add “at 6 km/h” to use your own speed`]] }; } }
     if (dist && spd && !dur) { const sec = dist / spd; return { kind: 'Units', label: `${fmt(sig(dist / 1000, 6))} km at ${fmt(sig(spd * 3.6, 6))} km/h`, value: hms(Math.round(sec)), num: sec / 3600, steps: [['in hours', fmt(sig(sec / 3600, 5)) + ' h']] }; }
-    if (dist && dur && !spd && /\bpace\b/.test(s)) { const v = dist / dur; const [pk, pm] = pace(dur / (dist / 1000)); return { kind: 'Units', label: `Pace, ${fmt(sig(dist / 1000, 6))} km in ${hms(dur)}`, value: pk, unit: 'per km', num: dur / (dist / 1000) / 60, steps: [['per mile', pm], ['speed', fmt(sig(v * 3.6, 4)) + ' km/h · ' + fmt(sig(v / .44704, 4)) + ' mph']] }; }
+    if (dist && dur && !spd && /\bpace\b/.test(s)) { const v = dist / dur; const [pk, pm] = pace(dur / (dist / 1000)); if (/\b(?:per mile|\/mi|mile pace|min(?:ute)?s? (?:per|a) mile)\b/.test(s)) return { kind: 'Units', label: `Pace, ${fmt(sig(dist / 1000, 6))} km in ${hms(dur)}`, value: pm, unit: 'per mile', num: dur / (dist / 1609.344) / 60, steps: [['per km', pk], ['speed', fmt(sig(v * 3.6, 4)) + ' km/h · ' + fmt(sig(v / .44704, 4)) + ' mph']] };
+      return { kind: 'Units', label: `Pace, ${fmt(sig(dist / 1000, 6))} km in ${hms(dur)}`, value: pk, unit: 'per km', num: dur / (dist / 1000) / 60, steps: [['per mile', pm], ['speed', fmt(sig(v * 3.6, 4)) + ' km/h · ' + fmt(sig(v / .44704, 4)) + ' mph']] }; }
     if (dist && dur && !spd) { const v = dist / dur; const [pk, pm] = pace(dur / (dist / 1000)); return { kind: 'Units', label: `${fmt(sig(dist / 1000, 6))} km in ${hms(dur)}`, value: fmt(sig(v * 3.6, 4)), unit: 'km/h', num: v * 3.6, steps: [['in mph', fmt(sig(v / .44704, 4)) + ' mph'], ['pace', `${pk} per km · ${pm} per mile`]] }; }
     if (spd && dur && !dist) { const d = spd * dur; return { kind: 'Units', label: `${fmt(sig(spd * 3.6, 6))} km/h for ${hms(dur)}`, value: fmt(sig(d / 1000, 5)), unit: 'km', num: d / 1000, steps: [['in miles', fmt(sig(d / 1609.344, 5)) + ' mi']] }; }
     return null;
@@ -2465,7 +2684,7 @@ const Engine = (() => {
   on(['(?:gcd|gcf|hcf|greatest common (?:divisor|factor)|highest common factor) (?:of )?(.+)'], m => { const xs = parseList(m[1]); if (!xs || xs.length < 2 || !xs.every(isInt)) return null; const v = xs.reduce(gcd); return M('Numbers', `GCD of ${xs.map(fmt).join(', ')}`, v); });
   on(['(?:lcm|least common multiple|lowest common multiple|lcd|lowest common denominator) (?:of )?(.+)'], m => { const xs = parseList(m[1]); if (!xs || xs.length < 2 || !xs.every(x => isInt(x) && x)) return null; const v = xs.reduce((a, b) => Math.abs(a * b) / gcd(a, b)); return M('Numbers', `LCM of ${xs.map(fmt).join(', ')}`, v); });
   const nCr = (n, k) => { let v = 1; for (let i = 1; i <= k; i++) v = v * (n - k + i) / i; return Math.round(v); };
-  on(['(?:how many )?(?:combinations|ways to (?:choose|pick|select)) (?:of )?# (?:from|out of|in|choose|taken from|of) #', '(?:how many ways (?:can|to) (?:i |you )?(?:choose|pick|select)) # (?:from|out of) #'], m => { let a = pn(m[1]), b = pn(m[2]); const [n, k] = a > b ? [a, b] : [b, a]; if (!isInt(n) || !isInt(k)) return null; return M('Numbers', `Choose ${fmt(k)} from ${fmt(n)}, order ignored`, nCr(n, k), [['if order matters', fmt(nCr(n, k) * fact(k))], ['formula', 'n! ÷ (k! (n − k)!)']]); });
+  on(['(?:how many )?(?:combinations|ways to (?:choose|pick|select)) (?:of )?# (?:from|out of|in|choose|taken from|taken|of) #', '(?:how many ways (?:can|to) (?:i |you )?(?:choose|pick|select)) # (?:from|out of) #'], m => { let a = pn(m[1]), b = pn(m[2]); const [n, k] = a > b ? [a, b] : [b, a]; if (!isInt(n) || !isInt(k)) return null; return M('Numbers', `Choose ${fmt(k)} from ${fmt(n)}, order ignored`, nCr(n, k), [['if order matters', fmt(nCr(n, k) * fact(k))], ['formula', 'n! ÷ (k! (n − k)!)']]); });
   on(['(?:how many )?(?:permutations|arrangements|ordered (?:ways|choices)) (?:of )?# (?:from|out of|taken from|of) #', '(\\d+) ?p ?(\\d+)', 'npr # #'], m => { let a = pn(m[1]), b = pn(m[2]); const [n, k] = /^\d+ ?p ?\d+$/.test(m.input) || /^npr/.test(m.input) ? [a, b] : a > b ? [a, b] : [b, a]; if (!isInt(n) || !isInt(k) || k > n) return null; return M('Numbers', `Arrange ${fmt(k)} of ${fmt(n)}, order matters`, Math.round(fact(n) / fact(n - k)), [['if order is ignored', fmt(nCr(n, k))], ['formula', 'n! ÷ (n − k)!']]); });
   on(['how many ways (?:can i |to |can you )?(?:arrange|order|line up|sort|shuffle) # (?:\\w+)?'], m => { const n = pn(m[1]); if (!isInt(n) || n > 170) return null; return M('Numbers', `Ways to arrange ${fmt(n)} things`, fact(n), [['formula', `${fmt(n)}!`]]); });
   const EVT = { heads: .5, tails: .5, head: .5, tail: .5, six: 1 / 6, sixes: 1 / 6, '6': 1 / 6, '6s': 1 / 6, one: 1 / 6, ones: 1 / 6, '1': 1 / 6, double: 1 / 6, doubles: 1 / 6, 'double six': 1 / 36, 'double sixes': 1 / 36 };
@@ -2827,7 +3046,7 @@ const Engine = (() => {
     [/\b(?:reduced to clear|yellow sticker|red sticker|clearance|markdown of|marked down)\b/g, 'off'], [/\bbuy one get one(?: free)?\b|\bbogo\b/g, 'bogof'],
     [/\bbucks?\b|\bquid\b/g, ''], [/^what (?=[\d(-])/, ''], [/\b(?:a|one) grand\b/g, '1000'], [/(\d+(?:\.\d+)?)\s*grand\b/g, (m, a) => String(+a * 1000)], [/(\d+(?:\.\d+)?)\s*(?:mil|mill|mio|mn)\b/g, (m, a) => String(+a * 1e6)], [/\b(\w+) is\??$/, '$1'], [/\b(\d+(?:\.\d+)?) up by\b/g, '$1 by'], [/(^|\b(?:to|in|is|of|from|at|be)\s)minus (?=\d)/g, '$1-'], [/(^|\s)negative (?=\d)/g, '$1-'], [/\ban? (5|10|21|42)k\b/g, '$1 km'], [/\bhalf marathon\b/g, '21.0975 km'], [/\b(?:a |one )?marathon\b/g, '42.195 km'], [/(\S)\s+(?:equals|is equal to|equal to)\s+(?=\S)/g, '$1 = '], [/\bby (?:a |one )?quarter\b/g, 'by 25%'], [/\bby (?:a |one )?half\b/g, 'by 50%'], [/\bby (?:a |one )?third\b/g, 'by 33.3333333333%'],
     [/(?<!get (?:one|1|another|the second|the 2nd|a second) )\bhalf price\b/g, '50% off'], [/\b(?:a |one )?quarter off\b/g, '25% off'], [/\bhalf off\b/g, '50% off'],
-    [/\b(second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth) root\b/g, (m, w) => ({ second: 2, third: 3, fourth: 4, fifth: 5, sixth: 6, seventh: 7, eighth: 8, ninth: 9, tenth: 10 }[w]) + 'th root'], [/\bwhen's\b/g, 'when is'], [/\s*=\s*\?\s*/g, ' to '], [/\broot (?=\d)/g, 'sqrt '], [/\b(\d+(?:\.\d+)?) (?:square root|sqrt)\b/g, 'sqrt $1'], [/\b(\d+(?:\.\d+)?) cube root\b/g, 'cbrt $1'],
+    [/\b(second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth) root\b/g, (m, w) => ({ second: 2, third: 3, fourth: 4, fifth: 5, sixth: 6, seventh: 7, eighth: 8, ninth: 9, tenth: 10 }[w]) + 'th root'], [/\bwhen's\b/g, 'when is'], [/\s*=\s*\?\s*/g, ' to '], [/\broot (\d+) of\b/g, '$1th root of'], [/\broot (?=\d)/g, 'sqrt '], [/\b(\d+(?:\.\d+)?) (?:square root|sqrt)\b/g, 'sqrt $1'], [/\b(\d+(?:\.\d+)?) cube root\b/g, 'cbrt $1'],
     [/^how (?:far|heavy|big|tall|hot|cold|much|large|wide|deep|high|warm|many) (?:is|are|was) (?=-?[\d.]|0\.)/, ''], [/^(?:body |room |water |outside |oven )?(?:temp|temperature)(?: of| is)? (?=-?\d)/, ''], [/\bthe\s+(?=\d)/g, ''], [/\s+,/g, ','], [/(\d)\s*k\b(?!m)/g, '$1k']
   ];
   function normalize(q) {
@@ -3633,7 +3852,7 @@ const Engine = (() => {
       .replace(/\^\s*\{([^{}]*)\}/g, '^($1)').replace(/[{}]/g, m => m === '{' ? '(' : ')').replace(/\\[a-zA-Z]+/g, ' ');
     // unicode
     s = s.replace(/[½⅓⅔¼¾⅕⅖⅗⅘⅙⅚⅛⅜⅝⅞]/g, c => FRAC_CH[c]).replace(/([⁰¹²³⁴⁵⁶⁷⁸⁹⁻]+)/g, m => '^' + (m.length > 1 ? '(' : '') + [...m].map(c => SUPN[c]).join('') + (m.length > 1 ? ')' : ''))
-      .replace(/[−–—]/g, '-').replace(/[×·∙⋅]/g, '*').replace(/[÷∶]/g, '/').replace(/√\s*\(/g, 'sqrt(').replace(/√\s*(\d+(?:\.\d+)?|[a-z])/g, 'sqrt($1)').replace(/π/g, 'pi').replace(/[“”"]/g, '').replace(/\s*\n\s*/g, ' ');
+      .replace(/[−–—]/g, '-').replace(/[×·∙⋅]/g, '*').replace(/[÷∶]/g, '/').replace(/√\s*\(/g, 'sqrt(').replace(/∛\s*\(/g, 'cbrt(').replace(/∛\s*(\d+(?:\.\d+)?)/g, 'cbrt($1)').replace(/√\s*(\d+(?:\.\d+)?|[a-z])/g, 'sqrt($1)').replace(/π/g, 'pi').replace(/[“”"]/g, '').replace(/\s*\n\s*/g, ' ');
     // book phrasing
     s = s.replace(/^\s*(?:\d+[.)]\s+|[a-h]\)\s+)/i, '').replace(/^\s*(?:solve(?: for [a-z])?|find(?: the value of)? [a-z]|evaluate|calculate|compute|work out|simplify|expand|what is|determine)\s*[:,]?\s*/i, m => /simplify|expand/i.test(m) ? 'simplify ' : '').replace(/[.;]\s*$/, '').trim();
     return s;
@@ -3833,7 +4052,11 @@ const Engine = (() => {
   // maths that can show its working: solve it both ways, keep the step-by-step when they agree
   function solve(raw, ctx = {}, depth = 0) {
     if (depth) return solve1(raw, ctx, depth);
-    const q = String(raw || '').trim();
+    let q = String(raw || '').trim();
+    // ∛27 → cbrt; "1 1/2" is a mixed number (one and a half), not 1 × ½
+    q = q.replace(/∛\s*\(/g, 'cbrt(').replace(/∛\s*(\d+(?:[.,]\d+)?)/g, 'cbrt($1)');
+    if (/\d \d+\s*\/\s*\d/.test(q) && !/\d \d+ \d/.test(q) && !/[a-z]{2,}/i.test(q.replace(/\b(?:solve|simplify|evaluate|calculate|compute|work out|what is|whats|find|sqrt|cbrt|abs)\b/gi, ''))) q = q.replace(/(^|[\s(+\-−×÷*=])(\d{1,4}) (\d+)\s*\/\s*(\d+)(?![\d.\/])/g, (m0, pre, w, n, d) => +n < +d ? `${pre}(${w}+${n}/${d})` : m0);
+    raw = q;
     const fancy = /\\[a-z]|[½⅓⅔¼¾²³⁴⁵⁶⁷⁸⁹⁰¹√π×÷−–]/i.test(q);
     const mathy = fancy || /=|^(?:solve|simplify|factori[sz]e|factor|evaluate|calculate|compute|work out)\b|^[a-z]\([a-z]\)\s*=/i.test(q) || /^[\d\s.+\-*/^()!]+$/.test(q);
     if (!mathy) return solve1(raw, ctx, depth);
@@ -4709,8 +4932,45 @@ const Engine = (() => {
     const ok = rows.filter(r => !r.none).map(r => ({ ...r, ch: (r.x - r.t.v) / Math.abs(r.t.v || 1) * 100 })).sort((a, b) => Math.abs(a.ch) - Math.abs(b.ch));
     return { rows, ok, tolHit };
   }
+  // answers that aren't plain numbers can still be worked backwards: times across zones, shoe sizes
+  function altGoalFor(r, q) {
+    let m;
+    if (r && r.kind === 'Time' && (m = String(r.label || '').match(/^(\d{1,2}:\d{2}) (.+?) → (.+)$/))) {
+      const [, , from, to] = m; return { kind: 'time', hint: `Type the time you want in ${to}, like 9am or 18:30`, start: r.value,
+        solve(t) { const tt = t.trim().replace(/^(?:at\s+)?/, ''); if (!/^\d{1,2}(?::\d{2})?\s*(?:am|pm|h)?$/i.test(tt)) return null; let rb = null; try { rb = Engine.solve(`${tt} ${to.toLowerCase()} to ${from.toLowerCase()}`, ctx); } catch {} if (!rb || rb.error) return null;
+          const nq = q.replace(/^\s*(?:at\s+)?\d{1,2}(?::\d{2})?\s*(?:am|pm|h)?/i, rb.value); let rf = null; try { rf = Engine.solve(nq, ctx); } catch {} return rf && !rf.error ? { q: nq, gives: rf.value + (rf.unit ? ' ' + rf.unit : ''), what: `${rb.value} in ${from}` } : null; } };
+    }
+    if (r && r.kind === 'Sizes' && /^Shoe size/.test(r.label || '') && (m = q.match(/(\d{1,2}(?:[.,]5)?)/))) {
+      const cur = parseFloat(m[1].replace(',', '.')), sys = (String(r.label).match(/→ (\w+)/) || [])[1] || '';
+      return { kind: 'size', hint: `Type the ${sys} size you want, like ${sys} ${Math.round(parseFloat(String(r.value).replace(/[^\d.]/g, ' ').trim()) || 10) + 1}`, start: r.value,
+        solve(t) { const want = parseFloat(String(t).replace(',', '.').replace(/[^\d.]/g, '')); if (!isFinite(want)) return null; const g = /women/i.test(String(r.value)) && !/men/i.test(String(r.value).replace(/women/gi, '')) ? 1 : 0;
+          let best = null; for (let x = Math.max(1, cur - 16); x <= cur + 16; x += .5) { const nq = q.replace(m[1], String(x)); let rr = null; try { rr = Engine.solve(nq, ctx); } catch {} if (!rr || rr.error) continue; const nums = (String(rr.value).match(/\d+(?:\.\d+)?/g) || []).map(Number); const got = nums[g] ?? nums[0]; if (got == null) continue; const d = Math.abs(got - want); if (!best || d < best.d - 1e-9) best = { d, q: nq, x, gives: rr.value }; }
+          return best ? { q: best.q, gives: best.gives, what: `size ${Engine.fmt(best.x)}`, near: best.d > 0.01 } : null; } };
+    }
+    return null;
+  }
+  function openAltGoal(alt, goalText) {
+    const box = $('#answer'), q = $('#q').value.trim(); goalState = { q, r: current, alt };
+    box.classList.add('goaling'); document.body.classList.add('goaling');
+    const g = document.createElement('div'); g.className = 'goal'; g.id = 'goal';
+    g.innerHTML = `<div class="g-row"><label class="g-lbl" for="gIn">I want</label><input id="gIn" class="g-in" type="text" autocomplete="off" spellcheck="false" value="${esc(goalText || '')}" placeholder="${esc(alt.start)}" aria-label="The answer you want"></div>
+      <div class="g-prev" id="gPrev" aria-live="polite"></div><div class="g-hint" id="gHint">${esc(alt.hint)}</div>
+      <div class="g-act"><button type="button" class="btn primary" id="gApply" disabled>Apply to my question</button><button type="button" class="btn" id="gCancel">Cancel</button></div>`;
+    (box.querySelector('.a-value') || box.querySelector('.a-head')).after(g);
+    const inp = g.querySelector('#gIn'); inp.focus();
+    const upd = () => { const res = alt.solve(inp.value); goalState.altRes = res; const prev = g.querySelector('#gPrev'), ap = g.querySelector('#gApply');
+      if (!res) { prev.innerHTML = inp.value.trim() ? '<div class="g-none">Keep typing…</div>' : ''; ap.disabled = true; return; }
+      prev.innerHTML = `<div class="g-q">${esc(res.q)}</div><div class="g-res ${res.near ? 'near' : 'hit'}"><span>${res.near ? 'closest' : 'gives'}</span> <b>${esc(res.gives)}</b> ${res.near ? '' : '<i>✓</i>'}</div>`;
+      g.querySelector('#gHint').textContent = `Change it to ${res.what}.`; ap.disabled = false; };
+    inp.addEventListener('input', () => { clearTimeout(goalT); goalT = setTimeout(upd, 140); });
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); g.querySelector('#gApply').click(); } if (e.key === 'Escape') { e.preventDefault(); goalClose(); } });
+    g.querySelector('#gApply').addEventListener('click', () => { const res = goalState && goalState.altRes; if (!res) return; goalClose(); answerGo(res.q); if (typeof barThinking === 'function') barThinking(); });
+    g.querySelector('#gCancel').addEventListener('click', () => goalClose()); if (goalText) upd();
+  }
   function openGoal(goalText) {
-    const box = $('#answer'); if (!current || current.error || typeof current.num !== 'number') return;
+    const box = $('#answer'); if (!current || current.error) return;
+    { const alt = altGoalFor(current, $('#q').value.trim()); if (alt) { openAltGoal(alt, goalText); found && found('goal'); return; } }
+    if (typeof current.num !== 'number') return;
     const q = $('#q').value.trim(); if (!revTokens(q).length) { toast('This question has no number to change'); return; }
     goalState = { q, r: current, pick: null, res: null };
     box.classList.add('goaling'); document.body.classList.add('goaling');
@@ -4801,12 +5061,30 @@ const Engine = (() => {
 
   /* ---------- Details that fit the answer: key facts by type, then how it was worked out ---------- */
   const mny = v => (+v).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  function breakdown(r, q) {
+    if (!r || r.error || !r.steps) return null; const S = {}; (r.steps || []).filter(Boolean).forEach(([k, v]) => { S[String(k).toLowerCase()] = String(v); });
+    const num = s => { if (s == null) return NaN; const m = String(s).replace(/,/g, '').match(/-?\d+(?:\.\d+)?/); return m ? +m[0] : NaN; };
+    let parts = null;
+    if (S['total paid'] != null && S.interest != null) { const t = num(S['total paid']), i = num(S.interest); if (t > i && i >= 0) parts = [['borrowed', t - i], ['interest', i]]; }
+    else if (S.tip != null && S.total != null) { const t = num(S.total), tip = num(S.tip); if (t > tip) parts = [['bill', t - tip], ['tip', tip]]; }
+    else if (S.net != null && S.tax != null) parts = [['net', num(S.net)], ['tax', num(S.tax)]];
+    else if (S['you save'] != null && S.original != null) { const o = num(S.original), sv = num(S['you save']); if (o > sv) parts = [['you pay', o - sv], ['you save', sv]]; }
+    else if (S['end balance'] != null && typeof r.num === 'number') { const e = num(S['end balance']), i = r.num; if (e > i) parts = [['deposit', e - i], ['interest', i]]; }
+    else if (r.kind === 'Percent' && S['what remains'] != null) parts = [['part', r.num], ['rest', num(S['what remains'])]];
+    if (!parts || parts.some(p => !isFinite(p[1]) || p[1] < 0)) return null; const T = parts[0][1] + parts[1][1]; if (!(T > 0)) return null;
+    return { parts, T, money: r.kind === 'Money' };
+  }
+  function breakdownHtml(B) {
+    const f = v => B.money ? mny(v) : Engine.fmt(+(+v).toPrecision(8));
+    return `<div class="a-bd" role="img" aria-label="${B.parts.map(p => `${p[0]} ${f(p[1])}`).join(', ')}"><div class="bd-bar">${B.parts.map((p, i) => `<i class="p${i}" style="--w:${(p[1] / B.T * 100).toFixed(2)}%"></i>`).join('')}</div><div class="bd-leg">${B.parts.map((p, i) => `<span class="p${i}"><b>${esc(p[0])}</b>${esc(f(p[1]))}<em>${Math.round(p[1] / B.T * 100)}%</em></span>`).join('')}</div></div>`;
+  }
   function facts(r, q) {
     if (!r || r.error || r.settle || (r.work && r.kind === 'Solve')) return [];
     const numeric = typeof r.num === 'number' && isFinite(r.num); if (!numeric && !/^(Time|Date|Numbers)$/.test(r.kind)) return [];
     const n = numeric ? r.num : NaN, u = (r.unit || '').toLowerCase(), L = (r.label + ' ' + q).toLowerCase(), out = [];
     const stepKeys = new Set((r.steps || []).filter(Boolean).map(s => String(s[0]).toLowerCase()));
-    const add = (k, v) => { if (v != null && v !== '' && !stepKeys.has(k.toLowerCase()) && !out.some(o => o[0] === k)) out.push([k, v]); };
+    const add = (k, v, fq) => { if (v != null && v !== '' && !stepKeys.has(k.toLowerCase()) && !out.some(o => o[0] === k)) out.push([k, v, fq]); };
+    const addQ = (k, fq) => add(k, solveV(fq), fq);
     const solveV = s => { try { const x = Engine.solve(s, ctx); return x && !x.error ? x.value + (x.unit && x.unit.length < 12 ? ' ' + x.unit : '') : ''; } catch { return ''; } };
     if (r.kind === 'Money') {
       const per = /mortgage|loan|borrow|interest|invest|save|saving/.test(L) ? null : (u + ' ' + r.label.toLowerCase()).match(/per (hour|day|week|month|year)/);
@@ -4818,12 +5096,13 @@ const Engine = (() => {
         const pm = q.toLowerCase().match(/(\d+(?:[.,]\d+)?)\s*(k|m)?\b.*?(?:at|@)\s*(\d+(?:[.,]\d+)?)\s*%/); if (pm) { const P = parseFloat(pm[1].replace(',', '.')) * (pm[2] === 'k' ? 1e3 : pm[2] === 'm' ? 1e6 : 1), more = Math.ceil(n * 1.1);
           const t = solveV(`how long to pay off ${P} at ${pm[3]}% paying ${more} a month`), mo = parseInt((t.match(/(\d+)\s*months?/) || [])[1]), yrs = parseFloat((q.match(/(\d+(?:[.,]\d+)?)\s*years?/i) || [])[1]);
           if (mo) { const N = yrs ? Math.round(yrs * 12) : null, yy = Math.floor(mo / 12), mm2 = mo % 12; add(`paying ${mny(more)} (10% more)`, `done in ${yy ? yy + ' year' + (yy > 1 ? 's' : '') : ''}${yy && mm2 ? ' ' : ''}${mm2 ? mm2 + ' month' + (mm2 > 1 ? 's' : '') : ''}${N ? `, ${N - mo} months sooner` : ''}`); if (N) add('interest saved, roughly', mny(Math.max(0, n * N - more * mo))); } } }
-      else if (!/vat|iva|tax/.test(L)) { add('with 23% VAT', mny(n * 1.23)); add('VAT inside it (23%)', mny(n - n / 1.23)); }
+      else if (!/vat|iva|tax/.test(L) && /\boff\b|discount|price|cost|sale|was .* now|\bdeal\b|basket|\bpay\b/.test(L) && !/interest|change from|salary|wage|save|saving|invest/.test(L)) { add('with 23% VAT', mny(n * 1.23)); add('VAT inside it (23%)', mny(n - n / 1.23)); }
       else if (/without/.test(L)) add('VAT removed', mny(n * .23));
     }
+    if (r.kind === 'Money' && /interest|invest|sav/.test(L)) { const rt = parseFloat((q.match(/(\d+(?:[.,]\d+)?)\s*%/) || [])[1]); if (rt > 0) add('money doubles in', `about ${Engine.fmt(+(72 / rt).toFixed(1))} years`); }
     else if (r.kind === 'Percent') {
       const p = parseFloat(String(r.value).replace(/[^\d.\-−]/g, '').replace('−', '-'));
-      const of = q.toLowerCase().match(/^(\d+(?:[.,]\d+)?)\s*% of (\d+(?:[.,]\d+)?)$/); if (of) { const W = parseFloat(of[2].replace(',', '.')); add('what remains', Engine.fmt(+(W - n).toPrecision(10))); add('as a fraction', solveV(`${parseFloat(of[1].replace(',', '.')) / 100} as a fraction`)); }
+      const of = q.toLowerCase().match(/^(\d+(?:[.,]\d+)?)\s*% of (\d+(?:[.,]\d+)?)$/); if (of) { const W = parseFloat(of[2].replace(',', '.')); add('what remains', Engine.fmt(+(W - n).toPrecision(10))); addQ('as a fraction', `${parseFloat(of[1].replace(',', '.')) / 100} as a fraction`); }
       if (isFinite(p) && /%/.test(r.value) && /change|from .* to|increase|decrease|rise|drop|raise/.test(L)) { add('multiplier', `× ${Engine.fmt(+(1 + p / 100).toPrecision(4))}`); add('to undo it', `${p > 0 ? '−' : '+'}${Engine.fmt(+Math.abs(100 - 100 / (1 + p / 100)).toPrecision(3))}%`); }
       else if (isFinite(p) && /%/.test(r.value)) { const o = oneIn(Math.abs(p)); if (o) add('roughly', o); if (Math.abs(p) <= 100) add('as a decimal', Engine.fmt(+(p / 100).toPrecision(6))); const fr = solveV(`${p / 100} as a fraction`); if (fr && /\//.test(fr) && fr.length < 10) add('as a fraction', fr); }
       else { const fr = Number.isInteger(n) ? '' : solveV(`${n} as a fraction`); if (fr && /\//.test(fr) && fr.length < 10) add('as a fraction', fr); }
@@ -4831,20 +5110,20 @@ const Engine = (() => {
     else if (r.kind === 'Stats') { if (!Number.isInteger(n)) add('rounded', Engine.fmt(+n.toFixed(2))); }
     else if (r.kind === 'Math' || r.kind === 'Solve') {
       if (!Number.isInteger(n)) { add('rounded', Engine.fmt(+n.toFixed(2))); const fr = solveV(`${n} as a fraction`); if (fr && /\//.test(fr) && fr.length < 12 && fr.replace(/\s/g, '') !== q.replace(/\s/g, '')) add('as a fraction', fr); }
-      if (Number.isInteger(n) && Math.abs(n) < 1e9 && Math.abs(n) >= 10) add('in words', solveV(`${n} in words`));
-      if (Math.abs(n) >= 1e6) add('scientific', solveV(`${n} in scientific notation`));
+      if (Number.isInteger(n) && Math.abs(n) < 1e9 && Math.abs(n) >= 10) addQ('in words', `${n} in words`);
+      if (Math.abs(n) >= 1e6) addQ('scientific', `${n} in scientific notation`);
       if (Number.isInteger(n) && n > 1 && n < 1e7) { const pr = solveV(`is ${n} prime`); if (pr) add('prime?', pr); }
     }
     else if (r.kind === 'Date') {
-      { const dd = (r.steps || []).find(s => s && s[0] === 'date'); const target = dd ? dd[1] : /^[A-Z][a-z]{2} \d/.test(String(r.value)) ? r.value : ''; if (target && !/ago|since/.test(L)) { const wd = solveV(`working days until ${target.replace(/^[A-Za-z]{3} /, '')}`); if (wd && !/^-|−/.test(wd)) add('working days until then', wd); } }
+      { const dd = (r.steps || []).find(s => s && s[0] === 'date'); const target = dd ? dd[1] : /^[A-Z][a-z]{2} \d/.test(String(r.value)) ? r.value : ''; if (target && !/ago|since/.test(L)) { const wq = `working days until ${target.replace(/^[A-Za-z]+,?\s+/, '')}`, wd = solveV(wq); if (wd && !/^-|−/.test(wd)) add('working days until then', wd, wq); } }
       const dm = String(r.value).match(/^([\d,]+) days?/); if (dm) { const d = +dm[1].replace(/,/g, ''); add('in weeks', `${Engine.fmt(+(d / 7).toFixed(1))} weeks`); if (d >= 45) add('in months', `${Engine.fmt(+(d / 30.437).toFixed(1))} months`); add('in hours', Engine.fmt(d * 24)); }
     }
     else if (r.kind === 'Units') {
       const U0 = r.unit || '', mins = { s: 1 / 60, min: 1, h: 60, d: 1440, wk: 10080 }[U0]; if (mins && n * mins >= 60) add('as time', humanDur(n * mins * 60));
-      if (U0 === 'cm' && n >= 50 && n <= 250) add('in feet and inches', solveV(`${n} cm to feet and inches`));
-      if (U0 === 'm' && n >= 0.5 && n <= 2.5) add('in feet and inches', solveV(`${n * 100} cm to feet and inches`));
-      if (U0 === 'kg' && n >= 20 && n <= 300) add('in stone', solveV(`${n} kg to stone`));
-      if (U0 === 'lb' && n >= 40) add('in stone', solveV(`${n} lb to stone`));
+      if (U0 === 'cm' && n >= 50 && n <= 250) addQ('in feet and inches', `${n} cm to feet and inches`);
+      if (U0 === 'm' && n >= 0.5 && n <= 2.5) addQ('in feet and inches', `${n * 100} cm to feet and inches`);
+      if (U0 === 'kg' && n >= 20 && n <= 300) addQ('in stone', `${n} kg to stone`);
+      if (U0 === 'lb' && n >= 40) addQ('in stone', `${n} lb to stone`);
       if ((U0 === 'km/h' || U0 === 'mph') && n > 3 && n < 40) { const kmh = U0 === 'mph' ? n * 1.609344 : n, s = Math.round(3600 / kmh); add('pace', `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')} per km`); }
       if ((U0 === '°C' || U0 === '°F')) { const c = U0 === '°C' ? n : (n - 32) * 5 / 9; add('feels', c < 0 ? 'freezing' : c < 10 ? 'cold' : c < 18 ? 'cool' : c < 25 ? 'mild' : c < 30 ? 'warm' : c < 38 ? 'hot' : c < 60 ? 'very hot' : 'cooking temperature'); }
     }
@@ -4855,7 +5134,7 @@ const Engine = (() => {
       else if (conv && /\d/.test(conv[1])) CITIES.filter(c => !ql.includes(c)).slice(0, 3).forEach(c => add(`in ${c.replace(/\b[a-z]/g, x => x.toUpperCase())}`, solveV(`${conv[1]} to ${c}`)));
     }
     else if (r.kind === 'Numbers' && /prime/i.test(r.label)) {
-      const k = Math.round(+String(q).replace(/[^\d]/g, '')); if (k > 2 && k < 1e7) { add('next prime', solveV(`next prime after ${k}`)); add('previous prime', solveV(`previous prime before ${k}`)); }
+      const k = Math.round(+String(q).replace(/[^\d]/g, '')); if (k > 2 && k < 1e7) { addQ('next prime', `next prime after ${k}`); addQ('previous prime', `previous prime before ${k}`); }
     }
     else if (r.kind === 'Time') {
       const cm = String(r.value).match(/^(\d{1,2}):(\d{2})$/); if (cm) { const h = +cm[1]; add('12-hour', `${h % 12 || 12}:${cm[2]} ${h < 12 ? 'am' : 'pm'}`); }
@@ -4880,7 +5159,7 @@ const Engine = (() => {
   let ansBack = [];
   const CITIES = ['London', 'New York', 'Paris', 'Tokyo', 'Sydney', 'Dubai', 'Los Angeles', 'São Paulo', 'Lisbon', 'Berlin'];
   const UNIT_FALLBACK = [[/^(?:B|KB|MB|GB|TB|PB|bits?|kB|MiB|GiB)$/, ['KB', 'MB', 'GB', 'TB']], [/^(?:s|min|h|d|wk|mo|yr|ms)$/, ['s', 'min', 'h', 'd', 'wk']]];
-  const unitList = tgt => { if (/^(°[CF]|K)$/.test(tgt)) return ['°C', '°F', 'K']; const l = Engine.unitChoices(tgt.split(' ')[0]); if (l) return l.filter(u => !/^(stick|mach|in³|ft³|µm|°|cl|kn|st)$/.test(u)); const f = UNIT_FALLBACK.find(([re]) => re.test(tgt)); return f ? f[1] : []; };
+  const unitList = tgt => { if (/^(°[CF]|K)$/.test(tgt)) return ['°C', '°F', 'K']; const l = Engine.unitChoices({ in: 'inch', t: 'tonne', 'fl oz': 'floz', L: 'litre', 'short ton': 'tonne', 'long ton': 'tonne', 'uk gal': 'gallon', 'uk pt': 'pint' }[tgt] || tgt.split(' ')[0]) || Engine.unitChoices(tgt.toLowerCase()); if (l) return l.filter(u => !/^(stick|mach|in³|ft³|µm|°|cl|kn|st|short ton|long ton)$/.test(u)); const f = UNIT_FALLBACK.find(([re]) => re.test(tgt)); return f ? f[1] : []; };
   function switchFor(r, q) {
     if (!r || r.error || r.run || !q || r.kind === 'Help') return null;
     const L = String(r.label || ''), out = [], add = (label, nq, on) => { if (!out.some(o => o.q === nq)) out.push({ label, q: nq, on }); }; let m, title = '';
@@ -4904,7 +5183,7 @@ const Engine = (() => {
       [...new Set([cur, ...set])].sort((a, b) => a - b).forEach(p => add(p + '%', q.replace(m[0], m[0].replace(m[1], String(p))), p === cur));
     }
     if (!out.length && (m = q.match(/\b(?:between|among|for|by)\s+(\d{1,2})(\s*(?:people|persons|ways|of us|friends|pessoas))?\b|\b(\d{1,2})\s+(?:people|persons|ways)\b/i)) && /split|each|share|people|ways|between|among|tip|bill/i.test(q)) {
-      const n = +(m[1] || m[3]); if (n >= 1 && n <= 50) { title = 'People'; [n - 1, n, n + 1, n + 2].filter(x => x >= 1).forEach(x => add(String(x), q.replace(m[0], m[0].replace(String(n), String(x))), x === n)); }
+      const n = +(m[1] || m[3]); if (n >= 1 && n <= 50) { title = 'People'; [...new Set([2, 3, 4, 5, 6, 8, n])].sort((a, b) => a - b).forEach(x => add(String(x), q.replace(m[0], m[0].replace(String(n), String(x))), x === n)); }
     }
     if (!out.length && r.kind === 'Money' && (m = q.match(/\bfor\s+(\d{1,2})\s*(years?|yrs?)\b/i))) {
       const n = +m[1]; title = 'Years'; [...new Set([10, 15, 20, 25, 30, 35, n])].sort((a, b) => a - b).forEach(x => add(String(x), q.replace(m[0], `for ${x} ${m[2]}`), x === n));
@@ -4955,6 +5234,20 @@ const Engine = (() => {
       const amt = lm[1].replace(/[^\d.,]/g, '').replace(/,/g, ''), rate = lm[3], inside = lm[2] === 'without';
       return [opt('Add VAT', `${amt} plus ${rate}% vat`, !inside), opt('VAT inside', `${amt} without ${rate}% vat`, inside)];
     }
+    // rounding: nearest, up or down
+    if ((m = q.match(/^\s*round\s+(-?\d+(?:[.,]\d+)?)(?:\s+(up|down))?\s*$/i))) {
+      const d = (m[2] || '').toLowerCase(); return [opt('Nearest', `round ${m[1]}`, !d), opt('Up', `round ${m[1]} up`, d === 'up'), opt('Down', `round ${m[1]} down`, d === 'down')];
+    }
+    // running pace per km or per mile
+    if (r.kind === 'Units' && /^Pace/.test(r.label || '')) {
+      const mile = /per mile/.test(r.unit || ''), base = q.replace(/\s*(?:per (?:km|mile)|\/mi|\/km|mile pace|km pace)\b/gi, '').trim();
+      return [opt('Per km', base, !mile), opt('Per mile', base + ' per mile', mile)];
+    }
+    // interest: simple, or compounded yearly / monthly / daily
+    if (r.kind === 'Money' && /interest/i.test(r.label || '') && (m = q.match(/(\d[\d.,]*k?)\s*(?:€|euros?)?\s+at\s+(\d+(?:[.,]\d+)?)\s*%\s+for\s+(\d+)\s*(years?|months?)/i))) {
+      const simple = /\bsimple\b/i.test(q), f = (q.match(/compounded\s+(daily|monthly|quarterly|yearly|annually)/i) || [, 'yearly'])[1].toLowerCase().replace('annually', 'yearly'), core = `${m[1]} at ${m[2]}% for ${m[3]} ${m[4]}`;
+      return [opt('Simple', `simple interest ${core}`, simple), opt('Yearly', `compound interest ${core}`, !simple && f === 'yearly'), opt('Monthly', `compound interest ${core} compounded monthly`, !simple && f === 'monthly'), opt('Daily', `compound interest ${core} compounded daily`, !simple && f === 'daily')];
+    }
     if (r.kind === 'Money' && /interest/i.test(r.label || '') && (m = q.match(/(\d[\d.,]*k?)\s*(?:€|euros?)?\s+at\s+(\d+(?:[.,]\d+)?)\s*%\s+for\s+(\d+)\s*(years?|months?)/i))) {
       const simple = /\bsimple\b/i.test(q); return [opt('Compound', `compound interest ${m[1]} at ${m[2]}% for ${m[3]} ${m[4]}`, !simple), opt('Simple', `simple interest ${m[1]} at ${m[2]}% for ${m[3]} ${m[4]}`, simple)];
     }
@@ -4966,8 +5259,18 @@ const Engine = (() => {
     const cur = r.value + (r.unit && r.unit.length < 10 ? ' ' + r.unit : ''); if (T.filter(t => !t.on).every(t => { const pv = preview(t.q); return !pv || pv === cur; })) return '';
     return `<div class="a-tog" role="group" aria-label="Choose" style="--n:${T.length};--on:${on}"><span class="a-tog-thumb" aria-hidden="true"></span>${T.map((t, i) => `<button type="button" ${t.on ? 'aria-pressed="true"' : `aria-pressed="false" data-tog="${esc(t.q)}"`}>${esc(t.label)}</button>`).join('')}</div>`;
   }
+  // chips keep their places: the one you pick lights up where it is instead of jumping to the front
+  let swMemo = null;
+  function stableOrder(S) {
+    const labels = S.items.map(i => i.label);
+    if (swMemo && swMemo.title === S.title && labels.filter(l => swMemo.order.includes(l)).length >= Math.min(labels.length, swMemo.order.length) - 1) {
+      const order = swMemo.order.concat(labels.filter(l => !swMemo.order.includes(l)));
+      S.items.sort((a, b) => order.indexOf(a.label) - order.indexOf(b.label)); swMemo = { title: S.title, order };
+    } else swMemo = { title: S.title, order: labels };
+    return S;
+  }
   function switchRow(r, q) {
-    const S = switchFor(r, q); if (!S) return '';
+    const S0 = switchFor(r, q); if (!S0) { swMemo = null; return ''; } const S = stableOrder(S0);
     return `<div class="a-switch"><span class="lbl">${esc(S.title)}</span><div class="sw-row">${S.items.map((it, i) => { const pv = it.on ? '' : preview(it.q); if (!it.on && !pv) return ''; return `<button type="button" class="sw${it.on ? ' on' : ''}" ${it.on ? 'aria-current="true"' : `data-sw="${esc(it.q)}"`} style="--i:${i}"><span>${esc(it.label)}</span>${pv ? `<b>${esc(swShort(pv))}</b>` : ''}</button>`; }).join('')}</div></div>`;
   }
   function answerGo(nq) { const cur = $('#q').value.trim(); if (cur && cur !== nq) { ansBack.push(cur); ansBack = ansBack.slice(-15); } $('#q').value = nq; runAsk(); }
@@ -5090,7 +5393,8 @@ const Engine = (() => {
     const fromH = wasHidden ? 0 : box.offsetHeight;
     box.hidden = false;
     const kindCls = example ? 'ex' : r.error ? 'err' : '';
-    const steps = (r.steps || []).filter(Boolean).filter(([a, b]) => { if (a !== '≈') return true; const v = parseFloat(String(b).replace(/,/g, '')); return !isFinite(v) || (Math.abs(v) >= 0.01 && Math.abs(v) < 1e7); }).map(([a, b]) => b == null ? `<li><span class="solo">${esc(a)}</span></li>` : `<li class="${a === 'read as' || a === 'changed' || a === 'ans' || a === 'using' ? 'readas' : a === 'for scale' ? 'scale' : a === 'easier to read' ? 'easy' : ''}"><span>${esc(a)}</span><span>${esc(b)}</span></li>`).join('');
+    const chipUnits = new Set(((switchFor(r, ($('#q').value || '').trim()) || {}).items || []).map(i => i.label));
+    const steps = (r.steps || []).filter(Boolean).filter(([a, b]) => { if (a === '≈' && chipUnits.size && chipUnits.has(String(b).split(' ').pop())) return false; if (a !== '≈') return true; const v = parseFloat(String(b).replace(/,/g, '')); return !isFinite(v) || (Math.abs(v) >= 0.01 && Math.abs(v) < 1e7); }).map(([a, b]) => b == null ? `<li><span class="solo">${esc(a)}</span></li>` : `<li class="${a === 'read as' || a === 'changed' || a === 'ans' || a === 'using' ? 'readas' : a === 'for scale' ? 'scale' : a === 'easier to read' ? 'easy' : ''}"><span>${esc(a)}</span><span class="st-v" data-copy="${esc(b)}" title="Copy">${esc(b)}</span></li>`).join('');
     const canSend = typeof r.num === 'number' && isFinite(r.num);
     let actions = '', secondary = '';
     if (r.error) {
@@ -5101,6 +5405,8 @@ const Engine = (() => {
         : `<button class="btn primary" data-act="keep" type="button">${r.doLabel ? esc(r.doLabel) : r.assign ? 'Store ' + esc(r.assign.name) : 'Keep on tape'} <span class="kbd" style="border-color:color-mix(in srgb,var(--surface) 30%,transparent);color:inherit;opacity:.7">↵</span></button>`;
       secondary = example || r.paste || r.run ? '' : `${canSend ? `<button class="btn" data-act="send" type="button">Send to calculator</button>` : ''}
         ${!example && !r.plot ? `<button class="btn" data-act="sheet" type="button">Add to sheet</button>` : ''}
+        ${!example && /^(Money|Stats|Health|Percent|Numbers)$/.test(r.kind) && (r.steps || []).filter(s => s && s[1] != null && /\d/.test(String(s[1])) && !/^(read as|ignored|changed|using|ans|rate|formula|note|assumes|why|method|exact|in words|fraction)$/.test(s[0])).length >= 2 ? `<button class="btn" data-act="bdsheet" type="button">Breakdown to sheet</button>` : ''}
+        ${!example ? `<button class="btn" data-act="copyall" type="button">Copy summary</button>` : ''}
         ${!example && r.kind === 'Money' && typeof r.num === 'number' && !(r.links || []).some(l => l.src === 'basket') && !/per (hour|day|week|month|year)|mortgage|loan|borrow|interest|salary|invest|save|saving|inflation/i.test(r.label + ' ' + (r.unit || '') + ' ' + $('#q').value) ? `<button class="btn" data-act="basket" type="button">Add to basket</button>` : ''}
         ${!example && !r.assign ? `<button class="btn" data-act="pin" type="button"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 17v5M8 3h8l-1 6 3 3v2H6v-2l3-3z"/></svg>Pin</button>` : ''}`;
       actions = `<div class="a-actions a-bar">${primary}${r.kind === 'Random' && !example ? `<button class="btn" data-act="again" type="button">Roll again</button>` : ''}${example ? '' : `<button class="btn" data-act="copy" type="button">Copy</button>`}${r.paste ? `<button class="btn" data-act="psheet" type="button">Open as sheet</button><button class="btn" data-act="pbasket" type="button">Add to basket</button>` : ''}@@MORE@@</div>`;
@@ -5113,6 +5419,7 @@ const Engine = (() => {
     // straight answers: the result first; how it was worked out stays one tap away
     const compact = !example && !r.error && r.kind !== 'Help';
     const shape = ($('#q').value || '').toLowerCase().replace(/-?\d[\d.,]*/g, '#').trim();
+    if (r && r.kind !== (renderAnswer._k || '')) { swMemo = null; renderAnswer._k = r.kind; }
     if (shape !== detailsShape) { detailsShape = shape; detailsOpen = !!(r && r.work && (autoSteps || /^\s*(?:solve|simplify|factor|evaluate|expand|show (?:the )?steps)/i.test($('#q').value))); autoSteps = false; }
     const firstStep = (r.steps || []).find(Boolean);
     const noteTxt = compact && firstStep && /^(read as|ignored|changed|because of)$/.test(firstStep[0]) ? (firstStep[0] === 'ignored' ? `Ignored “${firstStep[1]}”` : firstStep[0] === 'changed' ? `Changed: ${firstStep[1]}` : `Read as “${firstStep[1]}”`) : '';
@@ -5120,18 +5427,24 @@ const Engine = (() => {
     const hasMore = compact && ((r.work && r.work.length) || facts(r, $('#q').value.trim()).length || moreSteps.length || secondary.trim() || trail.length || insight(r, $('#q').value) || nextFor(r, $('#q').value.trim()).length);
     let html = `
       <div class="a-head"><span class="chip-kind ${kindCls}">${example ? 'Example' : esc(r.kind)}</span><span class="a-label">${esc(example ? '“' + example + '”' : r.label)}</span>${!example && !r.error ? toggleRow(r, ($('#q').value || '').trim()) : ''}${ansBack.length && !example ? `<button type="button" class="a-back" data-back title="Back to “${esc(ansBack[ansBack.length - 1])}”"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg><span>Back</span></button>` : ''}</div>
-      ${r.value ? `<div class="a-value">${r.swatch && /^#[0-9A-F]{6}$/.test(r.swatch) ? `<span class="sw" style="background:${r.swatch}"></span>` : ''}<span class="av">${esc(r.value)}${r.unit ? `<small>${esc(r.unit)}</small>` : ''}</span>${!example && !r.error && !r.plot && !r.assign && !r.paste && !r.lines && !r.settle && typeof r.num === 'number' && isFinite(r.num) && revTokens($('#q').value).length ? `<button type="button" class="a-goal" data-act="rev" title="Type the answer you want: Quotient changes your question to match"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg><span>Set the answer</span></button>` : ''}</div>` : r.plot ? '' : `<div class="a-label" style="color:var(--ink);font-size:17px">${esc(r.error ? r.label : 'Ask in your own words. A few shapes that work:')}</div>`}
+      ${r.value ? `<div class="a-value">${r.swatch && /^#[0-9A-F]{6}$/.test(r.swatch) ? `<span class="sw" style="background:${r.swatch}"></span>` : ''}<span class="av">${esc(r.value)}${r.unit ? `<small>${esc(r.unit)}</small>` : ''}</span>${!example && !r.error && !r.plot && !r.assign && !r.paste && !r.lines && !r.settle && r.kind !== 'Solve' && ((typeof r.num === 'number' && isFinite(r.num) && r.kind !== 'Time' && r.kind !== 'Sizes' && revTokens($('#q').value).length) || altGoalFor(r, ($('#q').value || '').trim())) ? `<button type="button" class="a-goal" data-act="rev" title="Type the answer you want: Quotient changes your question to match"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg><span>Set the answer</span></button>` : ''}</div>` : r.plot ? '' : `<div class="a-label" style="color:var(--ink);font-size:17px">${esc(r.error ? r.label : 'Ask in your own words. A few shapes that work:')}</div>`}
       ${r.lines && r.lines.length ? `<ul class="a-lines">${r.lines.map((x, i) => `<li style="--i:${i}">${esc(x)}</li>`).join('')}</ul>` : ''}
       @@NOTE@@
       ${!example && !r.error ? switchRow(r, ($('#q').value || '').trim()) : ''}
       ${r.alts && r.alts.length && !example ? `<div class="alts"><span class="lbl">Or</span>${r.alts.map(a => { let pv = ''; try { const x = Engine.solve(a.q, ctx); pv = x && !x.error ? x.value + (x.unit && x.unit.length < 8 ? ' ' + x.unit : '') : ''; } catch {} return `<button type="button" class="ex" data-try="${esc(a.q)}">${esc(a.label)}${pv ? `<b>${esc(pv)}</b>` : ''}</button>`; }).join('')}</div>` : ''}
       ${r.plot ? `<div class="plot"><canvas aria-label="Graph of ${esc(r.plot.src)}" role="img"></canvas><div class="plot-read"><span>${esc(r.plot.note || 'drag across the graph to read values')}</span></div></div>` : ''}
       @@OPENMORE@@
+      ${!example && !r.error ? (() => { const B = breakdown(r, ($('#q').value || '').trim()); return B ? breakdownHtml(B) : ''; })() : ''}
       ${r.work && r.work.length && !example ? `<div class="a-sub">Step by step</div><ol class="a-work">${r.work.map(([why, ex], i) => `<li style="--i:${i}"><span class="w-n">${i + 1}</span><div><span class="w-why">${esc(why)}</span><span class="w-ex">${esc(ex)}</span></div></li>`).join('')}</ol>` : ''}
       ${trail.length && !example && !r.error ? `<div class="trail"><span class="lbl">Before</span>${trail.map((t, i) => `<button type="button" data-try="${esc(t.q)}" title="${esc(t.q)}">${esc(t.v)}</button>`).join('')}</div>` : ''}
       ${!example && !r.error ? (() => { const ins = insight(r, $('#q').value); return ins ? `<div class="a-insight"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg><span>${esc(ins)}</span></div>` : ''; })() : ''}
-      ${(() => { if (!compact) return steps ? `<ul class="a-steps">${steps}</ul>` : ''; const fx = facts(r, $('#q').value.trim()); return (fx.length ? `<div class="a-sub">Key facts</div><ul class="a-steps a-facts">${fx.map(([k, v]) => `<li><span>${esc(k)}</span><span>${esc(v)}</span></li>`).join('')}</ul>` : '') + (steps ? `<div class="a-sub">${r.paste ? 'Summary' : 'How it was worked out'}</div><ul class="a-steps">${steps}</ul>` : '') + (r.pasteItems ? pasteItemsHtml() : ''); })()}
-      ${!example && !r.error ? (() => { const swQ = switchFor(r, ($('#q').value || '').trim()), nx = nextFor(r, $('#q').value.trim()).filter(([l]) => !(swQ && r.kind === 'Units' && /^in /.test(l))); return nx.length ? `<div class="a-next"><span class="lbl">Next</span>${nx.map(([l, qq], i) => `<button type="button" data-next="${esc(qq)}" style="--i:${i}">${esc(l)}</button>`).join('')}</div>` : ''; })() : ''}
+      ${(() => { if (!compact) return steps ? `<ul class="a-steps">${steps}</ul>` : ''; const fx = facts(r, $('#q').value.trim()); return (fx.length ? `<div class="a-sub">Key facts</div><ul class="a-steps a-facts">${fx.map(([k, v, fq], i) => `<li style="--i:${i}"><button type="button" class="fact" ${fq ? `data-open="${esc(fq)}" title="Open “${esc(fq)}”"` : `data-copy="${esc(v)}" title="Copy"`}><span>${esc(k)}</span><span>${esc(v)}</span>${fq ? '<svg class="f-go" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>' : ''}</button></li>`).join('')}</ul>` : '') + (steps ? `<div class="a-sub">${r.paste ? 'Summary' : 'How it was worked out'}</div><ul class="a-steps">${steps}</ul>` : '') + (r.pasteItems ? pasteItemsHtml() : ''); })()}
+      ${!example && !r.error ? (() => { const swQ = switchFor(r, ($('#q').value || '').trim()), nx = nextFor(r, $('#q').value.trim()).filter(([l, nq]) => { const lab = l.replace(/^in /, '');
+        if (swQ && (swQ.items.some(i => i.label === lab || i.q === nq) || (r.kind === 'Units' && /^in /.test(l)))) return false;
+        if (/^(?:× 2|÷ 2|squared|round)$/.test(l) && !/^(Math|Numbers|Stats|Percent)$/.test(r.kind)) return false;
+        if (/^× 12$/.test(l) && !(r.kind === 'Math' || /per month/.test(r.unit || ''))) return false;
+        if (/vat|% off/i.test(l) && (/change from|interest|salary|split|each/i.test(r.label + ' ' + $('#q').value) || r.kind !== 'Money')) return false;
+        return true; }); return nx.length ? `<div class="a-next"><span class="lbl">Next</span>${nx.map(([l, qq], i) => `<button type="button" data-next="${esc(qq)}" style="--i:${i}">${esc(l)}</button>`).join('')}</div>` : ''; })() : ''}
       @@CLOSEMORE@@
       ${actions}`;
     html = html.replace('@@NOTE@@', noteTxt ? `<div class="a-note"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16v.5"/></svg>${esc(noteTxt)}</div>` : '')
@@ -5139,8 +5452,9 @@ const Engine = (() => {
       .replace('@@CLOSEMORE@@', compact ? `${secondary.trim() ? `<div class="a-actions a-sec">${secondary}</div>` : ''}</div>` : '')
       .replace('@@MORE@@', hasMore ? `<button class="btn a-more-btn" data-act="more" type="button" aria-expanded="${detailsOpen}" aria-controls="aMore"><span>${detailsOpen ? (r.work ? 'Hide steps' : 'Hide details') : (r.work ? 'Show steps' : 'Details')}</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>` : '');
     if (compact && noteTxt) html = html.replace(/(<ul class="a-steps">)<li class="readas">[\s\S]*?<\/li>/, '$1');
-    const keepAv = box.querySelector('.a-value .av'), keepKey = lastVal;
+    const keepAv = box.querySelector('.a-value .av'), keepKey = lastVal, swScroll = (box.querySelector('.sw-row') || {}).scrollLeft || 0;
     box.innerHTML = html;
+    { const row = box.querySelector('.sw-row'); if (row) { row.scrollLeft = swScroll; const on = row.querySelector('.sw.on'); if (on && (on.offsetLeft < row.scrollLeft || on.offsetLeft + on.offsetWidth > row.scrollLeft + row.clientWidth)) row.scrollTo({ left: Math.max(0, on.offsetLeft - 24), behavior: REDUCE ? 'auto' : 'smooth' }); } }
     { const nv = box.querySelector('.a-value .av'); if (keepAv && nv && keepKey === r.value + '|' + (r.unit || '') && keepAv.textContent === nv.textContent && (keepAv.classList.contains('morphing') || keepAv.classList.contains('morphed') || keepAv.classList.contains('counting'))) nv.replaceWith(keepAv); }
     document.body.classList.toggle('details-open', compact ? detailsOpen : true);
     box.dataset.example = example || '';
@@ -5184,6 +5498,8 @@ const Engine = (() => {
     const gv = e.target.closest('[data-goview]'); if (gv) { const w = gv.dataset.goview; if (w === 'basket' || w === 'sheet') setView(w); else if (w === 'tape') { const tl = $('#tapeList'); tl && tl.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } return; }
     const bk2 = e.target.closest('[data-back]'); if (bk2) { const prev = ansBack.pop(); if (prev) { $('#q').value = prev; runAsk(); if (typeof barThinking === 'function') barThinking(); } return; }
     const tg = e.target.closest('[data-tog]'); if (tg) { const box = tg.parentElement, idx = [...box.querySelectorAll('button')].indexOf(tg); box.style.setProperty('--on', idx); box.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === tg))); setTimeout(() => { $('#q').value = tg.dataset.tog; runAsk(); }, REDUCE ? 0 : 160); return; }
+    const fo = e.target.closest('[data-open]'); if (fo) { answerGo(fo.dataset.open); if (typeof barThinking === 'function') barThinking(); return; }
+    const fc = e.target.closest('[data-copy]'); if (fc) { copy(fc.dataset.copy); fc.classList.remove('copied'); void fc.offsetWidth; fc.classList.add('copied'); return; }
     const sw = e.target.closest('[data-sw]'); if (sw) { sw.classList.add('go'); answerGo(sw.dataset.sw); if (typeof barThinking === 'function') barThinking(); return; }
     const nx = e.target.closest('[data-next]'); if (nx) { if (current && !current.error) { keep(); } answerGo(nx.dataset.next); $('#q').focus(); if (typeof barThinking === 'function') barThinking(); return; }
     const t = e.target.closest('[data-try]'); if (t) { if (!$('#answer').dataset.example && $('#q').value.trim()) answerGo(t.dataset.try); else { $('#q').value = t.dataset.try; runAsk(); } $('#q').focus(); return; }
@@ -5192,7 +5508,12 @@ const Engine = (() => {
     if (act === 'try') { $('#q').value = $('#answer').dataset.example; runAsk(); $('#q').focus(); }
     if (act === 'keep') keep();
     if (act === 'again') runAsk();
-    if (act === 'sheet') { addToSheet($('#q').value.trim()); return; }
+    if (act === 'sheet') { sheetPicker(b, $('#q').value.trim()); return; }
+    if (act === 'bdsheet' && r) { const q0 = $('#q').value.trim(), rows = (r.steps || []).filter(s => s && s[1] != null && /\d/.test(String(s[1])) && !/^(read as|ignored|changed|using|ans|rate|formula|note|assumes|why|method|exact|in words|fraction)$/.test(s[0]));
+      if (sheet.ex) sheet = { title: 'My sheet', ex: false, lines: [] }; while (sheet.lines.length && !sheet.lines[sheet.lines.length - 1].trim()) sheet.lines.pop(); if (sheet.lines.length) sheet.lines.push('');
+      sheet.lines.push('# ' + q0.replace(/^#+/, '')); rows.forEach(([k, v]) => { const sv = String(v).replace(/,/g, ''), expr = /^[\d.\s×x*÷\/+−-]+$/.test(sv) && /\d\s*[×x*÷\/+−-]\s*\d/.test(sv), n = sv.match(/^[^\d−-]*([−-]?\d+(?:\.\d+)?)/), tail = !expr && n ? (sv.slice(sv.indexOf(n[1]) + n[1].length).match(/^\s*([a-z][a-z ]{0,14})/i) || [])[1] : ''; sheet.lines.push(`${cap1(String(k)).replace(/[:=]/g, ' ')}${tail ? ' ' + tail.trim() : ''}: ${expr ? sv.replace(/−/g, '-') : n ? n[1].replace('−', '-') : String(v)}`); });
+      saveSheet(); renderLines(); toast(`${rows.length} lines added to your sheet`, 'sheet'); return; }
+    if (act === 'copyall' && r) { const q0 = $('#q').value.trim(), fx = facts(r, q0); const txt = [q0, `= ${r.value}${r.unit ? ' ' + r.unit : ''}`].concat(r.lines || []).concat(fx.map(([k, v]) => `${k}: ${v}`)).concat((r.steps || []).filter(s => s && s[1] != null && !/^(read as|ignored)$/.test(s[0])).map(([k, v]) => `${k}: ${v}`)).concat((r.work || []).map(([w, x], i) => `${i + 1}. ${w}: ${x}`)).join('\n'); copy(txt); return; }
     if (act === 'pin') { addPin($('#q').value.trim()); return; }
     if (act === 'rev') { openGoal(); return; }
     if (act === 'psheet') { pasteToSheet(); return; }
@@ -5581,16 +5902,22 @@ const Engine = (() => {
   const SHEET_EX = { title: 'Weekend in Porto', ex: true, lines: ['# Getting there', 'Train: 2 × 24,50', 'Fuel: fuel 40 km at 6 l/100km 1.80 per litre', '# Staying', 'Hotel: 2 × 89', 'Dinners: 3 × 45', 'Tip: 10% of dinners', 'Museum: 2 × 12', 'total', 'Each of us: total / 2', '', 'Days to go: days until 18 december', 'Drive back: 3h 20m + 45 min'] };
   let sheet = store.get('quotient.sheet', null);
   if (!sheet || !Array.isArray(sheet.lines)) sheet = JSON.parse(JSON.stringify(SHEET_EX));
-  const saveSheet = () => { store.set('quotient.sheet', sheet); sheetVarsStale = true; linksChanged(); };
+  const saveSheet = () => { store.set('quotient.sheet', sheet); sheetVarsStale = true; try { saveSheets(); } catch {} linksChanged(); };
   const SUMMABLE = new Set(['Math', 'Money', 'Percent', 'Memory']);
   const slug = t => t.toLowerCase().replace(/[^a-z0-9 ]/g, '').trim().replace(/\s+/g, '_');
   let lastRes = [], lastTotal = '';
   function evalSheet() {
     const vars = { ...(ctx.vars || {}) }; const out = []; let block = [], all = [], prev = null, prevUnit = null;
     sheet.lines.forEach((raw, i) => {
-      const line = raw.replace(/\s+\/\/.*$/, '').trim();
+      let line = raw.replace(/\s+\/\/.*$/, '').trim(); let isItem = false, derivedFlag = false;
       if (!line) { block = []; out.push({ t: 'blank' }); return; }
       if (/^#/.test(line)) { out.push({ t: 'head' }); return; }
+      if (isTableLine(line)) { out.push({ t: 'table' }); return; }
+      { const lmL = null; if (lmL) { isItem = true; line = line.slice(lmL[1].length).trim(); if (!line) { out.push({ t: 'note' }); return; }
+        const am = line.match(/^(.*?[a-zà-ÿ].*?)\s+(?:€|\$|£)?\s*(\d+(?:[.,]\d{1,2})?)\s*(?:€|eur|euros?)?$/i);
+        if (am && !/[×*+\/^%]|\b(?:to|in|of|at|per|times|plus|minus|until|from)\b/i.test(line)) { const v = parseFloat(am[2].replace(',', '.')); block.push(v); all.push(v); prev = v; prevUnit = null; out.push({ t: 'ok', text: /[.,]\d/.test(am[2]) ? v.toFixed(2) : Engine.fmt(v), kind: 'Money', label: null, num: v, summed: true, note: '' }); return; } } }
+      // words with no numbers are a note, unless they clearly ask for something
+      if (!/\d/.test(line) && !/^(?:days?|weeks?|months?|hours?|working days|time in|time|date|today|tomorrow|yesterday|now|total|sum|subtotal|grand total|average|avg|mean|median|max|min|count|range|prev|above|basket|left|budget)\b/i.test(line.replace(/^[^:=]{1,40}:\s*/, '')) && !/[×*+\/^%=]|\s[−-]\s/.test(line) && !Object.keys(vars).some(k => k.length > 2 && new RegExp('\\b' + k + '\\b', 'i').test(line.replace(/\s+/g, '_')))) { out.push({ t: 'note' }); return; }
       const bsum = block.reduce((a, b) => a + b, 0);
       const kw = line.toLowerCase().replace(/[:=]\s*$/, '').match(/^(sum|total|subtotal|sum above|total above|grand total|average|avg|mean|count|max|maximum|biggest|largest|highest|min|minimum|smallest|lowest|cheapest|median|range)$/);
       if (kw) { const so = [...block].sort((a, b) => a - b), med = so.length ? (so.length % 2 ? so[(so.length - 1) / 2] : (so[so.length / 2 - 1] + so[so.length / 2]) / 2) : 0;
@@ -5603,33 +5930,35 @@ const Engine = (() => {
       if (!r || r.error) { const names = Object.keys(vars).filter(k => !/^line\d+$/.test(k) && k.length > 2); const body = label ? lm[2] : line; let changed = body, fx = [];
         for (const w of new Set((body.toLowerCase().match(/[a-z_][a-z_0-9]{2,}/g) || []))) { if (names.includes(w)) continue; let best = null; for (const n of names) { const d = lev(w, n); if (d <= (n.length > 5 ? 2 : 1) && (!best || d < best[1])) best = [n, d]; } if (best) { changed = changed.replace(new RegExp('\\b' + w + '\\b', 'gi'), best[0]); fx.push(`${w} → ${best[0]}`); } }
         if (fx.length) { try { const r2 = Engine.solve(changed, c); if (r2 && !r2.error) { r = r2; fixed = fx.join(', '); } } catch {} } }
-      if (!r || r.error) { out.push({ t: 'err', text: r && r.steps && r.steps[0] ? r.steps[0][1] : '' }); return; }
+      if (!r || r.error) { out.push(!/\d/.test(line) || isItem ? { t: 'note' } : { t: 'err', text: r && r.steps && r.steps[0] ? r.steps[0][1] : '' }); return; }
       if (r.assign) vars[r.assign.name] = r.assign.value;
       const text = r.assign ? Engine.fmt(r.assign.value) : (r.value || r.label) + (r.unit && r.unit.length < 14 ? ' ' + r.unit : '');
       if (typeof r.num === 'number' && isFinite(r.num)) {
         prev = r.num; prevUnit = r.kind === 'Units' ? r.unit : null; vars['line' + (i + 1)] = r.num;
         if (label) { const k = slug(label); if (/^[a-z][a-z0-9_]*$/.test(k) && k.length <= 24) vars[k] = r.num; }
-        const derived = /\b(total|sum|subtotal|prev|above|line\d+)\b/i.test(label ? lm[2] : line) || (r.steps && r.steps[0] && /^(ans|from|changed)$/.test(r.steps[0][0]));
-        if (SUMMABLE.has(r.kind) && !derived) { block.push(r.num); all.push(r.num); }
+        const usesNames = Object.keys(vars).some(k => k.length > 1 && !/^line\d+$/.test(k) && new RegExp('(^|[^a-z_])' + k + '($|[^a-z_0-9])', 'i').test((label ? lm[2] : line).toLowerCase().replace(/\s+/g, ' ')));
+        const derived = usesNames || /\b(total|sum|subtotal|prev|above|line\d+)\b/i.test(label ? lm[2] : line) || (r.steps && r.steps[0] && /^(ans|from|changed)$/.test(r.steps[0][0]));
+        derivedFlag = derived; if (SUMMABLE.has(r.kind) && !derived) { block.push(r.num); all.push(r.num); }
       }
       const note = fixed ? `read as ${fixed}` : r.steps && r.steps[0] && /^(read as|changed|ignored)$/.test(r.steps[0][0]) ? `${r.steps[0][0]} ${r.steps[0][1]}` : '';
-      const summed = typeof r.num === 'number' && isFinite(r.num) && SUMMABLE.has(r.kind) && !(/\b(total|sum|subtotal|prev|above|line\d+)\b/i.test(label ? lm[2] : line) || (r.steps && r.steps[0] && /^(ans|from|changed)$/.test(r.steps[0][0])));
+      const summed = typeof r.num === 'number' && isFinite(r.num) && SUMMABLE.has(r.kind) && !derivedFlag;
       out.push({ t: 'ok', text, kind: r.kind, note, fixed: !!fixed, label: label || null, num: r.num, summed });
     });
     return { out, total: all.reduce((a, b) => a + b, 0), anyMoney: false, vars };
   }
+  const evalSheetHasSum = out => out.some(o => o.t === 'ok' && o.summed);
   function updateSheet() {
     const { out, total } = evalSheet(); const rows = $$('#lines .ln');
     out.forEach((o, i) => {
       const row = rows[i]; if (!row) return; const res = row.querySelector('.res');
-      row.classList.toggle('head', o.t === 'head'); row.classList.toggle('sumline', o.t === 'sum');
+      row.classList.toggle('head', o.t === 'head'); row.classList.toggle('sumline', o.t === 'sum'); row.classList.toggle('note', o.t === 'note'); row.classList.toggle('blank', o.t === 'blank' && document.activeElement !== row.querySelector('.src'));
       const txt = o.t === 'ok' || o.t === 'sum' ? o.text : o.t === 'err' && sheet.lines[i].trim().length > 2 ? '?' : '';
       res.classList.toggle('err', o.t === 'err'); res.classList.toggle('fixed', !!o.fixed); res.title = o.t === 'err' ? (o.text || 'Not understood yet') : o.note ? `${o.note} · tap to copy` : 'Copy';
       if (res.textContent !== txt) { res.textContent = txt; if (txt && lastRes[i] !== undefined && !REDUCE) { res.classList.remove('swap'); void res.offsetWidth; res.classList.add('swap'); } }
       lastRes[i] = txt;
     });
     const t = $('#sheetTotal'), tt = Engine.fmt(+total.toPrecision(12)); if (t.textContent !== tt) { t.textContent = tt; if (lastTotal) { t.classList.remove('swap'); void t.offsetWidth; t.classList.add('swap'); } lastTotal = tt; }
-    $('#sheetEx').hidden = !sheet.ex;
+    $('#sheetEx').hidden = !sheet.ex; try { tableFoots(); } catch {} { const ch = sheet.lines.filter(l => /^\s*[-*•]?\s*\[(?: |x|X)?\]/.test(l) && l.replace(LIST_RE, '').trim()), dn = ch.filter(l => /\[[xX]\]/.test(l)).length; $('#sheetFootL').textContent = 'Total'; } document.querySelector('.sheet-foot').hidden = !evalSheetHasSum(out);
     // names you can reuse: tap to insert
     const vb = $('#shVars'), named = Object.entries(lastSheetVars = evalVarsOf(out)).slice(0, 12);
     let fromBk = []; try { if (!bk.ex && bk.items.length) { const { tot } = bkTotals(); fromBk = [['basket', tot]]; if (bk.budget) fromBk.push(['left', bk.budget - tot]); } } catch {}
@@ -5637,7 +5966,7 @@ const Engine = (() => {
       + (fromBk.length ? `<span class="lbl lbl-bk">From Basket</span>` + fromBk.map(([k, v], i) => `<button type="button" class="from-bk" data-var="${k}" style="--i:${i + named.length}" title="Insert ${k}: it stays linked to your Basket">${k}<b>${m2(v)}</b></button>`).join('') : '');
     if (vb.dataset.k !== vh) { vb.innerHTML = vh; vb.dataset.k = vh; }
     // breakdown: what makes up the total
-    const parts = out.filter(o => o.t === 'ok' && o.summed && o.num > 0).map((o, i) => ({ name: o.label || sheet.lines[out.indexOf(o)].replace(/\s*\/\/.*$/, '').slice(0, 26), v: o.num })), T = parts.reduce((a, b) => a + b.v, 0), bb = $('#shBreak');
+    const parts = out.filter(o => o.t === 'ok' && o.summed && o.num > 0).map((o, i) => ({ name: o.label || sheet.lines[out.indexOf(o)].replace(LIST_RE, '').replace(/\s+(?:€|\$|£)?\d+(?:[.,]\d{1,2})?\s*(?:€)?$/, '').replace(/\s*\/\/.*$/, '').slice(0, 26), v: o.num })), T = parts.reduce((a, b) => a + b.v, 0), bb = $('#shBreak');
     if (parts.length >= 2 && T > 0) { const top = [...parts].sort((a, b) => b.v - a.v).slice(0, 4); const rest = T - top.reduce((a, b) => a + b.v, 0);
       const html = '<span class="lbl">Biggest</span>' + top.map((p, i) => `<div class="sb-row" style="--w:${(p.v / T * 100).toFixed(1)}%;--i:${i}"><span>${esc(p.name)}</span><i></i><b>${Math.round(p.v / T * 100)}%</b></div>`).join('') + (rest > 0.0001 ? `<div class="sb-row rest" style="--w:${(rest / T * 100).toFixed(1)}%"><span>everything else</span><i></i><b>${Math.round(rest / T * 100)}%</b></div>` : '');
       if (bb.dataset.k !== html) { bb.innerHTML = html; bb.dataset.k = html; } bb.hidden = false; } else bb.hidden = true;
@@ -5651,41 +5980,171 @@ const Engine = (() => {
     if (!inp) { if (sheet.lines[sheet.lines.length - 1].trim()) { sheet.lines.push(''); renderLines(); } const all = $$('#lines .src'); inp = all[all.length - 1]; }
     const s0 = inp.selectionStart ?? inp.value.length, s1 = inp.selectionEnd ?? s0, v = inp.value, pre = v.slice(0, s0), ins = (pre && !/[\s(×*+\-−÷\/]$/.test(pre) ? ' ' : '') + b.dataset.var + ' ';
     inp.value = pre + ins + v.slice(s1); inp.focus(); const c = (pre + ins).length; inp.setSelectionRange(c, c); inp.dispatchEvent(new Event('input', { bubbles: true })); buzz(); });
-  function renderLines(focusIdx, caret, newIdx) {
+  /* ---------- Sheet: notes, lists, tables and live sums in one page; many pages ---------- */
+  const LIST_RE = /^(\s*(?:[-*•]\s+(?:\[(?: |x|X)?\]\s*)?|\[(?: |x|X)?\]\s*))/;
+  const isTableLine = () => false; // the Sheet is plain text: lines are notes or calculations
+  const isCheck = pre => /\[/.test(pre || ''), isDone = pre => /\[[xX]\]/.test(pre || '');
+  const cellsOf = l => l.replace(/^\s*\||\|\s*$/g, '').split('|').map(c => c.trim());
+  const numOf = s => { const t = String(s).replace(/[€$£\s]/g, ''); if (!/^-?\d[\d.,]*$/.test(t)) return null; const v = parseFloat(/,\d{1,2}$/.test(t) ? t.replace(/\./g, '').replace(',', '.') : t.replace(/,/g, '')); return isFinite(v) ? v : null; };
+  function renderLines(focusIdx, caret, newIdx, focusCell) {
     const box = $('#lines'); box.innerHTML = ''; lastRes = [];
-    sheet.lines.forEach((t, i) => {
-      const row = document.createElement('div'); row.className = 'ln' + (i === newIdx && !REDUCE ? ' new' : '');
-      row.innerHTML = `<span class="no">${i + 1}</span><input class="src" type="text" spellcheck="false" autocomplete="off" aria-label="Line ${i + 1}" ${i === sheet.lines.length - 1 && !t ? 'placeholder="Type a line, e.g. Rent: 850"' : ''}><span class="res" role="button" tabindex="-1"></span>`;
-      row.querySelector('.src').value = t; row.dataset.i = i; box.appendChild(row);
-    });
+    const L = sheet.lines; let i = 0;
+    while (i < L.length) {
+      if (isTableLine(L[i])) {
+        const tbl = document.createElement('div'); tbl.className = 'tbl'; const start = i, cols = Math.max(...L.slice(i).filter((x, k, a) => a.slice(0, k + 1).every(isTableLine)).map(x => cellsOf(x).length));
+        while (i < L.length && isTableLine(L[i])) {
+          const cs = cellsOf(L[i]); while (cs.length < cols) cs.push('');
+          const row = document.createElement('div'); row.className = 'ln trow' + (i === start ? ' thead' : '') + (i === newIdx && !REDUCE ? ' new' : ''); row.dataset.i = i; row.style.setProperty('--cols', cols);
+          row.innerHTML = cs.map((c, k) => `<input class="cell" type="text" spellcheck="false" autocomplete="off" aria-label="Row ${i - start + 1}, column ${k + 1}" data-k="${k}">`).join('') + '<span class="res" hidden></span>';
+          row.querySelectorAll('.cell').forEach((inp, k) => { inp.value = cs[k]; if (numOf(cs[k]) != null && i !== start) inp.classList.add('num'); });
+          tbl.appendChild(row); i++;
+        }
+        const foot = document.createElement('div'); foot.className = 'tfoot'; foot.style.setProperty('--cols', cols); foot.dataset.start = start; foot.dataset.end = i - 1; tbl.appendChild(foot);
+        const tools = document.createElement('div'); tools.className = 'ttools'; tools.innerHTML = `<button type="button" data-tadd="row" data-end="${i - 1}">+ Row</button><button type="button" data-tadd="col" data-start="${start}" data-end="${i - 1}">+ Column</button>`; tbl.appendChild(tools);
+        box.appendChild(tbl); continue;
+      }
+      const t = L[i], row = document.createElement('div'), lm = null, hm = t.match(/^(\s*#+\s?)/), pre = lm ? lm[1] : hm ? hm[1] : '';
+      row.className = 'ln' + (lm ? (isCheck(pre) ? ' chk' : ' bul') : '') + (hm ? ' head' : '') + (lm && isDone(pre) ? ' done' : '') + (i === newIdx && !REDUCE ? ' new' : '');
+      row.dataset.i = i; row.dataset.pre = pre;
+      row.innerHTML = `<span class="mk">${lm ? (isCheck(pre) ? `<button type="button" class="ck" data-ck="${i}" aria-pressed="${isDone(pre)}" aria-label="Done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg></button>` : '<i class="dot"></i>') : ''}</span><input class="src" type="text" spellcheck="false" autocomplete="off" aria-label="Line ${i + 1}" ${i === L.length - 1 && !t ? `placeholder="${L.length === 1 ? 'Write anything: text, sums, 2x + 3 = 11…' : 'Type here…'}"` : ''}><span class="res" role="button" tabindex="-1"></span><button type="button" class="ln-ask" data-askline="${i}" title="Ask this in the search bar" aria-label="Ask in the search bar" tabindex="-1"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></button>`;
+      row.querySelector('.src').value = t.slice(pre.length); box.appendChild(row); i++;
+    }
     $('#sheetTitle').value = sheet.title || '';
-    updateSheet();
-    if (focusIdx != null) { const el = $$('#lines .src')[focusIdx]; if (el) { el.focus(); const c = caret ?? el.value.length; el.setSelectionRange(c, c); } }
+    updateSheet(); renderSheetChrome();
+    if (focusIdx != null) { const r = $('#lines').querySelector(`.ln[data-i="${focusIdx}"]`); const el = r && (focusCell != null ? r.querySelectorAll('.cell')[focusCell] : r.querySelector('.src')); if (el) { el.focus(); const c = caret ?? el.value.length; try { el.setSelectionRange(c, c); } catch {} } }
   }
-  const touchSheet = () => { if (sheet.ex) { sheet.ex = false; } saveSheet(); sheetVarsStale = true; };
-  $('#lines').addEventListener('input', e => { const inp = e.target.closest('.src'); if (!inp) return; const i = +inp.closest('.ln').dataset.i; sheet.lines[i] = inp.value; touchSheet(); updateSheet(); });
+  function tableFoots() {
+    $$('#lines .tfoot').forEach(f => {
+      const s = +f.dataset.start, e = +f.dataset.end, cols = +getComputedStyle(f).getPropertyValue('--cols') || cellsOf(sheet.lines[s]).length, rows = sheet.lines.slice(s + 1, e + 1).map(cellsOf);
+      const sums = [...Array(cols)].map((_, k) => { const vals = rows.map(r => r[k]).filter(v => v != null && v !== ''); if (!vals.length) return null; const ns = vals.map(numOf); return ns.every(v => v != null) ? ns.reduce((a, b) => a + b, 0) : null; });
+      const any = sums.some(v => v != null); f.hidden = !any || !rows.length;
+      const html = sums.map((v, k) => `<span class="${v != null ? 'num' : ''}">${v != null ? esc(Engine.fmt(+v.toPrecision(12))) : k === 0 ? 'Total' : ''}</span>`).join('');
+      if (f.dataset.k !== html) { f.innerHTML = html; f.dataset.k = html; if (!REDUCE) { f.classList.remove('swap'); void f.offsetWidth; f.classList.add('swap'); } }
+    });
+  }
+  const touchSheet = () => { const wasEx = sheet.ex; if (sheet.ex) { sheet.ex = false; } saveSheet(); sheetVarsStale = true; if (wasEx) try { renderSheetChrome(); } catch {} };
+  const rowOf = el => el.closest('.ln'), idxOf = el => +rowOf(el).dataset.i;
+  const tableLineFrom = row => [...row.querySelectorAll('.cell')].map(c => c.value.trim()).join(' | ');
+  $('#lines').addEventListener('input', e => {
+    const cell = e.target.closest('.cell'); if (cell) { const row = rowOf(cell); sheet.lines[idxOf(cell)] = tableLineFrom(row); cell.classList.toggle('num', numOf(cell.value) != null && !row.classList.contains('thead')); touchSheet(); updateSheet(); return; }
+    const inp = e.target.closest('.src'); if (!inp) return; const row = rowOf(inp), i = idxOf(inp), pre = row.dataset.pre || '';
+    // typing "- ", "[] " or "# " at the start turns the line into a list item, a to-do or a heading
+    if (!pre) { const m = inp.value.match(/^(?:(#+)\s)/); if (m) { const np = m[1] + ' '; sheet.lines[i] = np + inp.value.slice(m[0].length); touchSheet(); renderLines(i, 0); return; } }
+    sheet.lines[i] = pre + inp.value; touchSheet(); updateSheet();
+  });
   $('#lines').addEventListener('keydown', e => {
-    const inp = e.target.closest('.src'); if (!inp) return; const i = +inp.closest('.ln').dataset.i, pos = inp.selectionStart, end = inp.selectionEnd;
-    if (e.key === 'Enter') { e.preventDefault(); const v = inp.value; sheet.lines[i] = v.slice(0, pos); sheet.lines.splice(i + 1, 0, v.slice(end)); touchSheet(); renderLines(i + 1, 0, i + 1); return; }
-    if (e.key === 'Backspace' && pos === 0 && end === 0 && i > 0) { e.preventDefault(); const p = sheet.lines[i - 1]; sheet.lines[i - 1] = p + inp.value; sheet.lines.splice(i, 1); touchSheet(); renderLines(i - 1, p.length); return; }
-    if (e.key === 'Delete' && pos === inp.value.length && i < sheet.lines.length - 1) { e.preventDefault(); sheet.lines[i] += sheet.lines[i + 1]; sheet.lines.splice(i + 1, 1); touchSheet(); renderLines(i, pos); return; }
-    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { const all = $$('#lines .src'), n = all[i + (e.key === 'ArrowUp' ? -1 : 1)]; if (n) { e.preventDefault(); n.focus(); const c = Math.min(pos, n.value.length); n.setSelectionRange(c, c); } }
+    const cell = e.target.closest('.cell');
+    if (cell) { const row = rowOf(cell), i = idxOf(cell), k = +cell.dataset.k, cells = [...row.querySelectorAll('.cell')];
+      if (e.key === 'Enter') { e.preventDefault(); sheet.lines.splice(i + 1, 0, cells.map(() => '').join(' | ')); touchSheet(); renderLines(i + 1, 0, i + 1, 0); return; }
+      if (e.key === 'Backspace' && cell.selectionStart === 0 && cell.selectionEnd === 0 && k === 0 && cells.every(c => !c.value)) { e.preventDefault(); sheet.lines.splice(i, 1); if (!sheet.lines.length) sheet.lines.push(''); touchSheet(); renderLines(Math.max(0, i - 1)); return; }
+      if ((e.key === 'ArrowUp' || e.key === 'ArrowDown')) { const nr = $('#lines').querySelector(`.ln[data-i="${i + (e.key === 'ArrowUp' ? -1 : 1)}"]`); const n = nr && (nr.querySelectorAll('.cell')[k] || nr.querySelector('.src')); if (n) { e.preventDefault(); n.focus(); } }
+      return; }
+    const inp = e.target.closest('.src'); if (!inp) return; const row = rowOf(inp), i = idxOf(inp), pre = row.dataset.pre || '', pos = inp.selectionStart, end = inp.selectionEnd;
+    if (e.key === 'Enter') { e.preventDefault(); const v = inp.value;
+      if (pre && /^[-*•\[]/.test(pre.trim()) && !v.trim()) { sheet.lines[i] = ''; touchSheet(); renderLines(i, 0); return; } // empty list item: leave the list
+      const np = /^[-*•\[]/.test(pre.trim()) ? (isCheck(pre) ? '- [ ] ' : '- ') : '';
+      sheet.lines[i] = pre + v.slice(0, pos); sheet.lines.splice(i + 1, 0, np + v.slice(end)); touchSheet(); renderLines(i + 1, 0, i + 1); return; }
+    if (e.key === 'Backspace' && pos === 0 && end === 0) {
+      if (pre) { e.preventDefault(); sheet.lines[i] = inp.value; touchSheet(); renderLines(i, 0); return; }
+      if (i > 0 && !isTableLine(sheet.lines[i - 1])) { e.preventDefault(); const p = sheet.lines[i - 1], ppre = (p.match(LIST_RE) || p.match(/^(\s*#+\s?)/) || [''])[0]; sheet.lines[i - 1] = p + inp.value; sheet.lines.splice(i, 1); touchSheet(); renderLines(i - 1, p.length - ppre.length); return; } }
+    if (e.key === 'Delete' && pos === inp.value.length && i < sheet.lines.length - 1 && !isTableLine(sheet.lines[i + 1])) { e.preventDefault(); sheet.lines[i] += sheet.lines[i + 1].replace(LIST_RE, ''); sheet.lines.splice(i + 1, 1); touchSheet(); renderLines(i, pos); return; }
+    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { const nr = $('#lines').querySelector(`.ln[data-i="${i + (e.key === 'ArrowUp' ? -1 : 1)}"]`); const n = nr && (nr.querySelector('.src') || nr.querySelector('.cell')); if (n) { e.preventDefault(); n.focus(); const c = Math.min(pos, n.value.length); try { n.setSelectionRange(c, c); } catch {} } }
   });
+  // paste: a table stays a table, a list stays a list, anything else becomes lines
   $('#lines').addEventListener('paste', e => {
-    const inp = e.target.closest('.src'); const text = (e.clipboardData || window.clipboardData)?.getData('text') || ''; if (!inp || !/\n/.test(text)) return;
-    e.preventDefault(); const i = +inp.closest('.ln').dataset.i, v = inp.value, pos = inp.selectionStart, parts = text.replace(/\r/g, '').split('\n');
-    parts[0] = v.slice(0, pos) + parts[0]; const last = parts.length - 1, tail = v.slice(inp.selectionEnd), caret = parts[last].length; parts[last] += tail;
-    sheet.lines.splice(i, 1, ...parts); touchSheet(); renderLines(i + last, caret);
+    const inp = e.target.closest('.src, .cell'); const text = (e.clipboardData || window.clipboardData)?.getData('text') || ''; if (!inp || !/\n|\t/.test(text)) return;
+    e.preventDefault(); const i = idxOf(inp); let parts = text.replace(/\r/g, '').replace(/\n+$/, '').split('\n');
+    const tabbed = parts.length > 1 && parts.filter(p => p.includes('\t')).length >= parts.length * .6, csv = !tabbed && parts.length > 1 && parts.every(p => (p.match(/,/g) || []).length === (parts[0].match(/,/g) || []).length && (parts[0].match(/,/g) || []).length >= 1) && !parts.some(p => /\d,\d{1,2}(?!\d)/.test(p));
+    parts = parts.map(p => p.replace(/\t+/g, '  ').replace(/\s+$/, ''));
+    if (inp.classList.contains('src') && !inp.value.trim()) { sheet.lines.splice(i, 1, ...parts); }
+    else sheet.lines.splice(i + 1, 0, ...parts);
+    touchSheet(); renderLines(i + parts.length - 1, null, i); toast(`Pasted ${parts.length} lines`);
   });
-  $('#lines').addEventListener('click', e => { const r = e.target.closest('.res'); if (r && r.textContent && r.textContent !== '?') copy(r.textContent); else if (!e.target.closest('input')) { const all = $$('#lines .src'); all[all.length - 1]?.focus(); } });
-  $('#sheetTitle').addEventListener('input', e => { sheet.title = e.target.value; touchSheet(); updateSheet(); });
-  $('#sheetCopy').addEventListener('click', () => { const { out, total } = evalSheet(); const w = Math.max(...sheet.lines.map(l => l.length), 10); copy([sheet.title, ''].concat(sheet.lines.map((l, i) => out[i] && (out[i].t === 'ok' || out[i].t === 'sum') ? l.padEnd(w + 3) + out[i].text : l), ['', 'Total'.padEnd(w + 3) + Engine.fmt(+total.toPrecision(12))]).join('\n')); });
-  let newArm = null;
-  $('#sheetNew').addEventListener('click', e => {
-    const b = e.currentTarget; if (!newArm && !sheet.ex && sheet.lines.some(l => l.trim())) { b.textContent = 'Tap again to clear'; newArm = setTimeout(() => { b.textContent = 'New sheet'; newArm = null; }, 2600); return; }
-    clearTimeout(newArm); newArm = null; b.textContent = 'New sheet'; sheet = { title: 'Untitled sheet', ex: false, lines: [''] }; saveSheet(); renderLines(0);
+  $('#lines').addEventListener('click', e => {
+    const ck = e.target.closest('[data-ck]'); if (ck) { const i = +ck.dataset.ck, l = sheet.lines[i], done = /\[[xX]\]/.test(l); sheet.lines[i] = l.replace(/\[(?: |x|X)?\]/, done ? '[ ]' : '[x]'); touchSheet(); const row = rowOf(ck); row.classList.toggle('done', !done); row.dataset.pre = (sheet.lines[i].match(LIST_RE) || [''])[0]; ck.setAttribute('aria-pressed', String(!done)); if (!done && !REDUCE) { row.classList.remove('tick'); void row.offsetWidth; row.classList.add('tick'); } updateSheet(); buzz(); return; }
+    const ask = e.target.closest('[data-askline]'); if (ask) { const l = sheet.lines[+ask.dataset.askline].replace(LIST_RE, '').replace(/^([^:=\d#][^:=]{0,40}?)\s*:\s*/, ''); setView('ask'); answerGo(l); $('#q').focus(); return; }
+    const ta = e.target.closest('[data-tadd]'); if (ta) { if (ta.dataset.tadd === 'row') { const end = +ta.dataset.end, n = cellsOf(sheet.lines[end]).length; sheet.lines.splice(end + 1, 0, Array(n).fill('').join(' | ')); touchSheet(); renderLines(end + 1, 0, end + 1, 0); } else { const s = +ta.dataset.start, en = +ta.dataset.end; for (let k = s; k <= en; k++) sheet.lines[k] = cellsOf(sheet.lines[k]).concat(k === s ? ['New'] : ['']).join(' | '); touchSheet(); renderLines(s, null, null, cellsOf(sheet.lines[s]).length - 1); } return; }
+    const r = e.target.closest('.res'); if (r && r.textContent && r.textContent !== '?') { copy(r.textContent); return; }
+    if (!e.target.closest('input, button, .tbl')) { const all = $$('#lines .src'); all[all.length - 1]?.focus(); }
   });
-  function addToSheet(q) { if (!q) return; if (sheet.ex) sheet = { title: 'My sheet', ex: false, lines: [] }; if (sheet.lines.length && !sheet.lines[sheet.lines.length - 1].trim()) sheet.lines.pop(); sheet.lines.push(q); saveSheet(); renderLines(); toast('Added to your sheet', 'sheet'); }
+  $('#sheetTitle').addEventListener('input', e => { sheet.title = e.target.value; touchSheet(); renderSheetChrome(); });
+  $('#sheetCopy').addEventListener('click', () => { const { out } = evalSheet(); const w = Math.max(...sheet.lines.map(l => l.length), 10); copy([sheet.title, ''].concat(sheet.lines.map((l, i) => out[i] && (out[i].t === 'ok' || out[i].t === 'sum') ? l.padEnd(w + 2) + '= ' + out[i].text : l.replace(/\s*\|\s*/g, '\t'))).join('\n')); });
+
+  /* many sheets, and templates to start from */
+  const SHEET_TPL = [
+    { k: 'note', t: 'Sheet', d: 'Plain text, sums wherever you type them', lines: [''] },
+    { k: 'list', t: 'To-do list', d: 'Tick things off as you go', lines: ['- [ ] '] },
+    { k: 'shop', t: 'Shopping list', d: 'Items with prices, a running total', lines: ['- [ ] milk 1.09', '- [ ] bread 0.85', '- [ ] coffee 4.99', '- [ ] '] },
+    { k: 'budget', t: 'Monthly budget', d: 'Income, spending, what’s left', lines: ['Income: 2000', '', '# Spending', 'Rent: 850', 'Groceries: 300', 'Transport: 60', 'Phone: 15', 'Spent: total', '', 'Left: income − spent'] },
+    { k: 'table', t: 'Table', d: 'Columns that add themselves up', lines: ['Item | Qty | Price', 'Coffee | 2 | 1.20', 'Cake | 1 | 3.50', ' |  | '] },
+    { k: 'trip', t: 'Trip costs', d: 'Split costs, count down the days', lines: SHEET_EX.lines.slice() },
+    { k: 'answers', t: 'From my answers', d: 'Everything you kept on the tape', lines: null },
+  ];
+  let sheets = store.get('quotient.sheets', null);
+  if (!Array.isArray(sheets)) sheets = sheet && !sheet.ex && Array.isArray(sheet.lines) && sheet.lines.some(l => l.trim()) ? [sheet] : [];
+  sheets.forEach((s, k) => { if (!s.id) s.id = 's' + Date.now().toString(36) + k; });
+  { const act = store.get('quotient.sheetActive', null), f = sheets.find(s => s.id === act) || sheets[0]; if (f) sheet = f; }
+  function saveSheets() { if (!sheet.ex) { if (!sheet.id) sheet.id = 's' + Date.now().toString(36); if (!sheets.includes(sheet)) { const same = sheets.findIndex(s => s.id === sheet.id); if (same >= 0) sheets[same] = sheet; else sheets.unshift(sheet); } } store.set('quotient.sheets', sheets.filter(s => !s.ex)); store.set('quotient.sheetActive', sheet.id || null); }
+  function newSheet(tplKey, title) {
+    const T = SHEET_TPL.find(t => t.k === tplKey) || SHEET_TPL[0];
+    let lines = T.lines ? T.lines.slice() : tape.filter(t => !t.ex && t.src !== 'calc').slice(0, 20).reverse().map(t => t.q);
+    if (!lines.length) lines = [''];
+    sheet = { id: 's' + Date.now().toString(36), title: title || 'Untitled sheet', ex: false, lines, kind: T.k, at: Date.now() };
+    saveSheet(); renderLines(T.k === 'table' ? lines.length - 1 : lines.length - 1, null, 0, T.k === 'table' ? 0 : null);
+    sheetPanel(null); if (!REDUCE) { const el = $('#sheet'); el.classList.remove('flip'); void el.offsetWidth; el.classList.add('flip'); }
+  }
+  function openSheet(id) { const f = sheets.find(s => s.id === id); if (!f) return; sheet = f; store.set('quotient.sheetActive', id); sheetVarsStale = true; renderLines(); sheetPanel(null); linksChanged(); if (!REDUCE) { const el = $('#sheet'); el.classList.remove('flip'); void el.offsetWidth; el.classList.add('flip'); } }
+  function deleteSheet(id) {
+    const k = sheets.findIndex(s => s.id === id); if (k < 0) return; const was = sheets[k]; sheets.splice(k, 1);
+    // the last one gone: back to the example, nothing left open
+    if (!sheets.length) { sheet = JSON.parse(JSON.stringify(SHEET_EX)); store.set('quotient.sheets', []); store.set('quotient.sheetActive', null); store.set('quotient.sheet', sheet); sheetVarsStale = true; linksChanged(); renderLines(); sheetPanel(null); toast(`Deleted “${was.title || 'Untitled sheet'}”`); return; }
+    if (sheet.id === id) sheet = sheets[Math.min(k, sheets.length - 1)];
+    saveSheet(); renderLines(); sheetPanel('list'); toast(`Deleted “${was.title || 'Untitled sheet'}”`); }
+  const sheetTotalOf = s => { const keep = sheet; try { sheet = s; const { total } = evalSheet(); return total; } catch { return 0; } finally { sheet = keep; } };
+  function sheetPanel(which) {
+    const p = $('#shPanel'); if (!which) { if (!p.hidden) softHide(p); $('#shListBtn').setAttribute('aria-expanded', 'false'); return; }
+    p.dataset.mode = which; $('#shListBtn').setAttribute('aria-expanded', String(which === 'list'));
+    if (which === 'list') p.innerHTML = `<div class="shp-head"><b>Your sheets</b><button type="button" class="btn" data-shp="new">+ New</button></div><ul class="shp-list">${sheets.map((s, k) => { const t = sheetTotalOf(s), n = s.lines.filter(l => l.trim()).length;
+      return `<li style="--i:${k}" class="${s === sheet ? 'on' : ''}"><button type="button" class="shp-open" data-shopen="${s.id}"><span class="shp-t">${esc(s.title || 'Untitled')}</span><span class="shp-m">${n} line${n === 1 ? '' : 's'}${t ? ' · total ' + esc(Engine.fmt(+t.toPrecision(10))) : ''}</span></button><button type="button" class="shp-del" data-shdel="${s.id}" aria-label="Delete ${esc(s.title || 'sheet')}" title="Delete">×</button></li>`; }).join('') || '<li class="shp-empty">No sheets yet.</li>'}</ul>`;
+    else if (false) p.innerHTML = `<div class="shp-head"><b>Start a new sheet</b>${sheets.length ? '<button type="button" class="btn" data-shp="list">Your sheets</button>' : ''}</div><div class="shp-tpl">${SHEET_TPL.filter(t => t.k !== 'answers' || tape.some(x => !x.ex && x.src !== 'calc')).map((t, k) => `<button type="button" class="tpl" data-tpl="${t.k}" style="--i:${k}"><span class="tpl-ic tpl-${t.k}" aria-hidden="true"></span><b>${esc(t.t)}</b><span>${esc(t.d)}</span></button>`).join('')}</div>`;
+    p.hidden = false; p.classList.remove('leaving'); if (!REDUCE) { p.classList.remove('in'); void p.offsetWidth; p.classList.add('in'); }
+  }
+  $('#shPanel').addEventListener('click', e => {
+    const t = e.target.closest('[data-tpl]'); if (t) { newSheet(t.dataset.tpl); return; }
+    const o = e.target.closest('[data-shopen]'); if (o) { openSheet(o.dataset.shopen); return; }
+    const d = e.target.closest('[data-shdel]'); if (d) { if (d.dataset.arm) { deleteSheet(d.dataset.shdel); } else { d.dataset.arm = '1'; d.textContent = 'Delete?'; d.classList.add('arm'); setTimeout(() => { if (d.isConnected) { delete d.dataset.arm; d.textContent = '×'; d.classList.remove('arm'); } }, 2600); } return; }
+    const b = e.target.closest('[data-shp]'); if (b) { if (b.dataset.shp === 'new') newSheet('note'); else sheetPanel(b.dataset.shp); }
+  });
+  $('#shListBtn').addEventListener('click', () => sheetPanel($('#shPanel').hidden || $('#shPanel').dataset.mode !== 'list' ? 'list' : null));
+  $('#sheetNew').addEventListener('click', () => { newSheet('note'); setTimeout(() => $('#sheetTitle').select(), 50); });
+  // quick ways to write: tap to add an example line of that kind
+  const SH_TIPS = [['Name: value', 'Rent: 850', 'reuse it by name below and in the search bar'], ['total', 'total', 'adds up the lines above'], ['2x + 3 = 11', '2x + 3 = 11', 'solve an equation'], ['20% of rent', '20% of rent', 'use a name from above'], ['5 km in miles', '5 km in miles', 'units, dates, money, anything the search bar knows'], ['# Heading', '# ', 'a section']];
+  function renderSheetChrome() {
+    $('#shListBtn').querySelector('b').textContent = sheets.length || '';
+    $('#sheetEx').hidden = !sheet.ex;
+    const empty = !sheet.lines.some(l => l.trim());
+    $('#shTips').innerHTML = SH_TIPS.map(([l, ins, why], k) => `<button type="button" data-tip="${esc(ins)}" title="${esc(why)}" style="--i:${k}">${esc(l)}</button>`).join('');
+    $('#sheet').classList.toggle('is-empty', empty);
+  }
+  $('#shTips').addEventListener('click', e => { const b = e.target.closest('[data-tip]'); if (!b) return; const ins = b.dataset.tip; if (sheet.ex) { sheet = { title: 'Untitled sheet', ex: false, lines: [''] }; }
+    const last = sheet.lines.length - 1; if (sheet.lines[last].trim()) sheet.lines.push(ins); else sheet.lines[last] = ins;
+    touchSheet(); const idx = /\|/.test(ins) ? sheet.lines.length - 1 : sheet.lines.length - 1; renderLines(idx, null, idx, /\|/.test(ins) ? 0 : null); });
+
+  function findSheet(name) { const n = String(name || '').toLowerCase().trim(); if (!n) return null; return sheets.find(s => (s.title || '').toLowerCase() === n) || sheets.find(s => (s.title || '').toLowerCase().includes(n)) || sheets.find(s => n.includes((s.title || '').toLowerCase()) && (s.title || '').length > 2) || null; }
+  function addToSheet(q, target) {
+    if (!q) return; if (target && target !== sheet) { sheet = target; store.set('quotient.sheetActive', sheet.id); sheetVarsStale = true; }
+    if (sheet.ex) sheet = { title: 'My sheet', ex: false, lines: [] };
+    if (sheet.lines.length && !sheet.lines[sheet.lines.length - 1].replace(LIST_RE, '').trim()) sheet.lines.pop();
+    const listy = sheet.lines.filter(l => l.trim()).length && sheet.lines.filter(l => LIST_RE.test(l)).length >= sheet.lines.filter(l => l.trim()).length / 2, check = sheet.lines.some(l => /\[(?: |x|X)?\]/.test(l));
+    sheet.lines.push(q); saveSheet(); renderLines(); toast(`Added to “${sheet.title || 'your sheet'}”`, 'sheet'); }
+  // with several sheets, the answer asks which one
+  function sheetPicker(btn, q) {
+    document.querySelector('.sheet-pick')?.remove(); if (sheets.length < 2) { addToSheet(q); return; }
+    const m = document.createElement('div'); m.className = 'sheet-pick'; m.innerHTML = `<span class="lbl">Add to</span>${sheets.slice(0, 8).map(s => `<button type="button" data-pick="${s.id}"${s === sheet ? ' class="on"' : ''}>${esc(s.title || 'Untitled')}</button>`).join('')}<button type="button" data-pick="__new">+ New sheet</button>`;
+    btn.closest('.a-actions, .a-more, #answer').appendChild(m);
+    m.addEventListener('click', e => { const b = e.target.closest('[data-pick]'); if (!b) return; e.stopPropagation(); m.remove(); if (b.dataset.pick === '__new') { newSheet('note', ''); sheet.lines = [q]; saveSheet(); renderLines(); toast('Added to a new sheet', 'sheet'); } else addToSheet(q, sheets.find(s => s.id === b.dataset.pick)); });
+    setTimeout(() => document.addEventListener('click', function off(e) { if (!m.contains(e.target)) { m.remove(); document.removeEventListener('click', off); } }), 0);
+  }
 
 
   /* ---------- Basket: a smart shopping list with prices, budget and split ---------- */
@@ -5984,7 +6443,7 @@ const Engine = (() => {
     try { if (!bk.ex && bk.items.length) { const { tot, got } = bkTotals(); v.basket = +tot.toFixed(2); src.basket = 'basket'; v.trolley = +got.toFixed(2); src.trolley = 'basket';
       if (bk.people > 1) { v.each = +(tot / bk.people).toFixed(2); src.each = 'basket'; }
       if (bk.budget) { v.budget = bk.budget; v.left = +(bk.budget - tot).toFixed(2); src.budget = src.left = 'basket'; } } } catch {}
-    if (from !== 'sheet') try { const S = sheetLive(); if (S.total != null) { for (const [k, x] of Object.entries(S.vars)) if (k.length > 2 && !/^(total|sum|subtotal|tip|tax|vat|prev|above|ans|pi|e|left|each|basket|budget|sheet|tape|trolley)$/.test(k)) { v[k] = x; src[k] = 'sheet'; } v.sheet = +(+S.total).toPrecision(12); src.sheet = 'sheet'; } } catch {}
+    if (from !== 'sheet') try { const S = sheetLive(); if (S.total != null) { for (const [k, x] of Object.entries(S.vars)) if (k.length > 2 && !/^(total|sum|subtotal|tip|tax|vat|prev|above|ans|pi|e|sheet|tape)$/.test(k) && !(/^(left|each|basket|budget|trolley)$/.test(k) && k in v)) { v[k] = x; src[k] = 'sheet'; } v.sheet = +(+S.total).toPrecision(12); src.sheet = 'sheet'; } } catch {}
     try { const ns = tape.filter(t => !t.ex && typeof t.num === 'number' && isFinite(t.num)); if (ns.length) { v.tape = +ns.reduce((a, t) => a + t.num, 0).toPrecision(12); src.tape = 'tape'; } } catch {}
     for (const [k, x] of Object.entries(ctx.vars || {})) { v[k] = x; src[k] = 'memory'; }
     return { v, src };
@@ -6127,6 +6586,17 @@ const Engine = (() => {
       const name = (m[1] || '').trim(), line = name ? `${cap1(name)}: ${x.q}` : x.q;
       return { kind: 'Sheet', label: 'Add to the Sheet', value: line, doLabel: 'Add to sheet', steps: [['shows', shown(x.r)]].concat(name ? [['use it as', slug(name)]] : []), run: () => { addToSheet(line); } };
     }
+    // sheets by name: "new list groceries", "add milk to groceries", "add it to the trip sheet"
+    if ((m = t.match(/^(?:new|create|start|make)\s+(?:a\s+|an\s+)?(?:new\s+)?(sheet|note|notes)(?:\s+(?:called|named|for|about))?\s*(.*)$/i))) {
+      const key = 'note', title = m[2].trim();
+      return { kind: 'Sheet', label: 'New sheet', value: title ? cap1(title) : 'Untitled sheet', doLabel: 'Create', run: () => { newSheet(key, title ? cap1(title) : ''); setView('sheet'); } };
+    }
+    { const mm2 = t.match(/^(?:add|put|write|note)\s+(.+?)\s+(?:to|in|into|on)\s+(?:the |my )?(?:(.+?)\s+(?:sheet|note)|(?:sheet|note)\s+(.+))$/i) || (sheets.length && t.match(/^(?:add|put|write)\s+(.+?)\s+(?:to|in|into|on)\s+(?:the |my )?(.+)$/i));
+      const target = mm2 ? findSheet(mm2[2] || mm2[3]) : null;
+      if (mm2 && target) { const body = mm2[1].trim(), x = new RegExp('^' + IT + '$', 'i').test(body) ? it() : null, line = x ? x.q : body;
+        let r = null; try { r = solveLinked(line.replace(/^[^:]+:\s*/, '')); } catch {}
+        return { kind: 'Sheet', label: `Add to “${target.title}”`, value: line, doLabel: 'Add', steps: r && !r.error && /\d/.test(line) ? [['shows', shown(r)]] : [], run: () => addToSheet(line, target) }; } }
+    if ((m = t.match(/^(?:note|jot(?: down)?)\s*[:,]?\s+(.+)$/i))) { const line = m[1]; return { kind: 'Sheet', label: `Add a note to “${sheet.ex ? 'a new sheet' : sheet.title || 'your sheet'}”`, value: line.replace(/^- \[ \] /, '☐ '), doLabel: 'Add note', run: () => addToSheet(line) }; }
     if ((m = t.match(/^(?:add|put|write)\s+(.+?)\s+(?:to|in|into|on)\s+(?:the |my |a )?sheet$/i)) || (m = t.match(/^sheet\s*[:+]\s*(.+)$/i))) {
       let body = m[1].trim(), line = body, mm;
       if ((mm = body.match(/^(?:€|\$|£)?\s*(\d+(?:[.,]\d+)?)\s*(?:€|euros?)?\s+(?:for|on|as)\s+(.+)$/i))) line = `${cap1(mm[2])}: ${mm[1]}`;
@@ -6184,7 +6654,7 @@ const Engine = (() => {
   let disc = store.get('quotient.discover', null); if (!disc || typeof disc !== 'object') disc = { done: {}, seen: {}, hidden: false };
   const saveDisc = () => store.set('quotient.discover', disc);
   try { if (!disc.done.ask && (hist.length || tape.some(t => !t.ex))) { disc.done.ask = disc.done.keep = 1; saveDisc(); } } catch {}
-  const QVER = '4357aa99';
+  const QVER = '79825e55';
   const SAMPLE_PASTE = 'Coffee 2.40\nCroissant 1.80\nOrange juice 3.20\nTotal 7.40';
   const FEATS = [
     { id: 'ask', t: 'Ask in your own words', d: 'Type it the way you would say it', q: '18% tip on 64,50 for 3 people' },
@@ -6199,6 +6669,7 @@ const Engine = (() => {
     { id: 'pin', t: 'Pin a live answer', d: 'Pins keep updating: countdowns, time zones, your budget', q: 'days until christmas', tip: 'Open Details and tap Pin' },
     { id: 'goal', t: 'Set the answer you want', d: 'Say the result you need; it changes your question to match', q: 'mortgage 250k at 3.2% for 25 years', after: () => setTimeout(() => openGoal(), 250) },
     { id: 'whatif', t: 'Ask “what if”', d: 'Change one number and see everything it affects', q: () => !bk.ex && bk.items.some(i => i.price) ? `what if ${keyOf(bk.items.find(i => i.price).name)} goes up 20%` : 'add 2 milk 1.09, bread 0.85 to my basket', tip: () => !bk.ex && bk.items.some(i => i.price) ? '' : 'Press Enter to add them, then try “what if milk goes up 20%”' },
+    { id: 'tools', t: 'Maths tools', d: 'Tap the round button in the bar: equations, fractions, roots without hunting for symbols', act: () => { $('#q').scrollIntoView({ block: 'nearest' }); mathMenu(true); } },
     { id: 'keypad', t: 'Use the keypad', d: 'A full calculator, one tap away', act: () => setCalc(true) },
   ];
   function found(id) { if (!id || disc.done[id]) return; disc.done[id] = Date.now(); saveDisc(); if (!$('#start').hidden) renderStart(); const n = FEATS.filter(f => disc.done[f.id]).length; if (n === FEATS.length) toast('You’ve found everything Quotient can do'); }
@@ -6272,6 +6743,267 @@ const Engine = (() => {
   { const _sp = showPaste; showPaste = function (t) { const ok = _sp(t); if (ok) found('paste'); return ok; }; }
   { const _c = setCalc; setCalc = function (o) { _c(o); if (o) found('keypad'); }; }
   { const _sv = setView; setView = function (v, first) { _sv(v, first); if (v !== 'ask') { found(v); viewCoach(v); } renderStart(); }; }
+  /* ---------- Maths tools: the round button opens a composer with every symbol to hand ---------- */
+  const cmP = x => /^-?[\d.]+$|^[a-zπ]$/i.test(x) ? x : `(${x})`;   // wrap anything that isn't a plain number
+  const cmList = s => s.replace(/[;\n]+/g, ',').replace(/(\d)\s+(?=-?\d)/g, '$1, ').replace(/,\s*/g, ', ').replace(/^,\s*|,\s*$/g, '');
+  const cmRat = s => s.trim().replace(/\s*(?:[:\/]|\bto\b)\s*|\s*[,\s]\s*/g, ':');
+  const CM_MODES = [
+    { k: 'eq', t: 'Equation', d: 'Solve for x', g: 'x=', keys: ['x', '²', '^', '(', ')', '=', '×', '÷', '−', '+', 'a/b', '√', 'π'], fields: [{ ph: '3(x − 2) + 4 = 2x + 9', big: 1 }], build: v => v[0].includes('=') ? 'solve ' + v[0] : null, steps: 1 },
+    { k: 'frac', t: 'Fractions', d: 'Type 3/4 + 1 1/2', g: '½', frac: 1, steps: 1 },
+    { k: 'expr', t: 'Calculation', d: 'Brackets, powers, roots', g: '( )', keys: ['(', ')', '^', '²', '³', '√', '∛', 'π', 'e', '×', '÷', '−', '+', 'a/b', '!', '%', '|x|'], fields: [{ ph: '3 + 4 × (2 + 6)² ÷ 8', big: 1 }], build: v => v[0], steps: 1 },
+    { k: 'pow', t: 'Powers & roots', d: 'xⁿ, ⁿ√x, logs', g: 'xⁿ', keys: ['−', '.', 'a/b', 'π', 'e'], choose: ['Power', 'Root', 'Log'],
+      fields: [{ small: 1, lab: ['Base', 'Root', 'Base'], phs: ['2', '3', '2'] }, { small: 1, lab: ['Power', 'Of', 'Of'], phs: ['10', '27', '8'] }],
+      build: (v, c) => { const [a, b] = v; if (a === '' || b === '') return null;
+        if (c === 0) return `${cmP(a)}^${cmP(b)}`;
+        if (c === 1) return a === '2' ? `sqrt(${b})` : a === '3' ? `cbrt(${b})` : /^\d+$/.test(a) ? `${a}th root of ${b}` : `${cmP(b)}^(1/${a})`;
+        return a === 'e' ? `ln(${b})` : a === '10' ? `log(${b})` : `log base ${a} of ${b}`; }, steps: 1 },
+    { k: 'ratio', t: 'Ratios', d: 'a:b = c:?, split', g: 'a:b', keys: [':', '.'], choose: ['a : b = c : ?', 'Split', 'Simplify'],
+      fields: [{ small: 1, lab: ['a', 'Total', 'Ratio'], phs: ['3', '120', '12:18'] }, { small: 1, lab: ['b', 'In ratio', ''], phs: ['4', '2:3:5'], on: [0, 1] }, { small: 1, lab: ['c'], phs: ['12'], on: [0] }],
+      build: (v, c) => { if (c === 0) return v[0] && v[1] && v[2] ? `${v[0]}/${v[1]} = ${v[2]}/x` : null;
+        if (c === 1) { const r = cmRat(v[1]); return v[0] && /\d:\d/.test(r) ? `split ${v[0]} in ratio ${r}` : null; }
+        const r = cmRat(v[0]); return /\d:\d/.test(r) ? `simplify ratio ${r}` : null; } },
+    { k: 'stats', t: 'Statistics', d: 'Mean, median, spread', g: 'x̄', keys: [',', '.', '−'], choose: ['Mean', 'Median', 'Mode', 'Std dev', 'Range'],
+      fields: [{ ph: '3, 5, 7, 10, 12', big: 1 }],
+      build: (v, c) => { const l = cmList(v[0]); if ((l.match(/-?\d/g) || []).length < 2 || !l.includes(',')) return null; return `${['mean', 'median', 'mode', 'standard deviation', 'range'][c]} of ${l}`; } },
+    { k: 'comb', t: 'Counting', d: 'nCr, nPr, n!', g: 'nCr', keys: [], choose: ['Choose · nCr', 'Arrange · nPr', 'n!'],
+      fields: [{ small: 1, lab: ['n', 'n', 'n'], phs: ['10', '10', '5'] }, { small: 1, lab: ['r', 'r'], phs: ['3', '3'], on: [0, 1] }],
+      build: (v, c) => { const [n, r] = v; if (!/^\d+$/.test(n)) return null; if (c === 2) return `${n}!`; if (!/^\d+$/.test(r) || +r > +n) return null; return c === 0 ? `${n} choose ${r}` : `${n}P${r}`; } },
+    { k: 'sys', t: 'Two equations', d: 'Find x and y', g: '{x,y', keys: ['x', 'y', '=', '−', '+', '×', '(', ')'], fields: [{ ph: '2x + 3y = 12' }, { ph: 'x − y = 1' }], build: v => v[0].includes('=') && v[1].includes('=') ? `${v[0]} and ${v[1]}` : null },
+    { k: 'fx', t: 'Function value', d: 'f(x) at a point', g: 'f(x)', keys: ['x', '²', '³', '^', '(', ')', '×', '÷', '−', '+', 'a/b', '√'], fields: [{ ph: '2x² − 3x + 1', pre: 'f(x) =' }, { ph: '3', pre: 'x =', small: 1 }], build: v => v[0] && v[1] ? `f(x) = ${v[0]}, find f(${v[1]})` : null, steps: 1 },
+    { k: 'calc', t: 'Derivative · integral', d: 'Slopes and areas', g: 'd/dx', keys: ['x', '²', '³', '^', '(', ')', '−', '+', '×', 'a/b'], choose: ['Derivative', 'Integral'],
+      fields: [{ ph: 'x³ + 2x' }, { ph: 'optional', small: 1, pre: 'at x =', on: [0] }, { ph: 'from', small: 1, on: [1] }, { ph: 'to', small: 1, on: [1] }],
+      build: (v, c) => !v[0] ? null : c === 1 ? `integral of ${v[0]}${v[2] !== '' && v[3] !== '' ? ` from ${v[2]} to ${v[3]}` : ''}` : `derivative of ${v[0]}${v[1] !== '' ? ` at x = ${v[1]}` : ''}` },
+    { k: 'pct', t: 'Percentages', d: 'Of, change, what %', g: '%', keys: ['.', '−'], choose: ['% of', 'is what %', 'of what', '% change', '+ %', '− %'],
+      fields: [{ small: 1, lab: ['Percent', 'Part', 'Part', 'From', 'Percent', 'Percent'], phs: ['15', '30', '60', '80', '20', '20'] }, { small: 1, lab: ['Of', 'Whole', 'Is this %', 'To', 'Added to', 'Taken from'], phs: ['240', '120', '15', '100', '50', '50'] }],
+      build: (v, c) => v[0] === '' || v[1] === '' ? null : [`${v[0]}% of ${v[1]}`, `${v[0]} is what % of ${v[1]}`, `${v[0]} is ${v[1]}% of what`, `% change from ${v[0]} to ${v[1]}`, `${v[1]} + ${v[0]}%`, `${v[1]} − ${v[0]}%`][c] },
+  ];
+  let cm = null, cmLast = null;
+  function mathMenu(open) {
+    const m = $('#mathMenu'), on = open == null ? m.hidden : open;
+    if (!on) { if (!m.hidden) softHide(m); document.querySelector('.qlead').setAttribute('aria-expanded', 'false'); return; }
+    m.innerHTML = `<div class="mm-head">Maths tools <span>pick one, then fill it in</span></div><div class="mm-grid">${CM_MODES.map((x, i) => `<button type="button" data-cm="${x.k}" style="--i:${i}"><i>${esc(x.g)}</i><b>${esc(x.t)}</b><span>${esc(x.d)}</span></button>`).join('')}</div>`;
+    m.hidden = false; m.classList.remove('leaving'); if (!REDUCE) { m.classList.remove('in'); void m.offsetWidth; m.classList.add('in'); }
+    document.querySelector('.qlead').setAttribute('aria-expanded', 'true'); try { found('tools'); } catch {}
+  }
+  /* fractions: the boxes follow your typing. "/" drops to the bottom, an operator starts the next fraction, a space makes a whole number */
+  const FR_OPS = ['+', '−', '×', '÷'];
+  const frTerm = () => ({ w: null, n: '', d: '' });
+  function frHtml() {
+    const F = cm.fr;
+    return F.terms.map((T, t) => `${t ? `<button type="button" class="fop" data-fop="${t - 1}" aria-label="Operation, tap to change">${F.ops[t - 1]}</button>` : ''}<div class="ft">${T.w != null ? `<input class="fw" data-t="${t}" data-p="w" inputmode="decimal" autocomplete="off" placeholder="1" aria-label="Whole number" value="${esc(T.w)}">` : ''}<div class="fr"><input data-t="${t}" data-p="n" inputmode="decimal" autocomplete="off" placeholder="${t ? 1 : 3}" aria-label="Numerator ${t + 1}" value="${esc(T.n)}"><i></i><input data-t="${t}" data-p="d" inputmode="decimal" autocomplete="off" placeholder="${t ? 2 : 4}" aria-label="Denominator ${t + 1}" value="${esc(T.d)}"></div></div>`).join('')
+      + `<button type="button" class="cm-more" data-fadd title="Add another fraction" aria-label="Add another fraction">+</button>`;
+  }
+  function frRender(t, p) {
+    const box = $('#cmFrac'); if (!box) return; box.innerHTML = frHtml();
+    if (t != null) frFocus(t, p);
+    cmUpdate();
+  }
+  function frFocus(t, p) { const el = $(`#cmFrac input[data-t="${t}"][data-p="${p}"]`); if (!el) return; el.focus(); const n = el.value.length; try { el.setSelectionRange(n, n); } catch {} cm.ff = { t, p }; }
+  // read typing or a paste like "1 1/2 + 3/4 × 2/5" into terms
+  function frParse(s) {
+    s = s.replace(/[*xX]/g, '×').replace(/[:÷]/g, '÷').replace(/[−–]/g, '-').replace(/,/g, '.');
+    const terms = [frTerm()], ops = []; let cur = terms[0], part = 'n';
+    for (let i = 0; i < s.length; i++) { const ch = s[i];
+      if (/[\d.]/.test(ch)) { cur[part] = (cur[part] || '') + ch; continue; }
+      if (ch === '-' && (cur[part] || '') === '' && part !== 'd') { cur[part] = '-'; continue; }
+      if (ch === '/') { if (part === 'd') { ops.push('÷'); cur = frTerm(); terms.push(cur); part = 'n'; } else { if (part === 'w') { cur.n = cur.w; cur.w = null; } part = 'd'; } continue; }
+      if (ch === ' ') { const rest = s.slice(i + 1).trimStart(); if (part === 'n' && /^-?\d+$/.test(cur.n) && cur.w == null && (rest === '' || /^\d/.test(rest))) { cur.w = cur.n; cur.n = ''; } continue; }
+      if (/[+×÷-]/.test(ch)) { ops.push(ch === '-' ? '−' : ch); cur = frTerm(); terms.push(cur); part = 'n'; continue; }
+    }
+    return { terms, ops, part };
+  }
+  function frInput(el) {
+    const F = cm.fr, t = +el.dataset.t, p = el.dataset.p, T = F.terms[t]; let v = el.value;
+    // the quick moves first
+    if (p === 'n' && /\/$/.test(v) && !/[+×÷*xX:\s]|.-/.test(v.slice(0, -1))) { T.n = v.slice(0, -1); el.value = T.n; frFocus(t, 'd'); cmUpdate(); return; }
+    if (p === 'w' && /\s$/.test(v)) { T.w = v.trim(); el.value = T.w; frFocus(t, 'n'); cmUpdate(); return; }
+    if (!/[\/+×÷*xX:\s]|.-/.test(v)) { T[p] = v; cmUpdate(); return; }
+    // anything with structure: rebuild this term (and any new ones) from text
+    const W = p === 'w' ? v : T.w, N = p === 'n' ? v : T.n, D = p === 'd' ? v : T.d;
+    const str = (W != null && W !== '' ? W + ' ' : '') + N + (D !== '' || p === 'd' ? '/' + D : '');
+    const P = frParse(str); let nt = P.terms, nops = P.ops;
+    const after = F.terms.slice(t + 1), afterOps = F.ops.slice(t), lastEmpty = nt.length > 1 && !nt[nt.length - 1].n && nt[nt.length - 1].w == null && !nt[nt.length - 1].d;
+    let focusT, focusP;
+    if (lastEmpty && after.length) { nt = nt.slice(0, -1); const op = nops.pop(); afterOps[0] = op; focusT = t + nt.length; focusP = 'n'; }
+    else { focusT = t + nt.length - 1; focusP = lastEmpty ? 'n' : P.part === 'd' ? 'd' : (P.part === 'n' && nt[nt.length - 1].w != null && nt[nt.length - 1].n === '' ? 'n' : P.part); }
+    F.terms = F.terms.slice(0, t).concat(nt, after); F.ops = F.ops.slice(0, t).concat(nops, afterOps);
+    const emp = T => !T.n && !T.d && (T.w == null || T.w === ''); while (F.terms.length > focusT + 1 && emp(F.terms[F.terms.length - 1])) { F.terms.pop(); F.ops.pop(); }
+    if (!REDUCE) cm.bounce = focusT;
+    frRender(focusT, focusP);
+  }
+  function frOp(op) { // from the op keys: set the operation after this fraction and move to the next one
+    const F = cm.fr, t = cm.ff ? cm.ff.t : F.terms.length - 1;
+    if (t === F.terms.length - 1) { F.terms.push(frTerm()); F.ops.push(op); } else F.ops[t] = op;
+    frRender(t + 1, 'n');
+  }
+  function frKey(e, el) {
+    const F = cm.fr, t = +el.dataset.t, p = el.dataset.p, T = F.terms[t], atStart = el.selectionStart === 0 && el.selectionEnd === 0;
+    if (e.key === 'Backspace' && el.value === '') {
+      e.preventDefault();
+      if (p === 'd') return frFocus(t, 'n');
+      if (p === 'w') { T.w = null; return frRender(t, 'n'); }
+      if (T.w != null && T.w !== '') return frFocus(t, 'w');
+      if (T.w === '') { T.w = null; return frRender(t, 'n'); }
+      if (t > 0) { if (!T.d) { F.terms.splice(t, 1); F.ops.splice(t - 1, 1); return frRender(t - 1, 'd'); } return frFocus(t - 1, 'd'); }
+      return;
+    }
+    if (e.key === 'ArrowDown' && p !== 'd') { e.preventDefault(); return frFocus(t, 'd'); }
+    if (e.key === 'ArrowUp' && p === 'd') { e.preventDefault(); return frFocus(t, 'n'); }
+    if (e.key === 'ArrowLeft' && atStart) { e.preventDefault(); if (p === 'n' && T.w != null) return frFocus(t, 'w'); if (t > 0) return frFocus(t - 1, 'd'); return; }
+    if (e.key === 'ArrowRight' && el.selectionStart === el.value.length) { if (p === 'w') { e.preventDefault(); return frFocus(t, 'n'); } if (t < F.terms.length - 1 && p === 'd') { e.preventDefault(); return frFocus(t + 1, 'n'); } }
+    if (e.key === 'Enter') { e.preventDefault(); if (!$('#cmGo').disabled) return cmGo(); if (p === 'n') return frFocus(t, 'd'); if (t < F.terms.length - 1) return frFocus(t + 1, 'n'); }
+  }
+  function openComposer(k, pre) {
+    const M = CM_MODES.find(x => x.k === k); if (!M) return; mathMenu(false); cm = { M, choice: pre ? pre.choice || 0 : 0 };
+    const c = $('#composer'), vis = i => !M.fields[i].on || M.fields[i].on.includes(cm.choice);
+    const chooser = M.choose ? `<div class="cm-choose" role="group">${M.choose.map((x, i) => `<button type="button" data-cmc="${i}" aria-pressed="${i === cm.choice}">${esc(x)}</button>`).join('')}</div>` : '';
+    let fields;
+    if (M.frac) {
+      cm.fr = pre && pre.fr ? JSON.parse(JSON.stringify(pre.fr)) : { terms: [frTerm(), frTerm()], ops: ['+'] };
+      fields = `<div class="cm-frac" id="cmFrac">${frHtml()}</div>
+        <div class="cm-keys cm-fkeys">${FR_OPS.map(o => `<button type="button" data-fk="${o}" aria-label="${o}">${o}</button>`).join('')}<button type="button" data-fk="mix" class="wide" title="Whole number and a fraction, like 1 ½"><span class="kmix">1<span class="kf"><i>a</i><i>b</i></span></span></button><button type="button" data-fk="next" class="wide" title="Next box">Next<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button></div>
+        <p class="cm-tip">Just type: <kbd>3</kbd> <kbd>/</kbd> <kbd>4</kbd> <kbd>+</kbd> <kbd>1</kbd> <kbd>/</kbd> <kbd>2</kbd>. The boxes follow you. A space after a number makes it whole, like 1 ½.</p>`;
+    } else {
+      fields = `<div class="cm-fields">${M.fields.map((f, i) => { const lab = f.pre || (f.lab ? f.lab[cm.choice] || '' : ''); return `<label class="cm-f${f.small ? ' small' : ''}" ${vis(i) ? '' : 'hidden'}>${f.pre || f.lab ? `<span class="cm-pl">${esc(lab)}</span>` : ''}<input class="cm-in" data-f="${i}" type="text" spellcheck="false" autocomplete="off" placeholder="${esc(f.phs ? f.phs[cm.choice] || f.phs[0] : f.ph)}" ${f.small ? 'inputmode="decimal"' : ''} value="${esc(pre && pre.vals ? pre.vals[i] || '' : '')}"></label>`; }).join('')}</div>`;
+    }
+    c.innerHTML = `<div class="cm-top"><button type="button" class="cm-back" data-cmback aria-label="Back to maths tools" title="Other tools"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18 9 12l6-6"/></svg></button><b>${esc(M.t)}</b><button type="button" class="cm-x" data-cmclose aria-label="Close">×</button>${chooser ? `<div class="cm-chrow">${chooser}</div>` : ''}</div>
+      ${fields}
+      ${M.keys && M.keys.length ? `<div class="cm-keys">${M.keys.map(x => `<button type="button" data-key="${esc(x)}" aria-label="${x === 'a/b' ? 'Fraction' : esc(x)}">${x === 'a/b' ? '<span class="kf"><i>a</i><i>b</i></span>' : esc(x)}</button>`).join('')}</div>` : ''}
+      <div class="cm-prev" id="cmPrev" aria-live="polite"></div>
+      <div class="cm-act"><button type="button" class="btn" data-cmclose>Cancel</button><button type="button" class="btn primary" id="cmGo" disabled>${M.k === 'eq' || M.k === 'sys' ? 'Solve' : 'Calculate'}</button></div>`;
+    c.hidden = false; c.classList.remove('leaving'); if (!REDUCE) { c.classList.remove('in'); void c.offsetWidth; c.classList.add('in'); }
+    if (M.frac) { const T = cm.fr.terms, li = T.length - 1; setTimeout(() => cm && frFocus(pre ? li : 0, pre ? (T[li].d ? 'd' : 'n') : 'n'), 60); }
+    else { cm.last = c.querySelector('.cm-in'); setTimeout(() => cm && cm.last && cm.last.focus(), 60); }
+    cmUpdate();
+  }
+  function closeComposer() { const c = $('#composer'); if (!c.hidden) softHide(c); cm = null; }
+  function frQuery() {
+    const F = cm.fr; let terms = F.terms.slice(), ops = F.ops.slice();
+    while (terms.length > 1) { const L = terms[terms.length - 1]; if (L.n === '' && !L.w && L.d === '') { terms.pop(); ops.pop(); } else break; }
+    const strs = terms.map(T => { const w = T.w != null && T.w !== '' && T.w !== '-' ? T.w : '', n = T.n === '-' ? '' : T.n, d = T.d;
+      if (n === '' && !w) return null; if (n === '') return w; if (d === '' && !w) return n; if (d === '') return null; if (+d === 0) return `${n}/0`;
+      return w ? `${w} ${n}/${d}` : `${n}/${d}`; });
+    if (strs.some(x => x == null)) return null;
+    if (strs.length === 1) return strs[0].includes('/') ? strs[0] : null;
+    const muldiv = ops.some(o => o === '×' || o === '÷');
+    const join = arr => arr.reduce((a, s, i) => i ? `${a} ${ops[i - 1]} ${s}` : s, '');
+    cm.disp = join(strs);
+    return join(strs.map(s => (muldiv || s.startsWith('-')) && s.includes('/') ? `(${s})` : s));
+  }
+  function cmQuery() {
+    if (!cm) return null; if (cm.M.frac) return frQuery();
+    const vals = [...$('#composer').querySelectorAll('.cm-in')].map(i => i.value.trim());
+    return cm.M.build(vals, cm.choice);
+  }
+  // a tidy picture of what you wrote: fractions stacked, powers raised, roots drawn
+  function prettyMath(s) {
+    // build with markers first so the "/" inside closing tags never turns into ÷
+    const O = '\u0001', C = '\u0002', S = '\u0003';
+    let t = esc(String(s)).replace(/\*/g, '×').replace(/(^|[^\w])-(?=\s|\d|\(|[a-z])/g, '$1−');
+    for (let i = 0; i < 3; i++) t = t.replace(/\(([^()]+)\)\s*\/\s*\(([^()]+)\)|(-?\d+(?:\.\d+)?|[a-z])\s*\/\s*(\d+(?:\.\d+)?|[a-z]|\([^()]+\))/g, (m, a, b, c, d) => `${O}mf${S}${S}${a ?? c}${C}${S}${(b ?? d).replace(/^\((.*)\)$/, '$1')}${C}${C}`);
+    t = t.replace(/√\(([^()]+)\)|sqrt\(([^()]+)\)/g, (m, a, b) => `√${O}ov${S}${a ?? b}${C}`).replace(/∛\(([^()]+)\)|cbrt\(([^()]+)\)/g, (m, a, b) => `∛${O}ov${S}${a ?? b}${C}`)
+      .replace(/\^\(([^()]+)\)|\^(-?[\w.]+)/g, (m, a, b) => `${O}sup${S}${a ?? b}${C}`).replace(/\//g, '÷').replace(/\bpi\b/g, 'π');
+    // markers → tags
+    const stack = []; let out = '';
+    for (let i = 0; i < t.length; i++) { const ch = t[i];
+      if (ch === O) { const j = t.indexOf(S, i); const tag = t.slice(i + 1, j); stack.push(tag); out += tag === 'sup' ? '<sup>' : `<span class="${tag}">`; i = j; }
+      else if (ch === S) { stack.push('in'); out += '<span>'; }
+      else if (ch === C) { const tag = stack.pop(); out += tag === 'sup' ? '</sup>' : '</span>'; }
+      else out += ch; }
+    return out;
+  }
+  // the same number, other ways: decimal, fraction, mixed number, percent
+  function cmAlso(r) {
+    if (!cm || !/^(frac|expr|pow|eq|fx|calc)$/.test(cm.M.k)) return '';
+    let x = null, val = String(r.value || '').replace(/,/g, '').replace(/−/g, '-');
+    const xs = val.match(/^x = (-?[\d.]+(?:\/\d+)?)$/); if (xs) val = xs[1];
+    if (/^-?\d+\/\d+$/.test(val)) { const [a, b] = val.split('/').map(Number); x = a / b; }
+    else if (/^-?\d*\.?\d+(?:e-?\d+)?$/.test(val)) x = +val;
+    if (x == null || !isFinite(x)) return '';
+    const F = v => Engine.fmt(+(+v).toPrecision(10)), out = [], dec = F(x);
+    if (!/^-?[\d,]*\.?\d+$/.test(val) || val.includes('/')) out.push(['decimal', dec]);
+    if (!Number.isInteger(x)) { let h = 0, k = 0;
+      for (let d = 1; d <= 1000; d++) { const n = Math.round(x * d); if (Math.abs(n / d - x) < 1e-9) { h = n; k = d; break; } }
+      if (k > 1) { if (!val.includes('/')) out.push(['fraction', `${h}/${k}`]); if (Math.abs(x) > 1) { const w = Math.trunc(h / k); out.push(['mixed', `${w} ${Math.abs(h % k)}/${k}`]); } } }
+    if (/^(frac|expr)$/.test(cm.M.k) && !Number.isInteger(x) && Math.abs(x) < 1e4 && !/%/.test(val) && !xs) out.push(['percent', Engine.fmt(+(x * 100).toPrecision(8)) + '%']);
+    return out.length ? `<div class="cm-also">${out.map(([l, v]) => `<span><em>${l}</em>${prettyMath(v)}</span>`).join('')}</div>` : '';
+  }
+  function cmUpdate() {
+    const p = $('#cmPrev'), go = $('#cmGo'); if (!p || !cm) return; const q = cmQuery();
+    if (!q) { p.innerHTML = `<span class="cm-hint">${cm.M.k === 'eq' ? 'Write an equation with x and an = sign' : cm.M.k === 'sys' ? 'Write both equations, each with an = sign' : cm.M.k === 'stats' ? 'Type at least two numbers, with commas or spaces' : cm.M.frac ? 'Fill in a fraction to see it worked out' : 'Fill it in to see the answer'}</span>`; go.disabled = true; cm.q = null; return; }
+    let r = null; try { r = solveLinked(q); } catch {}
+    const ok = r && !r.error; go.disabled = !ok; cm.q = q;
+    p.innerHTML = `<div class="cm-math">${prettyMath(cm.M.frac && cm.disp ? cm.disp : q.replace(/^solve\s+/i, ''))}</div>${ok ? `<div class="cm-res"><span>=</span><b>${prettyMath(r.value)}${r.unit && r.unit.length < 10 ? ` <small>${esc(r.unit)}</small>` : ''}</b>${r.work ? '<em>steps ready</em>' : ''}</div>${cmAlso(r)}` : '<div class="cm-res none">Keep going…</div>'}`;
+    if (ok && !REDUCE) { const b = p.querySelector('.cm-res b'); if (b && b.textContent !== cm.lastShown) { b.classList.add('in'); cm.lastShown = b.textContent; } }
+  }
+  function cmInsert(key) {
+    const inp = cm && (cm.last && document.contains(cm.last) ? cm.last : $('#composer .cm-in')); if (!inp) return;
+    const map = { '√': '√()', '∛': '∛()', '|x|': '||' };
+    const ins = map[key] ?? key, s = inp.selectionStart ?? inp.value.length, e = inp.selectionEnd ?? s, sel = inp.value.slice(s, e), before = inp.value.slice(0, s);
+    let text = ins, caret;
+    if (key === 'a/b') {
+      // smart fraction: after a number, letter or bracket it just divides (and the preview stacks it); otherwise it makes an empty fraction to fill
+      if (sel) { text = `(${sel})/`; caret = text.length; }
+      else if (/[\w.)²³π]\s*$/.test(before)) { text = '/'; caret = 1; }
+      else { text = '()/()'; caret = 1; }
+    }
+    else if (/\(\)$/.test(ins)) { text = ins.replace('()', `(${sel})`); caret = sel ? text.length : text.length - 1; }
+    else if (ins === '||') { text = `|${sel}|`; caret = sel ? text.length : 1; }
+    else caret = text.length;
+    inp.setRangeText(text, s, e, 'end'); inp.setSelectionRange(s + caret, s + caret); inp.focus(); cmUpdate(); buzz();
+  }
+  function cmGo() {
+    const q = cmQuery(); if (!q) return; const wantSteps = !!cm.M.steps || /^solve|derivative|integral|f\(x\)/.test(q);
+    cmLast = { k: cm.M.k, choice: cm.choice, q, vals: cm.M.frac ? null : [...$('#composer').querySelectorAll('.cm-in')].map(i => i.value), fr: cm.M.frac ? JSON.parse(JSON.stringify(cm.fr)) : null };
+    closeComposer(); const qe = $('#q'); answerGo(q); autoSteps = wantSteps; detailsShape = ''; runAsk(); qe.focus(); if (typeof barThinking === 'function') barThinking();
+  }
+  // answers that came from a tool get an "Edit" button that reopens it as you left it
+  { const _ra = renderAnswer; renderAnswer = function (r, ex) { _ra(r, ex); try {
+      if (!cmLast || !r || r.error) return; if ($('#q').value.trim() !== cmLast.q) return;
+      const row = $('#answer [data-act="more"]')?.parentElement || $('#answer .a-actions'); if (!row || row.querySelector('[data-cmedit]')) return;
+      const M = CM_MODES.find(x => x.k === cmLast.k); const b = document.createElement('button'); b.type = 'button'; b.className = 'btn cm-edit'; b.dataset.cmedit = '1';
+      b.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg><span>Edit in ${esc(M ? M.t.split(' ·')[0] : 'tool')}</span>`;
+      row.insertBefore(b, row.firstChild);
+    } catch {} }; }
+  document.addEventListener('click', e => { if (e.target.closest('[data-cmedit]') && cmLast) { e.preventDefault(); e.stopPropagation(); openComposer(cmLast.k, cmLast); } }, true);
+  // the round button: tap for the tools (it still shows what kind of answer you're getting)
+  { const lead = document.querySelector('.qlead'); lead.setAttribute('role', 'button'); lead.setAttribute('tabindex', '0'); lead.setAttribute('aria-label', 'Maths tools'); lead.setAttribute('aria-haspopup', 'true'); lead.setAttribute('aria-expanded', 'false'); lead.title = 'Maths tools';
+    const open = e => { e.preventDefault(); e.stopPropagation(); if (!$('#composer').hidden) { closeComposer(); return; } mathMenu(); };
+    lead.addEventListener('click', open); lead.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') open(e); }); }
+  $('#mathMenu').addEventListener('click', e => { const b = e.target.closest('[data-cm]'); if (b) openComposer(b.dataset.cm); });
+  // a click anywhere else closes the tools menu (but not the click on the composer's back arrow that just reopened it)
+  document.addEventListener('click', e => { if (!$('#mathMenu').hidden && !e.target.closest('#mathMenu, .qlead, #composer, [data-cmedit]')) mathMenu(false); });
+  $('#composer').addEventListener('pointerdown', e => { if (e.target.closest('[data-key], [data-fk], [data-fop], [data-cmc], .cm-more')) e.preventDefault(); });
+  $('#composer').addEventListener('focusin', e => { const i = e.target.closest('.cm-in'); if (i && cm) cm.last = i; const f = e.target.closest('#cmFrac input'); if (f && cm) cm.ff = { t: +f.dataset.t, p: f.dataset.p }; });
+  $('#composer').addEventListener('input', e => { if (!cm) return; const f = e.target.closest('#cmFrac input'); if (f) { frInput(f); return; } if (e.target.closest('.cm-in')) cmUpdate(); });
+  $('#composer').addEventListener('keydown', e => {
+    if (e.key === 'Escape') { e.preventDefault(); closeComposer(); $('#q').focus(); return; }
+    const f = e.target.closest('#cmFrac input'); if (f && cm) { frKey(e, f); return; }
+    if (e.key === 'Enter') { e.preventDefault(); if (!$('#cmGo').disabled) cmGo(); return; }
+    // smart brackets: ")" steps over a closing bracket that's already there; "/" inside "()/()" jumps to the bottom
+    const i = e.target.closest('.cm-in'); if (!i || i.selectionStart !== i.selectionEnd) return; const s = i.selectionStart, nx = i.value.slice(s);
+    if (e.key === ')' && nx[0] === ')') { e.preventDefault(); i.setSelectionRange(s + 1, s + 1); }
+    else if (e.key === '/' && nx.startsWith(')/(')) { e.preventDefault(); i.setSelectionRange(s + 3, s + 3); }
+  });
+  $('#composer').addEventListener('click', e => {
+    if (!cm) return;
+    const k = e.target.closest('[data-key]'); if (k) { cmInsert(k.dataset.key); return; }
+    const fk = e.target.closest('[data-fk]'); if (fk) { const F = cm.fr, ff = cm.ff || { t: 0, p: 'n' }, T = F.terms[ff.t] || F.terms[0]; buzz();
+      if (FR_OPS.includes(fk.dataset.fk)) return frOp(fk.dataset.fk);
+      if (fk.dataset.fk === 'mix') { if (T.w == null) { if (T.n && !T.d && ff.p !== 'd') { T.w = T.n; T.n = ''; return frRender(ff.t, 'n'); } T.w = ''; return frRender(ff.t, 'w'); } if (T.w === '') { T.w = null; return frRender(ff.t, 'n'); } return frFocus(ff.t, 'w'); }
+      if (fk.dataset.fk === 'next') { if (ff.p === 'w') return frFocus(ff.t, 'n'); if (ff.p === 'n') return frFocus(ff.t, 'd'); if (ff.t < F.terms.length - 1) return frFocus(ff.t + 1, 'n'); return frOp('+'); }
+      return; }
+    const fo = e.target.closest('[data-fop]'); if (fo) { const j = +fo.dataset.fop, F = cm.fr; F.ops[j] = FR_OPS[(FR_OPS.indexOf(F.ops[j]) + 1) % 4]; fo.textContent = F.ops[j]; fo.classList.remove('spin'); void fo.offsetWidth; fo.classList.add('spin'); buzz(); cmUpdate(); return; }
+    if (e.target.closest('[data-fadd]')) { const F = cm.fr; F.terms.push(frTerm()); F.ops.push('+'); frRender(F.terms.length - 1, 'n'); return; }
+    const ch = e.target.closest('[data-cmc]'); if (ch) { cm.choice = +ch.dataset.cmc; ch.parentElement.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === ch)));
+      cm.M.fields && cm.M.fields.forEach((f, i) => { const lab = $$('#composer .cm-f')[i]; if (!lab) return; lab.hidden = !!f.on && !f.on.includes(cm.choice);
+        const pl = lab.querySelector('.cm-pl'); if (pl && f.lab) pl.textContent = f.lab[cm.choice] || ''; const inp = lab.querySelector('input'); if (f.phs) inp.placeholder = f.phs[cm.choice] || f.phs[0]; });
+      cmUpdate(); return; }
+    if (e.target.closest('[data-cmback]')) { e.stopPropagation(); closeComposer(); mathMenu(true); return; }
+    if (e.target.closest('[data-cmclose]')) { closeComposer(); $('#q').focus(); return; }
+    if (e.target.closest('#cmGo')) cmGo();
+  });
+
   let view = 'ask';
   function setView(v, first) {
     view = v; const isSheet = v === 'sheet', isBk = v === 'basket';
