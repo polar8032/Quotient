@@ -1318,6 +1318,14 @@ body{padding-block:14px 112px}
 .sugg .sg-more:hover{background:var(--ai-soft);color:var(--ai-c)}
 .sugg.more{flex-wrap:wrap;overflow:visible}
 .sugg.more button{animation:chipIn .4s var(--spring) both;animation-delay:calc(var(--i,0) * 28ms)}
+
+/* blanks: generic suggestions to fill in, no made-up numbers */
+.sugg .ph{font-style:normal;font-size:11.5px;font-weight:600;letter-spacing:.02em;color:var(--ai-c);background:var(--ai-soft);border:1px dashed color-mix(in srgb,var(--ai-c) 40%,transparent);border-radius:6px;padding:0 6px;margin:0 1px}
+.sugg .pv.fillin{font-family:var(--f-ui);font-size:11px;color:var(--faint);letter-spacing:.02em}
+#fill .sl.blank:not(.filled){border-style:dashed;min-width:7ch}
+#fill .sl.blank::placeholder{color:var(--ai-c);opacity:.75;font-weight:500}
+#fill .sl.nudge{animation:nudge .4s var(--spring-bounce)}
+@keyframes nudge{0%,100%{transform:none}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
 </style>
 </head>
 <body>
@@ -4712,16 +4720,17 @@ const Engine = (() => {
 
   /* ---------- fill-in editor: pick a suggestion, then change its values before answering ---------- */
   let filling = null;
-  const SLOTRE = /-?\d[\d.,]*(?:k|m|bn)?%?(?![a-z])|[a-zµ°][a-zµ°²³\/]*/gi;
+  const SLOTRE = /\{[a-z]+\}|-?\d[\d.,]*(?:k|m|bn)?%?(?![a-z])|[a-zµ°][a-zµ°²³\/]*/gi;
   function slotsOf(t) {
     const parts = []; let last = 0, prevNum = false, prevWord = '';
     for (const m of t.matchAll(SLOTRE)) {
       const tok = m[0], i = m.index; let slot = null;
-      if (/^-?\d/.test(tok)) slot = { k: 'n', v: tok };
+      if (/^\{/.test(tok)) slot = { k: 'n', v: '', ph: tok.slice(1, -1) };
+      else if (/^-?\d/.test(tok)) slot = { k: 'n', v: tok };
       else if (prevNum || /^(to|in|into|as|em|para)$/i.test(prevWord)) { const ch = Engine.unitChoices(tok); if (ch && ch.length > 1) slot = { k: 'u', v: tok, opts: ch }; }
       if (slot) { if (i > last) parts.push(t.slice(last, i)); parts.push(slot); last = i + tok.length; }
-      prevNum = /^-?\d/.test(tok) && !/[.,]$/.test(tok); prevWord = /^-?\d/.test(tok) ? '' : tok;
-      if (!/^-?\d/.test(tok) && !slot && !/^(of|a|an)$/i.test(tok)) prevNum = false;
+      prevNum = (/^-?\d/.test(tok) && !/[.,]$/.test(tok)) || /^\{/.test(tok); prevWord = /^-?\d|^\{/.test(tok) ? '' : tok;
+      if (!/^-?\d|^\{/.test(tok) && !slot && !/^(of|a|an)$/i.test(tok)) prevNum = false;
     }
     if (last < t.length) parts.push(t.slice(last));
     return parts.some(p => typeof p === 'object' && p.k === 'n') ? parts : null;
@@ -4734,7 +4743,7 @@ const Engine = (() => {
     const parts = slotsOf(t); if (!parts) return false;
     const typed = ((typedText || '').match(/-?\d[\d.,]*(?:k|m|bn)?%?/gi) || []).map(normN);
     const typedUnits = ((typedText || '').toLowerCase().match(/[a-zµ°][a-zµ°²³\/]*/g) || []);
-    parts.forEach(p => { if (typeof p !== 'object') return; if (p.k === 'n') { const j = typed.indexOf(normN(p.v)); if (j > -1) { p.mine = true; typed.splice(j, 1); } } else if (typedUnits.includes(p.v.toLowerCase())) p.mine = true; });
+    parts.forEach(p => { if (typeof p !== 'object') return; if (p.ph) return; if (p.k === 'n') { const j = typed.indexOf(normN(p.v)); if (j > -1) { p.mine = true; typed.splice(j, 1); } } else if (typedUnits.includes(p.v.toLowerCase())) p.mine = true; });
     // a value you typed that the template doesn't hold yet (e.g. a number still being typed) — no slot is "yours"
     const pending = parts.filter(p => typeof p === 'object' && !p.mine);
     if (!pending.length) return false;
@@ -4743,7 +4752,7 @@ const Engine = (() => {
       if (typeof p === 'string') { box.appendChild(document.createTextNode(p)); return; }
       let el;
       if (p.k === 'u') { el = document.createElement('select'); el.className = 'sl u'; el.innerHTML = p.opts.map((o, j) => `<option value="${esc(j ? o : p.v)}">${esc(j ? o : p.v)}</option>`).join(''); el.setAttribute('aria-label', 'Unit'); }
-      else { el = document.createElement('input'); el.className = 'sl'; el.value = p.v; el.inputMode = 'decimal'; el.spellcheck = false; el.setAttribute('aria-label', 'Value'); el.dataset.orig = p.v; }
+      else { el = document.createElement('input'); el.className = 'sl'; el.value = p.v; el.inputMode = /^(?:time|ratio|date|numbers|fraction)$/.test(p.ph) ? 'text' : 'decimal'; el.spellcheck = false; el.setAttribute('aria-label', p.ph || 'Value'); el.dataset.orig = p.v; if (p.ph) { el.placeholder = p.ph; el.classList.add('blank'); } }
       el.classList.add(p.mine ? 'mine' : 'ai'); if (!p.mine) el.title = 'Suggested value. Type to change it';
       el.style.setProperty('--i', i); box.appendChild(el); sizeSlot(el);
     });
@@ -4751,22 +4760,24 @@ const Engine = (() => {
     filling = { orig: t, before: $('#q').value }; $('#scrub').hidden = true; $('.searchbar').classList.add('filling'); box.hidden = false; $('#fillbar').hidden = false; $('#sugg').hidden = true;
     const all = [...box.querySelectorAll('.sl')];
     // focus the value you most likely want to change: the first suggested number, else the first suggested unit
-    const first = all.find(x => x.classList.contains('ai') && x.tagName === 'INPUT') || all.find(x => x.classList.contains('ai')) || all[0];
+    const first = all.find(x => x.classList.contains('blank') && !x.value) || all.find(x => x.classList.contains('ai') && x.tagName === 'INPUT') || all.find(x => x.classList.contains('ai')) || all[0];
     first.focus(); first.select?.(); first.classList.add('target');
     const mine = all.filter(x => x.classList.contains('mine')).length, todo = all.length - mine;
     filling.todo = todo;
     $('#fbHint').textContent = mine ? `Kept your ${mine === 1 ? 'value' : mine + ' values'} · ${todo === 1 ? '1 to set' : todo + ' to set'} · ${matchMedia('(pointer: coarse)').matches ? 'tap Answer when ready' : 'Enter to answer'}` : $('#fbHint').textContent;
     fillChanged(true); return true;
   }
+  const emptyBlank = () => [...$('#fill').querySelectorAll('.sl.blank')].find(x => !x.value.trim());
   function closeFill(commit) {
-    if (!filling) return; const q = $('#q'); const t = commit ? fillText() : filling.before;
+    if (!filling) return; const q = $('#q');
+    if (commit) { const e = emptyBlank(); if (e) { e.focus(); e.classList.remove('nudge'); void e.offsetWidth; e.classList.add('nudge'); return; } } const t = commit ? fillText() : filling.before;
     filling = null; $('.searchbar').classList.remove('filling'); $('#fill').hidden = true; $('#fillbar').hidden = true; $('#fill').innerHTML = '';
     q.value = commit === null ? '' : t; q.focus(); q.setSelectionRange(q.value.length, q.value.length); sel = 0; runAsk();
   }
   let fbLast = '';
   function fillChanged(first) {
-    const t = fillText(); $('#q').value = t; runAsk(true); $('#scrub').hidden = true;
-    const pv = preview(t), el = $('#fbPv'), txt = pv ? '= ' + pv : '';
+    const t = fillText(), gap = emptyBlank(); $('#q').value = t; if (!gap) runAsk(true); else if (!$('#answer').hidden) { current = null; renderAnswer(null); } $('#scrub').hidden = true;
+    const pv = gap ? null : preview(t), el = $('#fbPv'), txt = pv ? '= ' + pv : gap ? `fill in ${gap.placeholder}` : '';
     if (el.textContent !== txt) { el.textContent = txt; if (!first && !REDUCE) { el.classList.remove('swap'); void el.offsetWidth; el.classList.add('swap'); } }
     quickFor(document.activeElement);
   }
@@ -4794,7 +4805,7 @@ const Engine = (() => {
     el.value = s + (m[3] || '') + m[4]; own(el); sizeSlot(el); el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump'); fillChanged();
   }
   function own(el) { if (el.classList.contains('ai')) { el.classList.remove('ai', 'target'); el.classList.add('mine', 'set'); } }
-  $('#fill').addEventListener('input', e => { if (e.target.classList.contains('sl')) { own(e.target); sizeSlot(e.target); fillChanged(); } });
+  $('#fill').addEventListener('input', e => { if (e.target.classList.contains('sl')) { e.target.classList.toggle('filled', !!e.target.value.trim()); own(e.target); sizeSlot(e.target); fillChanged(); } });
   $('#fill').addEventListener('change', e => { if (e.target.tagName === 'SELECT') { own(e.target); sizeSlot(e.target); fillChanged(); } });
   $('#fill').addEventListener('focusin', e => { $$('#fill .sl.target').forEach(x => x !== e.target && x.classList.remove('target')); quickFor(e.target); if (e.target.select) setTimeout(() => e.target.select(), 0); });
   $('#fill').addEventListener('keydown', e => {
@@ -5414,13 +5425,49 @@ const Engine = (() => {
   function renderGhost() {
     const q = $('#q'), g = $('#ghost'), v = q.value, top = sugg[sel];
     const atEnd = q.selectionStart === v.length && q.selectionEnd === v.length;
-    if (!v || !top || document.activeElement !== q || !atEnd || !top.toLowerCase().startsWith(v.toLowerCase())) {
+    if (!v || !top || /\{/.test(top) || document.activeElement !== q || !atEnd || !top.toLowerCase().startsWith(v.toLowerCase())) {
       // no completion to show: put the live result right after what you typed, like a calculator
       if (v && inlineEq && inlineEq.q === v && q.scrollHeight <= 52) { const html = `<span class="t">${esc(v)}</span><span class="eq"> = ${esc(inlineEq.v)}</span>`; if (g.innerHTML !== html) g.innerHTML = html; const eq = g.querySelector('.eq'); if (eq && eq.offsetTop > 20) g.innerHTML = ''; return; }
       g.innerHTML = ''; return; }
     g.innerHTML = `<span class="t">${esc(v)}</span>${esc(top.slice(v.length))}`;
   }
   let suggMore = false, suggMoreFor = '', suggExtra = 0;
+  /* example numbers you didn't type become blanks to fill in: "split 120 between 4" → "split {amount} between {people}" */
+  const UNITW = /^(?:l\/|km|mi|miles?|m|cm|mm|ft|feet|in|inch(?:es)?|kg|g|lb|oz|l|ml|litres?|liters?|h|hours?|min|minutes?|s|seconds?|days?|weeks?|months?|years?|yrs?|°c|°f|c|f|gb|mb|tb|mbps|km\/h|mph|kmh|l\/100km|mpg|kcal|w|kw|kwh|cups?|tbsp|tsp|pages?|items?|pieces?|slices?|pack|tickets?|stone|st|m2|m²|sq|pints?|gallons?|gal)$/i;
+  function genericize(t, typedNums) {
+    if (/\{/.test(t)) return t;
+    // whole dates become one blank
+    t = t.replace(/\b\d{1,2}\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?\s+\d{4}\b|\b\d{1,2}\/\d{1,2}\/\d{2,4}\b/gi, d => typedNums.some(n => d.includes(n)) ? d : '{date}');
+    const used = typedNums.slice(); let out = '', last = 0, changed = false;
+    const split = /\b(?:split|share|between|among|ways|people|we are)\b/i.test(t);
+    for (const m of t.matchAll(/\b\d+(?:[:\/]\d+)+\b|(-?\d[\d.,]*(?:k|bn)?)(%?)/gi)) {
+      const tok = m[0], i = m.index; if (i < last) continue; const before = t.slice(0, i), after = t.slice(i + tok.length);
+      if (/^(?:st|nd|rd|th)\b/i.test(after) || (/\/$/.test(before) && /^[a-z]/i.test(after))) continue;
+      if (/[:\/]/.test(tok)) { if (/^\d+\/\d+\/\d+$/.test(tok)) continue; if (typedNums.includes(normN(tok))) continue;
+        out += t.slice(last, i) + (/^\d{1,2}:\d{2}$/.test(tok) && !/ratio|split/i.test(before) ? '{time}' : /\//.test(tok) && !/split|ratio/i.test(before) ? '{fraction}' : '{ratio}'); last = i + tok.length; changed = true; continue; }
+      const n = normN(tok.replace(/%$/, '')), j = used.indexOf(n); if (j > -1) { used.splice(j, 1); continue; }
+      const prev = (before.match(/([a-z€$£%]+)\s*$/i) || [, ''])[1].toLowerCase(), nm = after.match(/^\s*([a-z°µ\/²]+)/i), next = (nm || [, ''])[1].toLowerCase();
+      let lab, eat = 0;
+      if (/^\s*(?:am|pm)\b/i.test(after)) { lab = 'time'; eat = after.match(/^\s*(?:am|pm)/i)[0].length; }
+      else if (m[2]) lab = 'rate';
+      else if (/^(?:people|persons|friends|guests)$/.test(next) && split) { lab = 'people'; eat = nm[0].length; }
+      else if (/^(?:ways|of)$/.test(next) && split) lab = 'people';
+      else if (/^(?:between|among|by|are|into)$/.test(prev) && split) lab = 'people';
+      else if (prev === 'past') lab = 'hour';
+      else if (/^(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/.test(next)) lab = 'day';
+      else if (/^(?:january|february|march|april|may|june|july|august|september|october|november|december)$/.test(prev)) lab = 'year';
+      else if (/^(?:times|items?|things|pieces|episodes)$/.test(next)) lab = 'number';
+      else if (next === 'in' && /^\s*in\s+(?:the|a|an|ratio)\b/i.test(after)) lab = 'amount';
+      else if (/^(?:a|an|per|each|every|for)$/.test(next)) lab = 'amount';
+      else if (UNITW.test(next)) lab = 'number';
+      else lab = 'amount';
+      out += t.slice(last, i) + `{${lab}}` + (m[2] || ''); last = i + tok.length + eat; changed = true;
+    }
+    if (!changed) return t;
+    // a run of blanks is one list: "average of {numbers}"
+    return (out + t.slice(last)).replace(/\{(?:amount|number)\}(?:\s*,?\s*(?:and\s+)?\{(?:amount|number)\}){2,}/g, '{numbers}');
+  }
+  const phHtml = h => h.replace(/\{([a-z]+)\}/g, '<i class="ph">$1</i>');
   function renderSugg() {
     const box = $('#sugg'), v = $('#q').value;
     if (document.activeElement !== $('#q') || filling) { box.hidden = true; $('#opsRow').hidden = true; if (!filling) sugg = []; renderGhost(); return; }
@@ -5432,7 +5479,12 @@ const Engine = (() => {
     const score = t => { const tl = t.toLowerCase(); let sc = 0; if (low && tl.startsWith(low)) sc += 6; sc += nums.filter(n => tl.includes(n)).length * 2; sc += words.filter(w => tl.includes(w)).length; if (hist.includes(t)) sc += 1.5; return sc; };
     const pool = [...new Set([...fromHist, ...Engine.complete(v, { ...ctx, hist, max: 14 })])].filter(t => t.toLowerCase().trim() !== low);
     const ranked = pool.map((t, i) => [t, score(t) - i * 0.01]).sort((a, b) => b[1] - a[1]).map(x => x[0]);
-    const all = [...new Set([...lsg, ...ranked])], SHOW = 4;
+    // what the answer card already offers (its unit chips, the answer itself) isn't repeated here
+    let dup = new Set(); try { if (current && !current.error && low) { const sw = switchFor(current, $('#q').value.trim()); (sw && sw.items || []).forEach(it => { const v = preview(it.q); if (v) dup.add(v.trim()); }); dup.add(`${current.value}${current.unit ? ' ' + current.unit : ''}`.trim()); dup.add(String(current.value).trim()); } } catch {}
+    const typedNums = (low.match(/-?\d[\d.,]*/g) || []).map(normN);
+    const PT = /\b(?:em|quanto|qual|metade|dobro|milhas|desconto|gorjeta|conta|dividir|converter|anos|horas|dias)\b/i, ptUser = PT.test(low);
+    const keep = t => { if (hist.includes(t)) return t; if (!ptUser && PT.test(t)) return null; if (dup.size) { const pv = preview(t); if (pv && (dup.has(pv.trim()) || [...dup].some(d => d && pv.replace(/,/g, '') === d.replace(/,/g, '')))) return null; } return genericize(t, typedNums); };
+    const all = [...new Set([...lsg, ...ranked.map(keep).filter(Boolean)])], SHOW = 4;
     if (low !== suggMoreFor && !suggMoreFor.startsWith(low) && !low.startsWith(suggMoreFor)) suggMore = false;
     suggExtra = Math.max(0, all.length - SHOW); sugg = suggMore ? all.slice(0, 14) : all.slice(0, SHOW);
     let opsHtml = opsFor(v); const orow = $('#opsRow');
@@ -5443,9 +5495,10 @@ const Engine = (() => {
     const prev = new Set([...box.querySelectorAll('[data-t]')].map(b => b.dataset.t)); let ni = 0;
     if (box.hidden) prev.clear();
     const wasOps = !!box.querySelector('.ops');
-    box.innerHTML = opsHtml.replace('class="ops"', `class="ops${wasOps ? '' : ' in'}"`) + sugg.map((t, i) => { const pv = preview(t); const fresh = !prev.has(t); return `<button type="button" data-s="${i}" data-t="${esc(t)}" style="--i:${fresh ? ni++ : 0}" class="${i === sel ? 'on' : ''}${fresh ? ' in' : ''}">${hist.includes(t) ? '<span class="rc"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>' : ''}<span>${hi(t.trim())}</span>${pv ? `<span class="pv">${esc(pv)}</span>` : ''}${i === sel ? '<span class="kbd">Tab</span>' : ''}</button>`; }).join('');
+    box.innerHTML = opsHtml.replace('class="ops"', `class="ops${wasOps ? '' : ' in'}"`) + sugg.map((t, i) => { const pv = preview(t); const fresh = !prev.has(t); return `<button type="button" data-s="${i}" data-t="${esc(t)}" style="--i:${fresh ? ni++ : 0}" class="${i === sel ? 'on' : ''}${fresh ? ' in' : ''}">${hist.includes(t) ? '<span class="rc"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>' : ''}<span>${t.trim().split(/(\{[a-z]+\})/).map(x => /^\{[a-z]+\}$/.test(x) ? `<i class="ph">${x.slice(1, -1)}</i>` : hi(x)).join('')}</span>${pv && !/\{/.test(t) ? `<span class="pv">${esc(pv)}</span>` : /\{/.test(t) ? '<span class="pv fillin">fill in</span>' : ''}${i === sel ? '<span class="kbd">Tab</span>' : ''}</button>`; }).join('');
     if (suggExtra > 0) box.insertAdjacentHTML('beforeend', `<button type="button" class="sg-more${suggMore ? ' on2' : ''}" data-more aria-expanded="${suggMore}" title="${suggMore ? 'Show fewer' : 'More ideas for what you’re typing'}">${suggMore ? '<span aria-hidden="true">−</span> Less' : `<span aria-hidden="true">+</span> ${suggExtra} more`}</button>`);
     box.classList.toggle('more', suggMore);
+    if (box._low !== low) { box._low = low; box.scrollLeft = 0; }
     box.title = 'Pick one to fill it in. You can change its values before the answer';
     box.hidden = false;
     const on = box.querySelector('.on'); if (on && moved) on.scrollIntoView({ block: 'nearest', inline: 'nearest' });
@@ -5454,6 +5507,7 @@ const Engine = (() => {
   function accept(i, direct) {
     const t = sugg[i]; if (t == null) return; const q = $('#q');
     const typed = (q.value.match(NUMS_UI) || []).join('|'), offered = (t.match(NUMS_UI) || []).join('|');
+    if (/\{/.test(t)) { if (openFill(t, q.value)) { sel = 0; return; } }
     if (!direct && !hist.includes(t) && offered && offered !== typed && openFill(t, q.value)) { sel = 0; return; }
     q.value = t; q.focus(); q.setSelectionRange(t.length, t.length); sel = 0; runAsk();
   }
@@ -6822,7 +6876,7 @@ const Engine = (() => {
   let disc = store.get('quotient.discover', null); if (!disc || typeof disc !== 'object') disc = { done: {}, seen: {}, hidden: false };
   const saveDisc = () => store.set('quotient.discover', disc);
   try { if (!disc.done.ask && (hist.length || tape.some(t => !t.ex))) { disc.done.ask = disc.done.keep = 1; saveDisc(); } } catch {}
-  const QVER = '3e6bae28';
+  const QVER = '1f2fbe36';
   const SAMPLE_PASTE = 'Coffee 2.40\nCroissant 1.80\nOrange juice 3.20\nTotal 7.40';
   const FEATS = [
     { id: 'ask', t: 'Ask in your own words', d: 'Type it the way you would say it', q: '18% tip on 64,50 for 3 people' },
