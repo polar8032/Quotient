@@ -1326,6 +1326,324 @@ body{padding-block:14px 112px}
 #fill .sl.blank::placeholder{color:var(--ai-c);opacity:.75;font-weight:500}
 #fill .sl.nudge{animation:nudge .4s var(--spring-bounce)}
 @keyframes nudge{0%,100%{transform:none}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+#exBtn{display:none!important}
+
+/* the smart button: one next move, it changes with what's on screen */
+.smart-btn{flex:none;align-self:flex-start;margin-top:9px;display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 11px 0 9px;border-radius:999px;font:inherit;font-size:12.5px;font-weight:600;color:var(--ai-c);cursor:pointer;
+  border:1px solid transparent;background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(120deg,color-mix(in srgb,var(--ai-a) 70%,transparent),color-mix(in srgb,var(--ai-c) 70%,transparent)) border-box;box-shadow:0 6px 16px -12px var(--ai-glow);transition:transform .35s var(--spring),box-shadow .25s,opacity .2s}
+.smart-btn:hover{box-shadow:0 8px 20px -10px var(--ai-glow);transform:translateY(-1px)}
+.smart-btn:active{transform:scale(.93)}
+.smart-btn svg{flex:none}
+.smart-btn.swap{animation:smartIn .5s var(--spring) both}
+.smart-btn.out{opacity:0;transform:scale(.85);pointer-events:none}
+@keyframes smartIn{from{opacity:0;transform:scale(.7) translateY(2px)}to{opacity:1;transform:none}}
+.searchbar.filling .smart-btn{display:none}
+.smart-btn span{display:inline-block;max-width:90px;overflow:hidden;white-space:nowrap;transition:max-width .45s var(--spring),opacity .3s,margin .45s var(--spring)}
+.smart-btn.mini{padding:0 8px;gap:0}.smart-btn.mini span{max-width:0;opacity:0}
+
+/* "almost": it understood part of it; calm, not an error */
+.chip-kind.soft{color:var(--ai-c);background:var(--ai-soft);position:relative}
+.chip-kind.soft::after{content:"";display:inline-block;width:5px;height:5px;margin-left:6px;border-radius:50%;background:currentColor;vertical-align:middle;animation:softPulse 1.4s ease-in-out infinite}
+@keyframes softPulse{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1.1)}}
+.suggest .blank-ex .ph{font-style:normal;font-size:11.5px;font-weight:600;color:var(--ai-c);background:var(--ai-soft);border:1px dashed color-mix(in srgb,var(--ai-c) 40%,transparent);border-radius:6px;padding:0 6px;margin:0 1px}
+@media (prefers-reduced-motion:reduce){.chip-kind.soft::after{animation:none}}
+
+/* the tape lives behind a pencil at the bottom, and grows out of it like the island */
+.tape-fab{position:fixed;z-index:26;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 18px);transform:translateX(-50%);width:54px;height:54px;border-radius:50%;display:grid;place-items:center;border:1px solid color-mix(in srgb,var(--ink) 10%,transparent);
+  background:var(--dev-body);color:var(--dev-ink);box-shadow:0 14px 32px -14px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.04) inset;cursor:pointer;transition:transform .55s var(--spring),opacity .25s var(--ease-out),box-shadow .3s}
+.tape-fab:hover{transform:translateX(-50%) translateY(-2px);box-shadow:0 18px 36px -14px var(--ai-glow)}
+.tape-fab:active{transform:translateX(-50%) scale(.92)}
+.tape-fab svg{transition:transform .5s var(--spring-bounce)}
+.tape-fab:hover svg{transform:rotate(-12deg)}
+.tape-fab .tf-n{position:absolute;top:-3px;right:-3px;min-width:20px;height:20px;padding:0 5px;border-radius:999px;display:grid;place-items:center;font-size:11px;font-weight:700;font-variant-numeric:tabular-nums;color:#fff;background:linear-gradient(135deg,var(--ai-a),var(--ai-c));box-shadow:0 0 0 2px var(--bg)}
+.tape-fab.bump{animation:tfBump .7s var(--spring-bounce)}
+@keyframes tfBump{0%{transform:translateX(-50%) scale(1)}30%{transform:translateX(-50%) scale(1.18) rotate(-6deg)}100%{transform:translateX(-50%) scale(1)}}
+html.tape-open .tape-fab{opacity:0;transform:translateX(-50%) scale(.6);pointer-events:none}
+html.calc-open .tape-fab{opacity:0;pointer-events:none}
+.tape-scrim{position:fixed;inset:0;z-index:34;background:color-mix(in srgb,var(--bg) 40%,transparent);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .35s var(--ease-out)}
+html.tape-open .tape-scrim{opacity:1;pointer-events:auto}
+.tape.tape-sheet{position:fixed;z-index:35;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 14px);width:min(560px,calc(100vw - 24px));max-height:min(72vh,640px);overflow:auto;overscroll-behavior:contain;margin:0;
+  transform-origin:50% calc(100% - 27px);transform:translateX(-50%) scale(.1,.085);opacity:0;visibility:hidden;border-radius:40px;animation:none;
+  box-shadow:0 30px 70px -24px rgba(0,0,0,.6),0 0 0 1px var(--line);
+  transition:transform .42s cubic-bezier(.4,0,.2,1),opacity .2s .16s var(--ease-out),border-radius .42s,visibility 0s linear .42s}
+html.tape-open .tape.tape-sheet{transform:translateX(-50%) scale(1);opacity:1;visibility:visible;border-radius:24px;transition:transform .62s var(--spring),opacity .16s var(--ease-out),border-radius .62s var(--spring),visibility 0s}
+.tape.tape-sheet > *{opacity:0;transform:translateY(8px);transition:opacity .18s,transform .3s var(--ease-out)}
+html.tape-open .tape.tape-sheet > *{opacity:1;transform:none;transition:opacity .3s .14s,transform .55s .1s var(--spring)}
+.tape-sheet .tape-head{position:sticky;top:-16px;z-index:2;background:var(--surface);margin:-16px -18px 8px;padding:14px 18px 10px;border-bottom:1px solid var(--line);align-items:center}
+.tape-sheet .tape-head h2{margin-right:auto}
+.tape-x{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);background:var(--surface-2);color:var(--muted);cursor:pointer;transition:transform .35s var(--spring)}
+.tape-x:hover{color:var(--ink)}.tape-x:active{transform:scale(.9)}
+main.grid{padding-bottom:84px}
+@media (prefers-reduced-motion:reduce){.tape.tape-sheet,.tape.tape-sheet > *,.tape-fab,.tape-scrim{transition:none!important}}
+
+/* suggestions live in one fixed strip, so the answer below never jumps while you type */
+.assist{position:relative;height:38px;margin-top:-8px;flex:none}
+.assist > .sugg,.assist > .opsrow{position:absolute;left:0;right:0;top:0;margin:0!important}
+.assist > .sugg{height:38px;align-items:center}
+.assist > .opsrow{height:38px}
+.assist > .sugg.more{height:auto;max-height:min(52vh,420px);overflow-y:auto;z-index:30;left:-8px;right:-8px;top:-4px;padding:8px;gap:6px;border-radius:16px;background:var(--surface);border:1px solid var(--line);box-shadow:0 22px 50px -20px rgba(0,0,0,.45)}
+.searchbar.filling ~ .assist{display:none}
+
+/* answer header: the label wraps in its own column, Back stays on the same line */
+.a-head{flex-wrap:nowrap;align-items:flex-start}
+.a-head .chip-kind{flex:none}
+.a-head .a-label{flex:1 1 auto;min-width:0;padding-top:3px}
+.a-head .a-back{flex:none}
+/* chip rows fade only on the side that has more to scroll */
+.sw-row{-webkit-mask:none;mask:none}
+.sw-row.fade-r{-webkit-mask:linear-gradient(90deg,#000 calc(100% - 22px),transparent);mask:linear-gradient(90deg,#000 calc(100% - 22px),transparent)}
+.sw-row.fade-l{-webkit-mask:linear-gradient(90deg,transparent,#000 22px);mask:linear-gradient(90deg,transparent,#000 22px)}
+.sw-row.fade-l.fade-r{-webkit-mask:linear-gradient(90deg,transparent,#000 22px,#000 calc(100% - 22px),transparent);mask:linear-gradient(90deg,transparent,#000 22px,#000 calc(100% - 22px),transparent)}
+.assist > .sugg.more{overflow-x:hidden}
+
+/* "Next": a calm label, the moves open in a menu that grows from the button */
+.ask{position:relative}
+.smart-btn .sm-n{font-style:normal;font-size:10.5px;font-weight:700;min-width:17px;height:17px;padding:0 4px;border-radius:999px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--ai-a),var(--ai-c));margin-left:1px;transition:opacity .3s}
+.smart-btn.mini .sm-n{position:absolute;top:-4px;right:-4px;box-shadow:0 0 0 2px var(--surface)}
+.smart-btn{position:relative}
+.smart-btn[aria-expanded="true"]{box-shadow:0 0 0 3px var(--ai-soft),0 8px 20px -10px var(--ai-glow)}
+.smart-menu{position:absolute;z-index:40;right:18px;width:min(380px,calc(100% - 36px));padding:6px;border-radius:18px;background:var(--surface);border:1px solid var(--line);box-shadow:0 26px 60px -22px rgba(0,0,0,.55);
+  transform-origin:calc(100% - 26px) -10px;transform:scale(.3,.15);opacity:0;transition:transform .26s cubic-bezier(.4,0,.2,1),opacity .18s}
+.smart-menu.open{transform:none;opacity:1;transition:transform .5s var(--spring),opacity .16s}
+.smart-menu .sm-head{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);padding:8px 10px 6px}
+.smart-menu button{display:grid;grid-template-columns:30px minmax(0,1fr) auto;align-items:center;gap:10px;width:100%;text-align:left;font:inherit;font-size:13.5px;color:var(--ink);background:none;border:0;border-radius:12px;padding:8px 10px;cursor:pointer;opacity:0;transform:translateY(-4px);transition:background .2s}
+.smart-menu.open button{animation:smIn .45s var(--spring) both;animation-delay:calc(60ms + var(--i) * 40ms)}
+@keyframes smIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.smart-menu button:hover,.smart-menu button:focus-visible{background:var(--surface-2)}
+.smart-menu button:active{transform:scale(.98)}
+.smart-menu .sm-ic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;color:var(--ai-c);background:var(--ai-soft)}
+.smart-menu .sm-t{min-width:0;overflow-wrap:anywhere;line-height:1.35}
+.smart-menu .sm-pv{font-family:var(--f-mono);font-size:12.5px;font-weight:500;color:var(--accent-text);white-space:nowrap;max-width:9em;overflow:hidden;text-overflow:ellipsis}
+@media (prefers-reduced-motion:reduce){.smart-menu,.smart-menu button{transition:none;animation:none!important;opacity:1;transform:none}}
+
+/* no tabs: the search bar sits right under the header; Sheet and Basket live behind a round button at the bottom left */
+.tabs{display:none!important}
+main.grid > .col > .ask:first-child,.ask{border-radius:22px}
+.nav-fab{position:fixed;z-index:26;left:max(16px,calc(env(safe-area-inset-left,0px) + 16px));bottom:calc(env(safe-area-inset-bottom,0px) + 18px);width:54px;height:54px;border-radius:50%;display:grid;place-items:center;
+  background:var(--dev-body);color:var(--dev-ink);border:1px solid color-mix(in srgb,var(--ink) 10%,transparent);box-shadow:0 14px 32px -14px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.04) inset;cursor:pointer;transition:transform .5s var(--spring),opacity .25s,box-shadow .3s}
+.nav-fab:hover{transform:translateY(-2px);box-shadow:0 18px 36px -14px var(--ai-glow)}
+.nav-fab:active{transform:scale(.92)}
+.nav-fab svg path{transition:transform .45s var(--spring),d .45s var(--spring);transform-origin:12px 12px}
+.nav-fab:hover .l2{transform:translateX(2px)}
+.nav-fab[aria-expanded="true"] .l1{transform:translateY(2.5px) rotate(45deg) scaleX(.9)}
+.nav-fab[aria-expanded="true"] .l2{transform:translate(2.5px,-2.5px) rotate(-45deg) scaleX(1.5)}
+.nav-fab .nv-dot{position:absolute;top:3px;right:3px;width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--ai-a),var(--ai-c));box-shadow:0 0 0 2px var(--bg)}
+html.calc-open .nav-fab,html.tape-open .nav-fab{opacity:0;pointer-events:none}
+.nav-panel{position:fixed;z-index:27;left:max(16px,calc(env(safe-area-inset-left,0px) + 16px));bottom:calc(env(safe-area-inset-bottom,0px) + 82px);width:min(300px,calc(100vw - 32px));padding:6px;border-radius:22px;
+  background:var(--surface);border:1px solid var(--line);box-shadow:0 30px 70px -24px rgba(0,0,0,.6);transform-origin:27px calc(100% + 37px);transform:scale(.18,.12);opacity:0;visibility:hidden;
+  transition:transform .3s cubic-bezier(.4,0,.2,1),opacity .2s .08s,visibility 0s linear .3s}
+html.nav-open .nav-panel{transform:none;opacity:1;visibility:visible;transition:transform .55s var(--spring),opacity .15s,visibility 0s}
+.nav-panel button{display:grid;grid-template-columns:38px minmax(0,1fr) auto;align-items:center;gap:12px;width:100%;text-align:left;font:inherit;color:var(--ink);background:none;border:0;border-radius:16px;padding:9px 10px;cursor:pointer;transition:background .2s}
+html.nav-open .nav-panel button{animation:smIn .45s var(--spring) both}
+html.nav-open .nav-panel button:nth-child(2){animation-delay:40ms}html.nav-open .nav-panel button:nth-child(3){animation-delay:80ms}
+.nav-panel button:hover{background:var(--surface-2)}
+.nav-panel button[aria-current="page"]{background:var(--ai-soft)}
+.nav-panel .nv-ic{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--surface-2);color:var(--muted)}
+.nav-panel button[aria-current="page"] .nv-ic{color:var(--ai-c);background:var(--surface)}
+.nav-panel .nv-t{display:flex;flex-direction:column;min-width:0}
+.nav-panel .nv-t b{font-size:14.5px;font-weight:600}.nav-panel .nv-t small{font-size:12px;color:var(--faint)}
+.nav-panel .nv-b{font-style:normal;font-family:var(--f-mono);font-size:12px;color:var(--accent-text);padding:2px 8px;border-radius:999px;background:var(--surface-2)}
+.nav-panel .nv-b:empty{display:none}.nav-panel .nv-b.warn{color:var(--bad)}
+.nav-scrim{position:fixed;inset:0;z-index:25}
+@media (prefers-reduced-motion:reduce){.nav-panel,.nav-fab,.nav-fab svg path{transition:none!important}}
+
+/* the number pad: the search bar's own edges grow down around a small keypad */
+.searchbar{flex-wrap:wrap;overflow:visible}
+.qpad{flex:0 0 100%;display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s var(--spring)}
+.searchbar.qp-open .qpad{grid-template-rows:1fr}
+.qp-in{overflow:hidden;min-height:0}
+.searchbar.qp-open .qp-in{padding:2px 0 14px}
+.qp-x{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px 0 8px;margin-top:2px;border-top:1px solid var(--line)}
+.qp-x::-webkit-scrollbar{display:none}
+.qp-x{padding-top:10px}
+.qp-x button{flex:none;font:inherit;font-family:var(--f-mono);font-size:13px;color:var(--muted);height:30px;padding:0 11px;border-radius:9px;border:1px solid var(--line);background:var(--surface);cursor:pointer}
+.qp-x button[data-qk="abc"]{margin-left:auto;font-family:var(--f-ui);font-weight:600;font-size:11.5px;letter-spacing:.04em}
+.qp-g{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.qp-g button{height:44px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:19px;font-variant-numeric:tabular-nums;cursor:pointer;transition:transform .3s var(--spring),background .2s;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.qp-g button.op{font-size:20px;color:var(--ai-c);background:color-mix(in srgb,var(--ai-soft) 70%,var(--surface))}
+.qp-g button.fn{font-size:15px;color:var(--muted);background:var(--surface-2)}
+.qp-g button.go{font-size:14px;font-weight:600;background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.qp-g button:active,.qp-x button:active{transform:scale(.9)}
+.qp-g button.hit{animation:qpHit .35s var(--ease-out)}
+@keyframes qpHit{0%{box-shadow:0 0 0 0 var(--ai-glow)}100%{box-shadow:0 0 0 10px transparent}}
+.searchbar.qp-open .qp-g button,.searchbar.qp-open .qp-x button{animation:qpIn .45s var(--spring) both;animation-delay:calc(var(--j,0) * 14ms)}
+@keyframes qpIn{from{opacity:0;transform:translateY(-6px) scale(.94)}to{opacity:1;transform:none}}
+.qp-handle{position:absolute;z-index:3;left:50%;bottom:-10px;transform:translateX(-50%);height:20px;padding:0 9px 0 7px;display:inline-flex;align-items:center;gap:4px;border-radius:999px;border:1px solid var(--line-strong);background:var(--surface);color:var(--muted);font:inherit;font-size:10.5px;font-weight:600;letter-spacing:.06em;cursor:pointer;box-shadow:0 4px 12px -6px rgba(0,0,0,.35);transition:color .2s,border-color .2s,transform .35s var(--spring)}
+.qp-handle:hover{color:var(--ai-c);border-color:color-mix(in srgb,var(--ai-c) 45%,var(--line))}
+.qp-handle:active{transform:translateX(-50%) scale(.92)}
+.qp-handle svg{transition:transform .45s var(--spring)}
+.searchbar.qp-open .qp-handle svg{transform:rotate(180deg)}
+.searchbar.qp-open .qp-handle{color:var(--ai-c)}
+.searchbar.filling .qp-handle,.searchbar.filling .qpad{display:none}
+@media (prefers-reduced-motion:reduce){.qpad{transition:none}.searchbar.qp-open .qp-g button,.searchbar.qp-open .qp-x button{animation:none}}
+.searchbar{row-gap:0}
+.qp-in{max-width:520px}
+@media (min-width:700px){.qp-g button{height:40px;font-size:17px}}
+@media (max-width:560px){.qp-g{gap:5px}.qp-g button{height:42px}}
+
+/* the left button: no browser focus box, a spin when you tap it, a soft ring only for keyboard users */
+.qlead{outline:none;-webkit-tap-highlight-color:transparent;cursor:pointer;border-radius:12px}
+.qlead:focus{outline:none}
+.qlead:focus-visible{box-shadow:0 0 0 3px var(--ai-soft)}
+.qlead .qicon.spin{animation:qSpin .7s var(--spring) both!important}
+@keyframes qSpin{0%{transform:rotate(0) scale(1)}35%{transform:rotate(200deg) scale(.82)}100%{transform:rotate(360deg) scale(1)}}
+.qlead:active .qicon{transform:scale(.88)}
+.qp-handle{-webkit-tap-highlight-color:transparent;outline:none}
+.qp-handle:focus-visible{box-shadow:0 0 0 3px var(--ai-soft)}
+.qp-handle .qh-calc{transition:transform .45s var(--spring)}
+.qp-handle:hover .qh-calc{transform:rotate(-8deg)}
+.searchbar.qp-open .qp-handle .qh-calc{transform:scale(.9)}
+.smart-btn,.tape-fab,.nav-fab,.qp-g button,.qp-x button{-webkit-tap-highlight-color:transparent}
+.smart-btn:focus:not(:focus-visible),.tape-fab:focus:not(:focus-visible),.nav-fab:focus:not(:focus-visible){outline:none}
+
+/* the island panel: a macOS-style genie. It funnels out of the pill, curving at the sides, and back in */
+.isl-panel{--gx:80%;transform-origin:0 0;transition:none!important;filter:none!important;opacity:1;transform:none;border-radius:22px;will-change:clip-path,transform}
+
+.island.open .isl-panel{animation:none}
+
+@keyframes genieIn{
+  0%{opacity:.2;transform:translateY(-6px) scaleY(.06);clip-path:polygon(calc(var(--gx) - 3%) 0,calc(var(--gx) + 3%) 0,calc(var(--gx) + 3%) 30%,calc(var(--gx) + 3%) 70%,calc(var(--gx) + 3%) 100%,calc(var(--gx) - 3%) 100%,calc(var(--gx) - 3%) 70%,calc(var(--gx) - 3%) 30%)}
+  30%{opacity:1;transform:scaleY(.55);clip-path:polygon(calc(var(--gx) - 4%) 0,calc(var(--gx) + 4%) 0,calc(var(--gx) + 7%) 30%,calc(100% - (100% - var(--gx)) * .2) 75%,100% 100%,0 100%,calc(var(--gx) * .25) 75%,calc(var(--gx) - 7%) 30%)}
+  62%{transform:scaleY(.94);clip-path:polygon(calc(var(--gx) * .72) 0,calc(var(--gx) + (100% - var(--gx)) * .28) 0,calc(100% - (100% - var(--gx)) * .1) 22%,100% 62%,100% 100%,0 100%,0 62%,calc(var(--gx) * .1) 22%)}
+  100%{opacity:1;transform:none;clip-path:polygon(-8% -8%,108% -8%,108% 20%,108% 70%,108% 115%,-8% 115%,-8% 70%,-8% 20%)}
+}
+@keyframes genieOut{
+  0%{transform:none;clip-path:polygon(-8% -8%,108% -8%,108% 20%,108% 70%,108% 115%,-8% 115%,-8% 70%,-8% 20%)}
+  40%{transform:scaleY(.9);clip-path:polygon(calc(var(--gx) * .72) 0,calc(var(--gx) + (100% - var(--gx)) * .28) 0,calc(100% - (100% - var(--gx)) * .1) 22%,100% 62%,100% 100%,0 100%,0 62%,calc(var(--gx) * .1) 22%)}
+  72%{opacity:1;transform:scaleY(.45);clip-path:polygon(calc(var(--gx) - 4%) 0,calc(var(--gx) + 4%) 0,calc(var(--gx) + 7%) 30%,calc(100% - (100% - var(--gx)) * .2) 75%,100% 100%,0 100%,calc(var(--gx) * .25) 75%,calc(var(--gx) - 7%) 30%)}
+  100%{opacity:0;transform:translateY(-6px) scaleY(.04);clip-path:polygon(calc(var(--gx) - 3%) 0,calc(var(--gx) + 3%) 0,calc(var(--gx) + 3%) 30%,calc(var(--gx) + 3%) 70%,calc(var(--gx) + 3%) 100%,calc(var(--gx) - 3%) 100%,calc(var(--gx) - 3%) 70%,calc(var(--gx) - 3%) 30%)}
+}
+.isl-panel .pins{padding-top:14px}
+@media (prefers-reduced-motion:reduce){.island.open .isl-panel,.isl-panel.genie-out{animation:none}}
+
+/* the island: a lifted, slightly brighter glass layer so it stands clear of the page */
+:root{--isl-bg:#FFFFFF;--isl-card:#F3F4F7;--isl-card-2:#ECEEF2;--isl-edge:#D0D3DA;--isl-hi:rgba(255,255,255,.95)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--isl-bg:#17191E;--isl-card:#1F2127;--isl-card-2:#1A1C21;--isl-edge:#30333B;--isl-hi:rgba(255,255,255,.075)}}
+:root[data-theme="dark"]{--isl-bg:#17191E;--isl-card:#1F2127;--isl-card-2:#1A1C21;--isl-edge:#30333B;--isl-hi:rgba(255,255,255,.075)}
+.isl-panel .pins{background:linear-gradient(180deg,color-mix(in srgb,var(--isl-bg) 92%,var(--ai-c)) 0%,var(--isl-bg) 38%)!important;border:1px solid var(--isl-edge)!important;
+  box-shadow:inset 0 1px 0 var(--isl-hi),0 0 0 1px color-mix(in srgb,#000 30%,transparent),0 34px 80px -26px rgba(0,0,0,.7),0 12px 30px -18px rgba(0,0,0,.5)!important;backdrop-filter:saturate(1.2)}
+.isl-panel .pin{background:linear-gradient(180deg,var(--isl-card),var(--isl-card-2))!important;border-color:var(--isl-edge)!important;box-shadow:inset 0 1px 0 var(--isl-hi),0 6px 16px -12px rgba(0,0,0,.5)}
+.isl-panel .pin:hover{border-color:color-mix(in srgb,var(--ai-c) 40%,var(--isl-edge))!important}
+.isl-panel .pin .pv{color:var(--ink)}
+/* ---------- Guide ---------- */
+#start,.coach{display:none!important}
+.guide{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:16px max(16px,env(safe-area-inset-right,0px)) calc(16px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:color-mix(in srgb,var(--bg) 55%,transparent);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:0;transition:opacity .3s var(--ease-out)}
+html.guide-open .guide{opacity:1}
+.gd-card{width:min(440px,100%);max-height:min(88vh,720px);overflow:auto;overscroll-behavior:contain;border-radius:26px;padding:18px;background:var(--isl-bg,var(--surface));border:1px solid var(--isl-edge,var(--line));box-shadow:inset 0 1px 0 var(--isl-hi,transparent),0 40px 90px -30px rgba(0,0,0,.7);
+  transform:translateY(18px) scale(.94);opacity:0;transition:transform .55s var(--spring),opacity .25s}
+html.guide-open .gd-card{transform:none;opacity:1}
+.gd-card.swap > *{animation:gdIn .45s var(--spring) both}
+.gd-card.swap > *:nth-child(2){animation-delay:30ms}.gd-card.swap > *:nth-child(3){animation-delay:60ms}.gd-card.swap > *:nth-child(4){animation-delay:90ms}.gd-card.swap > *:nth-child(5){animation-delay:120ms}
+@keyframes gdIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.gd-top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.gd-top > div{display:flex;flex-direction:column;margin-right:auto;min-width:0}
+.gd-top b{font-size:17px;font-weight:650;letter-spacing:-.01em}.gd-top small{font-size:12.5px;color:var(--faint)}
+.gd-top.slim{justify-content:space-between}
+.gd-logo{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--ink);color:var(--accent,#F5A623);font-size:22px;font-weight:700;flex:none}
+.gd-x{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:var(--surface-2);color:var(--muted);font:inherit;font-size:18px;cursor:pointer;flex:none;display:grid;place-items:center}
+.gd-back{display:inline-flex;align-items:center;gap:5px;font:inherit;font-size:13px;font-weight:600;color:var(--muted);background:none;border:0;cursor:pointer;padding:6px 4px}
+.gd-back:hover,.gd-x:hover{color:var(--ink)}
+.gd-dots{display:flex;gap:5px}.gd-dots i{width:6px;height:6px;border-radius:50%;background:var(--line-strong);transition:width .35s var(--spring),background .3s}
+.gd-dots i.ok{background:color-mix(in srgb,var(--ai-c) 45%,var(--line-strong))}.gd-dots i.on{width:18px;border-radius:3px;background:linear-gradient(90deg,var(--ai-a),var(--ai-c))}
+.gd-intro{margin:2px 2px 14px;color:var(--muted);font-size:14px;line-height:1.5}
+.gd-go{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;height:46px;border-radius:14px;border:0;font:inherit;font-size:15px;font-weight:600;cursor:pointer;color:var(--surface);background:var(--ink);box-shadow:0 12px 26px -16px var(--ai-glow);transition:transform .35s var(--spring)}
+.gd-go:active{transform:scale(.97)}
+.gd-prog{height:4px;border-radius:4px;background:var(--surface-2);margin:12px 2px 6px;overflow:hidden}.gd-prog i{display:block;height:100%;width:var(--w);border-radius:4px;background:linear-gradient(90deg,var(--ai-a),var(--ai-c));transition:width .6s var(--spring)}
+.gd-list{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:2px}
+.gd-list li{animation:gdIn .45s var(--spring) both;animation-delay:calc(var(--i) * 25ms)}
+.gd-list button{width:100%;display:grid;grid-template-columns:36px minmax(0,1fr) auto;align-items:center;gap:12px;text-align:left;font:inherit;color:var(--ink);background:none;border:0;border-radius:14px;padding:8px;cursor:pointer;transition:background .2s}
+.gd-list button:hover{background:var(--surface-2)}
+.gd-ic{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;color:var(--ai-c);background:var(--ai-soft)}
+.gd-t{display:flex;flex-direction:column;min-width:0}.gd-t b{font-size:14px;font-weight:600}.gd-t small{font-size:12px;color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gd-ok{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--ai-a),var(--ai-c))}
+.gd-chev{color:var(--faint);font-size:20px;padding:0 4px}
+.gd-foot{display:flex;justify-content:center;margin-top:10px}
+.gd-stage{border-radius:20px;padding:16px;margin:4px 0 14px;min-height:190px;display:grid;place-items:center;background:radial-gradient(120% 90% at 50% 0%,var(--ai-soft),transparent 70%),var(--surface-2);border:1px solid var(--line);overflow:hidden;position:relative}
+.gd-step{padding:0 4px}.gd-n{font-size:11.5px;font-weight:600;letter-spacing:.06em;color:var(--ai-c)}
+.gd-step h3{margin:4px 0 6px;font-size:19px;font-weight:650;letter-spacing:-.015em;text-wrap:balance}
+.gd-step p{margin:0;color:var(--muted);font-size:14.5px;line-height:1.55}
+.gd-act{display:grid;grid-template-columns:auto 1fr auto;gap:8px;margin-top:16px}
+.gd-act .btn{height:44px;justify-content:center;border-radius:13px;font-size:14px}
+.gd-prev{width:44px;font-size:20px!important}.gd-prev:disabled{opacity:.35}
+/* mock pictures */
+.mk{width:100%;max-width:330px;display:flex;flex-direction:column;gap:8px;position:relative;font-size:13px}
+.mk-bar{display:flex;align-items:center;gap:8px;height:38px;padding:0 10px;border-radius:12px;background:var(--surface);border:1px solid color-mix(in srgb,var(--ai-c) 40%,var(--line));box-shadow:0 8px 20px -14px var(--ai-glow)}
+.mk-lead{width:16px;height:16px;border-radius:50%;border:2px solid var(--ai-c);flex:none;opacity:.8}
+.mk-lead.pulse{animation:mkPulse 1.4s ease-in-out infinite}
+@keyframes mkPulse{0%,100%{box-shadow:0 0 0 0 var(--ai-glow)}50%{box-shadow:0 0 0 7px transparent}}
+.mk-q{flex:1;min-width:0;overflow:hidden;white-space:nowrap;font-family:var(--f-mono);font-size:12px;color:var(--ink)}
+.mk-ph{color:var(--faint);font-family:inherit}
+.mk-type{display:inline-block;overflow:hidden;vertical-align:bottom;width:0;border-right:2px solid var(--ai-c);animation:mkType 1.6s steps(var(--n)) .2s forwards,mkCaret .8s step-end infinite}
+@keyframes mkType{to{width:calc(var(--n) * 1ch + 4px)}}
+@keyframes mkCaret{50%{border-color:transparent}}
+.mk-ans{padding:12px 14px;border-radius:14px;background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column;gap:3px;opacity:0;animation:gdIn .5s var(--spring) 1.7s forwards}
+.mk-ans small{font-size:11px;color:var(--faint)}.mk-ans b{font-size:26px;font-weight:300;letter-spacing:-.03em}.mk-ans b i{font-style:normal;font-size:13px;color:var(--muted)}
+.mk-chips,.mk-row,.mk-lines{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.mk-chips span{padding:3px 10px;border-radius:999px;border:1px solid var(--line);font-size:11.5px;color:var(--muted)}
+.mk-chips span.on{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.mk-chips span:nth-child(3){animation:mkTap 3.2s 2.4s infinite}
+@keyframes mkTap{0%,30%{transform:none}35%{transform:scale(.9);background:var(--ai-soft)}45%,100%{transform:none}}
+.mk-keep,.mk-pin{padding:5px 12px;border-radius:9px;background:var(--ink);color:var(--surface);font-size:11.5px;font-weight:600;animation:mkPress 2.6s 2.2s infinite}
+.mk-pin{background:var(--ai-soft);color:var(--ai-c)}
+@keyframes mkPress{0%,20%{transform:none}25%{transform:scale(.9)}35%,100%{transform:none}}
+.mk-pencil{position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--dev-body,#1b1c20);color:var(--dev-ink,#fff)}
+.mk-keep-wrap{position:relative}
+.mk-fly{position:absolute;left:24px;bottom:44px;width:40px;height:12px;border-radius:6px;background:var(--ai-c);opacity:0;animation:mkFly 2.6s 2.4s infinite}
+@keyframes mkFly{0%{opacity:0;transform:none}10%{opacity:.9}40%{opacity:0;transform:translate(110px,46px) scale(.3)}100%{opacity:0}}
+.mk-tape{display:flex;justify-content:space-between;padding:7px 12px;border-radius:10px;background:var(--surface);border:1px dashed var(--line-strong);font-size:12px;color:var(--muted)}.mk-tape b{font-family:var(--f-mono);font-weight:500;color:var(--ink)}
+.mk-next{flex:none;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:600;color:var(--ai-c);border:1px solid color-mix(in srgb,var(--ai-c) 45%,var(--line));animation:mkPress 2.6s 1.8s infinite}
+.mk-menu{display:flex;flex-direction:column;gap:4px;padding:8px;border-radius:14px;background:var(--surface);border:1px solid var(--line);opacity:0;transform-origin:90% 0;animation:mkMenu .5s var(--spring) 2.1s forwards}
+@keyframes mkMenu{from{opacity:0;transform:scale(.6,.3)}to{opacity:1;transform:none}}
+.mk-menu small{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);padding:0 4px}
+.mk-menu span{display:flex;justify-content:space-between;gap:8px;padding:6px 8px;border-radius:9px;background:var(--surface-2);font-size:12px}.mk-menu b{font-family:var(--f-mono);font-weight:500;color:var(--accent-text)}
+.mk-pad{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;padding:8px;border-radius:12px;border:1px solid color-mix(in srgb,var(--ai-c) 40%,var(--line));border-top:0;margin-top:-10px;padding-top:14px}
+.mk-pad span{height:26px;border-radius:7px;display:grid;place-items:center;background:var(--surface);border:1px solid var(--line);font-size:13px;opacity:0;animation:gdIn .4s var(--spring) forwards;animation-delay:calc(1.9s + var(--i) * 30ms)}
+.mk-pad span.op{color:var(--ai-c);background:var(--ai-soft)}
+.mk-tools{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.mk-tools span{height:54px;border-radius:12px;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;opacity:0;animation:gdIn .45s var(--spring) forwards;animation-delay:calc(.9s + var(--i) * 70ms)}
+.mk-tools i{font-style:normal;font-family:var(--f-mono);font-size:14px;font-weight:600;color:var(--ai-c);background:var(--ai-soft);padding:6px 9px;border-radius:9px}
+.mk-isl{align-self:flex-end;display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;background:var(--dev-body,#111);color:var(--dev-ink,#fff);font-size:11.5px;opacity:0;animation:gdIn .5s var(--spring) 2.6s forwards}
+.mk-isl .dot{width:6px;height:6px;border-radius:50%;background:#34C759}
+.mk-lines{flex-direction:column}.mk-lines span{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}.mk-lines b{font-family:var(--f-mono);color:var(--ink);font-weight:500}
+.mk-navwrap{width:100%;height:170px;position:relative}
+.mk-navfab{position:absolute;left:10px;bottom:4px;width:40px;height:40px;border-radius:50%;background:var(--dev-body,#111);display:flex;flex-direction:column;justify-content:center;gap:5px;padding-left:12px;animation:mkPress 2.6s .6s infinite}
+.mk-navfab i{display:block;height:2.5px;border-radius:2px;background:var(--dev-ink,#fff);width:15px}.mk-navfab i+i{width:9px}
+.mk-navmenu{position:absolute;left:10px;bottom:52px;width:200px;padding:6px;border-radius:14px;background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column;gap:3px;transform-origin:10% 110%;opacity:0;animation:mkMenu .5s var(--spring) 1s forwards}
+.mk-navmenu span{display:flex;justify-content:space-between;padding:6px 9px;border-radius:9px;font-size:12px}.mk-navmenu span.on{background:var(--ai-soft)}.mk-navmenu b{font-family:var(--f-mono);font-size:11px;color:var(--accent-text);font-weight:500}
+/* spotlight after "Try it" */
+.spot{position:fixed;inset:0;z-index:58;pointer-events:auto}
+.spot-hole{position:fixed;box-shadow:0 0 0 9999px rgba(5,6,10,.62),0 0 0 2px color-mix(in srgb,var(--ai-c) 70%,transparent),0 0 30px 4px var(--ai-glow);transition:all .45s var(--spring);opacity:0}
+.spot.on .spot-hole{opacity:1}
+.spot-tip{position:fixed;padding:14px;border-radius:18px;background:var(--isl-bg,var(--surface));border:1px solid var(--isl-edge,var(--line));box-shadow:0 30px 70px -26px rgba(0,0,0,.7);opacity:0;transform:translateY(8px) scale(.96);transition:transform .5s var(--spring) .1s,opacity .25s .1s}
+.spot-tip.above{transform:translateY(-8px) scale(.96)}
+.spot.on .spot-tip{opacity:1;transform:none}
+.spot-tip p{margin:0 0 12px;font-size:14px;line-height:1.5}
+.spot-tip div{display:flex;justify-content:flex-end;gap:8px}
+@media (prefers-reduced-motion:reduce){.gd-card,.guide,.spot-hole,.spot-tip{transition:none}.mk *{animation-duration:.01s!important;animation-delay:0s!important}}
+.guide[hidden],.spot[hidden]{display:none!important}
+.guide{pointer-events:none}html.guide-open .guide{pointer-events:auto}
+
+/* bottom bar: menu and keypad side by side on the left, the pencil alone in the centre */
+.fab{right:auto;left:calc(max(16px, calc(env(safe-area-inset-left,0px) + 16px)) + 64px);bottom:calc(env(safe-area-inset-bottom,0px) + 18px);height:54px;border-radius:18px;padding:0 18px 0 12px}
+.device{right:auto;left:max(16px, calc(env(safe-area-inset-left,0px) + 16px));transform-origin:0 100%}
+@media (max-width:640px){.fab{width:54px;padding:0;justify-content:center;border-radius:50%}.fab > :not(.fk){display:none}.fab .fk{width:28px;height:28px}}
+@media (max-width:640px){.fab{font-size:0;gap:0}}
+
+.smart-menu .sm-head{display:flex;align-items:center;justify-content:space-between}
+.sm-clear{font:inherit;font-size:11px;font-weight:600;letter-spacing:.02em;text-transform:none;color:var(--muted);background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:3px 10px;cursor:pointer}
+.sm-clear:hover{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 40%,var(--line))}
+.smart-menu button.rec{grid-template-columns:30px minmax(0,1fr) auto 22px;position:relative;touch-action:pan-y;transition:transform .35s var(--spring),opacity .25s,background .2s;
+  background:linear-gradient(90deg,transparent calc(100% - var(--sw,0) * 100%),color-mix(in srgb,var(--bad) calc(var(--sw,0) * 22%),transparent) 0)}
+.smart-menu button.rec.arm{background:color-mix(in srgb,var(--bad) 14%,transparent)}
+.smart-menu button.rec.gone{opacity:0;transform:translateX(-110%)}
+.sm-del{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:15px;color:var(--faint);opacity:.0;transition:opacity .2s,background .2s,color .2s}
+.smart-menu button.rec:hover .sm-del,.smart-menu button.rec:focus-visible .sm-del{opacity:1}
+.sm-del:hover{background:color-mix(in srgb,var(--bad) 14%,transparent);color:var(--bad)}
+@media (hover:none){.sm-del{opacity:.55}}
+.sm-hint{font-size:11px;color:var(--faint);text-align:center;padding:6px 0 4px}
+@media (hover:hover){.sm-hint{display:none}}
+.smart-menu.quiet button{animation:none!important;opacity:1;transform:none}
+.smart-menu .sm-head{gap:8px;white-space:nowrap}.sm-clear{margin-left:auto;flex:none}
 </style>
 </head>
 <body>
@@ -1340,12 +1658,12 @@ body{padding-block:14px 112px}
           <button type="button" class="isl-pill" id="islPill" aria-expanded="false" aria-controls="islPanel" title="Live answers"><i class="isl-dot" aria-hidden="true"></i><span class="isl-txt"><span class="isl-v" id="islV">Live</span><span class="isl-q" id="islQ"></span></span><span class="isl-n" id="islN"></span></button>
           <div class="isl-panel" id="islPanel" role="dialog" aria-label="Live answers" hidden>
             <section class="pins" id="pins" aria-label="Pinned answers">
-              <div class="pins-head"><h2>Live <span>updating</span></h2><span class="pins-note">Tap one to open it · <b>In island</b> chooses what shows when closed</span></div>
+              <div class="pins-head" hidden><h2>Live</h2></div>
               <div class="pin-grid" id="pinGrid"></div>
             </section>
           </div>
         </div>
-        <button type="button" class="guide-q" data-guide aria-label="What can it do?" title="What can it do?">?</button>
+        <button type="button" class="guide-q" data-guide aria-label="Guide" title="Guide">?</button>
       </div>
     </div>
     <button type="button" class="install" id="installBtn" hidden><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Install app</button>
@@ -1368,13 +1686,18 @@ body{padding-block:14px 112px}
           <button id="qclear" type="button" aria-label="Clear question" hidden>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
           </button>
+          <button id="smartBtn" class="smart-btn" type="button" hidden></button>
           <span class="qpill" id="qpill" hidden></span>
           <span class="kbd" id="kbdHint">Ctrl K</span>
-          <button id="exBtn" class="exbtn" type="button" aria-expanded="false" aria-controls="examples" title="Show examples">
+          <button id="exBtn" class="exbtn" type="button" hidden aria-expanded="false" aria-controls="examples" title="Show examples">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></svg>
             <span>Examples</span>
           </button>
+        
+          <div class="qpad" id="qpad" hidden><div class="qp-in"><div class="qp-x"><button type="button" data-qk="²">x²</button><button type="button" data-qk="√">√</button><button type="button" data-qk="π">π</button><button type="button" data-qk="/">a/b</button><button type="button" data-qk="x">x</button><button type="button" data-qk="=">=</button><button type="button" data-qk="abc">ABC</button></div><div class="qp-g"><button type="button" data-qk="7" class="num">7</button><button type="button" data-qk="8" class="num">8</button><button type="button" data-qk="9" class="num">9</button><button type="button" data-qk="÷" class="op">÷</button><button type="button" data-qk="back" class="fn" aria-label="Delete">⌫</button><button type="button" data-qk="4" class="num">4</button><button type="button" data-qk="5" class="num">5</button><button type="button" data-qk="6" class="num">6</button><button type="button" data-qk="×" class="op">×</button><button type="button" data-qk="()" class="fn">( )</button><button type="button" data-qk="1" class="num">1</button><button type="button" data-qk="2" class="num">2</button><button type="button" data-qk="3" class="num">3</button><button type="button" data-qk="−" class="op">−</button><button type="button" data-qk="%" class="fn">%</button><button type="button" data-qk="0" class="num">0</button><button type="button" data-qk="." class="num">.</button><button type="button" data-qk="^" class="fn">xʸ</button><button type="button" data-qk="+" class="op">+</button><button type="button" data-qk="enter" class="go">Keep</button></div></div></div>
+          <button class="qp-handle" id="qpHandle" type="button" aria-expanded="false" aria-controls="qpad" aria-label="Number pad" title="Number pad"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="qh-a" d="M6 9l6 6 6-6"/></svg><svg class="qh-calc" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="3"/><path d="M8.5 7h7"/><circle cx="9" cy="12" r=".6" fill="currentColor"/><circle cx="12" cy="12" r=".6" fill="currentColor"/><circle cx="15" cy="12" r=".6" fill="currentColor"/><circle cx="9" cy="16" r=".6" fill="currentColor"/><circle cx="12" cy="16" r=".6" fill="currentColor"/><circle cx="15" cy="16" r=".6" fill="currentColor"/></svg></button>
         </label>
+        <div class="smart-menu" id="smartMenu" role="menu" aria-label="Next steps" hidden></div>
         <div class="math-menu" id="mathMenu" role="menu" aria-label="Maths tools" hidden></div>
         <div class="composer" id="composer" role="dialog" aria-label="Write maths" hidden></div>
         <div class="fillbar" id="fillbar" hidden>
@@ -1384,8 +1707,10 @@ body{padding-block:14px 112px}
           <button type="button" class="btn" id="fbCancel">Cancel</button>
           <button type="button" class="btn primary" id="fbGo">Answer</button></span>
         </div>
-        <div class="opsrow sugg" id="opsRow" hidden></div>
-        <div class="sugg" id="sugg" hidden></div>
+        <div class="assist" id="assist" hidden>
+          <div class="opsrow sugg" id="opsRow" hidden></div>
+          <div class="sugg" id="sugg" hidden></div>
+        </div>
         <div class="scrub" id="scrub" hidden></div>
         <div class="ctxbar" id="ctxbar" hidden></div>
 
@@ -1396,10 +1721,13 @@ body{padding-block:14px 112px}
       </section>
 
 
-      <section class="tape" aria-label="Tape">
+      <section class="tape tape-sheet" id="tapeSheet" aria-label="Tape" role="dialog" inert>
         <div class="tape-head">
           <h2>Tape <span id="tapeCount"></span></h2>
           <button class="linkbtn" id="tapeClear" type="button">Clear tape</button>
+          <button class="tape-x" id="tapeClose" type="button" aria-label="Close tape">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
         </div>
         <ul id="tapeList"></ul>
         <div class="legend"><span><i class="dot"></i>Asked</span><span><i class="dot calc"></i>Keyed</span><span>Tap a line to reuse it</span></div>
@@ -1508,6 +1836,22 @@ body{padding-block:14px 112px}
     </section>
   </main>
 </div>
+<div class="tape-scrim" id="tapeScrim" aria-hidden="true"></div>
+<div class="guide" id="guide" role="dialog" aria-modal="true" aria-label="Guide" hidden inert><div class="gd-card" id="gdCard"></div></div>
+<div class="spot" id="spot" hidden><div class="spot-hole"></div><div class="spot-tip" role="status"></div></div>
+<div class="nav-panel" id="navPanel" role="menu" aria-label="Go to" inert>
+  <button type="button" role="menuitem" data-nav="ask"><span class="nv-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg></span><span class="nv-t"><b>Ask</b><small>Search bar and answers</small></span></button>
+  <button type="button" role="menuitem" data-nav="sheet"><span class="nv-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/></svg></span><span class="nv-t"><b>Sheet</b><small>Lines that calculate as you type</small></span><i class="nv-b" data-from="tbSheet"></i></button>
+  <button type="button" role="menuitem" data-nav="basket"><span class="nv-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1.5 11h-11z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg></span><span class="nv-t"><b>Basket</b><small>Shopping, budget, splitting</small></span><i class="nv-b" data-from="tbBasket"></i></button>
+</div>
+<button class="nav-fab" id="navFab" type="button" aria-expanded="false" aria-controls="navPanel" aria-label="Sheet and Basket" title="Sheet and Basket">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path class="l1" d="M7 10h11"/><path class="l2" d="M7 15h6"/></svg>
+  <i class="nv-dot" hidden></i>
+</button>
+<button class="tape-fab" id="tapeFab" type="button" aria-expanded="false" aria-controls="tapeSheet" aria-label="Open your tape" title="Your tape">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16v4z"/><path d="m13.5 6.5 4 4"/><path d="M14 20h6" opacity=".55"/></svg>
+  <span class="tf-n" id="tapeFabN" hidden></span>
+</button>
 <button class="fab" id="calcFab" type="button" aria-expanded="false" aria-controls="device"><span class="fk" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Keypad<small>Ctrl ⏎</small></button>
 <div class="toast" id="toast" role="status"></div>
 
@@ -2061,6 +2405,7 @@ const Engine = (() => {
       const uk = r5(3 * L / 2.54 - 25), eu = r5(1.5 * L), foot = r5(L - 1);
       if (uk < 2 || eu > 52) return null;
       rows = [['EU', fmt(eu)], ['UK', fmt(uk)], ['US men', fmt(uk + 1)], ['US women', fmt(uk + 2)], ['JP / foot', `${fmt(foot)} cm`]];
+      rows.push(['why women’s is higher', 'US women’s numbers run 1 size above men’s for the same foot (a men’s 9 is a women’s 10)']);
       pick = k => k === 'eu' || k === 'fr' || k === 'it' ? `EU ${fmt(eu)}` : k === 'uk' || k === 'au' ? `UK ${fmt(uk)}` : k === 'us' ? (sy === 'us' ? (g === 'w' ? `US ${fmt(uk + 1)} men` : `US ${fmt(uk + 2)} women`) : g === 'w' ? `US ${fmt(uk + 2)}` : g === 'm' ? `US ${fmt(uk + 1)}` : `US ${fmt(uk + 1)} men · ${fmt(uk + 2)} women`) : k === 'jp' || k === 'cm' || k === 'mm' ? `${fmt(foot)} cm` : null;
       title = 'Shoe size'; srcLabel = sy === 'us' ? `US ${fmt(val)}${g === 'w' ? ' women' : ' men'}` : sy === 'cm' || sy === 'jp' ? `foot ${fmt(val)} cm` : `${SN[sy]} ${fmt(val)}`;
       if (!tgt && !right) tgt = sy === 'eu' ? 'us' : 'eu';
@@ -3132,6 +3477,8 @@ const Engine = (() => {
       .replace(/^(?:i want to |i need to |how to )?save (\d[\d.]*k?) (?:in|within|over|by) (\d+) (months?|years?)$/, 'how much do i need to save each month to reach $1 in $2 $3')
       // "a meeting from 9:15 to 11:45, how long"
       .replace(/^(?:.*?\b)?from (\d{1,2}[:h.]\d{2}(?:\s*[ap]m)?) (?:to|until|till) (\d{1,2}[:h.]\d{2}(?:\s*[ap]m)?)(?:,? how long.*|,? duration)?$/, 'how long between $1 and $2');
+    // "bill 64.50 for 3", "dinner 120 for 4 people" → split it
+    s = s.replace(/^(?:the )?(?:bill|total|dinner|lunch|meal|check|tab|pizza|taxi|uber|rent|groceries)(?: is| was| of| came to| comes to)?\s+(\d+(?:\.\d+)?)\s+(?:for|between|among|split(?: between)?|split by|with)\s+(\d{1,2})(?:\s+(?:people|persons|of us|friends|ways|guests))?$/, 'split $1 between $2');
     // "we paid 120 for dinner and there are 5 of us" → split it
     s = s.replace(/^(?:.*?\b)?(\d+(?:\.\d+)?)\b(?:(?!\d).)*?\b(?:and )?(?:there (?:are|were)|we(?:'re| are| were)) (\d+)(?: of us| people| persons| friends| guests)?\s*$/, (m0, a, n) => /\b(paid|spent|bill|cost|costs|total|was|dinner|lunch|meal|tab|check)\b/.test(m0) ? `split ${a} between ${n}` : m0);
     // more everyday shapes
@@ -3496,8 +3843,8 @@ const Engine = (() => {
       return { kind: 'Money', label: `${money(amt)} a ${m[2]} for ${fmt(n)} ${m[4]}`, value: money(tot), num: sig(tot, 10), steps: [['work', `${money(amt)} × ${fmt(sig(times, 6))} ${m[2]}s`], ['no interest', 'add “at 3%” to include growth']] };
     }
     // --- VAT amounts: "vat on 50", "how much is the vat in 80 with 23% included"
-    if ((m = s.match(/^(?:how much is |what(?:'s| is) )?(?:the )?(vat|iva|tax|gst)(?: amount)? (?:on|for|of) (?:€|\$|£)?\s*(\d+(?:[.,]\d+)?)(?: at (\d+(?:[.,]\d+)?)\s*%)?\??$/))) { const v = F(m[2]), p = F(m[3] || 23);
-      return { kind: 'Money', label: `${p}% ${m[1].toUpperCase()} on ${money(v)}`, value: money(v * p / 100), num: sig(v * p / 100, 10), unit: m[1].toUpperCase(), steps: [['price with it', money(v * (1 + p / 100))], ['if 50 already includes it', `${m[1].toUpperCase()} is ${money(v - v / (1 + p / 100))}`]] }; }
+    if ((m = s.match(/^(?:how much is |what(?:'s| is) )?(?:the )?(?:(\d+(?:[.,]\d+)?)\s*% )?(vat|iva|tax|gst)(?: amount)? (?:on|for|of) (?:€|\$|£)?\s*(\d+(?:[.,]\d+)?)(?: at (\d+(?:[.,]\d+)?)\s*%)?\??$/))) { const v = F(m[3]), p = F(m[1] || m[4] || 23), K = m[2].toUpperCase();
+      return { kind: 'Money', label: `${fmt(p)}% ${K} on ${money(v)}`, value: money(v * p / 100), num: sig(v * p / 100, 10), unit: K, steps: [['price with it', money(v * (1 + p / 100))], [`if ${money(v)} already includes it`, `${K} is ${money(v - v / (1 + p / 100))}`]] }; }
     if ((m = s.match(/(?:€|\$|£)?\s*(\d+(?:[.,]\d+)?) (?:with|including|incl\.?|inc) (\d+(?:[.,]\d+)?)\s*% (vat|iva|tax|gst)(?: included)?.*\b(?:how much|what) (?:is|was) (?:the )?(?:vat|iva|tax|gst)\b/) || s.match(/^(?:how much|what) (?:is|was) (?:the )?(vat|iva|tax|gst) in (?:€|\$|£)?\s*(\d+(?:[.,]\d+)?)(?: at (\d+(?:[.,]\d+)?)\s*%)?\??$/))) {
       let v, p, w; if (/^\d|^(?:€|\$|£)/.test(m[1])) { v = F(m[1]); p = F(m[2]); w = m[3]; } else { w = m[1]; v = F(m[2]); p = F(m[3] || 23); } const net = v / (1 + p / 100);
       return { kind: 'Money', label: `${w.toUpperCase()} inside ${money(v)} at ${p}%`, value: money(v - net), num: sig(v - net, 10), unit: w.toUpperCase(), steps: [['price without it', money(net)], ['work', `${money(v)} − ${money(v)} ÷ ${1 + p / 100}`]] };
@@ -4169,6 +4516,8 @@ const Engine = (() => {
     const mathy = fancy || /=|^(?:solve|simplify|factori[sz]e|factor|evaluate|calculate|compute|work out)\b|^[a-z]\([a-z]\)\s*=/i.test(q) || /^[\d\s.+\-*/^()!]+$/.test(q);
     if (!mathy) return solve1(raw, ctx, depth);
     let sm = null; try { sm = stepMath(q); } catch { sm = null; }
+    // a plain sum with brackets and × ÷ is always arithmetic, never a cash count or a deal
+    if (sm && !sm.error && /^[\d\s.+\-*/×÷−^()]+$/.test(q) && /[+\-*/×÷−^]/.test(q)) return sm;
     let r = solve1(raw, ctx, depth);
     if ((!r || r.error) && fancy) { const r2 = solve1(mathNorm(q), ctx, depth); if (r2 && !r2.error) r = r2; }
     if (!sm) return r;
@@ -4624,7 +4973,14 @@ const Engine = (() => {
     let u = null; try { u = unit(w); } catch {} if (!u || !u.cat || !ALT[u.cat]) return null;
     return [u.sym, ...unitNames(u.cat, u).slice(0, 8)].filter((x, i, a) => a.indexOf(x) === i);
   }
-  return { stepMath, mathNorm, settleParse, settleUp, complete, fn: fnOf, solve, evaluate, fmt, plain, setDeg, parseDate, normalize, correct, unitChoices };
+  // everything the suggestions can search through, and a unit's short name ("kilometers" → "km")
+  let CATALOG = null;
+  const catalog = () => CATALOG || (CATALOG = [...new Set([...TEMPLATES, ...TOPICS.flatMap(t => t[1])])].filter(t => !/\b(?:em|para|quanto|qual|converter|milhas)\b/.test(t)));
+  // the topic words an item belongs to ("70 kg to lb" is about weight)
+  let TAGS = null;
+  const tagsOf = t => { if (!TAGS) { TAGS = new Map(); for (const [keys, list] of TOPICS) for (const x of list) TAGS.set(x, ((TAGS.get(x) || '') + ' ' + keys.filter(k => /^[a-z]+$/.test(k)).join(' ')).trim()); } return TAGS.get(t) || ''; };
+  const unitOf = w => { try { const u = unit(String(w).toLowerCase()); return u ? u.sym : null; } catch { return null; } };
+  return { stepMath, mathNorm, settleParse, settleUp, complete, fn: fnOf, solve, evaluate, fmt, plain, setDeg, parseDate, normalize, correct, unitChoices, catalog, unitOf, tagsOf };
 })();
 
 </script>
@@ -4661,6 +5017,7 @@ const Engine = (() => {
   function renderTape() {
     const ul = $('#tapeList'); ul.innerHTML = ''; ul.classList.remove('out');
     $('#tapeCount').textContent = tape.length ? tape.length : '';
+    { const n = $('#tapeFabN'), k = tape.filter(t => !t.ex).length; if (n) { const was = n.textContent; n.textContent = k ? String(k) : ''; n.hidden = !k; if (was && k > +was && !REDUCE) { const f = $('#tapeFab'); f.classList.remove('bump'); void f.offsetWidth; f.classList.add('bump'); } } }
     $('#tapeClear').hidden = !tape.length;
     if (!tape.length) { ul.innerHTML = '<li class="t-empty">Results you keep land here, newest first. Press Enter after a question, or = on the keypad.</li>'; return; }
     tape.forEach((it, i) => {
@@ -4716,6 +5073,7 @@ const Engine = (() => {
   const exWrap = $('#exwrap');
   function setExamples(open) { exWrap.classList.toggle('open', open); exWrap.inert = !open; $('#exBtn').setAttribute('aria-expanded', String(open)); $('#exBtn').title = open ? 'Hide examples' : 'Show examples'; }
   $('#exBtn').addEventListener('click', e => { e.preventDefault(); setExamples(!exWrap.classList.contains('open')); });
+  document.addEventListener('click', e => { if (e.target.closest('[data-allex]')) { e.preventDefault(); setExamples(true); setTimeout(() => exBox.scrollIntoView({ behavior: REDUCE ? 'auto' : 'smooth', block: 'nearest' }), 60); } });
 
 
   /* ---------- fill-in editor: pick a suggestion, then change its values before answering ---------- */
@@ -5183,7 +5541,7 @@ const Engine = (() => {
   // anything in the page flow that appears grows into place
   queueMicrotask(() => { try {
     const mo = new MutationObserver(list => { for (const m of list) { const el = m.target; if (m.oldValue !== null && !el.hidden) { clearTimeout(el._sh); el.classList.remove('leaving'); flowIn(el); } } });
-    ['#mathMenu', '#composer', '#start', '#ctxbar', '#sugg', '#scrub', '#opsRow', '#fillbar', '#shPanel', '#shLinks', '#bkLinks', '#bkUsual', '#answer'].forEach(sel => { const el = document.querySelector(sel); if (el) mo.observe(el, { attributes: true, attributeFilter: ['hidden'], attributeOldValue: true }); });
+    ['#mathMenu', '#composer', '#start', '#ctxbar', '#assist', '#scrub', '#fillbar', '#shPanel', '#shLinks', '#bkLinks', '#bkUsual', '#answer'].forEach(sel => { const el = document.querySelector(sel); if (el) mo.observe(el, { attributes: true, attributeFilter: ['hidden'], attributeOldValue: true }); });
   } catch {} });
   function morphValue(av, oldText, newText, entering) {
     if (REDUCE || !av) return; const node = av.firstChild; if (!node || node.nodeType !== 3) return;
@@ -5319,7 +5677,9 @@ const Engine = (() => {
       CITIES.filter(c => c.toLowerCase() !== here).slice(0, 7).forEach(c => add(c, `${q.trim()} to ${c.toLowerCase()}`));
     } else if (r.kind === 'Units' && (m = L.match(/^(.+?) → (.+)$/)) && !/\+/.test(m[2])) {
       const src = m[1], tgt = m[2].trim(), list = unitList(tgt), srcSym = (src.match(/\s([^\s\d]+)$/) || [])[1];
-      title = 'In'; add(tgt, q, true); list.filter(u => u !== tgt && u !== srcSym && u !== 'µm' && u !== '°').slice(0, 6).forEach(u => add(u, `${src} to ${u}`));
+      // keep your own words ("5 tons to kg" → "5 tons to g"), only the target changes
+      const tail = q.match(/\b(to|in|into|as)\s+([^\d\s][^\d]*?)\s*$/i), mk = u => tail ? q.slice(0, tail.index) + `${tail[1]} ${u}` : `${src} to ${u}`;
+      title = 'In'; add(tgt, q, true); list.filter(u => u !== tgt && u !== srcSym && u !== 'µm' && u !== '°').slice(0, 6).forEach(u => add(u, mk(u)));
     } else if (r.kind === 'Time' && (m = L.match(/^(.+?) (\S+(?: \S+)?) → (.+)$/)) && CITIES.some(c => c === m[3])) {
       title = 'In'; add(m[3], q, true); CITIES.filter(c => c !== m[3] && c !== m[2]).slice(0, 6).forEach(c => add(c, `${m[1]} ${m[2].toLowerCase()} to ${c.toLowerCase()}`));
     } else if ((m = L.match(/^Current time in (.+)$/))) {
@@ -5329,6 +5689,11 @@ const Engine = (() => {
       title = kind === 'tip' ? 'Tip' : /off|discount/.test(kind) ? 'Discount' : /vat|iva|tax/.test(kind) ? 'Rate' : 'Percent';
       [...new Set([cur, ...set])].sort((a, b) => a - b).forEach(p => add(p + '%', q.replace(m[0], m[0].replace(m[1], String(p))), p === cur));
     }
+    // a rate the answer assumed ("100 without vat" uses 23%, "tip on 64.50" uses 15%): offer the others too
+    if (!out.length && !/%/.test(q) && (m = L.match(/(\d+(?:\.\d+)?)%/)) && /^(Money|Percent)$/.test(r.kind)) { const km = q.match(/\b(tip|vat|iva|tax|discount|service)\b/i);
+      if (km) { const kind = km[1].toLowerCase(), cur = +m[1], set = kind === 'tip' || kind === 'service' ? [10, 12, 15, 18, 20, 25] : kind === 'discount' ? [10, 15, 20, 25, 30, 50] : [6, 13, 21, 23];
+        title = kind === 'tip' ? 'Tip' : kind === 'discount' ? 'Discount' : kind === 'service' ? 'Service' : 'Rate';
+        [...new Set([cur, ...set])].sort((a, b) => a - b).forEach(x => add(x + '%', x === cur ? q : q.replace(km[0], `${x}% ${km[0]}`), x === cur)); } }
     if (!out.length && (m = q.match(/\b(?:between|among|for|by)\s+(\d{1,2})(\s*(?:people|persons|ways|of us|friends|pessoas))?\b|\b(\d{1,2})\s+(?:people|persons|ways)\b/i)) && /split|each|share|people|ways|between|among|tip|bill/i.test(q)) {
       const n = +(m[1] || m[3]); if (n >= 1 && n <= 50) { title = 'People'; [...new Set([2, 3, 4, 5, 6, 8, n])].sort((a, b) => a - b).forEach(x => add(String(x), q.replace(m[0], m[0].replace(String(n), String(x))), x === n)); }
     }
@@ -5339,7 +5704,7 @@ const Engine = (() => {
       const cur = m[1].toLowerCase(), src = (String(r.label).match(/· (US|UK|EU|JP)\b/) || [])[1]; title = 'In'; ['us', 'uk', 'eu', 'jp', 'cm'].filter(x => x !== (src || '').toLowerCase()).forEach(x => add(x.toUpperCase(), x === cur ? q : `${q} to ${x}`, x === cur));
     }
     if (!out.length && r.kind === 'Sizes' && (m = q.match(/\b(?:to|in|into)\s+(us|uk|eu|jp|japan|cm|mondopoint|au|mx|br)\b/i))) {
-      const cur = m[1].toLowerCase(); title = 'In'; ['us', 'uk', 'eu', 'jp', 'cm'].forEach(x => add(x.toUpperCase(), q.replace(m[0], m[0].replace(m[1], x)), x === cur));
+      const cur = m[1].toLowerCase(), src = ((String(r.label).match(/· (US|UK|EU|JP)\b/) || [])[1] || '').toLowerCase(); title = 'In'; ['us', 'uk', 'eu', 'jp', 'cm'].filter(x => x !== src || x === cur).forEach(x => add(x.toUpperCase(), q.replace(m[0], m[0].replace(m[1], x)), x === cur));
     }
     if (!out.length && r.kind === 'Date' && (m = q.match(/^(days|weeks|months|working days|hours)\s+(until|till|to|since)\s+(.+)$/i))) {
       title = 'Count'; ['days', 'weeks', 'months', 'working days', 'hours'].forEach(x => add(x, `${x} ${m[2]} ${m[3]}`, x === m[1].toLowerCase()));
@@ -5380,7 +5745,7 @@ const Engine = (() => {
     if (r.kind === 'Money' && /^.+? (?:plus|without) \d+(?:\.\d+)?% tax$/.test(r.label || '')) {
       const lm = (r.label || '').match(/^(.+?) (plus|without) (\d+(?:\.\d+)?)% tax$/); if (!lm) return null;
       const amt = lm[1].replace(/[^\d.,]/g, '').replace(/,/g, ''), rate = lm[3], inside = lm[2] === 'without';
-      return [opt('Add VAT', `${amt} plus ${rate}% vat`, !inside), opt('VAT inside', `${amt} without ${rate}% vat`, inside)];
+      const a2 = amt.replace(/\.00$/, ''), rt = /%/.test(q) ? `${rate}% ` : ''; return [opt('Add VAT', `${a2} plus ${rt}vat`, !inside), opt('VAT inside', `${a2} without ${rt}vat`, inside)];
     }
     // rounding: nearest, up or down
     if ((m = q.match(/^\s*round\s+(-?\d+(?:[.,]\d+)?)(?:\s+(up|down))?\s*$/i))) {
@@ -5401,8 +5766,9 @@ const Engine = (() => {
     }
     return null;
   }
+  const togPrev = new Map();
   function toggleRow(r, q) {
-    const T = toggleFor(r, q); if (!T || T.length < 2) return ''; const on = Math.max(0, T.findIndex(t => t.on));
+    let T = toggleFor(r, q); { const back = togPrev.get(q); if (T && back) T = T.map(t => t.label === back.label && !t.on ? { ...t, q: back.q } : t); } if (!T || T.length < 2) return ''; const on = Math.max(0, T.findIndex(t => t.on));
     // only when the choice actually changes the answer
     const cur = r.value + (r.unit && r.unit.length < 10 ? ' ' + r.unit : ''); if (T.filter(t => !t.on).every(t => { const pv = preview(t.q); return !pv || pv === cur; })) return '';
     return `<div class="a-tog" role="group" aria-label="Choose" style="--n:${T.length};--on:${on}"><span class="a-tog-thumb" aria-hidden="true"></span>${T.map((t, i) => `<button type="button" ${t.on ? 'aria-pressed="true"' : `aria-pressed="false" data-tog="${esc(t.q)}"`}>${esc(t.label)}</button>`).join('')}</div>`;
@@ -5427,11 +5793,64 @@ const Engine = (() => {
     const atEnd = q.selectionStart === v.length && q.selectionEnd === v.length;
     if (!v || !top || /\{/.test(top) || document.activeElement !== q || !atEnd || !top.toLowerCase().startsWith(v.toLowerCase())) {
       // no completion to show: put the live result right after what you typed, like a calculator
-      if (v && inlineEq && inlineEq.q === v && q.scrollHeight <= 52) { const html = `<span class="t">${esc(v)}</span><span class="eq"> = ${esc(inlineEq.v)}</span>`; if (g.innerHTML !== html) g.innerHTML = html; const eq = g.querySelector('.eq'); if (eq && eq.offsetTop > 20) g.innerHTML = ''; return; }
+      if (v && inlineEq && inlineEq.q === v && q.scrollHeight <= 52) { const html = `<span class="t">${esc(v)}</span><span class="eq"> = ${esc(inlineEq.v)}</span>`; if (g.innerHTML !== html) g.innerHTML = html; const eq = g.querySelector('.eq'); if (eq && (eq.offsetTop > 20 || eq.getClientRects().length > 1)) g.innerHTML = ''; return; }
       g.innerHTML = ''; return; }
     g.innerHTML = `<span class="t">${esc(v)}</span>${esc(top.slice(v.length))}`;
   }
   let suggMore = false, suggMoreFor = '', suggExtra = 0;
+  const SSTOP = new Set(['a', 'an', 'the', 'of', 'to', 'in', 'on', 'for', 'and', 'is', 'are', 'what', 'whats', "what's", 'how', 'much', 'many', 'my', 'i', 'me', 'please', 'pls', 'can', 'you', 'it', 'do', 'does', 'with', 'at', 'by', 'from', 'per', 'be', 'if', 'so', 'then', 'that', 'this', 'there', 'we', 'our', 'your', 'will', 'would', 'should', 'need', 'want', 'calculate', 'work', 'out', 'tell', 'find', 'get', 'give', 'show', 'as', 'or', 'into', 'about', 'like', 'hey', 'hi', 'ok', 'okay', 'um', 'just']);
+  const levN = (a, b) => { if (Math.abs(a.length - b.length) > 1) return 9; const d = Array.from({ length: b.length + 1 }, (_, i) => i); for (let i = 1; i <= a.length; i++) { let p = d[0]; d[0] = i; for (let j = 1; j <= b.length; j++) { const t = d[j]; d[j] = Math.min(d[j] + 1, d[j - 1] + 1, p + (a[i - 1] === b[j - 1] ? 0 : 1)); p = t; } } return d[b.length]; };
+  function sQuery(v) {
+    const low = v.toLowerCase(), partial = !/\s$/.test(v), toks = low.match(/[a-zà-ÿ%°][a-zà-ÿ'’%°\/²]*/g) || [];
+    const words = toks.map((w, i) => ({ w: w.replace(/[’']/g, "'"), last: partial && i === toks.length - 1 && low.trimEnd().endsWith(w) })).filter(x => x.w.length > 1 || x.w === '%').filter(x => !SSTOP.has(x.w) || (x.last && x.w.length >= 2 && toks.length === 1));
+    words.forEach(x => { x.u = !SSTOP.has(x.w) && x.w.length > 1 ? Engine.unitOf(x.w) : null; });
+    // only a word Quotient doesn't know as typed is treated as a typo ("mortage"); "weight" never fuzzes into "height"
+    words.forEach(x => { sKnown('', false); x.typo = !SVOCAB.has(x.w) && ![...SVOCAB].some(v => v.startsWith(x.w)); });
+    // words Quotient has never heard of (names, nouns like "coffee") don't have to match: it ignores them, like the answers do
+    const known = words.filter(x => x.u || sKnown(x.w, x.last));
+    return { words: known, low, ignored: words.filter(x => !known.includes(x)).map(x => x.w) };
+  }
+  // numbers in the wrong places read as nonsense ("we are 64.50 and the bill is 3", "split 3 between 120")
+  function sSane(t) {
+    if (/\b(?:we are|between|among|for)\s+\d+[.,]\d+\s*(?:people|persons|ways|of us|friends)?\b(?!\s*(?:€|euros?|km|kg|g|m|%|h|hours?|minutes?|l|ml))/i.test(t) && /\b(?:we are|between|among|people|ways)\b/i.test(t)) return false;
+    const m = t.match(/\bsplit\s+(\d+(?:[.,]\d+)?)\s+(?:between|among)\s+(\d+(?:[.,]\d+)?)/i); if (m && +m[2].replace(',', '.') > +m[1].replace(',', '.') && +m[1] <= 20) return false;
+    return true;
+  }
+  let SVOCAB = null; const sCatScore = new Map();
+  const SNAMES = new Set(['ana', 'bruno', 'carla', 'dani', 'joão', 'joao', 'maria', 'pedro', 'sara', 'tom', 'anna', 'ben', 'jo', 'sam', 'alex', 'rita', 'tiago']);
+  const sTok = t => t.toLowerCase().replace(/\{[a-z]+\}/g, ' ').split(/[\s,;:!?()"“”]+/).map(w => w.replace(/^[^a-zà-ÿ%°]+|[.]+$/g, '')).filter(w => /^[a-zà-ÿ%°]/.test(w) && !SNAMES.has(w));
+  function sKnown(w, last) {
+    if (!SVOCAB) { SVOCAB = new Set(); for (const t of Engine.catalog().concat(FLAT)) sTok(t).forEach(x => SVOCAB.add(x)); }
+    for (const h of hist) sTok(h).forEach(x => SVOCAB.add(x));
+    if (SVOCAB.has(w)) return true; for (const v of SVOCAB) { if (last ? v.startsWith(w) : (v.startsWith(w) && w.length >= 4)) return true; if (w.length >= 5 && levN(w, v) <= 1) return true; } return false;
+  }
+  // how well a suggestion matches the words typed; -1 if any typed word is missing
+  function sMatch(t, Q) {
+    const tw = sTok(t), tags = sTok(Engine.tagsOf(t.replace(/\{[a-z]+\}/g, '') ) || ''); let sc = 0;
+    for (const x of Q.words) { let best = 0;
+      for (const w of tw) { if (w === x.w) { best = 3; break; }
+        if (x.u && x.w.length >= 2) { if (Engine.unitOf(w) === x.u) best = Math.max(best, 2.5); continue; }  // a unit only matches the same unit
+        if (w.startsWith(x.w) && (x.last || x.w.length >= 3)) best = Math.max(best, 2); else if (x.typo && x.w.length >= 5 && !x.last && levN(x.w, w) <= 1) best = Math.max(best, 1); else if (x.typo && x.last && x.w.length >= 5 && (levN(x.w, w.slice(0, x.w.length)) <= 1 || levN(x.w, w) <= 1)) best = Math.max(best, 1); }
+      if (!best && tags.some(w => w === x.w || (x.last && w.startsWith(x.w)))) best = 1.5;  // about that topic
+      if (!best) return -1; sc += best; }
+    return sc;
+  }
+  // the whole catalogue of things Quotient can do, searched like a search engine; your numbers go into the blanks
+  function searchCatalog(Q, v) {
+    const typed = (v.match(/-?\d[\d.,]*%?/g) || []), cat = Engine.catalog().concat(FLAT); typed._src = v;
+    const hits = []; for (const t of cat) { const m = sMatch(t, Q); if (m > 0) hits.push([t, m]); }
+    hits.sort((a, b) => b[1] - a[1] || a[0].length - b[0].length);
+    sCatScore.clear(); return hits.slice(0, 24).map(([t, m]) => { const g = placeNums(genericize(t, []), typed); if (!sCatScore.has(g)) sCatScore.set(g, m); return g; });
+  }
+  function placeNums(g, typed) {
+    if (!typed.length || !/\{/.test(g)) return g; const pct = typed.filter(x => /%$/.test(x)).map(x => x.slice(0, -1)); let plain = typed.filter(x => !/%$/.test(x));
+    // people first: the number next to "people", else the smallest whole number up to 20
+    if (/\{people\}/.test(g) && plain.length) { const v = (typed._src || '').match(/(\d{1,2})\s*(?:people|persons|friends|of us|ways|guests)/i); let pick = v ? plain.indexOf(v[1]) : -1;
+      if (pick < 0) { let best = -1; plain.forEach((x, i) => { if (/^\d{1,2}$/.test(x) && +x >= 2 && +x <= 20 && (best < 0 || +x < +plain[best])) best = i; }); pick = plain.length > 1 ? best : (/^\d{1,2}$/.test(plain[0]) && !/\{amount\}/.test(g) ? 0 : -1); }
+      if (pick >= 0) { const n = plain[pick]; plain = plain.filter((_, i) => i !== pick); g = g.replace('{people}', n); } }
+    return g.replace(/\{(rate)\}%?/g, m0 => pct.length ? pct.shift() + '%' : m0).replace(/\{(amount|number|people|hour|day|year)\}/g, (m0, k) => { if (!plain.length || k === 'people') return m0; return plain.shift(); });
+  }
+  const suggSolveCache = new Map();
   /* example numbers you didn't type become blanks to fill in: "split 120 between 4" → "split {amount} between {people}" */
   const UNITW = /^(?:l\/|km|mi|miles?|m|cm|mm|ft|feet|in|inch(?:es)?|kg|g|lb|oz|l|ml|litres?|liters?|h|hours?|min|minutes?|s|seconds?|days?|weeks?|months?|years?|yrs?|°c|°f|c|f|gb|mb|tb|mbps|km\/h|mph|kmh|l\/100km|mpg|kcal|w|kw|kwh|cups?|tbsp|tsp|pages?|items?|pieces?|slices?|pack|tickets?|stone|st|m2|m²|sq|pints?|gallons?|gal)$/i;
   function genericize(t, typedNums) {
@@ -5442,7 +5861,7 @@ const Engine = (() => {
     const split = /\b(?:split|share|between|among|ways|people|we are)\b/i.test(t);
     for (const m of t.matchAll(/\b\d+(?:[:\/]\d+)+\b|(-?\d[\d.,]*(?:k|bn)?)(%?)/gi)) {
       const tok = m[0], i = m.index; if (i < last) continue; const before = t.slice(0, i), after = t.slice(i + tok.length);
-      if (/^(?:st|nd|rd|th)\b/i.test(after) || (/\/$/.test(before) && /^[a-z]/i.test(after))) continue;
+      if (/^(?:st|nd|rd|th)\b/i.test(after) || (/\/$/.test(before) && /^[a-z]/i.test(after)) || /[a-z²³]$/i.test(before)) continue;
       if (/[:\/]/.test(tok)) { if (/^\d+\/\d+\/\d+$/.test(tok)) continue; if (typedNums.includes(normN(tok))) continue;
         out += t.slice(last, i) + (/^\d{1,2}:\d{2}$/.test(tok) && !/ratio|split/i.test(before) ? '{time}' : /\//.test(tok) && !/split|ratio/i.test(before) ? '{fraction}' : '{ratio}'); last = i + tok.length; changed = true; continue; }
       const n = normN(tok.replace(/%$/, '')), j = used.indexOf(n); if (j > -1) { used.splice(j, 1); continue; }
@@ -5468,27 +5887,35 @@ const Engine = (() => {
     return (out + t.slice(last)).replace(/\{(?:amount|number)\}(?:\s*,?\s*(?:and\s+)?\{(?:amount|number)\}){2,}/g, '{numbers}');
   }
   const phHtml = h => h.replace(/\{([a-z]+)\}/g, '<i class="ph">$1</i>');
+  function assistSync() { const a = $('#assist'); if (!a) return; const on = view === 'ask' && !filling && (document.activeElement === $('#q') || !!$('#q').value.trim()); if (a.hidden === on) a.hidden = !on; }
+  $('#q').addEventListener('focus', () => assistSync()); $('#q').addEventListener('blur', () => setTimeout(assistSync, 120));
   function renderSugg() {
+    try { assistSync(); } catch {}
     const box = $('#sugg'), v = $('#q').value;
     if (document.activeElement !== $('#q') || filling) { box.hidden = true; $('#opsRow').hidden = true; if (!filling) sugg = []; renderGhost(); return; }
     const low = v.toLowerCase().trim();
     const fromHist = low ? hist.filter(x => x.toLowerCase().startsWith(low) && x.toLowerCase() !== low).slice(0, 2) : hist.slice(0, 3);
     let lsg = []; try { lsg = linkSugg(v); } catch {}
-    // rank: what starts like you typed, keeps your numbers and shares your words comes first
-    const words = low.split(/[^a-z0-9%.]+/).filter(w => w.length > 1), nums = low.match(/\d+(?:[.,]\d+)?/g) || [];
-    const score = t => { const tl = t.toLowerCase(); let sc = 0; if (low && tl.startsWith(low)) sc += 6; sc += nums.filter(n => tl.includes(n)).length * 2; sc += words.filter(w => tl.includes(w)).length; if (hist.includes(t)) sc += 1.5; return sc; };
-    const pool = [...new Set([...fromHist, ...Engine.complete(v, { ...ctx, hist, max: 14 })])].filter(t => t.toLowerCase().trim() !== low);
-    const ranked = pool.map((t, i) => [t, score(t) - i * 0.01]).sort((a, b) => b[1] - a[1]).map(x => x[0]);
+    // search-engine matching: every word you type has to be in the suggestion (the last one can be half-typed)
+    const Q = sQuery(v), nums = low.match(/\d+(?:[.,]\d+)?/g) || [];
+    const engineList = Engine.complete(v, { ...ctx, hist, max: 14 });
+    const fromCat = Q.words.length ? searchCatalog(Q, v) : [];
+    const pool = [...new Set([...fromHist, ...engineList, ...fromCat])].filter(t => t.toLowerCase().trim() !== low);
+    const scored = pool.map((t, i) => { const m = Q.words.length ? (sCatScore.has(t) && fromCat.includes(t) ? sCatScore.get(t) : sMatch(t, Q)) : 0; if (m < 0) return null; let sc = m * 3; const tl = t.toLowerCase();
+      if (low && tl.startsWith(low)) sc += 6; sc += nums.filter(n => tl.includes(n)).length * 2; if (hist.includes(t)) sc += 1.5; if (engineList.includes(t)) sc += 1; return [t, sc - i * 0.01 - t.length / 400]; }).filter(Boolean);
+    const ranked = scored.sort((a, b) => b[1] - a[1]).map(x => x[0]);
     // what the answer card already offers (its unit chips, the answer itself) isn't repeated here
-    let dup = new Set(); try { if (current && !current.error && low) { const sw = switchFor(current, $('#q').value.trim()); (sw && sw.items || []).forEach(it => { const v = preview(it.q); if (v) dup.add(v.trim()); }); dup.add(`${current.value}${current.unit ? ' ' + current.unit : ''}`.trim()); dup.add(String(current.value).trim()); } } catch {}
+    let dup = new Set(); try { const qv = $('#q').value.trim(); let rNow = current && current.qText === qv ? current : null; if (!rNow && low) { const k = 'r:' + qv; rNow = suggSolveCache.get(k); if (rNow === undefined) { try { rNow = solveLinked(qv); } catch { rNow = null; } suggSolveCache.set(k, rNow); if (suggSolveCache.size > 200) suggSolveCache.clear(); } }
+      const current_ = rNow; if (current_ && !current_.error && low) { const current = current_; const sw = switchFor(current, qv); (sw && sw.items || []).forEach(it => { const v = preview(it.q); if (v) dup.add(v.trim()); }); dup.add(`${current.value}${current.unit ? ' ' + current.unit : ''}`.trim()); dup.add(String(current.value).trim()); } } catch {}
     const typedNums = (low.match(/-?\d[\d.,]*/g) || []).map(normN);
     const PT = /\b(?:em|quanto|qual|metade|dobro|milhas|desconto|gorjeta|conta|dividir|converter|anos|horas|dias)\b/i, ptUser = PT.test(low);
-    const keep = t => { if (hist.includes(t)) return t; if (!ptUser && PT.test(t)) return null; if (dup.size) { const pv = preview(t); if (pv && (dup.has(pv.trim()) || [...dup].some(d => d && pv.replace(/,/g, '') === d.replace(/,/g, '')))) return null; } return genericize(t, typedNums); };
+    const keep = t => { if (hist.includes(t)) return t; if (!sSane(t)) return null; { const um = t.match(/^(?:convert )?-?[\d.,]+\s*([^\s\d]+)\s+(?:to|in)\s+([^\s\d]+)$/i); if (um && Engine.unitOf(um[1]) && Engine.unitOf(um[1]) === Engine.unitOf(um[2])) return null; } if (!ptUser && PT.test(t)) return null; if (dup.size) { const pv = preview(t); if (pv && (dup.has(pv.trim()) || [...dup].some(d => d && pv.replace(/,/g, '') === d.replace(/,/g, '')))) return null; } return genericize(t, typedNums); };
     const all = [...new Set([...lsg, ...ranked.map(keep).filter(Boolean)])], SHOW = 4;
     if (low !== suggMoreFor && !suggMoreFor.startsWith(low) && !low.startsWith(suggMoreFor)) suggMore = false;
-    suggExtra = Math.max(0, all.length - SHOW); sugg = suggMore ? all.slice(0, 14) : all.slice(0, SHOW);
-    let opsHtml = opsFor(v); const orow = $('#opsRow');
-    if (matchMedia('(max-width: 560px)').matches) { const had = !!orow.querySelector('.ops'); if (orow.dataset.k !== opsHtml) { orow.innerHTML = opsHtml.replace('class="ops"', `class="ops${had ? '' : ' in'}"`); orow.dataset.k = opsHtml; } orow.hidden = !opsHtml; opsHtml = ''; } else orow.hidden = true;
+    suggExtra = Math.max(0, Math.min(all.length, 14) - SHOW); sugg = suggMore ? all.slice(0, 14) : all.slice(0, SHOW);
+    let opsHtml = qpOn() ? '' : opsFor(v); const orow = $('#opsRow');
+    // one fixed strip under the bar: on a phone the full keys row when there's nothing to suggest, otherwise keys and ideas share the strip
+    if (matchMedia('(max-width: 560px)').matches && !sugg.length) { const had = !!orow.querySelector('.ops'); if (orow.dataset.k !== opsHtml) { orow.innerHTML = opsHtml.replace('class="ops"', `class="ops${had ? '' : ' in'}"`); orow.dataset.k = opsHtml; } orow.hidden = !opsHtml; opsHtml = ''; } else orow.hidden = true;
     if (!sugg.length && !opsHtml) { box.hidden = true; renderGhost(); return; }
     sel = Math.min(sel, sugg.length - 1);
     const hi = t => { const i = low ? t.toLowerCase().indexOf(low) : -1; return i < 0 ? esc(t) : esc(t.slice(0, i)) + '<mark>' + esc(t.slice(i, i + low.length)) + '</mark>' + esc(t.slice(i + low.length)); };
@@ -5497,7 +5924,7 @@ const Engine = (() => {
     const wasOps = !!box.querySelector('.ops');
     box.innerHTML = opsHtml.replace('class="ops"', `class="ops${wasOps ? '' : ' in'}"`) + sugg.map((t, i) => { const pv = preview(t); const fresh = !prev.has(t); return `<button type="button" data-s="${i}" data-t="${esc(t)}" style="--i:${fresh ? ni++ : 0}" class="${i === sel ? 'on' : ''}${fresh ? ' in' : ''}">${hist.includes(t) ? '<span class="rc"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>' : ''}<span>${t.trim().split(/(\{[a-z]+\})/).map(x => /^\{[a-z]+\}$/.test(x) ? `<i class="ph">${x.slice(1, -1)}</i>` : hi(x)).join('')}</span>${pv && !/\{/.test(t) ? `<span class="pv">${esc(pv)}</span>` : /\{/.test(t) ? '<span class="pv fillin">fill in</span>' : ''}${i === sel ? '<span class="kbd">Tab</span>' : ''}</button>`; }).join('');
     if (suggExtra > 0) box.insertAdjacentHTML('beforeend', `<button type="button" class="sg-more${suggMore ? ' on2' : ''}" data-more aria-expanded="${suggMore}" title="${suggMore ? 'Show fewer' : 'More ideas for what you’re typing'}">${suggMore ? '<span aria-hidden="true">−</span> Less' : `<span aria-hidden="true">+</span> ${suggExtra} more`}</button>`);
-    box.classList.toggle('more', suggMore);
+    box.classList.toggle('more', suggMore); if (suggMore) box.scrollLeft = 0;
     if (box._low !== low) { box._low = low; box.scrollLeft = 0; }
     box.title = 'Pick one to fill it in. You can change its values before the answer';
     box.hidden = false;
@@ -5523,6 +5950,31 @@ const Engine = (() => {
   let current = null;
   const FLAT = Object.values(EXAMPLES).flat();
   const STOP = new Set(['the','a','an','of','to','in','is','what','how','much','many','for','and','on','at','my','i','it','with','from','by','me','do']);
+  /* ---------- when it can't answer yet: say what it understood and offer the likeliest questions, never "I couldn't read that" ---------- */
+  function softNotSure(q, r) {
+    q = (q || '').trim(); if (!q) return r;
+    const Q = sQuery(q), numsRaw = q.match(/-?\d[\d.,]*\s*%?/g) || [], nums = numsRaw.map(x => x.trim()).filter(Boolean).slice(0, 4);
+    const tries = [], seen = new Set(), put = t => { if (!t || seen.has(t) || /\{/.test(t) || !sSane(t)) return; const pv = preview(t); if (pv) { seen.add(t); tries.push([t, pv]); } };
+    // the questions it can answer that use your words and your numbers
+    if (Q.words.length) for (const t of searchCatalog(Q, q)) { if (tries.length >= 3) break; put(t); }
+    for (const t of sugg) { if (tries.length >= 3) break; if (!/\s$/.test(t)) put(t); }
+    // just numbers it can't place: the usual things to do with them
+    const plain = nums.filter(x => !/%$/.test(x)).map(x => x.replace(/,(?=\d{1,2}$)/, '.')), pct = nums.filter(x => /%$/.test(x));
+    if (tries.length < 3 && pct.length && plain.length) [`${pct[0]} of ${plain[0]}`, `${plain[0]} + ${pct[0]}`, `${plain[0]} − ${pct[0]}`].forEach(t => tries.length < 3 && put(t));
+    if (tries.length < 3 && plain.length >= 2) [`${plain[0]} × ${plain[1]}`, `${plain[0]} ÷ ${plain[1]}`, `${plain[0]} + ${plain[1]}`, `${plain[1]} is what % of ${plain[0]}`].forEach(t => tries.length < 3 && put(t));
+    if (tries.length < 3 && plain.length === 1 && !Q.words.length) [`${plain[0]} × 2`, `20% of ${plain[0]}`, `${plain[0]} + 23% vat`].forEach(t => tries.length < 3 && put(t));
+    // a topic with no numbers yet: show its question with blanks, ready to fill in
+    let blank = null; if (!nums.length && Q.words.length) { const g = searchCatalog(Q, q).find(t => /\{/.test(t)); if (g) blank = g; }
+    const said = Q.words.map(x => x.w).filter(w => w.length > 2).slice(0, 2), ign = (Q.ignored || []).filter(w => w.length > 2).slice(0, 2);
+    let label, note;
+    if (nums.length && Q.words.length) { label = `I see ${nums.join(' and ')}, and “${said[0] || Q.words[0].w}”. Is it one of these?`; }
+    else if (nums.length) { label = `I see ${nums.join(' and ')}. What should I do with ${nums.length > 1 ? 'them' : 'it'}?`; }
+    else if (Q.words.length) { label = `“${said.join(' ')}”: add the numbers and I’ll work it out`; }
+    else { label = 'Keep going: type a calculation, or ask in your own words. Extra words and names are fine, I skip what I don’t need.'; }
+    if (ign.length && nums.length && tries.length) label += ` (I skipped “${ign[0]}”.)`;
+    return { ...r, kind: 'Almost', soft: true, label, value: '', steps: [], tries, blank };
+  }
+
   function suggestFor(q) {
     const words = q.toLowerCase().match(/[a-z%°]+|\d+/g) || [];
     const keys = words.filter(w => !STOP.has(w) && !/^\d+$/.test(w));
@@ -5594,14 +6046,17 @@ const Engine = (() => {
     if (box.classList.contains('leaving')) flowCancel(box); box.classList.remove('leaving'); clearTimeout(box._lv);
     const fromH = wasHidden ? 0 : box.offsetHeight;
     box.hidden = false;
-    const kindCls = example ? 'ex' : r.error ? 'err' : '';
+    if (r && r.error && r.kind === 'Not sure' && !example) { try { r = softNotSure($('#q').value, r); } catch {} }
+    const kindCls = example ? 'ex' : r.soft ? 'soft' : r.error ? 'err' : '';
     const chipUnits = new Set(((switchFor(r, ($('#q').value || '').trim()) || {}).items || []).map(i => i.label));
     const steps = (r.steps || []).filter(Boolean).filter(([a, b]) => { if (a === '≈' && chipUnits.size && chipUnits.has(String(b).split(' ').pop())) return false; if (a !== '≈') return true; const v = parseFloat(String(b).replace(/,/g, '')); return !isFinite(v) || (Math.abs(v) >= 0.01 && Math.abs(v) < 1e7); }).map(([a, b]) => b == null ? `<li><span class="solo">${esc(a)}</span></li>` : `<li class="${a === 'read as' || a === 'changed' || a === 'ans' || a === 'using' ? 'readas' : a === 'for scale' ? 'scale' : a === 'easier to read' ? 'easy' : ''}"><span>${esc(a)}</span><span class="st-v" data-copy="${esc(b)}" title="Copy">${esc(b)}</span></li>`).join('');
     const canSend = typeof r.num === 'number' && isFinite(r.num);
     let actions = '', secondary = '';
     if (r.error) {
-      const near = [...sugg.filter(x => !/\s$/.test(x)), ...suggestFor($('#q').value)].filter((x, i, a) => a.indexOf(x) === i).map(x => [x, preview(x)]).filter(x => x[1]).slice(0, 3);
-      actions = `<div class="suggest"><span class="lbl">${near.length && sugg.length ? 'Closest' : 'Try'}</span>${near.map(([x, pv]) => `<button type="button" class="ex" data-try="${esc(x)}">${esc(x)}<b class="pvb">${esc(pv)}</b></button>`).join('')}</div>`;
+      const near = r.soft ? r.tries : [...sugg.filter(x => !/\s$/.test(x)), ...suggestFor($('#q').value)].filter((x, i, a) => a.indexOf(x) === i).map(x => [x, preview(x)]).filter(x => x[1]).slice(0, 3);
+      if (r.soft && r.blank) actions = `<div class="suggest"><span class="lbl">Fill in</span><button type="button" class="ex blank-ex" data-fillq="${esc(r.blank)}">${r.blank.split(/(\{[a-z]+\})/).map(x => /^\{[a-z]+\}$/.test(x) ? `<i class="ph">${x.slice(1, -1)}</i>` : esc(x)).join('')}</button></div>`;
+      else if (!near.length && r.soft) actions = '';
+      else actions = `<div class="suggest"><span class="lbl">${r.soft ? 'Maybe' : near.length && sugg.length ? 'Closest' : 'Try'}</span>${near.map(([x, pv]) => `<button type="button" class="ex" data-try="${esc(x)}">${esc(x)}<b class="pvb">${esc(pv)}</b></button>`).join('')}</div>`;
     } else if (r.kind !== 'Help') {
       const primary = example ? `<button class="btn primary" data-act="try" type="button">Try it</button><button class="btn" data-act="examples" type="button">Browse examples</button>`
         : `<button class="btn primary" data-act="keep" type="button">${r.doLabel ? esc(r.doLabel) : r.assign ? 'Store ' + esc(r.assign.name) : '<svg class="kp-ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v10M7.5 9.5 12 14l4.5-4.5"/><path d="M4 16v2.5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5V16"/></svg>Keep<span class="kl2"> on tape</span>'} <span class="kbd kb-hint" style="border-color:color-mix(in srgb,var(--surface) 30%,transparent);color:inherit;opacity:.7">↵</span></button>`;
@@ -5628,7 +6083,7 @@ const Engine = (() => {
     const moreSteps = compact ? (r.steps || []).filter(Boolean).filter(s => s !== firstStep || !noteTxt) : [];
     const hasMore = compact && ((r.work && r.work.length) || facts(r, $('#q').value.trim()).length || moreSteps.length || secondary.trim() || trail.length || insight(r, $('#q').value) || nextFor(r, $('#q').value.trim()).length);
     let html = `
-      <div class="a-head"><span class="chip-kind ${kindCls}">${example ? 'Example' : esc(r.kind)}</span><span class="a-label">${esc(example ? '“' + example + '”' : r.label)}</span>${ansBack.length && !example ? `<button type="button" class="a-back" data-back title="Back to “${esc(ansBack[ansBack.length - 1])}”"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg><span>Back</span></button>` : ''}</div>
+      <div class="a-head"><span class="chip-kind ${kindCls}">${example ? 'Example' : esc(r.kind)}</span><span class="a-label">${r.soft ? '' : esc(example ? '“' + example + '”' : r.label)}</span>${ansBack.length && !example ? `<button type="button" class="a-back" data-back title="Back to “${esc(ansBack[ansBack.length - 1])}”"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg><span>Back</span></button>` : ''}</div>
       ${r.value ? `<div class="a-value">${r.swatch && /^#[0-9A-F]{6}$/.test(r.swatch) ? `<span class="sw" style="background:${r.swatch}"></span>` : ''}<span class="av">${esc(r.value)}${r.unit ? `<small>${esc(r.unit)}</small>` : ''}</span>${!example && !r.error && !r.plot && !r.assign && !r.paste && !r.lines && !r.settle && r.kind !== 'Solve' && ((typeof r.num === 'number' && isFinite(r.num) && r.kind !== 'Time' && r.kind !== 'Sizes' && revTokens($('#q').value).length) || altGoalFor(r, ($('#q').value || '').trim())) ? `<button type="button" class="a-goal" data-act="rev" title="Type the answer you want: Quotient changes your question to match"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg><span>Set the answer</span></button>` : ''}</div>` : r.plot ? '' : `<div class="a-label" style="color:var(--ink);font-size:17px">${esc(r.error ? r.label : 'Ask in your own words. A few shapes that work:')}</div>`}
       ${r.lines && r.lines.length ? `<ul class="a-lines">${r.lines.map((x, i) => `<li style="--i:${i}">${esc(x)}</li>`).join('')}</ul>` : ''}
       @@NOTE@@
@@ -5659,7 +6114,7 @@ const Engine = (() => {
     const keepAv = box.querySelector('.a-value .av'), keepKey = lastVal, swScroll = (box.querySelector('.sw-row') || {}).scrollLeft || 0, hadOpts = !!box.querySelector('.a-opts');
     box.innerHTML = html;
     { const o = box.querySelector('.a-opts'); if (o && !hadOpts && !wasHidden) o.classList.add('fresh'); else if (o && wasHidden) o.classList.add('fresh'); }
-    { const row = box.querySelector('.sw-row'); if (row) { row.scrollLeft = swScroll; const on = row.querySelector('.sw.on');
+    { const row = box.querySelector('.sw-row'); if (row) { const edge = () => { row.classList.toggle('fade-l', row.scrollLeft > 2); row.classList.toggle('fade-r', row.scrollLeft + row.clientWidth < row.scrollWidth - 2); }; row.addEventListener('scroll', edge, { passive: true }); requestAnimationFrame(edge); setTimeout(edge, 450); row.scrollLeft = swScroll; const on = row.querySelector('.sw.on');
       if (on) { const rr = row.getBoundingClientRect(), cr = on.getBoundingClientRect(), x = cr.left - rr.left + row.scrollLeft;
         const to = cr.left < rr.left ? x - 16 : cr.right > rr.right - 18 ? x + cr.width - row.clientWidth + 30 : null; if (to != null) row.scrollTo({ left: Math.max(0, to), behavior: REDUCE ? 'auto' : 'smooth' }); } } }
     { const nv = box.querySelector('.a-value .av'); if (keepAv && nv && keepKey === r.value + '|' + (r.unit || '') && keepAv.textContent === nv.textContent && (keepAv.classList.contains('morphing') || keepAv.classList.contains('morphed') || keepAv.classList.contains('counting'))) nv.replaceWith(keepAv); }
@@ -5703,9 +6158,10 @@ const Engine = (() => {
     }
   }
   $('#answer').addEventListener('click', e => {
-    const gv = e.target.closest('[data-goview]'); if (gv) { const w = gv.dataset.goview; if (w === 'basket' || w === 'sheet') setView(w); else if (w === 'tape') { const tl = $('#tapeList'); tl && tl.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } return; }
+    const gv = e.target.closest('[data-goview]'); if (gv) { const w = gv.dataset.goview; if (w === 'basket' || w === 'sheet') setView(w); else if (w === 'tape') { tapeOpen(true); } return; }
     const bk2 = e.target.closest('[data-back]'); if (bk2) { const prev = ansBack.pop(); if (prev) { $('#q').value = prev; runAsk(); if (typeof barThinking === 'function') barThinking(); } return; }
-    const tg = e.target.closest('[data-tog]'); if (tg) { const box = tg.parentElement, idx = [...box.querySelectorAll('button')].indexOf(tg); box.style.setProperty('--on', idx); box.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === tg))); setTimeout(() => { $('#q').value = tg.dataset.tog; runAsk(); }, REDUCE ? 0 : 160); return; }
+    const tg = e.target.closest('[data-tog]'); if (tg) { const box = tg.parentElement, idx = [...box.querySelectorAll('button')].indexOf(tg); { const was = box.querySelector('[aria-pressed="true"]'); if (was) togPrev.set(tg.dataset.tog, { label: was.textContent, q: $('#q').value.trim() }); if (togPrev.size > 60) togPrev.delete(togPrev.keys().next().value); } box.style.setProperty('--on', idx); box.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === tg))); setTimeout(() => { $('#q').value = tg.dataset.tog; runAsk(); }, REDUCE ? 0 : 160); return; }
+    const fq = e.target.closest('[data-fillq]'); if (fq) { $('#q').focus(); if (!openFill(fq.dataset.fillq, $('#q').value)) { $('#q').value = fq.dataset.fillq.replace(/\{[a-z]+\}/g, ''); runAsk(); } return; }
     const fo = e.target.closest('[data-open]'); if (fo) { answerGo(fo.dataset.open); if (typeof barThinking === 'function') barThinking(); return; }
     const fc = e.target.closest('[data-copy]'); if (fc) { copy(fc.dataset.copy); fc.classList.remove('copied'); void fc.offsetWidth; fc.classList.add('copied'); return; }
     const sw = e.target.closest('[data-sw]'); if (sw) { sw.classList.add('go'); answerGo(sw.dataset.sw); if (typeof barThinking === 'function') barThinking(); return; }
@@ -5922,8 +6378,42 @@ const Engine = (() => {
     const isl = $('#island'), panel = $('#islPanel'), on = open == null ? !isl.classList.contains('open') : open;
     if (on === isl.classList.contains('open')) return;
     $('#islPill').setAttribute('aria-expanded', String(on));
-    if (on) { panel.hidden = false; void panel.offsetWidth; isl.classList.add('open'); tickPins(true); }
-    else { isl.classList.remove('open'); setTimeout(() => { if (!isl.classList.contains('open')) panel.hidden = true; }, REDUCE ? 0 : 380); }
+    // a genie, like a window coming out of the Dock: the panel starts as the pill itself, pours out of it with curving sides, and is drawn back in
+    clearTimeout(panel._t); (panel._anims || []).forEach(a => a.cancel()); panel._anims = [];
+    const pill = $('#islPill');
+    if (on) { panel.hidden = false; isl.classList.add('open'); tickPins(true); }
+    if (REDUCE) { if (!on) { isl.classList.remove('open'); panel.hidden = true; } return; }
+    const P = panel.getBoundingClientRect(), L = pill.getBoundingClientRect(), W = P.width, H = Math.max(1, P.height);
+    const sx = L.width / W, sy = L.height / H, lx = L.left - P.left, ly = L.top - P.top, cx = L.left + L.width / 2 - P.left;
+    const T = (x, y, a, b) => `translate(${x}px, ${y}px) scale(${a}, ${b})`, pr = Math.round(L.height / 2 / Math.min(sx, sy));
+    // smooth funnel outlines (same number of points each, so every stage blends into the next): narrow at the top, curving out to the bottom
+    const shape = (top, pow, ext = 0) => { const N = 10, pts = [], f = y => { const t = y * y * (3 - 2 * y); return Math.pow(t, pow); };
+      for (let i = 0; i <= N; i++) { const y = i / N, hw = (top + (0.5 - top) * f(y)) * (1 + ext * 2) * 100; pts.push(`${(50 - hw).toFixed(2)}% ${(-ext * 100 + y * (100 + ext * 200)).toFixed(2)}%`); }
+      for (let i = N; i >= 0; i--) { const y = i / N, hw = (top + (0.5 - top) * f(y)) * (1 + ext * 2) * 100; pts.push(`${(50 + hw).toFixed(2)}% ${(-ext * 100 + y * (100 + ext * 200)).toFixed(2)}%`); }
+      return `polygon(${pts.join(', ')})`; };
+    const RECT = shape(0.5, 1, 0.08), PILL = shape(0.5, 1), NECK = shape(0.13, 0.7), SHOULDER = shape(0.4, 0.45);
+    const neckW = 0.56, neckX = cx - W * neckW / 2, midY = (L.bottom - P.top) * 0.35;
+    const KF = [
+      { offset: 0, transform: T(lx, ly, sx, sy), clipPath: PILL, borderRadius: pr + 'px', opacity: 0 },
+      { offset: 0.14, transform: T(lx - L.width * 0.04, ly + L.height * 0.15, sx * 1.08, sy * 1.9), clipPath: PILL, borderRadius: pr + 'px', opacity: 1 },
+      { offset: 0.42, transform: T(neckX, midY, neckW, 0.58), clipPath: NECK, borderRadius: '30px' },
+      { offset: 0.74, transform: T(0, 0, 1.01, 1.025), clipPath: SHOULDER, borderRadius: '24px' },
+      { offset: 1, transform: T(0, 0, 1, 1), clipPath: RECT, borderRadius: '22px', opacity: 1 },
+    ];
+    const content = panel.querySelector('.pin-grid');
+    if (on) {
+      panel._anims.push(panel.animate(KF, { duration: 680, easing: 'cubic-bezier(.22,.9,.3,1)', fill: 'none' }));
+      if (content) panel._anims.push(content.animate([{ opacity: 0, filter: 'blur(3px)' }, { opacity: 0, filter: 'blur(3px)', offset: 0.3 }, { opacity: 1, filter: 'blur(0)' }], { duration: 620, easing: 'ease-out' }));
+      pill.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.07, .9)' }, { transform: 'scale(.98, 1.03)' }, { transform: 'scale(1)' }], { duration: 520, easing: 'cubic-bezier(.3,.7,.3,1)' });
+    } else {
+      isl.classList.remove('open'); panel.hidden = false;
+      const close = KF.slice().reverse().map((k, i, arr) => ({ ...k, offset: 1 - k.offset }));
+      const a = panel.animate(close, { duration: 520, easing: 'cubic-bezier(.55,.05,.7,.4)', fill: 'forwards' }); panel._anims.push(a);
+      if (content) panel._anims.push(content.animate([{ opacity: 1 }, { opacity: 0, offset: 0.55 }, { opacity: 0 }], { duration: 520, fill: 'forwards' }));
+      // the pill takes a little gulp as the panel goes in
+      setTimeout(() => { if (!isl.classList.contains('open')) pill.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.1, .9)' }, { transform: 'scale(.97, 1.04)' }, { transform: 'scale(1)' }], { duration: 420, easing: 'cubic-bezier(.3,.7,.3,1)' }); }, 400);
+      panel._t = setTimeout(() => { if (!isl.classList.contains('open')) { panel.hidden = true; (panel._anims || []).forEach(x => x.cancel()); panel._anims = []; } }, 530);
+    }
   }
   // a new pin blooms out of the pill, then settles back
   function islBloom(i) {
@@ -5950,11 +6440,12 @@ const Engine = (() => {
   let sheetVarsStale = true;
   function askCtx() { const { v } = linkVars(); return { c: { ...ctx, vars: { ...v } }, q: 'basket' in v }; }
   let lastGood = null, errT = null;
+  var recentPending = '';
   function runAsk(fromScrub) {
     const qel = $('#q'); if (/\n/.test(qel.value)) qel.value = qel.value.replace(/\s*\n+\s*/g, ' ');
     const v = qel.value; $('#qclear').hidden = !v; document.querySelector('.searchbar').classList.toggle('has-v', !!v); growQ();
     if (!fromScrub) renderSugg(); clearTimeout(errT);
-    if (!v.trim()) { lastGood = null; trail = []; trailKey = null; renderAnswer(null); renderScrub(null); return; }
+    if (!v.trim()) { try { commitRecent(); } catch {} lastGood = null; trail = []; trailKey = null; renderAnswer(null); renderScrub(null); return; }
     { const gm = v.trim().match(GOALRE), base = goalBase(); if (gm && base && parseGoal(gm[1], 1)) { renderScrub(null); renderAnswer({ kind: 'Work backwards', label: `From your last question: “${base}”`, value: `→ ${gm[1]}`, steps: [['press Enter', 'to see which number to change, and to what']] }); return; } }
     let r = null; try { r = linkCommand(v); } catch {} if (!r) r = solveLinked(v); noteLast(v.trim(), r);
     { const looksCalc = /[\d)]\s*%?\s*$/.test(v.trim()) && /[+\-*/×÷^%!√()]|\b(?:times|plus|minus|divided|squared|cubed|root|of|mod)\b/i.test(v) && v.trim().length <= 48;
@@ -5967,14 +6458,21 @@ const Engine = (() => {
       const guess = sugg.filter(x => !/\s$/.test(x)).map(x => [x, preview(x)]).find(x => x[1]);
       $('#answer').dataset.hint = guess ? `Keep typing · e.g. ${guess[0]} = ${guess[1]}` : 'Keep typing…';
       $('#answer').classList.add('stale'); $('#qpill').hidden = true;
-      errT = setTimeout(() => renderAnswer(r), 900); return;
+      errT = setTimeout(() => { if ($('#q').value === v) renderAnswer(r); }, 1100); return;
     }
-    if (r && !r.error) lastGood = r;
+    if (r && r.error && !fromScrub && document.activeElement === qel && performance.now() - (runAsk._typed || 0) < 600) {
+      // mid-word: wait for a pause before saying anything
+      if (!$('#answer').hidden && !$('#answer').classList.contains('stale')) { $('#answer').dataset.hint = 'Keep typing…'; $('#answer').classList.add('stale'); }
+      errT = setTimeout(() => { if ($('#q').value === v) renderAnswer(r); }, 1100); return;
+    }
+    { const t = v.trim(); if (recentPending && t && !t.startsWith(recentPending.slice(0, 4)) && !recentPending.startsWith(t)) { try { commitRecent(); } catch {} } }
+    if (r && !r.error) { lastGood = r; if (recentPending !== v.trim()) { recentPending = v.trim(); commitRecent.at = Date.now(); } }
 
     updateTrail(v.trim(), r);
     renderAnswer(r);
   }
   addEventListener('resize', () => growQ());
+  $('#q').addEventListener('input', () => { runAsk._typed = performance.now(); }, true);
   $('#q').addEventListener('input', e => {
     { const q = $('#q'); if (/[^=<>!]\s*=\s*$/.test(q.value) && (q.value.match(/=/g) || []).length === 1 && !/\b[a-z]\s*[=]/i.test(q.value.replace(/\b(?:pi|e)\b/g, '')) ) { q.value = q.value.replace(/\s*=\s*$/, ''); runAsk(); if (current && !current.error) { keep(); } return; } } if (goalState) goalClose(true); sel = 0; hIdx = -1; moved = false; scrubBase = null; spark = null; ansBack = []; runAsk(); });
   ['keyup', 'click'].forEach(ev => $('#q').addEventListener(ev, e => { if (ev === 'click' || /Arrow(Left|Right)|Home|End/.test(e.key)) renderGhost(); }));
@@ -6876,7 +7374,7 @@ const Engine = (() => {
   let disc = store.get('quotient.discover', null); if (!disc || typeof disc !== 'object') disc = { done: {}, seen: {}, hidden: false };
   const saveDisc = () => store.set('quotient.discover', disc);
   try { if (!disc.done.ask && (hist.length || tape.some(t => !t.ex))) { disc.done.ask = disc.done.keep = 1; saveDisc(); } } catch {}
-  const QVER = '1f2fbe36';
+  const QVER = '7e6ba5df';
   const SAMPLE_PASTE = 'Coffee 2.40\nCroissant 1.80\nOrange juice 3.20\nTotal 7.40';
   const FEATS = [
     { id: 'ask', t: 'Ask in your own words', d: 'Type it the way you would say it', q: '18% tip on 64,50 for 3 people' },
@@ -6907,9 +7405,9 @@ const Engine = (() => {
       ${newbie ? `<div class="st-head"><b>Type the way you talk.</b> Quotient works out what you mean. Tap one to see.</div>
       <div class="st-cards">${STARTERS.map(([t, q], i) => `<button type="button" class="st-card" data-stq="${esc(q)}" style="--i:${i}"><span class="st-k">${esc(t)}</span><span class="st-q">${esc(q)}</span><span class="st-a">${esc(pv(q))}</span></button>`).join('')}</div>` : ''}
       <div class="st-try">
-        <div class="st-row"><span class="lbl">Things to try</span><span class="st-prog" aria-label="${n} of ${FEATS.length} found"><i style="--w:${(n / FEATS.length * 100).toFixed(0)}%"></i></span><span class="st-n">${n}/${FEATS.length}</span><button type="button" class="st-x" data-sthide>${all ? 'Close' : 'Hide'}</button></div>
+        <div class="st-row"><span class="lbl">Things to try</span><span class="st-prog" aria-label="${n} of ${FEATS.length} found"><i style="--w:${(n / FEATS.length * 100).toFixed(0)}%"></i></span><span class="st-n">${n}/${FEATS.length}</span><button type="button" class="st-x" data-allex>Examples</button><button type="button" class="st-x" data-sthide>${all ? 'Close' : 'Hide'}</button></div>
         ${'serviceWorker' in navigator && location.protocol === 'https:' && !/claude/.test(location.hostname) ? `<div class="st-ver">Version <b>${esc(QVER)}</b><button type="button" data-forceupd>Check for updates</button></div>` : ''}
-        ${all ? '<p class="st-done">You’ve found everything. Examples (top right of the bar) has more to try.</p>' : `<ul>${next.map((f, i) => `<li style="--i:${i}"><div><b>${esc(f.t)}</b><span>${esc(f.d)}</span></div><button type="button" class="btn" data-stf="${f.id}">Show me</button></li>`).join('')}</ul>`}
+        ${all ? '<p class="st-done">You’ve found everything. <button type="button" class="linkbtn" data-allex>Browse all examples</button> for more to try.</p>' : `<ul>${next.map((f, i) => `<li style="--i:${i}"><div><b>${esc(f.t)}</b><span>${esc(f.d)}</span></div><button type="button" class="btn" data-stf="${f.id}">Show me</button></li>`).join('')}</ul>`}
       </div>`;
     el.hidden = false;
   }
@@ -7190,7 +7688,7 @@ const Engine = (() => {
   document.addEventListener('click', e => { if (e.target.closest('[data-cmedit]') && cmLast) { e.preventDefault(); e.stopPropagation(); openComposer(cmLast.k, cmLast); } }, true);
   // the round button: tap for the tools (it still shows what kind of answer you're getting)
   { const lead = document.querySelector('.qlead'); lead.setAttribute('role', 'button'); lead.setAttribute('tabindex', '0'); lead.setAttribute('aria-label', 'Maths tools'); lead.setAttribute('aria-haspopup', 'true'); lead.setAttribute('aria-expanded', 'false'); lead.title = 'Maths tools';
-    const open = e => { e.preventDefault(); e.stopPropagation(); if (!$('#composer').hidden) { closeComposer(); return; } mathMenu(); };
+    const open = e => { e.preventDefault(); e.stopPropagation(); { const ic = lead.querySelector('.qicon'); if (ic && !REDUCE) { ic.classList.remove('spin'); void ic.getBoundingClientRect(); ic.classList.add('spin'); ic.addEventListener('animationend', () => ic.classList.remove('spin'), { once: true }); } } if (!$('#composer').hidden) { closeComposer(); return; } mathMenu(); };
     lead.addEventListener('click', open); lead.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') open(e); }); }
   $('#mathMenu').addEventListener('click', e => { const b = e.target.closest('[data-cm]'); if (b) openComposer(b.dataset.cm); });
   // a click anywhere else closes the tools menu (but not the click on the composer's back arrow that just reopened it)
@@ -7226,8 +7724,315 @@ const Engine = (() => {
     if (e.target.closest('#cmGo')) cmGo();
   });
 
+  /* ---------- the smart button: "Next" opens the moves that fit what's on screen, each with its result ---------- */
+  const SM_IC = {
+    pin: '<path d="M12 17v5M8 3h8l-1 6 3 3v2H6v-2l3-3z"/>',
+    sheet: '<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/>',
+    copy: '<rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>',
+    next: '<path d="M12 3.5l1.6 4.4 4.4 1.6-4.4 1.6L12 15.5l-1.6-4.4L6 9.5l4.4-1.6z"/><path d="M18.5 15l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z"/>',
+    last: '<path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v4h4"/><path d="M12 8v4l3 2"/>',
+    flip: '<path d="M7 7h12l-3-3"/><path d="M17 17H5l3 3"/>',
+    split: '<circle cx="12" cy="6" r="1.6"/><path d="M5 12h14"/><circle cx="12" cy="18" r="1.6"/>',
+    pct: '<path d="M19 5 5 19"/><circle cx="7" cy="7" r="2.2"/><circle cx="17" cy="17" r="2.2"/>',
+    check: '<path d="M5 12.5 10 17 19 7"/>',
+    graph: '<path d="M4 4v16h16"/><path d="M7 15c2-6 4-8 6-4s3 3 6-4"/>',
+    cal: '<rect x="4" y="5" width="16" height="15" rx="2.5"/><path d="M4 10h16M9 3v4M15 3v4"/>',
+    tax: '<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/>',
+    frac: '<path d="M7 7h4M5 19 19 5M13 17h4"/>',
+    year: '<path d="M4 18h16M7 15V9M12 15V6M17 15v-4"/>',
+  };
+  const smNum = x => Engine.plain(+(+x).toPrecision(10));
+  const smSolve = q => { try { const r = solveLinked(q); return r && !r.error ? r : null; } catch { return null; } };
+  const smShow = r => r ? `${r.value}${r.unit && r.unit.length < 12 ? ' ' + r.unit : ''}`.trim() : '';
+  function usualPeople() { const n = +store.get('quotient.people', 0); return n >= 2 && n <= 20 ? n : 2; }
+  // every move that fits; each is checked, and carries the answer it would give
+  function smartList(r, q) {
+    q = (q || '').trim(); const out = [], seen = new Set();
+    // never repeat what the answer's own chips and toggles already offer
+    try { const sw = r && !r.error ? switchFor(r, q) : null; (sw && sw.items || []).forEach(it => seen.add(it.q)); (toggleFor(r, q) || []).forEach(t => seen.add(t.q)); } catch {}
+    const add = (ic, text, nq, extra = {}) => { if (!nq || seen.has(nq) || nq === q) return; const rr = smSolve(nq); if (!rr) return; seen.add(nq); out.push({ ic, text, q: nq, pv: rr.plot ? 'graph' : smShow(rr), ...extra }); };
+    if (!q) { hist.slice(0, 12).forEach(h => add('last', 'Ask again', h, { fill: true, sub: h, rec: true })); return out.slice(0, 8); }
+    if (!r || r.error || r.run || r.kind === 'Help') return out;
+    let m; const val = smShow(r);
+    // the other way round
+    if (r.kind === 'Time' && (m = q.match(/^(.*?\d(?:[:.h]\d{2})?\s*(?:am|pm|h)?)\s+([a-zà-ÿ][a-zà-ÿ ]*?)\s+(?:to|in)\s+([a-zà-ÿ][a-zà-ÿ ]*?)\s*$/i))) add('flip', `If it’s ${m[1].trim()} in ${smCap(m[3].trim())}: time in ${smCap(m[2].trim())}`, `${m[1]} ${m[3]} to ${m[2]}`);
+    if (r.kind === 'Sizes' && (m = String(r.value).match(/^(US|UK|EU|JP) ([\d.]+)(?: men · [\d.]+ women)?$/))) {
+      const src = (String(r.label).match(/· (US|UK|EU|JP) /) || [])[1], g = (q.match(/\b(?:women'?s?|womens|men'?s?|mens)\s+/i) || [''])[0], w = (q.match(/\b(shoes?|dress|jeans|ring)\b/i) || ['shoes'])[0];
+      if (src) add('flip', `Convert ${m[1]} ${m[2]} back to ${src}`, `${m[1].toLowerCase()} ${m[2]} ${g}${w} to ${src.toLowerCase()}`.replace(/\s+/g, ' '));
+    }
+    if (r.kind === 'Units' && (m = q.match(/^(.*?)(-?\d[\d.,]*)\s*([^\d\s][^\d]*?)\s+(to|in|into|as)\s+([^\d]+?)\s*$/i))) add('flip', `The other way: ${m[2]} ${m[5].trim()} in ${m[3].trim()}`, `${m[1]}${m[2]} ${m[5].trim()} ${m[4]} ${m[3].trim()}`.replace(/\s+/g, ' ').trim());
+    if (r.kind === 'Units' && / is$/.test(r.label || '') && r.unit && (m = q.match(/^\s*(-?\d[\d.,]*)\s*([^\d\s].*?)\s*$/))) add('flip', `The other way: ${m[1]} ${r.unit} in ${m[2]}`, `${m[1]} ${r.unit} to ${m[2]}`);
+    // percentages backwards
+    if ((m = q.match(/^\s*(?:what(?:'s| is)\s+)?(\d+(?:[.,]\d+)?)\s*%\s*of\s+(\d[\d.,]*)\s*$/i)) && typeof r.num === 'number') add('pct', `Backwards: ${smNum(r.num)} is what % of ${m[2]}`, `${smNum(r.num)} is what % of ${m[2]}`);
+    if ((m = q.match(/^\s*(\d[\d.,]*)\s+is\s+what\s*%\s+of\s+(\d[\d.,]*)\s*$/i)) && typeof r.num === 'number') add('pct', `Backwards: ${smNum(r.num)}% of ${m[2]}`, `${smNum(r.num)}% of ${m[2]}`);
+    // equations: check it, see it
+    if (r.kind === 'Solve' && (m = String(r.value).match(/^x\s*=\s*(-?[\d.]+(?:\/\d+)?)$/))) {
+      const eq = q.replace(/^\s*(?:solve|find x(?: if)?|what is x if)\s*:?\s*/i, ''), sides = eq.split('=');
+      if (sides.length === 2 && /x/.test(eq)) { const v = /[\/-]/.test(m[1]) ? `(${m[1]})` : m[1], sub = s => s.replace(/(\d|\))\s*x/g, `$1(${v})`).replace(/x/g, `(${v})`).trim(), R2 = smSolve(sub(sides[1]));
+        if (R2) add('check', `Check: put x = ${m[1]} back in (right side is ${R2.value})`, sub(sides[0])); }
+    }
+    if (r.kind === 'Solve' && (m = q.replace(/^\s*solve\s*:?\s*/i, '').match(/^(.+?)=\s*0\s*$/)) && /x/.test(m[1])) add('graph', 'See it on a graph', `plot ${m[1].trim()}`);
+    // dates in other units
+    if (r.kind === 'Date' && (m = q.match(/^\s*(days|weeks|months|working days)\s+(until|till|to|since|before|after)\s+(.+)$/i))) ['days', 'weeks', 'months', 'working days'].filter(u => u !== m[1].toLowerCase()).forEach(u => add('cal', `Count it in ${u}`, `${u} ${m[2]} ${m[3]}`));
+    else if (r.kind === 'Date' && /^until /i.test(r.label || '')) { const t = q.replace(/^\s*(?:how (?:long|many days) (?:until|till|to)|days? (?:until|till|to)|when is)\s+/i, ''); ['weeks', 'working days'].forEach(u => add('cal', `Count it in ${u}`, `${u} until ${t}`)); }
+    // things that keep changing: keep them live in the island
+    if ((r.kind === 'Date' && /^(?:until|since) /i.test(r.label || '')) || (r.kind === 'Time' && /^Current time in /i.test(r.label || ''))) { if (!pins.some(p => p.q === q)) out.push({ ic: 'pin', text: r.kind === 'Date' ? 'Keep a live countdown at the top' : 'Keep this clock live at the top', run: () => addPin(q), pv: 'pin' }); }
+    // money: share it, tax it, scale it
+    const money = r.kind === 'Money' && typeof r.num === 'number' && r.num > 0 && !/\bchange (?:from|due|for)\b|\bchange$/i.test(q + ' ' + (r.label || '')), rateU = (r.unit || '').match(/per (hour|day|week|month|year)/i), ctxt = q + ' ' + (r.unit || '') + ' ' + (r.label || '');
+    if (money && rateU) { const p = rateU[1].toLowerCase(); (p === 'month' ? ['year', 'week'] : p === 'year' ? ['month', 'week'] : p === 'hour' ? ['month', 'year'] : ['month', 'year']).forEach(t => add('year', `What that is per ${t}`, `${smNum(r.num)} a ${p} per ${t}`)); }
+    if (money && !rateU && !/\b(?:split|between|among|each|per person|ways|people|share|who owes|paid)\b/i.test(ctxt)) { const n = usualPeople(); add('split', `Split ${val} between ${n}`, `${smNum(r.num)} split between ${n}`); if (n !== 3) add('split', `Split ${val} between 3`, `${smNum(r.num)} split between 3`); }
+    if (money && !rateU && !/\b(?:vat|iva|tax)\b/i.test(ctxt)) { add('tax', `Add 23% VAT to ${val}`, `${smNum(r.num)} plus 23% vat`); add('tax', `Take VAT out of ${val}`, `${smNum(r.num)} without 23% vat`); }
+    // a plain number: as a fraction, rounded
+    if ((r.kind === 'Math' || r.kind === 'Numbers') && typeof r.num === 'number' && !Number.isInteger(r.num) && !/\//.test(String(r.value))) { add('frac', 'As a fraction', `${smNum(r.num)} as a fraction`); if (/\.\d{3,}/.test(String(r.value))) add('frac', 'Rounded to 2 decimals', `round ${smNum(r.num)} to 2 decimals`); }
+    // the handy ones, so Next is always there for an answer
+    if (out.length < 3 && r && !r.error && !r.run) {
+      if (!pins.some(p => p.q === q) && !out.some(a => a.ic === 'pin')) out.push({ ic: 'pin', text: 'Pin it, so it stays live at the top', run: () => addPin(q), pv: 'pin' });
+      if (out.length < 3) out.push({ ic: 'sheet', text: 'Add it to your sheet', run: () => { try { addToSheet(q); toast('Added to your sheet', 'sheet'); } catch {} }, pv: 'sheet' });
+      if (out.length < 3) out.push({ ic: 'copy', text: 'Copy the answer', run: () => copy(`${r.value}${r.unit ? ' ' + r.unit : ''}`), pv: smShow(r) });
+    }
+    return out.slice(0, 5);
+  }
+  // an answered question becomes a recent one when you move on (clear the bar, leave it, or keep it)
+  function commitRecent() { const q = recentPending; recentPending = ''; if (Date.now() - (commitRecent.at || 0) < 1200) return; if (!q || q.length < 3 || hist[0] === q) return; hist = [q, ...hist.filter(x => x !== q)].slice(0, 40); store.set('quotient.hist', hist); }
+  $('#q').addEventListener('blur', () => { try { commitRecent(); } catch {} });
+  function forgetRecent(h) { hist = hist.filter(x => x !== h); store.set('quotient.hist', hist); try { suggSolveCache.clear(); } catch {} }
+  const smCap = s => s.replace(/\b[a-zà-ÿ]/g, c => c.toUpperCase());
+  let smartCur = [];
+  function renderSmart(r) {
+    const b = $('#smartBtn'); if (!b) return; const q = $('#q').value;
+    const list = $('.searchbar').classList.contains('filling') ? [] : smartList(r, q); smartCur = list; smartMenu(false);
+    if (!list.length) { if (!b.hidden) { b.classList.add('out'); clearTimeout(b._t); b._t = setTimeout(() => { if (!smartCur.length) { b.hidden = true; b.classList.remove('out'); } }, REDUCE ? 0 : 200); } return; }
+    const empty = !q.trim(), label = empty ? 'Recent' : 'Next', key = label + list.length;
+    const title = empty ? 'Your recent questions' : `${list.length} next step${list.length > 1 ? 's' : ''}: ${list.map(a => a.text).join(' · ')}`;
+    b.title = title; b.setAttribute('aria-label', title); b.setAttribute('aria-haspopup', 'menu');
+    if (b.dataset.k !== key || b.hidden) { b.dataset.k = key; b.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${SM_IC[empty ? 'last' : 'next']}</svg><span>${label}</span>${list.length > 1 ? `<i class="sm-n">${list.length}</i>` : ''}`;
+      clearTimeout(b._t); b.classList.remove('out', 'mini'); b.hidden = false; if (!REDUCE) { b.classList.remove('swap'); void b.offsetWidth; b.classList.add('swap'); }
+      clearTimeout(b._m); if (matchMedia('(max-width: 520px)').matches) b._m = setTimeout(() => b.classList.add('mini'), 1800); }
+  }
+  // the menu grows out of the button: each move says what it does and shows the answer it gives
+  function smartMenu(open) {
+    const m = $('#smartMenu'), b = $('#smartBtn'); if (!m) return;
+    if (!open) { m.classList.remove('quiet'); if (!m.hidden) { m.classList.remove('open'); b.setAttribute('aria-expanded', 'false'); clearTimeout(m._t); m._t = setTimeout(() => { if (!m.classList.contains('open')) m.hidden = true; }, REDUCE ? 0 : 260); } return; }
+    const list = smartCur; if (!list.length) return; const empty = !$('#q').value.trim();
+    m.innerHTML = `<div class="sm-head">${empty ? 'Recent questions' : 'Next steps'}${empty ? '<button type="button" class="sm-clear" data-smclear>Clear</button>' : ''}</div>` + list.map((a, i) => `<button type="button" role="menuitem" data-smi="${i}" class="${a.rec ? 'rec' : ''}" style="--i:${i}"><span class="sm-ic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${SM_IC[a.ic] || SM_IC.next}</svg></span><span class="sm-t">${esc(a.sub || a.text)}</span><b class="sm-pv">${esc(a.pv)}</b>${a.rec ? `<span class="sm-del" data-smdel="${i}" role="button" aria-label="Remove “${esc(a.q)}”" title="Remove">×</span>` : ''}</button>`).join('') + (empty ? '<div class="sm-hint">Swipe left to remove one</div>' : '');
+    const sb = $('.searchbar').getBoundingClientRect(), host = m.parentElement, hb = host.getBoundingClientRect(), br = b.getBoundingClientRect();
+    m.style.top = (sb.bottom - hb.top + 6) + 'px'; m.style.setProperty('--ox', Math.max(20, br.left + br.width / 2 - (hb.right - Math.min(hb.width - 16, 380) - 8)) + 'px');
+    m.hidden = false; void m.offsetWidth; m.classList.add('open'); b.setAttribute('aria-expanded', 'true');
+  }
+  { const _ra = renderAnswer; renderAnswer = function (r, ex) { _ra(r, ex); try { renderSmart(ex ? null : r); } catch {} }; }
+  $('#smartBtn').addEventListener('mousedown', e => e.preventDefault());
+  $('#smartBtn').addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); buzz(); smartMenu($('#smartMenu').hidden || !$('#smartMenu').classList.contains('open')); });
+  $('#smartMenu').addEventListener('mousedown', e => e.preventDefault());
+  // remove recents: one by one (swipe left or ×), or all at once
+  function smRemove(btn) { const a = smartCur[+btn.dataset.smi]; if (!a) return; forgetRecent(a.q); btn.classList.add('gone'); buzz();
+    setTimeout(() => { smartCur = smartList(null, $('#q').value); if (!smartCur.length) { smartMenu(false); renderSmart(null); return; }
+      const M = $('#smartMenu'); M.classList.add('quiet'); smartMenu(true); const n = $('#smartBtn .sm-n'); if (n) { if (smartCur.length > 1) n.textContent = smartCur.length; else n.remove(); } }, REDUCE ? 0 : 280); }
+  $('#smartMenu').addEventListener('click', e => {
+    if (e.target.closest('[data-smclear]')) { e.stopPropagation(); const n = hist.length; hist = []; store.set('quotient.hist', hist); smartMenu(false); renderSmart(null); toast(n ? 'Recent questions cleared' : 'Nothing to clear'); return; }
+    const del = e.target.closest('[data-smdel]'); if (del) { e.stopPropagation(); smRemove(del.closest('[data-smi]')); return; }
+    if (e.target.closest('[data-smi]') && e.target.closest('[data-smi]')._swiped) { e.target.closest('[data-smi]')._swiped = false; return; }
+    const it = e.target.closest('[data-smi]'); if (!it) return; const a = smartCur[+it.dataset.smi]; if (!a) return; buzz(); smartMenu(false);
+    if (a.run) { a.run(); try { renderSmart(current); } catch {} } else if (a.fill) { $('#q').value = a.q; runAsk(); $('#q').focus(); } else { answerGo(a.q); if (typeof barThinking === 'function') barThinking(); }
+  });
+  document.addEventListener('click', e => { if (!e.target.closest('#smartMenu, #smartBtn')) smartMenu(false); });
+  { let sw = null; const M = $('#smartMenu');
+    M.addEventListener('pointerdown', e => { const b = e.target.closest('[data-smi].rec'); if (!b || e.target.closest('[data-smdel]')) return; sw = { b, x: e.clientX, y: e.clientY, dx: 0, on: false }; });
+    M.addEventListener('pointermove', e => { if (!sw) return; const dx = e.clientX - sw.x, dy = e.clientY - sw.y; if (!sw.on && Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) { sw.on = true; try { sw.b.setPointerCapture(e.pointerId); } catch {} }
+      if (!sw.on) return; sw.dx = Math.min(0, dx); sw.b.style.transition = 'none'; sw.b.style.transform = `translateX(${sw.dx}px)`; sw.b.style.setProperty('--sw', Math.min(1, -sw.dx / 110)); sw.b.classList.toggle('arm', sw.dx < -90); });
+    const end = () => { if (!sw) return; const { b, dx, on } = sw; sw = null; if (!on) return; b._swiped = true; b.style.transition = ''; if (dx < -90) { b.style.transform = 'translateX(-110%)'; smRemove(b); } else { b.style.transform = ''; b.classList.remove('arm'); b.style.setProperty('--sw', 0); } };
+    M.addEventListener('pointerup', end); M.addEventListener('pointercancel', end); }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#smartMenu').hidden) { e.stopPropagation(); smartMenu(false); } }, true);
+  // learn how many people you usually split with
+  const learnPeople = t => { const m = t.match(/\b(?:between|among)\s+(\d{1,2})\b/i) || t.match(/\b(\d{1,2})\s+(?:people|ways|of us|persons|friends)\b/i) || t.match(/\bsplit(?: it)? in(?:to)?\s+(\d{1,2})\b/i) || t.match(/\bwe are (\d{1,2})\b/i); if (m && +m[1] >= 2 && +m[1] <= 20) store.set('quotient.people', +m[1]); };
+  $('#q').addEventListener('change', () => learnPeople($('#q').value));
+  { const _k = keep; keep = function () { try { learnPeople($('#q').value); } catch {} _k(); }; }
+  queueMicrotask(() => { try { renderSmart(current); } catch {} });
+
+  /* ---------- tape: a pencil at the bottom; the tape grows out of it ---------- */
+  { const sheet = $('#tapeSheet'); document.body.appendChild(sheet); }
+  function tapeOpen(on) {
+    const sheet = $('#tapeSheet'), open = on == null ? !document.documentElement.classList.contains('tape-open') : on;
+    document.documentElement.classList.toggle('tape-open', open); sheet.inert = !open; $('#tapeFab').setAttribute('aria-expanded', String(open));
+    if (open) { sheet.scrollTop = 0; setTimeout(() => { const f = sheet.querySelector('#tapeList li, #tapeClose'); f && f.focus({ preventScroll: true }); }, 60); } else $('#tapeFab').focus({ preventScroll: true });
+  }
+  $('#tapeFab').addEventListener('click', () => tapeOpen(true));
+  $('#tapeClose').addEventListener('click', () => tapeOpen(false));
+  $('#tapeScrim').addEventListener('click', () => tapeOpen(false));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.documentElement.classList.contains('tape-open')) { e.stopPropagation(); tapeOpen(false); } }, true);
+  // reusing a line closes the tape so you can see the answer
+  $('#tapeList').addEventListener('click', e => { if (e.target.closest('.t-item')) setTimeout(() => tapeOpen(false), 120); });
+  /* ---------- Sheet and Basket behind the round button at the bottom left ---------- */
+  function navOpen(on) {
+    const open = on == null ? !document.documentElement.classList.contains('nav-open') : on, P = $('#navPanel');
+    if (open) { P.querySelectorAll('[data-nav]').forEach(b => { b.toggleAttribute('aria-current', b.dataset.nav === view); if (b.dataset.nav === view) b.setAttribute('aria-current', 'page'); const bd = b.querySelector('.nv-b'); if (bd) { const src = $('#' + bd.dataset.from); bd.textContent = src ? src.textContent : ''; bd.classList.toggle('warn', !!(src && src.classList.contains('warn'))); } }); }
+    document.documentElement.classList.toggle('nav-open', open); P.inert = !open; $('#navFab').setAttribute('aria-expanded', String(open));
+    if (open) setTimeout(() => { const f = P.querySelector('[aria-current="page"]') || P.querySelector('button'); f && f.focus({ preventScroll: true }); }, 50);
+  }
+  $('#navFab').addEventListener('click', e => { e.stopPropagation(); buzz(); navOpen(); });
+  $('#navPanel').addEventListener('click', e => { const b = e.target.closest('[data-nav]'); if (!b) return; buzz(); navOpen(false); if (b.dataset.nav !== view) setView(b.dataset.nav); if (b.dataset.nav === 'ask') setTimeout(() => $('#q').focus({ preventScroll: true }), 80); });
+  document.addEventListener('click', e => { if (document.documentElement.classList.contains('nav-open') && !e.target.closest('#navPanel, #navFab')) navOpen(false); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.documentElement.classList.contains('nav-open')) { e.stopPropagation(); navOpen(false); $('#navFab').focus(); } }, true);
+  // a small dot when you're away from Ask, so the way back is clear
+  function navDot() { const d = $('#navFab .nv-dot'); if (d) d.hidden = view === 'ask'; const f = $('#navFab'); if (f) f.title = view === 'ask' ? 'Sheet and Basket' : 'Back to Ask, Sheet or Basket'; }
+  /* ---------- number pad inside the search bar ---------- */
+  const qpOn = () => !!document.querySelector('.searchbar.qp-open');
+  const qpTouch = matchMedia('(pointer: coarse)').matches;
+  function qpOpen(on) {
+    const sb = $('.searchbar'), pad = $('#qpad'), q = $('#q'), open = on == null ? !qpOn() : on;
+    $('#qpHandle').setAttribute('aria-expanded', String(open)); clearTimeout(pad._t);
+    if (open) { pad.hidden = false; pad.querySelectorAll('button').forEach((b, i) => b.style.setProperty('--j', i)); void pad.offsetWidth; sb.classList.add('qp-open');
+      // on a phone the pad replaces the on-screen keyboard
+      if (qpTouch) { q.setAttribute('inputmode', 'none'); q.blur(); setTimeout(() => q.focus({ preventScroll: true }), 30); } else q.focus({ preventScroll: true });
+    } else { sb.classList.remove('qp-open'); q.removeAttribute('inputmode'); pad._t = setTimeout(() => { if (!qpOn()) pad.hidden = true; }, REDUCE ? 0 : 460); }
+    try { renderSugg(); } catch {}
+  }
+  function qpPress(k) {
+    const q = $('#q'); q.focus({ preventScroll: true });
+    let v = q.value, s = q.selectionStart ?? v.length, e = q.selectionEnd ?? s; const before = v.slice(0, s);
+    const put = t => { q.setRangeText(t, s, e, 'end'); };
+    if (k === 'back') { if (s !== e) put(''); else if (s > 0) { const cut = /\s[+−×÷^]\s$/.test(before) ? 3 : /\s$/.test(before) && s > 1 ? 2 : 1; q.setRangeText('', s - cut, s, 'end'); } }
+    else if (k === 'enter') { if (current && !current.error && v.trim()) keep(); return; }
+    else if (k === 'abc') { qpOpen(false); setTimeout(() => q.focus(), 30); return; }
+    else if (k === '()') { const open = (before.match(/\(/g) || []).length - (before.match(/\)/g) || []).length; put(open > 0 && /[\d)%²πx]\s*$/.test(before) ? ')' : (/[\d)]$/.test(before) ? ' × (' : '(')); }
+    else if (/^[+−×÷]$/.test(k)) { const t = before.replace(/\s+$/, ''); if (/[+−×÷]$/.test(t)) { q.setRangeText(k + ' ', t.length - 1, e, 'end'); } else put((/\S$/.test(before) ? ' ' : '') + k + ' '); }
+    else if (k === '/') put('/');
+    else if (k === '√') put('√(');
+    else if (k === '=') put(' = ');
+    else put(k);
+    q.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+  $('#qpHandle').addEventListener('mousedown', e => e.preventDefault());
+  $('#qpHandle').addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); buzz(); qpOpen(); });
+  $('#qpad').addEventListener('mousedown', e => e.preventDefault());
+  $('#qpad').addEventListener('click', e => { const b = e.target.closest('[data-qk]'); if (!b) return; e.preventDefault(); e.stopPropagation(); buzz(); qpPress(b.dataset.qk); b.classList.remove('hit'); void b.offsetWidth; b.classList.add('hit'); });
+  // hold delete to clear
+  { let hold = null; $('#qpad').addEventListener('pointerdown', e => { const b = e.target.closest('[data-qk="back"]'); if (!b) return; hold = setTimeout(() => { const q = $('#q'); q.value = ''; q.dispatchEvent(new Event('input', { bubbles: true })); buzz(); }, 600); });
+    ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => $('#qpad').addEventListener(ev, () => clearTimeout(hold))); }
+  // tapping the question itself while the pad is open on a phone: stay on the pad (ABC switches to letters)
+  /* ---------- Guide: a short tutorial you can reopen any time from the ? button ---------- */
+  const GD_IC = {
+    ask: '<circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/>',
+    chips: '<rect x="3" y="8" width="7" height="8" rx="4"/><rect x="12" y="8" width="9" height="8" rx="4"/>',
+    keep: '<path d="M12 4v10M7.5 9.5 12 14l4.5-4.5"/><path d="M4 16v2.5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5V16"/>',
+    follow: '<path d="M4 7h11a4 4 0 0 1 0 8H8"/><path d="m11 12-3 3 3 3"/>',
+    next: '<path d="M12 3.5l1.6 4.4 4.4 1.6-4.4 1.6L12 15.5l-1.6-4.4L6 9.5l4.4-1.6z"/>',
+    pad: '<rect x="5" y="3" width="14" height="18" rx="3"/><path d="M8.5 7h7M9 12h.01M12 12h.01M15 12h.01M9 16h.01M12 16h.01M15 16h.01"/>',
+    tools: '<path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/>',
+    island: '<rect x="5" y="9" width="14" height="6" rx="3"/><circle cx="8.5" cy="12" r="1" fill="currentColor"/>',
+    settle: '<circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3"/><path d="M3 19c1-3 3-4 5-4s4 1 5 4M11 19c1-3 3-4 5-4s4 1 5 4"/>',
+    nav: '<path d="M7 10h11M7 15h6"/>',
+  };
+  const GUIDE = [
+    { id: 'ask', t: 'Ask the way you talk', d: 'Type a question in your own words. The answer appears while you type, with no buttons to press.', q: '18% tip on 64,50 for 3 people', v: '25.37', u: 'each', ui: 'answer', spot: '.searchbar', tip: 'Type anything here, in your own words. Extra words are fine.' },
+    { id: 'chips', t: 'Change it with one tap', d: 'Under the answer you’ll find the other units, rates or sizes. Tap one and the answer changes; Back undoes it.', q: '5 km to miles', v: '3.107', u: 'mi', ui: 'chips', spot: '#answer .a-opts', tip: 'Tap a chip to switch unit. The answer follows.' },
+    { id: 'keep', t: 'Keep answers on your tape', d: 'Press Keep (or Enter) to save an answer. The pencil at the bottom opens your tape any time.', q: '120 km/h to mph', v: '74.565', u: 'mph', ui: 'keep', spot: '#answer [data-act="keep"]', tip: 'Keep saves it to your tape. The pencil at the bottom opens it.' },
+    { id: 'follow', t: 'Carry on from the last answer', d: 'After keeping one, just type “times 2”, “in miles” or “what about 20%”. It remembers.', q: '5 km to miles', q2: 'times 2', v: '6.214', u: 'mi', ui: 'follow', spot: '#answer', tip: 'It used your last answer: 3.107 mi × 2.' },
+    { id: 'next', t: 'Next steps', d: 'The ✦ Next button in the bar suggests what to do with an answer: flip it, split it, check it, and shows the result first.', q: '15% of 80', v: '12', u: '', ui: 'next', spot: '#smartBtn', tip: 'Next shows smart follow-ups, each with its result.' },
+    { id: 'pad', t: 'A calculator inside the bar', d: 'Tap the little calculator under the search bar for number keys, so you don’t switch between keyboards.', q: '12 × 3 + 4', v: '40', u: '', ui: 'pad', spot: '.searchbar', tip: 'The keypad lives inside the bar. Tap the calculator tab again to fold it.', act: () => { try { qpOpen(true); } catch {} } },
+    { id: 'tools', t: 'Maths tools', d: 'The round button on the left opens equations, fractions, powers, statistics and more, with every symbol to hand.', q: '', v: 'x = 4', u: '', ui: 'tools', spot: '.qlead', tip: 'Tap here for equations, fractions and other maths tools.' },
+    { id: 'island', t: 'Live answers at the top', d: 'Pin an answer and it keeps updating in the pill at the top: countdowns, time zones, your budget.', q: 'days until new year', v: '51', u: 'days', ui: 'island', spot: '#answer [data-act="pin"]', tip: 'Pin keeps it live in the pill at the top of the screen.' },
+    { id: 'settle', t: 'Who owes who', d: 'Say who paid what. It works out the fewest payments to settle up, whatever the names.', q: 'Ana paid 45, Bruno 30, Carla 0', v: '2 payments', u: '', ui: 'answer', spot: '#answer', tip: 'Fewest payments to settle up. Names don’t matter.' },
+    { id: 'nav', t: 'Sheet and Basket', d: 'The round button at the bottom left opens your Sheet (lines that calculate) and Basket (shopping and budget).', q: '', v: '', u: '', ui: 'nav', spot: '#navFab', tip: 'Sheet and Basket live here.' },
+  ];
+  let gd = store.get('quotient.guide', null); if (!gd || typeof gd !== 'object') gd = { seen: false, done: {} };
+  const saveGd = () => store.set('quotient.guide', gd);
+  let gdAt = -1;
+  // a tiny animated picture of each feature
+  function gdMock(c) {
+    const bar = q => `<div class="mk-bar"><span class="mk-lead"></span><span class="mk-q"><span class="mk-type" style="--n:${q.length}">${esc(q)}</span></span>${c.ui === 'next' ? '<span class="mk-next">✦ Next</span>' : ''}</div>`;
+    const ans = (lab, v, u) => `<div class="mk-ans"><small>${esc(lab)}</small><b>${esc(v)}${u ? ` <i>${esc(u)}</i>` : ''}</b>`;
+    switch (c.ui) {
+      case 'chips': return bar(c.q) + ans('5 km → mi', c.v, c.u) + `<div class="mk-chips"><span class="on">mi</span><span>m</span><span>ft</span><span>yd</span></div></div>`;
+      case 'keep': return bar(c.q) + ans('120 km/h → mph', c.v, c.u) + `<div class="mk-row"><span class="mk-keep">Keep</span></div></div><div class="mk-fly"></div><div class="mk-pencil"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16v4z"/></svg></div>`;
+      case 'follow': return `<div class="mk-tape"><span>5 km to miles</span><b>3.107 mi</b></div>` + bar(c.q2) + ans('Continuing · 3.107 mi × 2', c.v, c.u) + '</div>';
+      case 'next': return bar(c.q) + `<div class="mk-menu"><small>Next steps</small><span>Backwards: 12 is what % of 80 <b>15%</b></span><span>As a fraction <b>3/20</b></span></div>`;
+      case 'pad': return bar(c.q) + `<div class="mk-pad">${['7', '8', '9', '÷', '4', '5', '6', '×', '1', '2', '3', '+'].map((k, i) => `<span style="--i:${i}" class="${/[÷×+]/.test(k) ? 'op' : ''}">${k}</span>`).join('')}</div>`;
+      case 'tools': return `<div class="mk-bar"><span class="mk-lead pulse"></span><span class="mk-q mk-ph">Ask anything…</span></div><div class="mk-tools">${['x=', '½', 'xⁿ', 'x̄'].map((g, i) => `<span style="--i:${i}"><i>${g}</i></span>`).join('')}</div>`;
+      case 'island': return `<div class="mk-isl"><span class="dot"></span><b>51 days</b></div>` + bar(c.q) + ans('Until 1 Jan', c.v, c.u) + `<div class="mk-row"><span class="mk-pin">Pin</span></div></div>`;
+      case 'nav': return `<div class="mk-navwrap"><div class="mk-navmenu"><span>Ask</span><span class="on">Sheet <b>1,290</b></span><span>Basket <b>12.40 left</b></span></div><div class="mk-navfab"><i></i><i></i></div></div>`;
+      default: return bar(c.q) + ans(c.id === 'settle' ? 'Settle up · 3 people' : '18% tip, split 3 ways', c.v, c.u) + (c.id === 'settle' ? '<div class="mk-lines"><span>Carla → Ana <b>20.00</b></span><span>Carla → Bruno <b>5.00</b></span></div>' : '') + '</div>';
+    }
+  }
+  const gdIcon = id => `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${GD_IC[id] || GD_IC.ask}</svg>`;
+  function gdRender() {
+    const card = $('#gdCard'), n = GUIDE.filter(c => gd.done[c.id]).length;
+    if (gdAt < 0) {
+      card.innerHTML = `<div class="gd-top"><span class="gd-logo">÷</span><div><b>${gd.seen ? 'Guide' : 'Welcome to Quotient'}</b><small>${n ? `${n} of ${GUIDE.length} tried` : 'A calculator you can talk to'}</small></div><button type="button" class="gd-x" data-gd="close" aria-label="Close guide">×</button></div>
+        <p class="gd-intro">Here is everything it can do, about a minute each. Tap a topic, or take the whole tour.</p>
+        <button type="button" class="gd-go" data-gd="tour">${n && n < GUIDE.length ? 'Continue the tour' : 'Take the tour'}<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
+        <div class="gd-prog" aria-hidden="true"><i style="--w:${(n / GUIDE.length * 100).toFixed(0)}%"></i></div>
+        <ul class="gd-list">${GUIDE.map((c, i) => `<li style="--i:${i}"><button type="button" data-gdi="${i}"><span class="gd-ic">${gdIcon(c.id)}</span><span class="gd-t"><b>${esc(c.t)}</b><small>${esc(c.d.split('. ')[0].replace(/\.$/, ''))}</small></span>${gd.done[c.id] ? '<span class="gd-ok" aria-label="Tried">✓</span>' : '<span class="gd-chev">›</span>'}</button></li>`).join('')}</ul>
+        <div class="gd-foot"><button type="button" class="linkbtn" data-allex>Browse all examples</button></div>`;
+    } else {
+      const c = GUIDE[gdAt], last = gdAt === GUIDE.length - 1;
+      card.innerHTML = `<div class="gd-top slim"><button type="button" class="gd-back" data-gd="home" aria-label="All topics"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18 9 12l6-6"/></svg>All topics</button><span class="gd-dots">${GUIDE.map((x, i) => `<i class="${i === gdAt ? 'on' : gd.done[x.id] ? 'ok' : ''}"></i>`).join('')}</span><button type="button" class="gd-x" data-gd="close" aria-label="Close guide">×</button></div>
+        <div class="gd-stage"><div class="mk mk-ui-${c.ui}">${gdMock(c)}</div></div>
+        <div class="gd-step"><span class="gd-n">${gdAt + 1} / ${GUIDE.length}</span><h3>${esc(c.t)}</h3><p>${esc(c.d)}</p></div>
+        <div class="gd-act"><button type="button" class="btn gd-prev" data-gd="prev" ${gdAt === 0 ? 'disabled' : ''} aria-label="Previous">‹</button><button type="button" class="btn primary gd-try" data-gd="try">Try it</button><button type="button" class="btn" data-gd="${last ? 'finish' : 'next'}">${last ? 'Finish' : 'Next ›'}</button></div>`;
+    }
+    if (!REDUCE) { card.classList.remove('swap'); void card.offsetWidth; card.classList.add('swap'); }
+  }
+  function gdOpen(at) {
+    const g = $('#guide'); gdAt = at == null ? -1 : at; gdRender(); spotClose(true);
+    g.hidden = false; void g.offsetWidth; document.documentElement.classList.add('guide-open'); g.inert = false;
+    setTimeout(() => { const f = $('#gdCard').querySelector('.gd-go, .gd-try'); f && f.focus({ preventScroll: true }); }, 60);
+    if (!gd.seen) { gd.seen = true; saveGd(); }
+  }
+  function gdClose() { const g = $('#guide'); document.documentElement.classList.remove('guide-open'); g.inert = true; clearTimeout(g._t); g._t = setTimeout(() => { if (!document.documentElement.classList.contains('guide-open')) g.hidden = true; }, REDUCE ? 0 : 320); }
+  // "Try it": do it for real in the app, then point at the part that matters
+  function gdTry(i) {
+    const c = GUIDE[i]; gd.done[c.id] = Date.now(); saveGd(); gdClose(); gdLast = i;
+    try { if (view !== 'ask' && c.id !== 'nav') setView('ask'); } catch {}
+    const q = $('#q'), run = t => { q.value = t; runAsk(); };
+    if (c.id === 'follow') { run(c.q); setTimeout(() => { try { if (current && !current.error) keep(); } catch {} run(c.q2); }, 250); }
+    else if (c.q) run(c.q); else if (c.id === 'tools') { run(''); }
+    if (c.act) setTimeout(c.act, 200);
+    setTimeout(() => spotOn(c), c.id === 'follow' ? 900 : 650);
+  }
+  let gdLast = -1;
+  function spotOn(c) {
+    const el = document.querySelector(c.spot); const s = $('#spot');
+    if (!el || !el.getClientRects().length) { toast(c.tip); return; }
+    el.scrollIntoView({ block: 'center', behavior: REDUCE ? 'auto' : 'smooth' });
+    setTimeout(() => {
+      const r = el.getBoundingClientRect(), pad = 8, hole = s.querySelector('.spot-hole'), tip = s.querySelector('.spot-tip');
+      hole.style.cssText = `left:${r.left - pad}px;top:${r.top - pad}px;width:${r.width + pad * 2}px;height:${r.height + pad * 2}px;border-radius:${Math.min(22, r.height / 2 + pad)}px`;
+      tip.innerHTML = `<p>${esc(c.tip)}</p><div><button type="button" class="btn" data-spot="guide">Back to guide</button><button type="button" class="btn primary" data-spot="ok">Got it</button></div>`;
+      s.hidden = false; const below = r.bottom + 150 < innerHeight; const tw = Math.min(300, innerWidth - 32);
+      tip.style.cssText = `width:${tw}px;left:${Math.max(16, Math.min(innerWidth - tw - 16, r.left + r.width / 2 - tw / 2))}px;${below ? `top:${r.bottom + pad + 12}px` : `bottom:${innerHeight - r.top + pad + 12}px`}`;
+      tip.classList.toggle('above', !below); void s.offsetWidth; s.classList.add('on');
+    }, REDUCE ? 0 : 320);
+  }
+  function spotClose(now) { const s = $('#spot'); if (!s || s.hidden) return; s.classList.remove('on'); setTimeout(() => { if (!s.classList.contains('on')) s.hidden = true; }, now || REDUCE ? 0 : 260); }
+  // the ? button opens the guide; the old start panel and tips are gone
+  document.addEventListener('click', e => { const g = e.target.closest('[data-guide]'); if (!g) return; e.preventDefault(); e.stopImmediatePropagation(); gdOpen(); }, true);
+  $('#guide').addEventListener('click', e => {
+    if (e.target === $('#guide')) { gdClose(); return; }
+    const a = e.target.closest('[data-gd]'), it = e.target.closest('[data-gdi]');
+    if (it) { gdAt = +it.dataset.gdi; gdRender(); return; }
+    if (!a) return; const k = a.dataset.gd; buzz();
+    if (k === 'close') gdClose(); else if (k === 'finish') { gdClose(); setTimeout(() => toast('Reopen the guide any time with ?'), 350); } else if (k === 'home') { gdAt = -1; gdRender(); }
+    else if (k === 'tour') { const first = GUIDE.findIndex(c => !gd.done[c.id]); gdAt = first < 0 ? 0 : first; gdRender(); }
+    else if (k === 'next') { gdAt = Math.min(GUIDE.length - 1, gdAt + 1); gdRender(); } else if (k === 'prev') { gdAt = Math.max(0, gdAt - 1); gdRender(); }
+    else if (k === 'try') gdTry(gdAt);
+  });
+  $('#guide').addEventListener('click', e => { if (e.target.closest('[data-allex]')) gdClose(); }, true);
+  $('#spot').addEventListener('click', e => { const b = e.target.closest('[data-spot]'); spotClose(); if (b && b.dataset.spot === 'guide') setTimeout(() => gdOpen(gdLast >= 0 && gdLast < GUIDE.length - 1 ? gdLast + 1 : -1), 200); });
+  addEventListener('scroll', () => { if (!$('#spot').hidden) spotClose(); }, { passive: true });
+  document.addEventListener('keydown', e => {
+    if (!document.documentElement.classList.contains('guide-open')) { if (e.key === 'Escape' && !$('#spot').hidden) spotClose(); return; }
+    if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); gdClose(); }
+    else if (gdAt >= 0 && e.key === 'ArrowRight' && gdAt < GUIDE.length - 1) { gdAt++; gdRender(); } else if (gdAt > 0 && e.key === 'ArrowLeft') { gdAt--; gdRender(); }
+  }, true);
+  // swipe between steps on a phone
+  { let x0 = null; $('#guide').addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
+    $('#guide').addEventListener('touchend', e => { if (x0 == null || gdAt < 0) return; const dx = e.changedTouches[0].clientX - x0; x0 = null; if (Math.abs(dx) < 50) return; if (dx < 0 && gdAt < GUIDE.length - 1) gdAt++; else if (dx > 0 && gdAt > 0) gdAt--; else return; gdRender(); }, { passive: true }); }
+  // first visit: open once, gently
+  if (!gd.seen && !navigator.webdriver) setTimeout(() => { if (!document.documentElement.classList.contains('guide-open') && !$('#q').value) gdOpen(); }, 900);
+
   let view = 'ask';
   function setView(v, first) {
+    try { setTimeout(navDot, 0); } catch {}
     view = v; const isSheet = v === 'sheet', isBk = v === 'basket';
     $('#seg').dataset.v = v; $('#tabAsk').setAttribute('aria-selected', String(v === 'ask')); $('#tabSheet').setAttribute('aria-selected', String(isSheet)); $('#tabBasket').setAttribute('aria-selected', String(isBk));
     document.querySelector('.grid > .col').hidden = v !== 'ask'; $('#sheet').hidden = !isSheet; $('#basket').hidden = !isBk; if (typeof renderPins === 'function') renderPins();
