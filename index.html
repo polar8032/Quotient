@@ -1528,7 +1528,7 @@ html.nav-open .nav-panel button:nth-child(2){animation-delay:40ms}html.nav-open 
 .smart-btn:focus:not(:focus-visible),.tape-fab:focus:not(:focus-visible),.nav-fab:focus:not(:focus-visible){outline:none}
 
 /* the island panel: a macOS-style genie. It funnels out of the pill, curving at the sides, and back in */
-.isl-panel{--gx:80%;transform-origin:0 0;transition:none!important;filter:none!important;opacity:1;transform:none;border-radius:22px;will-change:clip-path,transform}
+.isl-panel{--gx:80%;transform-origin:0 0;transition:none!important;opacity:1;transform:none;border-radius:22px;will-change:clip-path,transform}
 
 .island.open .isl-panel{animation:none}
 
@@ -2349,6 +2349,103 @@ html.calc-open .calc-menu,html.gc-open .fab,html.gc-open .nav-fab,html.gc-open .
 .a-track .note{flex:1 1 140px;min-width:0}
 .a-alt{display:flex;align-items:center;gap:6px;flex-wrap:wrap;flex:1 1 100%;width:100%}.a-alt span{font-size:12px;color:var(--faint)}.a-alt .ex{font-size:12.5px;padding:5px 11px}
 @media (prefers-reduced-motion:reduce){#trCard[data-type="timer"].over .mt-v,.mtl.ring,.trn{animation:none;opacity:1}}
+/* ---------- live pill: colour by state, and up to two chosen events side by side ---------- */
+:root{--st-run:#3DD68C;--st-live:#3DD68C;--st-done:#3DD68C;--st-soon:#F5B547;--st-warn:#F5B547;--st-money:#F5B547;--st-alert:#FF6A55;--st-over:#FF6A55;--st-pause:#8E929A;--st-wait:#B4A2FF;--st-rest:#6FB4FF}
+.island[data-st="run"],.mtl[data-st="run"],.isl-seg[data-st="run"]{--st:var(--st-run)}
+.island[data-st="live"]{--st:var(--st-live)}
+.island[data-st="done"],.mtl[data-st="done"],.isl-seg[data-st="done"]{--st:var(--st-done)}
+.island[data-st="soon"],.mtl[data-st="soon"],.isl-seg[data-st="soon"]{--st:var(--st-soon)}
+.island[data-st="warn"],.mtl[data-st="warn"],.isl-seg[data-st="warn"]{--st:var(--st-warn)}
+.island[data-st="money"],.mtl[data-st="money"],.isl-seg[data-st="money"]{--st:var(--st-money)}
+.island[data-st="alert"],.mtl[data-st="alert"],.isl-seg[data-st="alert"]{--st:var(--st-alert)}
+.island[data-st="over"],.mtl[data-st="over"],.isl-seg[data-st="over"]{--st:var(--st-over)}
+.island[data-st="pause"],.mtl[data-st="pause"],.isl-seg[data-st="pause"]{--st:var(--st-pause)}
+.island[data-st="wait"],.mtl[data-st="wait"],.isl-seg[data-st="wait"]{--st:var(--st-wait)}
+.island[data-st="rest"],.mtl[data-st="rest"],.isl-seg[data-st="rest"]{--st:var(--st-rest)}
+.island .isl-pill{transition:max-width .55s var(--spring),padding .45s var(--spring),transform .4s var(--spring-bounce),box-shadow .6s var(--ease-out),border-color .6s var(--ease-out),background .6s var(--ease-out)}
+.island[data-st]:not(.open):not(.blooming) .isl-pill{border-color:color-mix(in srgb,var(--st) 40%,rgba(255,255,255,.08));background:radial-gradient(120% 160% at 0% 50%,color-mix(in srgb,var(--st) 16%,transparent),transparent 60%),#0B0C0F;box-shadow:0 10px 26px -14px rgba(0,0,0,.55),0 0 22px -9px color-mix(in srgb,var(--st) 75%,transparent)}
+.island[data-st] .isl-dot{background:var(--st);transition:background .5s,width .4s var(--spring),height .4s var(--spring),border-radius .4s}
+.island[data-st].timing .isl-v,.island[data-st].metering .isl-v{color:color-mix(in srgb,var(--st) 82%,#fff);transition:color .5s}
+.island[data-st].ring .isl-dot{background:conic-gradient(var(--st) calc(var(--ip,0) * 1turn),rgba(255,255,255,.16) 0)}
+/* running: a steady heartbeat; nearly done: quicker; paused: two bars, nothing moves; ringing: the whole pill calls out */
+@keyframes stBeat{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--st) 60%,transparent)}80%,100%{box-shadow:0 0 0 7px transparent}}
+.island[data-st="run"]:not(.ring) .isl-dot,.island[data-st="live"].live .isl-dot,.island[data-st="money"] .isl-dot,.island[data-st="rest"]:not(.ring) .isl-dot{animation:stBeat 1.8s ease-out infinite}
+.island[data-st="soon"]:not(.ring) .isl-dot{animation:stBeat .9s ease-out infinite}
+.island[data-st="pause"] .isl-dot,.isl-seg[data-st="pause"] .isl-sd{animation:none!important;width:8px!important;height:10px!important;border-radius:1px!important;background:linear-gradient(90deg,var(--st) 0 34%,transparent 34% 66%,var(--st) 66%)!important;-webkit-mask:none!important;mask:none!important;box-shadow:none!important}
+.island[data-st="pause"] .isl-v{opacity:.7}
+@keyframes stCall{0%,100%{box-shadow:0 10px 26px -14px rgba(0,0,0,.55),0 0 0 0 color-mix(in srgb,var(--st) 55%,transparent)}50%{box-shadow:0 10px 26px -14px rgba(0,0,0,.55),0 0 0 6px color-mix(in srgb,var(--st) 0%,transparent),0 0 26px -4px color-mix(in srgb,var(--st) 70%,transparent)}}
+@keyframes stNudge{0%,100%{transform:none}20%{transform:rotate(-2.5deg)}40%{transform:rotate(2.5deg)}60%{transform:rotate(-1.5deg)}80%{transform:rotate(1deg)}}
+.island[data-st="alert"]:not(.open) .isl-pill,.island[data-st="over"]:not(.open) .isl-pill{animation:stCall 1.3s ease-in-out infinite}
+.island[data-st="alert"]:not(.open) .isl-dot{animation:stNudge 1.3s ease-in-out infinite}
+@keyframes stChg{0%{filter:brightness(1.8) saturate(1.4)}100%{filter:none}}
+.isl-pill.stchg{animation:stChg .7s var(--ease-out)}
+/* two at once */
+.isl-duo{display:none}
+.island.duo .isl-dot,.island.duo .isl-txt{display:none}
+.island.duo .isl-duo{display:inline-flex;align-items:center;gap:0;min-width:0}
+.island.duo .isl-pill{max-width:380px;padding:0 12px 0 11px}
+.island.duo2:not(.open):not(.blooming) .isl-pill{border-color:transparent;background:linear-gradient(#0B0C0F,#0B0C0F) padding-box,linear-gradient(90deg,color-mix(in srgb,var(--s1) 70%,transparent),color-mix(in srgb,var(--s2) 70%,transparent)) border-box;box-shadow:0 10px 26px -14px rgba(0,0,0,.55),-14px 0 22px -12px color-mix(in srgb,var(--s1) 70%,transparent),14px 0 22px -12px color-mix(in srgb,var(--s2) 70%,transparent)}
+.isl-seg{display:inline-flex;align-items:center;gap:6px;min-width:0;white-space:nowrap;animation:segIn .55s var(--spring) both;animation-delay:calc(var(--i) * 70ms);border-radius:999px;transition:filter .4s}
+@keyframes segIn{0%{opacity:0;transform:translateY(6px) scale(.9);filter:blur(3px)}100%{opacity:1;transform:none;filter:none}}
+.isl-seg + .isl-seg{margin-left:10px;padding-left:10px;position:relative}
+.isl-seg + .isl-seg::before{content:"";position:absolute;left:0;top:50%;width:1px;height:16px;transform:translateY(-50%);background:linear-gradient(transparent,rgba(255,255,255,.22),transparent)}
+.isl-sd{flex:none;width:7px;height:7px;border-radius:50%;background:var(--st);transition:background .5s}
+.isl-seg.prog .isl-sd{width:12px;height:12px;background:conic-gradient(var(--st) calc(var(--ip,0) * 1turn),rgba(255,255,255,.16) 0);-webkit-mask:radial-gradient(circle,transparent 3.2px,#000 3.8px);mask:radial-gradient(circle,transparent 3.2px,#000 3.8px)}
+.isl-seg[data-st="run"]:not(.prog) .isl-sd,.isl-seg[data-st="money"] .isl-sd,.isl-seg[data-st="rest"]:not(.prog) .isl-sd{animation:stBeat 1.8s ease-out infinite}
+.isl-seg[data-st="soon"]:not(.prog) .isl-sd{animation:stBeat .9s ease-out infinite}
+.isl-seg[data-st="alert"] .isl-sd,.isl-seg[data-st="over"] .isl-sd{animation:stBeat .8s ease-out infinite}
+.isl-seg[data-st="alert"],.isl-seg[data-st="over"]{animation:segCall 1.3s ease-in-out infinite}
+@keyframes segCall{50%{filter:brightness(1.35)}}
+.isl-sv{font-family:var(--f-mono);font-size:12.5px;font-weight:600;font-variant-numeric:tabular-nums;color:color-mix(in srgb,var(--st) 80%,#fff);transition:color .5s,opacity .4s}
+.isl-seg[data-st="pause"] .isl-sv{opacity:.7}
+.isl-sn{font-style:normal;font-size:11.5px;opacity:.55;overflow:hidden;text-overflow:ellipsis;max-width:90px}
+.island.duo:not(.duo2) .isl-sn{max-width:150px}
+.isl-seg.chg{animation:stChg .7s var(--ease-out)}
+.island.duo .isl-n{margin-left:8px}
+@media (max-width:560px){.island.duo .isl-pill{max-width:min(250px,calc(100vw - 150px));padding:0 10px}.island.duo2 .isl-sn{max-width:44px}.island.duo:not(.duo2) .isl-sn{max-width:80px;display:inline}.island.duo .isl-n{display:none}.isl-seg + .isl-seg{margin-left:8px;padding-left:8px}.isl-sv{font-size:12px}}
+/* in the list: a strip of the state colour, and the pill button */
+.mtl.pp{grid-template-columns:auto minmax(0,1fr) auto auto auto}
+.mtl[data-st]{box-shadow:inset 3px 0 0 color-mix(in srgb,var(--st) 85%,transparent);transition:box-shadow .5s}
+.mtl[data-st] .mtl-ic{transition:color .4s,border-color .4s}
+.mtl[data-st="alert"] .mtl-ic,.mtl[data-st="over"] .mtl-ic,.mtl[data-st="run"] .mtl-ic,.mtl[data-st="soon"] .mtl-ic{border-color:color-mix(in srgb,var(--st) 55%,var(--isl-edge,var(--line)))}
+.mtl-pin{width:32px;height:26px;border-radius:999px;display:grid;place-items:center;border:1px solid var(--isl-edge,var(--line));background:transparent;color:var(--faint);cursor:pointer;transition:color .25s,background .25s,border-color .25s,transform .3s var(--press,ease)}
+.mtl-pin:hover{color:var(--ink)}
+.mtl-pin:active{transform:scale(.88)}
+.mtl-pin[aria-pressed="true"]{color:#0B0C0F;background:var(--st,var(--ai-c));border-color:transparent}
+@media (prefers-reduced-motion:reduce){.island[data-st] .isl-dot,.isl-seg,.isl-seg .isl-sd,.island[data-st] .isl-pill,.isl-pill.stchg{animation:none!important}}
+/* ---------- header: the live pill leads, on the left ---------- */
+.top .brand-row{flex:1 1 auto;min-width:0}
+.top .top-tools{margin-left:0;flex:1 1 auto;min-width:0;justify-content:space-between}
+.top .top-tools .guide-q{margin-left:auto}
+.island{min-width:0}
+.isl-pill{max-width:min(420px,calc(100vw - 110px))}
+.island.duo .isl-pill{max-width:min(460px,calc(100vw - 110px))}
+#islPanel.isl-panel{filter:none}
+@media (min-width:561px){.isl-panel{right:auto!important;left:-6px}}
+@media (max-width:560px){.isl-pill{max-width:calc(100vw - 96px)}.isl-q{display:inline}.island.duo .isl-pill{max-width:calc(100vw - 96px)}.island.duo2 .isl-sn{max-width:72px}.island.duo:not(.duo2) .isl-sn{max-width:140px}.island.duo .isl-n{display:inline-grid}}
+/* ---------- list: Edit / Clear finished, and the reset / delete actions ---------- */
+#trHead:not([hidden]){display:flex;align-items:center;justify-content:space-between;gap:8px}
+.isl-tools{display:flex;gap:6px;text-transform:none;letter-spacing:0}
+.isl-tb{height:26px;padding:0 11px;border-radius:999px;border:1px solid var(--isl-edge,var(--line));background:transparent;color:var(--muted);font:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:background .2s,color .2s,border-color .2s,transform .3s var(--press,ease)}
+.isl-tb:active{transform:scale(.92)}
+.isl-tb[aria-pressed="true"]{color:var(--ink);background:var(--isl-card,var(--surface-2))}
+#liveClear{color:var(--accent-text);border-color:color-mix(in srgb,var(--accent) 40%,transparent)}
+.mtl-acts{display:none;align-items:center;gap:6px}
+.mtl.acts,.editing .mtl[data-to],.editing .mtl[data-mo]{grid-template-columns:auto minmax(0,1fr) auto}
+.mtl.acts > .mtl-v,.mtl.acts > .mtl-pin,.mtl.acts > .mtl-p,.mtl.acts > .mtl-k,.editing .mtl > .mtl-v,.editing .mtl > .mtl-pin,.editing .mtl > .mtl-p,.editing .mtl > .mtl-k{display:none}
+.mtl.acts > .mtl-acts,.editing .mtl > .mtl-acts{display:inline-flex;animation:actsIn .42s var(--spring,ease) both}
+@keyframes actsIn{0%{opacity:0;transform:translateX(18px) scale(.9)}100%{opacity:1;transform:none}}
+.editing .mtl{animation:rowWig .5s var(--spring,ease)}
+@keyframes rowWig{30%{transform:translateX(-4px)}65%{transform:translateX(2px)}}
+.mtl-a{height:32px;min-width:32px;padding:0 10px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--isl-edge,var(--line));background:var(--isl-bg,var(--surface));color:var(--ink);font:inherit;font-size:12.5px;font-weight:600;cursor:pointer;transition:transform .3s var(--press,ease),background .2s,color .2s}
+.mtl-a:active{transform:scale(.9)}
+.mtl-a.del{padding:0;width:32px;color:#E5484D;border-color:color-mix(in srgb,#E5484D 35%,var(--isl-edge,var(--line)))}
+.mtl-a.del:hover{background:#E5484D;color:#fff}
+.mtl-a.re:hover{background:var(--isl-card-2,var(--surface-2))}
+@media (max-width:420px){.mtl-a.re span{display:none}.mtl-a.re{width:32px;padding:0}}
+.mtl.fin .mtl-n{opacity:.7}
+.mtl.fin .mtl-v{text-decoration:line-through;text-decoration-thickness:1.5px;opacity:.6}
+@media (prefers-reduced-motion:reduce){.mtl-acts,.editing .mtl{animation:none!important}}
 </style>
 </head>
 <body>
@@ -2357,10 +2454,9 @@ html.calc-open .calc-menu,html.gc-open .fab,html.gc-open .nav-fab,html.gc-open .
 <div class="wrap">
   <header class="top">
     <div class="brand-row">
-      <div class="brand"><span class="mark" aria-hidden="true"><i></i></span>Quotient</div>
       <div class="top-tools">
         <div class="island" id="island">
-          <button type="button" class="isl-pill" id="islPill" aria-expanded="false" aria-controls="islPanel" title="Live answers"><i class="isl-dot" aria-hidden="true"></i><span class="isl-txt"><span class="isl-v" id="islV">Live</span><span class="isl-q" id="islQ"></span></span><span class="isl-n" id="islN"></span></button>
+          <button type="button" class="isl-pill" id="islPill" aria-expanded="false" aria-controls="islPanel" title="Live answers"><i class="isl-dot" aria-hidden="true"></i><span class="isl-txt"><span class="isl-v" id="islV">Live</span><span class="isl-q" id="islQ"></span></span><span class="isl-duo" id="islDuo" aria-hidden="true"></span><span class="isl-n" id="islN"></span></button>
           <div class="isl-panel" id="islPanel" role="dialog" aria-label="Live answers" hidden>
             <section class="pins" id="pins" aria-label="Trackers and live answers">
               <div class="pins-head" hidden><h2>Live</h2></div>
@@ -7581,38 +7677,42 @@ const Engine = (() => {
     // a genie, like a window coming out of the Dock: the panel starts as the pill itself, pours out of it with curving sides, and is drawn back in
     clearTimeout(panel._t); (panel._anims || []).forEach(a => a.cancel()); panel._anims = [];
     const pill = $('#islPill');
-    if (on) { panel.hidden = false; isl.classList.add('open'); tickPins(true); }
+    if (on) { panel.hidden = false; isl.classList.remove('closing'); isl.classList.add('open'); tickPins(true); }
     if (REDUCE) { if (!on) { isl.classList.remove('open'); panel.hidden = true; } return; }
+    // the panel is the pill, grown: it pours out of it on a spring, and on closing everything in it shrinks and drops back inside
     const P = panel.getBoundingClientRect(), L = pill.getBoundingClientRect(), W = P.width, H = Math.max(1, P.height);
-    const sx = L.width / W, sy = L.height / H, lx = L.left - P.left, ly = L.top - P.top, cx = L.left + L.width / 2 - P.left;
-    const T = (x, y, a, b) => `translate(${x}px, ${y}px) scale(${a}, ${b})`, pr = Math.round(L.height / 2 / Math.min(sx, sy));
-    // smooth funnel outlines (same number of points each, so every stage blends into the next): narrow at the top, curving out to the bottom
-    const shape = (top, pow, ext = 0) => { const N = 10, pts = [], f = y => { const t = y * y * (3 - 2 * y); return Math.pow(t, pow); };
-      for (let i = 0; i <= N; i++) { const y = i / N, hw = (top + (0.5 - top) * f(y)) * (1 + ext * 2) * 100; pts.push(`${(50 - hw).toFixed(2)}% ${(-ext * 100 + y * (100 + ext * 200)).toFixed(2)}%`); }
-      for (let i = N; i >= 0; i--) { const y = i / N, hw = (top + (0.5 - top) * f(y)) * (1 + ext * 2) * 100; pts.push(`${(50 + hw).toFixed(2)}% ${(-ext * 100 + y * (100 + ext * 200)).toFixed(2)}%`); }
-      return `polygon(${pts.join(', ')})`; };
-    const RECT = shape(0.5, 1, 0.08), PILL = shape(0.5, 1), NECK = shape(0.13, 0.7), SHOULDER = shape(0.4, 0.45);
-    const neckW = 0.56, neckX = cx - W * neckW / 2, midY = (L.bottom - P.top) * 0.35;
-    const KF = [
-      { offset: 0, transform: T(lx, ly, sx, sy), clipPath: PILL, borderRadius: pr + 'px', opacity: 0 },
-      { offset: 0.14, transform: T(lx - L.width * 0.04, ly + L.height * 0.15, sx * 1.08, sy * 1.9), clipPath: PILL, borderRadius: pr + 'px', opacity: 1 },
-      { offset: 0.42, transform: T(neckX, midY, neckW, 0.58), clipPath: NECK, borderRadius: '30px' },
-      { offset: 0.74, transform: T(0, 0, 1.01, 1.025), clipPath: SHOULDER, borderRadius: '24px' },
-      { offset: 1, transform: T(0, 0, 1, 1), clipPath: RECT, borderRadius: '22px', opacity: 1 },
-    ];
-    const content = panel.querySelector('.pin-grid');
+    const sx = L.width / W, sy = L.height / H, lx = L.left - P.left, ly = L.top - P.top, cx = L.left + L.width / 2 - P.left, r = L.height / 2;
+    const T = (x, y, a, b) => `translate(${x.toFixed(2)}px, ${y.toFixed(2)}px) scale(${a.toFixed(4)}, ${b.toFixed(4)})`;
+    const CLIP = (rx, ry) => `inset(0px round ${rx.toFixed(1)}px / ${ry.toFixed(1)}px)`;
+    const items = [...panel.querySelectorAll('#pins > .isl-h:not([hidden]), #mtList:not([hidden]) > *, #pinHead:not([hidden]), #pinGrid > *, #mtJoinIsl')].filter(el => el.offsetParent !== null).slice(0, 16);
+    const mid = Math.min(0.5, Math.max(0.3, sx * 1.6)), mx = cx - W * mid / 2, my = (L.bottom - P.top) * 0.55;
+    const SPRING = (() => { try { if (!CSS.supports('animation-timing-function', 'linear(0, 1)')) return null; } catch { return null; } const pts = [], z = 0.62, w = 15; for (let i = 0; i <= 44; i++) { const t = i / 44 * 0.62, wd = w * Math.sqrt(1 - z * z), v = 1 - Math.exp(-z * w * t) * (Math.cos(wd * t) + z * w / wd * Math.sin(wd * t)); pts.push(+v.toFixed(4)); } pts[pts.length - 1] = 1; return `linear(${pts.join(', ')})`; })();
     if (on) {
-      panel._anims.push(panel.animate(KF, { duration: 680, easing: 'cubic-bezier(.22,.9,.3,1)', fill: 'none' }));
-      if (content) panel._anims.push(content.animate([{ opacity: 0, filter: 'blur(3px)' }, { opacity: 0, filter: 'blur(3px)', offset: 0.3 }, { opacity: 1, filter: 'blur(0)' }], { duration: 620, easing: 'ease-out' }));
-      pill.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.07, .9)' }, { transform: 'scale(.98, 1.03)' }, { transform: 'scale(1)' }], { duration: 520, easing: 'cubic-bezier(.3,.7,.3,1)' });
+      const OPEN = [
+        { offset: 0, transform: T(lx, ly, sx, sy), clipPath: CLIP(r / sx, r / sy), opacity: 1, filter: 'brightness(.06)' },
+        { offset: 0.38, transform: T(mx, my, mid, mid), clipPath: CLIP(26 / mid, 26 / mid), filter: 'brightness(1)' },
+        { offset: 1, transform: T(0, 0, 1, 1), clipPath: CLIP(22, 22), opacity: 1, filter: 'brightness(1)' }];
+      const a = panel.animate(OPEN, { duration: SPRING ? 720 : 560, easing: SPRING || 'cubic-bezier(.2,.9,.25,1.05)', fill: 'none' }); panel._anims.push(a);
+      a.onfinish = () => { if (!isl.classList.contains('open')) return; const b = panel.animate([{ clipPath: 'inset(0px round 22px)' }, { clipPath: 'inset(-90px round 112px)' }], { duration: 200, easing: 'ease-out' }); panel._anims.push(b); };
+      items.forEach((el, i) => panel._anims.push(el.animate([{ opacity: 0, transform: 'translateY(-10px) scale(.94)', filter: 'blur(4px)' }, { opacity: 0, transform: 'translateY(-10px) scale(.94)', filter: 'blur(4px)', offset: 0.3 }, { opacity: 1, transform: 'none', filter: 'blur(0)' }], { duration: 520 + i * 35, easing: 'cubic-bezier(.2,.8,.2,1)' })));
+      pill.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.08, .88)', offset: 0.25 }, { transform: 'scale(.97, 1.04)', offset: 0.6 }, { transform: 'scale(1)' }], { duration: 560, easing: 'cubic-bezier(.3,.7,.3,1)' });
     } else {
-      isl.classList.remove('open'); panel.hidden = false;
-      const close = KF.slice().reverse().map((k, i, arr) => ({ ...k, offset: 1 - k.offset }));
-      const a = panel.animate(close, { duration: 420, easing: 'cubic-bezier(.45,.05,.65,.45)', fill: 'forwards' }); panel._anims.push(a);
-      if (content) panel._anims.push(content.animate([{ opacity: 1 }, { opacity: 0, offset: 0.45 }, { opacity: 0 }], { duration: 420, fill: 'forwards' }));
-      // the pill takes a little gulp as the panel goes in
-      setTimeout(() => { if (!isl.classList.contains('open')) pill.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.1, .9)' }, { transform: 'scale(.97, 1.04)' }, { transform: 'scale(1)' }], { duration: 380, easing: 'cubic-bezier(.3,.7,.3,1)' }); }, 320);
-      panel._t = setTimeout(() => { if (!isl.classList.contains('open')) { panel.hidden = true; (panel._anims || []).forEach(x => x.cancel()); panel._anims = []; } }, 430);
+      isl.classList.remove('open'); panel.hidden = false; isl.classList.add('closing');
+      const D = 560;
+      // everything inside folds in first, bottom rows first, shrinking towards the pill
+      const n = items.length; items.forEach((el, i) => { const R = el.getBoundingClientRect(), dx = (L.left + L.width / 2) - (R.left + R.width / 2), dy = (L.top + L.height / 2) - (R.top + R.height / 2), k = n - 1 - i;
+        panel._anims.push(el.animate([{ opacity: 1, transform: 'none', filter: 'blur(0)' }, { opacity: 0, transform: `translate(${(dx * 0.35).toFixed(1)}px, ${(dy * 0.35).toFixed(1)}px) scale(.55)`, filter: 'blur(3px)' }], { duration: 280, delay: k * 18, easing: 'cubic-bezier(.4,0,.6,1)', fill: 'forwards' })); });
+      // the card shrinks, narrows into the pill's shape and falls into it
+      const CLOSE = [
+        { offset: 0, transform: T(0, 0, 1, 1), clipPath: CLIP(22, 22), opacity: 1, filter: 'brightness(1)' },
+        { offset: 0.42, transform: T(mx, my * 0.8, mid, mid * 0.92), clipPath: CLIP(30 / mid, 30 / (mid * 0.92)), opacity: 1, filter: 'brightness(1)' },
+        { offset: 0.64, filter: 'brightness(.9)' },
+        { offset: 0.8, transform: T(lx - L.width * 0.04, ly + L.height * 0.1, sx * 1.08, sy * 1.25), clipPath: CLIP(r / (sx * 1.08), r / (sy * 1.25)), opacity: 1, filter: 'brightness(.07)' },
+        { offset: 1, transform: T(lx, ly, sx, sy), clipPath: CLIP(r / sx, r / sy), opacity: 0, filter: 'brightness(.06)' }];
+      const a = panel.animate(CLOSE, { duration: D, easing: 'cubic-bezier(.55,.05,.4,1)', fill: 'forwards' }); panel._anims.push(a);
+      // the pill swallows it: a little gulp and a flash of its colour
+      setTimeout(() => { if (isl.classList.contains('open')) return; pill.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.12, .86)', offset: 0.3 }, { transform: 'scale(.96, 1.05)', offset: 0.65 }, { transform: 'scale(1)' }], { duration: 460, easing: 'cubic-bezier(.3,.7,.3,1)' }); }, D * 0.72);
+      panel._t = setTimeout(() => { isl.classList.remove('closing'); if (!isl.classList.contains('open')) { panel.hidden = true; (panel._anims || []).forEach(x => x.cancel()); panel._anims = []; } }, D + 20);
     }
   }
   // a new pin blooms out of the pill, then settles back
@@ -8722,7 +8822,7 @@ const Engine = (() => {
     if (t.type === 'timer') return t.done ? 'Time’s up' : tClock(tTimerLeft(t));
     if (t.type === 'countdown') { tAdvance(t); const ms = t.target - now; return ms <= 0 ? 'Now' : ms < 864e5 ? tClock(ms) : `${Math.floor(ms / 864e5)} d ${Math.floor(ms / 36e5) % 24} h`; }
     if (t.type === 'goal') return `${Math.round(Math.min(1, tDone(t) / t.target) * 100)}%`;
-    if (t.type === 'budget') return t.days ? `${tMoney(t, tBudToday(t))} today` : `${tMoney(t, t.amount - tSpent(t))} left`;
+    if (t.type === 'budget') { const x = t.days ? tBudToday(t) : t.amount - tSpent(t); return x < 0 ? `${tMoney(t, -x)} over` : t.days ? `${tMoney(t, x)} today` : `${tMoney(t, x)} left`; }
     if (t.type === 'counter') return t.goal ? `${tCount(t)} / ${t.goal}` : `${tCount(t)} today`;
     if (t.type === 'since') { const d = Math.floor((now - t.from) / 864e5); return `${d} day${d === 1 ? '' : 's'}`; }
     if (t.type === 'stopwatch') return tSwClock(tSwEl(t)).replace(/\.\d$/, '');
@@ -8962,6 +9062,108 @@ const Engine = (() => {
     let pr = null; try { pr = tScreen(tm).p; } catch {} isl.classList.toggle('ring', pr != null); if (pr != null) $('#islPill').style.setProperty('--ip', Math.max(0, Math.min(1, pr)).toFixed(3));
     const n = trackers.length - 1 + meters.length + pins.filter(p => p.isl !== false).length; $('#islN').textContent = n > 0 ? '+' + n : '';
   };
+  /* ---------- the pill speaks in colour (running, nearly done, paused, ringing, over budget) and can hold two chosen events side by side ---------- */
+  let pillSel = store.get('quotient.pill', []); if (!Array.isArray(pillSel)) pillSel = [];
+  const pillItem = key => { const [k, id] = String(key).split(':'); const o = k === 't' ? tGet(id) : k === 'm' ? mGet(id) : null; return o ? { k, o, key } : null; };
+  const pillLive = () => { const before = pillSel.length; pillSel = pillSel.filter(pillItem).slice(-2); if (pillSel.length !== before) store.set('quotient.pill', pillSel); return pillSel.map(pillItem); };
+  function pillToggle(key, on) { const has = pillSel.includes(key); on = on == null ? !has : on; pillSel = pillSel.filter(x => x !== key); let dropped = null;
+    if (on) { if (pillSel.length >= 2) dropped = pillItem(pillSel.shift()); pillSel.push(key); } store.set('quotient.pill', pillSel); islDuoKey = ''; islUpdate(true); mList(); buzz(); return dropped; }
+  // what state something is in, as one word the colours hang on
+  function liveState(it) { const now = Date.now(), o = it.o;
+    if (it.k === 'm') { const c = mCalc(o); return o.budget && c.total > o.budget ? 'over' : mRunning(o) ? 'money' : 'pause'; }
+    const t = o;
+    if (t.type === 'timer') { if (t.done) return 'alert'; if (t.end == null) return 'pause'; return t.end - now < 60e3 ? 'soon' : 'run'; }
+    if (t.type === 'reminder') return t.done ? 'alert' : t.end - now < 5 * 60e3 ? 'soon' : 'wait';
+    if (t.type === 'stopwatch') return tRunning(t) ? 'run' : 'pause';
+    if (t.type === 'interval') { if (t.since == null) return 'pause'; const p = tIvPos(t); return /break|rest|pausa|descanso|relax/i.test(t.phases[p.i][0] || '') ? 'rest' : p.left < 10e3 ? 'soon' : 'run'; }
+    if (t.type === 'countdown') { const ms = t.target - now; return ms <= 0 ? 'alert' : ms < 36e5 ? 'soon' : 'wait'; }
+    let sc = null; try { sc = tScreen(t); } catch {}
+    if (t.type === 'goal') return tDone(t) >= t.target ? 'done' : sc && /behind|past/i.test(sc.say + sc.state) ? 'warn' : 'wait';
+    if (t.type === 'budget') return sc && sc.alert || (t.days ? tBudToday(t) < 0 : t.amount - tSpent(t) < 0) ? 'over' : 'wait';
+    if (t.type === 'counter') return t.goal && tCount(t) >= t.goal ? 'done' : 'wait';
+    return 'wait'; }
+  const ST_WORD = { run: 'running', soon: 'almost done', alert: 'ringing', pause: 'paused', wait: 'waiting', done: 'done', over: 'over budget', warn: 'behind', rest: 'on a break', money: 'counting' };
+  const liveVal = it => it.k === 'm' ? mFmt(it.o, mCalc(it.o).total, true) : tShort(it.o);
+  const liveProg = it => { if (it.k !== 't') return null; try { const p = tScreen(it.o).p; return p == null ? null : Math.max(0, Math.min(1, p)); } catch { return null; } };
+  let islDuoKey = '';
+  const islUpdateT = islUpdate;
+  islUpdate = function (force) {
+    const isl = $('#island'), pill = $('#islPill'), sel = pillLive(), now = Date.now();
+    const rungOther = trackers.find(t => t.done && (t.type === 'timer' || t.type === 'reminder') && !pillSel.includes('t:' + t.id));
+    if (!sel.length || isl.classList.contains('blooming') || rungOther) {
+      isl.classList.remove('duo', 'duo2'); islDuoKey = ''; islUpdateT(force);
+      // colour the single pill by what it's showing
+      let it = null; if (isl.classList.contains('metering')) { const m = meters.find(mRunning); if (m) it = { k: 'm', o: m }; } else if (isl.classList.contains('timing') && islTid) { const t = tGet(islTid); if (t) it = { k: 't', o: t }; } else if (!isl.classList.contains('empty') && meters.length && !trackers.length) it = { k: 'm', o: meters[0] };
+      const st = it ? liveState(it) : isl.classList.contains('empty') ? '' : 'live'; if (isl.dataset.st !== st) { if (isl.dataset.st && st && !REDUCE) { pill.classList.remove('stchg'); void pill.offsetWidth; pill.classList.add('stchg'); } if (st) isl.dataset.st = st; else delete isl.dataset.st; }
+      pill.title = it ? `${it.o.name}: ${ST_WORD[st] || 'live'}` : 'Live answers';
+      return; }
+    // your chosen one or two, always on show
+    isl.classList.add('duo'); isl.classList.toggle('duo2', sel.length === 2); isl.classList.remove('empty', 'ring', 'quiet', 'timing', 'metering');
+    const key = sel.map(x => x.key).join('|'), box = $('#islDuo');
+    if (key !== islDuoKey) { islDuoKey = key; box.innerHTML = sel.map((it, i) => `<span class="isl-seg" data-seg="${i}" style="--i:${i}"><i class="isl-sd" aria-hidden="true"></i><b class="isl-sv"></b><em class="isl-sn"></em></span>`).join(''); }
+    const states = sel.map(it => liveState(it)), narrow = window.matchMedia('(max-width:560px)').matches;
+    sel.forEach((it, i) => { const seg = box.children[i]; if (!seg) return; const st = states[i];
+      if (seg.dataset.st !== st) { if (seg.dataset.st && !REDUCE) { seg.classList.remove('chg'); void seg.offsetWidth; seg.classList.add('chg'); } seg.dataset.st = st; }
+      const pr = liveProg(it); seg.classList.toggle('prog', pr != null); if (pr != null) seg.style.setProperty('--ip', pr.toFixed(3));
+      const v = liveVal(it), n = islShort(it.o.name, narrow ? (sel.length > 1 ? 9 : 16) : (sel.length > 1 ? 14 : 22)); const sv = seg.querySelector('.isl-sv'), sn = seg.querySelector('.isl-sn'); if (sv.textContent !== v) sv.textContent = v; if (sn.textContent !== n) sn.textContent = n; });
+    pill.style.setProperty('--s1', `var(--st-${states[0]})`); pill.style.setProperty('--s2', `var(--st-${states[1] || states[0]})`);
+    const worst = ['alert', 'over', 'soon', 'warn', 'run', 'rest', 'money', 'done', 'wait', 'pause'].find(s => states.includes(s)); isl.dataset.st = worst;
+    pill.title = sel.map((it, i) => `${it.o.name}: ${ST_WORD[states[i]]}`).join(' · ');
+    const rest = trackers.length + meters.length - sel.length; $('#islN').textContent = rest > 0 ? '+' + rest : '';
+  };
+  // in the list: a pill button on every tracker and meter, to put it on show (two at most)
+  const mListP = mList;
+  mList = function () { mListP(); const box = $('#mtList'); if (!box) return;
+    box.querySelectorAll('.mtl[data-to],.mtl[data-mo]').forEach(row => { const key = row.dataset.to ? 't:' + row.dataset.to : 'm:' + row.dataset.mo, on = pillSel.includes(key), name = (row.querySelector('.mtl-n') || {}).firstChild?.textContent || '';
+      row.classList.add('pp'); row.classList.toggle('onpill', on); const st = (() => { const it = pillItem(key); return it ? liveState(it) : 'wait'; })(); row.dataset.st = st;
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'mtl-pin'; b.dataset.pill = key; b.setAttribute('aria-pressed', String(on)); b.setAttribute('aria-label', on ? `Take ${name} off the pill` : `Show ${name} on the pill`); b.title = on ? 'On the pill' : 'Show on the pill';
+      b.innerHTML = '<svg width="16" height="10" viewBox="0 0 16 10" aria-hidden="true"><rect x="1" y="1" width="14" height="8" rx="4" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="5" cy="5" r="1.8" fill="currentColor"/></svg>';
+      const v = row.querySelector('.mtl-v'); v ? v.after(b) : row.appendChild(b); }); };
+  $('#mtList').addEventListener('click', e => { const b = e.target.closest('[data-pill]'); if (!b) return; e.stopPropagation(); e.preventDefault(); const key = b.dataset.pill, was = pillSel.includes(key), dropped = pillToggle(key), it = pillItem(key);
+    toast(was ? `${it ? it.o.name : 'It'} is off the pill` : dropped ? `${it.o.name} is on the pill, in place of ${dropped.o.name}` : pillSel.length === 2 ? `${it.o.name} is on the pill, next to ${pillItem(pillSel[0]).o.name}` : `${it.o.name} stays on the pill`); }, true);
+  // keep the row colours fresh while the panel is open
+  setInterval(() => { if (document.hidden || !$('#island').classList.contains('open')) return; $$('#mtList .mtl.pp').forEach(row => { const it = pillItem(row.dataset.to ? 't:' + row.dataset.to : 'm:' + row.dataset.mo); if (it) { const st = liveState(it); if (row.dataset.st !== st) row.dataset.st = st; } }); }, 1000);
+  /* ---------- tidying the list: reset or delete any event (swipe a row left, or Edit), clear what's finished, with Undo ---------- */
+  const T_RESET = { timer: 'Restart', stopwatch: 'Reset', interval: 'Restart', counter: 'Reset today', goal: 'Start over', budget: 'Start over', since: 'From today' };
+  const tFinished = t => (t.type === 'timer' || t.type === 'reminder') && t.done || (t.type === 'countdown' && !t.repeat && t.target <= Date.now());
+  function liveSnap() { return JSON.stringify({ t: trackers, m: meters, p: pillSel }); }
+  function liveRestore(s) { const o = JSON.parse(s); trackers = o.t; meters = o.m; pillSel = o.p; tSave(); mSave(); try { mGps(); } catch {} store.set('quotient.pill', pillSel); islDuoKey = ''; islUpdate(true); mList(); }
+  function undoToast(msg, snap) { toast(msg); const el = $('#toast'), b = document.createElement('button'); b.type = 'button'; b.textContent = 'Undo'; b.onclick = e => { e.stopPropagation(); el.classList.remove('show'); liveRestore(snap); buzz(); }; el.appendChild(b); el.classList.add('has-act'); clearTimeout(tt); tt = setTimeout(() => el.classList.remove('show'), 5000); }
+  function tReset(t) { const now = Date.now();
+    if (['timer', 'stopwatch', 'interval'].includes(t.type)) tDo(t, 'reset'); if (t.type === 'stopwatch') t.runs = [[now, null]];
+    if (t.type === 'counter') { t.days = t.days || {}; delete t.days[tDayKey()]; } if (t.type === 'goal' || t.type === 'budget') { t.log = []; t.created = now; } if (t.type === 'since') t.from = now; }
+  function liveRowGone(row, then) { if (!row || REDUCE) return then(); const h = row.offsetHeight; row.style.overflow = 'hidden';
+    const a = row.animate([{ opacity: 1, transform: 'none', height: h + 'px', marginBottom: '0px' }, { opacity: 0, transform: 'translateX(-24px) scale(.96)', height: h + 'px', offset: .45 }, { opacity: 0, transform: 'translateX(-24px) scale(.96)', height: '0px', paddingTop: '0px', paddingBottom: '0px', marginBottom: '-6px' }], { duration: 380, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'forwards' }); a.onfinish = then; }
+  function liveAct(kind, key, row) { const [k, id] = key.split(':'), snap = liveSnap(), o = k === 't' ? tGet(id) : mGet(id); if (!o) return; buzz();
+    if (kind === 'del') { liveRowGone(row, () => { if (k === 't') { if (tOpenId === id) tClose(); trackers = trackers.filter(x => x !== o); tSave(); } else { if (typeof mOpenId !== 'undefined' && mOpenId === id) mClose(); meters = meters.filter(x => x !== o); mSave(); try { mGps(); } catch {} } pillSel = pillSel.filter(x => x !== key); store.set('quotient.pill', pillSel); islDuoKey = ''; islUpdate(true); mList(); undoToast(`${o.name} deleted`, snap); }); return; }
+    if (k === 't') { tReset(o); tSave(); if (tOpenId === id) tRender(true); islUpdate(true); mList(); const r = $(`#mtList .mtl[data-to="${id}"]`); if (r && !REDUCE) r.animate([{ filter: 'brightness(1.25)', transform: 'scale(.98)' }, { filter: 'none', transform: 'none' }], { duration: 420, easing: 'cubic-bezier(.3,.7,.3,1)' }); undoToast(`${o.name}: ${T_RESET[o.type].toLowerCase()}`, snap); } }
+  function liveClearDone() { const done = trackers.filter(tFinished); if (!done.length) return; const snap = liveSnap(), rows = done.map(t => $(`#mtList .mtl[data-to="${t.id}"]`)).filter(Boolean); let n = rows.length;
+    const fin = () => { trackers = trackers.filter(t => !tFinished(t)); tSave(); islUpdate(true); mList(); undoToast(`Cleared ${done.length} finished`, snap); };
+    if (!n || REDUCE) return fin(); rows.forEach((r, i) => setTimeout(() => liveRowGone(r, () => { if (--n === 0) fin(); }), i * 60)); }
+  // finished things don't hang around for ever: a rung timer or reminder goes after 12 hours, a one-off countdown 2 days after its day
+  function liveSweep() { const now = Date.now(), before = trackers.length; trackers = trackers.filter(t => !(((t.type === 'timer' || t.type === 'reminder') && t.done && now - (t.doneAt || t.end || t.created) > 12 * 36e5) || (t.type === 'countdown' && !t.repeat && now - t.target > 2 * 864e5))); if (trackers.length !== before) { tSave(); islUpdate(true); mList(); } }
+  const mListE = mList;
+  mList = function () { mListE(); const box = $('#mtList'), head = $('#trHead'); if (!box || !head) return;
+    box.querySelectorAll('.mtl[data-to],.mtl[data-mo]').forEach(row => { if (row.querySelector('.mtl-acts')) return; const key = row.dataset.to ? 't:' + row.dataset.to : 'm:' + row.dataset.mo, t = row.dataset.to ? tGet(row.dataset.to) : null, nm = esc((t || mGet(row.dataset.mo) || {}).name || '');
+      const rs = t && T_RESET[t.type] ? `<button type="button" class="mtl-a re" data-lact="reset" data-key="${key}" aria-label="${T_RESET[t.type]} ${nm}" title="${T_RESET[t.type]}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.6-5.9"/><path d="M4 4v4.5h4.5"/></svg><span>${T_RESET[t.type]}</span></button>` : '';
+      row.insertAdjacentHTML('beforeend', `<span class="mtl-acts">${rs}<button type="button" class="mtl-a del" data-lact="del" data-key="${key}" aria-label="Delete ${nm}" title="Delete"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/></svg></button></span>`);
+      if (t && tFinished(t)) row.classList.add('fin'); });
+    let bar = head.querySelector('.isl-tools'); if (!bar) { head.innerHTML = '<span>Trackers</span><span class="isl-tools"><button type="button" class="isl-tb" id="liveClear" hidden></button><button type="button" class="isl-tb" id="liveEdit" aria-pressed="false">Edit</button></span>'; bar = head.querySelector('.isl-tools'); }
+    const nd = trackers.filter(tFinished).length, cb = $('#liveClear'); cb.hidden = !nd; cb.textContent = `Clear finished (${nd})`;
+    const ed = box.classList.contains('editing'); $('#liveEdit').textContent = ed ? 'Done' : 'Edit'; $('#liveEdit').setAttribute('aria-pressed', String(ed)); };
+  $('#pins').addEventListener('click', e => { const b = e.target.closest('#liveEdit,#liveClear,[data-lact]'); if (!b) return; e.stopPropagation(); e.preventDefault();
+    if (b.id === 'liveEdit') { const box = $('#mtList'), on = !box.classList.contains('editing'); box.classList.toggle('editing', on); box.querySelectorAll('.mtl.acts').forEach(r => r.classList.remove('acts')); b.textContent = on ? 'Done' : 'Edit'; b.setAttribute('aria-pressed', String(on)); buzz(); return; }
+    if (b.id === 'liveClear') { liveClearDone(); return; }
+    liveAct(b.dataset.lact, b.dataset.key, b.closest('.mtl')); }, true);
+  // swipe a row left to reveal Reset and Delete, right to put it back
+  { let sx = 0, sy = 0, row = null, moved = false, swallow = 0;
+    $('#mtList').addEventListener('pointerdown', e => { const r = e.target.closest('.mtl[data-to],.mtl[data-mo]'); if (!r || e.target.closest('button')) { row = null; return; } row = r; sx = e.clientX; sy = e.clientY; moved = false; });
+    $('#mtList').addEventListener('pointermove', e => { if (!row) return; const dx = e.clientX - sx, dy = e.clientY - sy; if (Math.abs(dy) > 14 && Math.abs(dy) > Math.abs(dx)) { row = null; return; }
+      if (dx < -34 && !row.classList.contains('acts')) { $$('#mtList .mtl.acts').forEach(x => x !== row && x.classList.remove('acts')); row.classList.add('acts'); moved = true; swallow = Date.now(); buzz(); }
+      else if (dx > 34 && row.classList.contains('acts')) { row.classList.remove('acts'); moved = true; swallow = Date.now(); } });
+    addEventListener('pointerup', () => { row = null; });
+    $('#mtList').addEventListener('click', e => { if (Date.now() - swallow < 400 && !e.target.closest('[data-lact]')) { e.stopPropagation(); e.preventDefault(); } }, true); }
+  liveSweep(); setInterval(liveSweep, 10 * 6e4); try { mList(); } catch {}
   /* ---------- run your trackers from the bar: "pause pasta", "spent 12 on lunch", "+1 water", "add 5 min to pasta" ---------- */
   const tcKey = s => String(s || '').toLowerCase().replace(/^(?:my|the|our|that|this|a|an)\s+/, '').replace(/\s+(?:timer|tracker|reminder|countdown|counter|meter|goal|alarm)$/, '').replace(/[^a-z0-9à-ú ]/g, ' ').replace(/(\w{3,})s\b/g, '$1').replace(/\s+/g, ' ').trim();
   const TC_TYPE = { timer: 'timer', stopwatch: 'stopwatch', reminder: 'reminder', alarm: 'reminder', countdown: 'countdown', budget: 'budget', goal: 'goal', counter: 'counter', pomodoro: 'interval', focu: 'interval', saving: 'goal' };
@@ -8970,7 +9172,7 @@ const Engine = (() => {
     return pool.find(t => tcKey(t.name) === k) || pool.find(t => k.length > 2 && tcKey(t.name).includes(k)) || pool.find(t => tcKey(t.name).length > 2 && (' ' + k + ' ').includes(' ' + tcKey(t.name) + ' '))
       || pool.find(t => t.unit && tcKey(t.unit) === k) || (TC_TYPE[k] ? pool.find(t => t.type === TC_TYPE[k]) : null) || null;
   }
-  const tRunning = t => t.type === 'timer' ? t.end != null && !t.done : t.type === 'interval' ? t.since != null : t.type === 'stopwatch' ? !!(t.runs.length && t.runs[t.runs.length - 1][1] == null) : false;
+  function tRunning(t) { return t.type === 'timer' ? t.end != null && !t.done : t.type === 'interval' ? t.since != null : t.type === 'stopwatch' ? !!(t.runs.length && t.runs[t.runs.length - 1][1] == null) : false; }
   function tDo(t, a, arg) { const now = Date.now();
     if (t.type === 'timer') {
       if (a === 'pause' && t.end != null) { t.left = Math.max(0, t.end - now); t.end = null; } else if (a === 'resume' && t.end == null && !t.done) { t.end = now + (t.left ?? t.dur); t.left = null; } else if (a === 'reset') { t.done = false; t.end = now + t.dur; t.left = null; }
@@ -8991,6 +9193,12 @@ const Engine = (() => {
       return { kind: 'Tracker', label: n ? `${n} thing${n === 1 ? '' : 's'} being tracked` : 'Nothing tracked yet', value: n ? [...meters, ...trackers].slice(0, 3).map(x => x.name).join(', ') + (n > 3 ? '…' : '') : 'Start one', doLabel: n ? 'Show them' : 'New tracker', quiet: true, run: () => setTimeout(() => { islOpen(true); if (!n) setTimeout(() => tChooser(true), 250); }, 30) }; }
     if (!trackers.length && !meters.length) return null;
     const TIMED = ['timer', 'interval', 'stopwatch'];
+    // "show pasta on the pill", "pin pasta and focus to live", "take pasta off the pill"
+    { const findAny = nm => { const t = tcFind(nm); if (t) return { key: 't:' + t.id, o: t }; const k = tcKey(nm), mm = meters.find(x => tcKey(x.name) === k || (k.length > 2 && tcKey(x.name).includes(k))); return mm ? { key: 'm:' + mm.id, o: mm } : null; };
+      if ((m = s.match(/^(?:show|pin|put|keep|watch|follow|track) (.+?) (?:on|in|to|at) (?:the )?(?:pill|live|island|top|live pill)$/))) { const names = m[1].split(/\s*(?:,|\band\b|&|\+)\s*/).filter(Boolean).slice(0, 2), F = names.map(findAny).filter(Boolean);
+        if (!F.length) return null; return R(F.length > 1 ? 'Show both on the pill' : 'Show on the pill', F.map(x => x.o.name).join(' · '), 'Show', () => { if (F.length > 1) { pillSel = []; } F.forEach(x => { if (!pillSel.includes(x.key)) { if (pillSel.length >= 2) pillSel.shift(); pillSel.push(x.key); } }); store.set('quotient.pill', pillSel); islDuoKey = ''; }, F.length > 1 ? 'Both are on the pill' : `${F[0].o.name} is on the pill`); }
+      if ((m = s.match(/^(?:unpin|remove|hide|take) (.+?)(?: (?:off|from) (?:the )?(?:pill|live|island|top))?$/)) && /pill|live|island|top|unpin/.test(s)) { if (/^(?:all|everything|both)$/.test(m[1])) return R('Clear the pill', 'back to taking turns', 'Clear', () => { pillSel = []; store.set('quotient.pill', pillSel); islDuoKey = ''; }, 'The pill takes turns again');
+        const x = findAny(m[1]); if (x && pillSel.includes(x.key)) return R('Take it off the pill', x.o.name, 'Remove', () => { pillSel = pillSel.filter(k => k !== x.key); store.set('quotient.pill', pillSel); islDuoKey = ''; }, `${x.o.name} is off the pill`); } }
     if ((m = s.match(/^(pause|stop|hold|resume|continue|unpause) (?:all|everything|all (?:my )?(?:timers|trackers))$/))) { const stop = /pause|stop|hold/.test(m[1]), L = trackers.filter(t => TIMED.includes(t.type) && !t.done && tRunning(t) === stop), ML = meters.filter(x => mRunning(x) === stop && stop);
       if (!L.length && !ML.length) return info(stop ? 'Nothing is running' : 'Nothing is paused', '—');
       return R(`${stop ? 'Pause' : 'Resume'} ${L.length + ML.length} tracker${L.length + ML.length === 1 ? '' : 's'}`, [...ML, ...L].map(x => x.name).slice(0, 3).join(', '), stop ? 'Pause all' : 'Resume all', () => { L.forEach(t => tDo(t, stop ? 'pause' : 'resume')); ML.forEach(x => mPause(x)); }, stop ? 'All paused' : 'All running again'); }
@@ -10076,7 +10284,7 @@ const Engine = (() => {
   let disc = store.get('quotient.discover', null); if (!disc || typeof disc !== 'object') disc = { done: {}, seen: {}, hidden: false };
   const saveDisc = () => store.set('quotient.discover', disc);
   try { if (!disc.done.ask && (hist.length || tape.some(t => !t.ex))) { disc.done.ask = disc.done.keep = 1; saveDisc(); } } catch {}
-  const QVER = 'cd02270e';
+  const QVER = '469a6ebc';
   const SAMPLE_PASTE = 'Coffee 2.40\nCroissant 1.80\nOrange juice 3.20\nTotal 7.40';
   const FEATS = [
     { id: 'ask', t: 'Ask in your own words', d: 'Type it the way you would say it', q: '18% tip on 64,50 for 3 people' },
@@ -10814,7 +11022,7 @@ const Engine = (() => {
     { id: 'next', t: 'Next steps', d: 'The ✦ Next button in the bar suggests what you’d likely do next with this answer: split a dinner bill, add a tip, flip a conversion, check an equation. Each shows its result first. It never repeats what the answer already shows, and the ones you pick most rise to the top. It also learns your usual VAT rate and how many people you split with.', q: '15% of 80', v: '12', u: '', ui: 'next', spot: '#smartBtn', tip: 'Next shows smart follow-ups, each with its result.' },
     { id: 'pad', t: 'A calculator inside the bar', d: 'Tap the little calculator under the search bar for number keys, so you don’t switch between keyboards.', q: '12 × 3 + 4', v: '40', u: '', ui: 'pad', spot: '.searchbar', tip: 'The keypad lives inside the bar. Tap the calculator tab again to fold it.', act: () => { try { qpOpen(true); } catch {} } },
     { id: 'tools', t: 'Maths tools', d: 'The round button on the left opens 16 tools: equations, quadratics, fractions, percentages, shapes, trigonometry, statistics, graphs and more. Fill in the boxes and the answer appears as you type. Typed a maths question instead? Its answer gets an Edit button that opens the right tool with your numbers in. Type a tool’s name (quadratic, shapes, gcd) to open it, and Ans drops your last answer into any box.', q: '', v: 'x = 4', u: '', ui: 'tools', spot: '.qlead', tip: 'Tap here for equations, fractions and other maths tools.' },
-    { id: 'island', t: 'Live answers at the top', d: 'Some answers change by themselves: the time in another city, a countdown, what’s left of your budget. Tap Track and they keep updating in the pill at the top.', q: 'time in new york', v: '15:47', u: '', ui: 'island', spot: '#answer [data-act="track"]', tip: 'Track keeps it updating in the pill at the top.' },
+    { id: 'island', t: 'Live answers at the top', d: 'Some answers change by themselves: the time in another city, a countdown, what’s left of your budget. Tap Track and they keep updating in the pill at the top. Its colour tells you how things stand: green running, amber nearly done, grey paused, red ringing or over budget, purple waiting. To keep one or two always on show, tap the small pill button next to them in the list, or type “show pasta and tea on the pill”. Swipe a row left (or tap Edit) to restart or delete it; finished ones can be cleared in one tap, and they tidy themselves away after a while.', q: 'time in new york', v: '15:47', u: '', ui: 'island', spot: '#answer [data-act="track"]', tip: 'Track keeps it updating in the pill at the top.' },
     { id: 'live', t: 'Track things live', d: 'Answers are for now; trackers keep going. Say it the way you would to a friend: pasta 9 minutes, remind me to call mum at 18:00, stretch every 45 minutes, rent due on the 1st, holiday budget 1200 for 10 days, water 8 glasses a day. Tap the button and it lives in the pill at the top, or use New tracker there. The pill takes turns showing whatever is ticking, with a ring that fills as it goes. Inside a tracker, the corner button fills the whole screen for your desk, and it gives you a quiet heads-up at halfway and with a minute left. You can run everything from the bar too: pause pasta, pasta +5 min, spent 12 on lunch, saved 50, +1 water, lap, snooze call mum 15 min, delete stopwatch, or just type trackers.', q: 'pasta 9 minutes', v: 'Timer', u: '', ui: 'meter', spot: '#answer [data-act="track"]', tip: 'Tap here and the timer starts. It rings even with the window closed.' },
     { id: 'log', t: 'Track time and bill it', d: 'A meter for your hourly rate (design work 40 an hour) is a time log: pause and resume it as you work, and each stretch becomes a session. The Sessions tab shows today, this week and the total, rounds to 15 minutes if you bill that way, and copies a summary for an invoice.', q: 'design work 40 an hour', v: '40.00', u: 'per hour', ui: 'log', spot: '#answer [data-act="track"]', tip: 'Tap Track to start it. Pause when you stop working; the Sessions tab keeps the log.' },
     { id: 'bar', t: 'Run the app from the bar', d: 'The bar does more than answer. Type what you want done and press Enter: open tape, calculator, help, dark mode, radians, undo, copy it, clear tape, empty basket, tick everything, split basket between 3, open trip sheet, rename sheet to holiday. It always shows what will happen before you confirm.', q: 'dark mode', v: 'Dark', u: '', ui: 'cmd', spot: '#answer', tip: 'Press Enter and it switches. Try “open tape” or “undo” next.' },
