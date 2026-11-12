@@ -2446,6 +2446,25 @@ html.calc-open .calc-menu,html.gc-open .fab,html.gc-open .nav-fab,html.gc-open .
 .mtl.fin .mtl-n{opacity:.7}
 .mtl.fin .mtl-v{text-decoration:line-through;text-decoration-thickness:1.5px;opacity:.6}
 @media (prefers-reduced-motion:reduce){.mtl-acts,.editing .mtl{animation:none!important}}
+/* ---------- share card ---------- */
+.sh{position:fixed;inset:0;z-index:70;display:grid;place-items:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:color-mix(in srgb,var(--bg) 40%,rgba(0,0,0,.45));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.sh[hidden]{display:none}
+.sh-card{width:min(380px,100%);max-height:100%;overflow:auto;display:grid;gap:12px;padding:18px;border-radius:28px;background:var(--isl-bg,var(--surface));border:1px solid var(--isl-edge,var(--line));color:var(--ink);box-shadow:0 40px 90px -30px rgba(0,0,0,.6)}
+.sh-top{display:flex;align-items:center;justify-content:space-between}
+.sh-kind{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ai-c)}
+.sh-x{width:30px;height:30px;border-radius:50%;border:1px solid var(--isl-edge,var(--line));background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer}
+.sh-what{display:grid;gap:2px;text-align:center}
+.sh-what b{font-size:17px;font-weight:600;letter-spacing:-.01em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sh-what span{font-size:13px;color:var(--muted);font-family:var(--f-mono)}
+.sh-qr{justify-self:center}
+.sh-big{justify-self:center;width:84px;height:84px;border-radius:24px;display:grid;place-items:center;background:var(--isl-card,var(--surface-2));color:var(--ai-c)}
+.sh-note{margin:0;font-size:12.5px;line-height:1.45;color:var(--muted);text-align:center;text-wrap:balance}
+.sh-row{display:flex;gap:8px;align-items:center;min-width:0}
+.sh-code{flex:1;min-width:0;font-family:var(--f-mono);font-size:11.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:10px 12px;border-radius:12px;background:var(--isl-card,var(--surface-2))}
+.sh-wide{flex:1}
+.sh-join input{flex:1;min-width:0;font:inherit;font-size:13px;padding:9px 12px;border-radius:12px;border:1px solid var(--isl-edge,var(--line));background:transparent;color:var(--ink)}
+.sh-btn svg{flex:none}
+html.sh-open,html.sh-open body{overflow:hidden}
 </style>
 </head>
 <body>
@@ -2547,6 +2566,7 @@ html.calc-open .calc-menu,html.gc-open .fab,html.gc-open .nav-fab,html.gc-open .
         <input id="sheetTitle" type="text" aria-label="Sheet title" spellcheck="false" autocomplete="off" placeholder="Untitled">
         <span class="chip-kind ex" id="sheetEx" hidden>Example</span>
         <button class="btn" id="sheetCopy" type="button">Copy</button>
+        <button class="btn ic sh-btn" id="sheetShare" type="button" title="Share this sheet: QR code, link or code"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M5 12v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg><span class="t">Share</span></button>
         <button class="btn primary" id="sheetNew" type="button">+ New</button>
       </div>
       <div class="sh-panel" id="shPanel" hidden></div>
@@ -2570,6 +2590,7 @@ html.calc-open .calc-menu,html.gc-open .fab,html.gc-open .nav-fab,html.gc-open .
         <h2>Basket</h2><span class="chip-kind ex" id="bkEx" hidden>Example</span>
         <label class="bk-budget" for="bkBudget">Budget <input id="bkBudget" type="text" inputmode="decimal" placeholder="none" autocomplete="off" aria-describedby="bkBudgetHint"></label><span class="sr-only" id="bkBudgetHint">A number, or a name from your Sheet such as groceries</span>
         <button class="btn" id="bkGroup" type="button" aria-pressed="false" title="Sort the list the way you walk the shop">By aisle</button>
+        <button class="btn ic sh-btn" id="bkShare" type="button" title="Share this basket: QR code, link or code"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M5 12v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg><span class="t">Share</span></button>
         <button class="btn" id="bkClear" type="button">Clear</button>
       </div>
       <form class="bk-add" id="bkAdd" autocomplete="off">
@@ -2743,6 +2764,18 @@ html.calc-open .calc-menu,html.gc-open .fab,html.gc-open .nav-fab,html.gc-open .
       </div>
     </div>
     <button type="button" class="mt-del" id="mtDel">Delete meter</button>
+  </div>
+</div>
+<div class="sh" id="shDlg" role="dialog" aria-modal="true" aria-labelledby="shKind" hidden inert>
+  <div class="sh-card" id="shCard">
+    <div class="sh-top sh-in"><span class="sh-kind" id="shKind">Share</span><button type="button" class="sh-x" data-shclose aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <div class="sh-what sh-in"><b id="shTitle"></b><span id="shSub"></span></div>
+    <div class="mt-qr sh-qr sh-in" id="shQr"></div>
+    <div class="sh-big sh-in" id="shBig" hidden><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12h8M12 8v8"/></svg></div>
+    <p class="sh-note sh-in" id="shNote"></p>
+    <div class="sh-row sh-in"><code class="sh-code" id="shCode"></code><button type="button" class="mt-chip" id="shCopy">Copy code</button></div>
+    <div class="sh-row sh-in"><button type="button" class="mt-chip sh-wide" id="shLink">Copy link</button><button type="button" class="mt-chip sh-wide" id="shNative" hidden>Send…</button></div>
+    <form class="sh-row sh-join sh-in" id="shJoin" autocomplete="off"><input id="shJoinIn" placeholder="Got a code? Paste it here" aria-label="Code to open" spellcheck="false"><button type="submit" class="mt-chip">Open</button></form>
   </div>
 </div>
 <div class="mt" id="trk" role="dialog" aria-modal="true" aria-label="Tracker" hidden inert>
@@ -7366,7 +7399,7 @@ const Engine = (() => {
         ${!example ? `<button class="btn" data-act="copyall" type="button">Copy summary</button>` : ''}
         ${!example && r.kind === 'Money' && typeof r.num === 'number' && !(r.links || []).some(l => l.src === 'basket') && !/per (hour|day|week|month|year)|mortgage|loan|borrow|interest|salary|invest|save|saving|inflation/i.test(r.label + ' ' + (r.unit || '') + ' ' + (AQ || $('#q').value)) ? `<button class="btn" data-act="basket" type="button">Add to basket</button>` : ''}
 `;
-      actions = `<div class="a-actions a-bar">${primary}${r.kind === 'Random' && !example ? `<button class="btn" data-act="again" type="button">Roll again</button>` : ''}${example ? '' : `${!r.assign && !r.paste && !r.error && !r.track && (() => { try { const tq = ((AQ || $('#q').value) || '').trim(); return !!trackFrom(tq) || liveAnswer(r); } catch { return false; } })() ? `<button class="btn ic" data-act="track" type="button" title="Create a tracker: it keeps living in the pill at the top"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.2" fill="currentColor" stroke="none"/></svg><span class="t">Track</span></button>` : ''}<button class="btn ic" data-act="copy" type="button" title="Copy the answer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span class="t">Copy</span></button>`}${r.paste ? `<button class="btn" data-act="psheet" type="button">Open as sheet</button><button class="btn" data-act="pbasket" type="button">Add to basket</button>` : ''}@@MORE@@</div>`;
+      actions = `<div class="a-actions a-bar">${primary}${r.kind === 'Random' && !example ? `<button class="btn" data-act="again" type="button">Roll again</button>` : ''}${example ? '' : `${!r.assign && !r.paste && !r.error && !r.track && (() => { try { const tq = ((AQ || $('#q').value) || '').trim(); return !!trackFrom(tq) || liveAnswer(r); } catch { return false; } })() ? `<button class="btn ic" data-act="track" type="button" title="Create a tracker: it keeps living in the pill at the top"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.2" fill="currentColor" stroke="none"/></svg><span class="t">Track</span></button>` : ''}<button class="btn ic" data-act="copy" type="button" title="Copy the answer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span class="t">Copy</span></button>${!r.paste && !r.run && !r.error && !r.info ? `<button class="btn ic" data-act="share" type="button" title="Share this answer: QR code, link or code"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M5 12v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg><span class="t">Share</span></button>` : ''}`}${r.paste ? `<button class="btn" data-act="psheet" type="button">Open as sheet</button><button class="btn" data-act="pbasket" type="button">Add to basket</button>` : ''}@@MORE@@</div>`;
     } else {
       actions = `<div class="suggest"><span class="lbl">Try</span>${['18% tip on 64,50 for 3 people', '3pm lisbon to tokyo', 'x^2 − 5x + 6 = 0'].map(x => `<button type="button" class="ex" data-try="${esc(x)}">${esc(x)}</button>`).join('')}</div>`;
     }
@@ -10149,6 +10182,9 @@ const Engine = (() => {
     const C = (kind, label, value, doLabel, fn) => ({ kind, label, value, doLabel, quiet: true, run: () => setTimeout(fn, 30) });
     const info = (kind, label, value) => ({ info: true, kind, label, value, steps: [] });
     const P = '(?:open|show|see|view|go to|switch to|bring up|launch)';
+    // sharing: "share this sheet", "qr code for my basket", or a code typed in
+    { const rc = String(raw || '').trim().match(/^(?:open |join |load )?([sab])-([0-9A-Za-z]{6,})$/i); if (rc && /^[sab]-/.test(String(raw).trim().replace(/^(?:open |join |load )/i, ''))) { const kind = SH_KIND[rc[1]]; return C('Share', `Open the shared ${kind}`, 'Shared ' + kind, 'Open', () => shareImport(String(raw).trim().replace(/^(?:open |join |load )/i, ''))); } }
+    if ((m = s.match(/^(?:share|send|qr(?: code)?(?: for| of)?|(?:make|create|get) (?:a )?(?:qr(?: code)?|code|link) (?:for|of))(?: this| my| the)? (sheet|page|note|basket|list|shopping list|cart|groceries)(?: (?:as|with|by) (?:a )?(?:qr(?: code)?|code|link))?$/))) { const k = /sheet|page|note/.test(m[1]) ? 's' : 'b'; return C('Share', k === 's' ? `Share “${sheet.title || 'your sheet'}”` : 'Share your basket', 'QR code · link · code', 'Share', () => shareOpen(k)); }
     // places
     if (new RegExp(`^(?:${P} )?(?:the |my )?(?:tape|history|kept answers|saved answers)$`).test(s)) return C('Go', tape.length ? `Your tape · ${tape.length} kept` : 'Your tape is empty', 'Tape', 'Open tape', () => tapeOpen(true));
     if (new RegExp(`^(?:${P} )?(?:the |my )?(?:calculator|keypad|calc)$`).test(s)) return C('Go', 'The calculator, with scientific keys', 'Calculator', 'Open', () => setCalc(true));
@@ -10284,7 +10320,7 @@ const Engine = (() => {
   let disc = store.get('quotient.discover', null); if (!disc || typeof disc !== 'object') disc = { done: {}, seen: {}, hidden: false };
   const saveDisc = () => store.set('quotient.discover', disc);
   try { if (!disc.done.ask && (hist.length || tape.some(t => !t.ex))) { disc.done.ask = disc.done.keep = 1; saveDisc(); } } catch {}
-  const QVER = '469a6ebc';
+  const QVER = '21dc5aec';
   const SAMPLE_PASTE = 'Coffee 2.40\nCroissant 1.80\nOrange juice 3.20\nTotal 7.40';
   const FEATS = [
     { id: 'ask', t: 'Ask in your own words', d: 'Type it the way you would say it', q: '18% tip on 64,50 for 3 people' },
@@ -11027,7 +11063,7 @@ const Engine = (() => {
     { id: 'log', t: 'Track time and bill it', d: 'A meter for your hourly rate (design work 40 an hour) is a time log: pause and resume it as you work, and each stretch becomes a session. The Sessions tab shows today, this week and the total, rounds to 15 minutes if you bill that way, and copies a summary for an invoice.', q: 'design work 40 an hour', v: '40.00', u: 'per hour', ui: 'log', spot: '#answer [data-act="track"]', tip: 'Tap Track to start it. Pause when you stop working; the Sessions tab keeps the log.' },
     { id: 'bar', t: 'Run the app from the bar', d: 'The bar does more than answer. Type what you want done and press Enter: open tape, calculator, help, dark mode, radians, undo, copy it, clear tape, empty basket, tick everything, split basket between 3, open trip sheet, rename sheet to holiday. It always shows what will happen before you confirm.', q: 'dark mode', v: 'Dark', u: '', ui: 'cmd', spot: '#answer', tip: 'Press Enter and it switches. Try “open tape” or “undo” next.' },
     { id: 'settle', t: 'Who owes who', d: 'Say who paid what. It works out the fewest payments to settle up, whatever the names.', q: 'Ana paid 45, Bruno 30, Carla 0', v: '2 payments', u: '', ui: 'answer', spot: '#answer', tip: 'Fewest payments to settle up. Names don’t matter.' },
-    { id: 'nav', t: 'Sheet and Basket', d: 'Along the bottom, from the left: Sheet and Basket, search, your tape, and the calculator. The calculator button offers a basic calculator or the graphing calculator: a full device with F1–F6 soft keys, SHIFT and ALPHA, a direction pad and six apps (RUN for sums with variables A–Z and Ans, GRAPH with Trace, Zoom, V-Window and G-Solv for roots, max, min and intersections, TABLE, EQUA for simultaneous equations and polynomials, STAT for lists and regression, and SET UP). Your computer keyboard works on it too. Searching from the Sheet or Basket leaves a “Back to” button, so you return to the same place. The Sheet is a note page: write freely and every line that has a sum gets its answer in the column on the right. “Rent: 850” names a number you can use below, “milk 1.20” counts as an item, and “total” adds up the section above it. The bar on top makes a heading, a to-do or a list, adds a total or today’s date, and ƒx opens the maths tools right on the page: their answer is written as a new line. Tap any answer on the page to copy it, change it in a tool, or see the steps. When you leave to see the steps (or after using a tool from the search bar), a “Back to” button takes you straight back to where you were. Ticked to-dos show what’s done and what’s still to buy.', q: '', v: '', u: '', ui: 'nav', spot: '#navFab', tip: 'Sheet and Basket live here.' },
+    { id: 'nav', t: 'Sheet and Basket', d: 'Along the bottom, from the left: Sheet and Basket, search, your tape, and the calculator. The calculator button offers a basic calculator or the graphing calculator: a full device with F1–F6 soft keys, SHIFT and ALPHA, a direction pad and six apps (RUN for sums with variables A–Z and Ans, GRAPH with Trace, Zoom, V-Window and G-Solv for roots, max, min and intersections, TABLE, EQUA for simultaneous equations and polynomials, STAT for lists and regression, and SET UP). Your computer keyboard works on it too. Searching from the Sheet or Basket leaves a “Back to” button, so you return to the same place. The Sheet is a note page: write freely and every line that has a sum gets its answer in the column on the right. “Rent: 850” names a number you can use below, “milk 1.20” counts as an item, and “total” adds up the section above it. The bar on top makes a heading, a to-do or a list, adds a total or today’s date, and ƒx opens the maths tools right on the page: their answer is written as a new line. Tap any answer on the page to copy it, change it in a tool, or see the steps. When you leave to see the steps (or after using a tool from the search bar), a “Back to” button takes you straight back to where you were. Ticked to-dos show what’s done and what’s still to buy. The Share button on a sheet, the basket or any answer makes a QR code, a link and a code: scan it or paste the code into the search bar on another phone and it opens there as a copy of its own, with no account or internet.', q: '', v: '', u: '', ui: 'nav', spot: '#navFab', tip: 'Sheet and Basket live here.' },
   ];
   let gd = store.get('quotient.guide', null); if (!gd || typeof gd !== 'object') gd = { seen: false, done: {} };
   const saveGd = () => store.set('quotient.guide', gd);
@@ -11153,6 +11189,71 @@ const Engine = (() => {
     else { window.scrollTo({ top: 0, behavior: REDUCE ? 'auto' : 'smooth' }); const q = $('#q'); q.focus({ preventScroll: true }); q.select(); } });
   $('#retX').addEventListener('click', () => { ret = null; retSync(); });
   $('#q').addEventListener('input', () => retSync());
+  /* ---------- share a sheet, an answer or a basket: a QR code, a link or a code to type in, no internet or account needed ---------- */
+  const shB62 = by => { let n = 0n; for (const b of by) n = n * 256n + BigInt(b); let o = ''; while (n > 0n) { o = B62[Number(n % 62n)] + o; n /= 62n; } return o; };
+  const shBytes = code => { let n = 0n; for (const ch of code) { const v = B62.indexOf(ch); if (v < 0) throw new Error('bad'); n = n * 62n + BigInt(v); } const by = []; while (n > 0n) { by.unshift(Number(n % 256n)); n /= 256n; } return by; };
+  async function shEnc(obj) { const raw = new TextEncoder().encode(JSON.stringify(obj)); let body = raw, flag = 1;
+    try { if (typeof CompressionStream !== 'undefined') { const z = new Uint8Array(await new Response(new Blob([raw]).stream().pipeThrough(new CompressionStream('deflate-raw'))).arrayBuffer()); if (z.length < raw.length) { body = z; flag = 2; } } } catch {}
+    return shB62([flag, ...body]); }
+  async function shDec(code) { const by = shBytes(code), body = new Uint8Array(by.slice(1)); let txt;
+    if (by[0] === 2) txt = await new Response(new Blob([body]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).text(); else if (by[0] === 1) txt = new TextDecoder().decode(body); else throw new Error('bad');
+    const o = JSON.parse(txt); if (!o || o.v !== 1) throw new Error('bad'); return o; }
+  const SH_KIND = { s: 'sheet', a: 'answer', b: 'basket' };
+  const shFind = text => { const t = String(text || '').trim(); const m = t.match(/(?:^|#|\s)([sab])-([0-9A-Za-z]{6,})\b/); return m ? { k: m[1], code: m[2] } : null; };
+  // what goes in
+  function shWhat(kind) {
+    if (kind === 's') { if (sheet.ex || !sheet.lines.some(l => l.trim())) return null; if (!sheet.id) saveSheet(); let tot = null; try { tot = sheetLive().total; } catch {}
+      return { obj: { v: 1, k: 's', i: sheet.id, t: sheet.title || 'Sheet', l: sheet.lines.slice(0, 400) }, title: sheet.title || 'Untitled sheet', sub: `${sheet.lines.filter(l => l.trim()).length} lines${tot ? ` · total ${Engine.fmt(+tot.toFixed(2))}` : ''}` }; }
+    if (kind === 'a') { const q0 = ((current && !current.error && current.asked) || $('#q').value || '').trim(); if (!q0 || !current || current.error) return null; const val = `${current.value || ''}${current.unit ? ' ' + current.unit : ''}`.trim();
+      return { obj: { v: 1, k: 'a', q: q0.slice(0, 300), r: val.slice(0, 80), l: (current.label || '').slice(0, 80) }, title: q0.length > 60 ? q0.slice(0, 57) + '…' : q0, sub: val ? `= ${val}` : 'Answer' }; }
+    if (kind === 'b') { if (bk.ex || !bk.items.length) return null; const it = bk.items.slice(0, 120).map(i => { const o = { ...i }; delete o.bump; delete o.mem; delete o.got; return o; }); const sum = bk.items.reduce((a, i) => a + (i.price || 0) * (i.qty || 1), 0);
+      return { obj: { v: 1, k: 'b', it, b: bk.budget || 0 }, title: 'Basket', sub: `${bk.items.length} item${bk.items.length === 1 ? '' : 's'}${sum ? ` · about ${Engine.fmt(+sum.toFixed(2))}` : ''}${bk.budget ? ` · budget ${Engine.fmt(bk.budget)}` : ''}` }; }
+    return null; }
+  // the share card
+  let shCur = null;
+  async function shareOpen(kind, from) {
+    const w = shWhat(kind); if (!w) { toast(kind === 's' ? 'Write something on the sheet first' : kind === 'b' ? 'The basket is empty' : 'Ask something first'); return; }
+    const dlg = $('#shDlg'); let code; try { code = await shEnc(w.obj); } catch { toast('Couldn’t make a code for that'); return; }
+    const full = kind + '-' + code, link = (!mInFrame && /^https?:$/.test(location.protocol) ? location.origin + location.pathname : '') + '#' + full, isLink = /^https?:/.test(link);
+    shCur = { kind, full, link: isLink ? link : '' };
+    $('#shKind').textContent = 'Share this ' + SH_KIND[kind]; $('#shTitle').textContent = w.title; $('#shSub').textContent = w.sub;
+    const svg = QR.svg(isLink ? link : full, 4); $('#shQr').innerHTML = svg || ''; $('#shQr').hidden = !svg;
+    $('#shBig').hidden = !!svg; $('#shCode').textContent = full; $('#shLink').hidden = !isLink; $('#shNative').hidden = !navigator.share;
+    $('#shNote').innerHTML = !svg ? 'Too much for one QR code. Copy the code (or the link) and send it any way you like: it holds everything.' : isLink ? 'Point another phone’s camera at it, or send the link. It opens in Quotient with a <b>copy of its own</b>, no account or internet needed.' : 'Scan it from the installed app, or copy the code and paste it into the search bar on the other phone.';
+    dlg.hidden = false; dlg.inert = false; document.documentElement.classList.add('sh-open'); const card = $('#shCard');
+    if (!REDUCE) { const R = from && from.getBoundingClientRect ? from.getBoundingClientRect() : null, C = card.getBoundingClientRect(); const dx = R ? (R.left + R.width / 2) - (C.left + C.width / 2) : 0, dy = R ? (R.top + R.height / 2) - (C.top + C.height / 2) : 40;
+      card.animate([{ transform: `translate(${dx}px, ${dy}px) scale(.2)`, opacity: 0, filter: 'blur(6px)' }, { opacity: 1, filter: 'blur(0)', offset: 0.4 }, { transform: 'none', opacity: 1, filter: 'blur(0)' }], { duration: 520, easing: 'cubic-bezier(.2,.9,.25,1.05)' }); dlg.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 260 });
+      $$('#shCard .sh-in').forEach((el, i) => el.animate([{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 0, transform: 'translateY(8px)', offset: 0.35 }, { opacity: 1, transform: 'none' }], { duration: 480 + i * 50, easing: 'cubic-bezier(.2,.8,.2,1)' })); }
+    setTimeout(() => { try { $('#shCopy').focus({ preventScroll: true }); } catch {} }, 60); }
+  function shareClose() { const dlg = $('#shDlg'); if (dlg.hidden) return; const done = () => { dlg.hidden = true; dlg.inert = true; document.documentElement.classList.remove('sh-open'); };
+    if (REDUCE) return done(); const a = $('#shCard').animate([{ transform: 'none', opacity: 1 }, { transform: 'translateY(24px) scale(.94)', opacity: 0 }], { duration: 240, easing: 'cubic-bezier(.4,0,.6,1)', fill: 'forwards' }); dlg.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 240, fill: 'forwards' }); a.onfinish = () => { a.cancel(); dlg.getAnimations().forEach(x => x.cancel()); done(); }; }
+  // what comes in
+  async function shareImport(text, quiet) {
+    const f = shFind(text); if (!f) return false; let o; try { o = await shDec(f.code); } catch { if (!quiet) toast('That code didn’t work. Copy it again from the other phone'); return false; }
+    shareClose();
+    if (o.k === 's' && Array.isArray(o.l)) { const lines = o.l.map(x => String(x)).slice(0, 400), ex = sheets.find(s => s.src && s.src === o.i);
+      if (ex) { ex.lines = lines; ex.title = String(o.t || ex.title); sheet = ex; } else sheet = { id: 's' + Date.now().toString(36), src: String(o.i || ''), title: String(o.t || 'Shared sheet').slice(0, 60), ex: false, lines };
+      saveSheet(); store.set('quotient.sheetActive', sheet.id); setView('sheet'); renderLines(); toast(ex ? `“${sheet.title}” updated from the code` : `Opened “${sheet.title}”, a copy of your own`); return true; }
+    if (o.k === 'a' && o.q) { setView('ask'); const q = $('#q'); q.value = String(o.q); try { growQ(); } catch {} runAsk(); q.focus(); toast(o.r ? `Shared answer: ${o.r}` : 'Opened a shared answer'); return true; }
+    if (o.k === 'b' && Array.isArray(o.it)) { if (bk.ex) bk = { items: [], budget: 0, people: 1 }; const r = bkAddItems(o.it.map(i => ({ ...i, name: String(i.name || 'item'), qty: +i.qty || 1, price: +i.price || 0, got: false }))); if (o.b && !bk.budget) bk.budget = +o.b; saveBk(); setView('basket'); try { renderBasket(); } catch {} toast(`Added ${r.added + r.merged} item${r.added + r.merged === 1 ? '' : 's'} to your basket`); return true; }
+    if (!quiet) toast('That code didn’t work'); return false; }
+  $('#shDlg').addEventListener('click', e => { if (e.target === $('#shDlg') || e.target.closest('[data-shclose]')) shareClose(); });
+  $('#shCopy').addEventListener('click', () => { if (shCur) copy(shCur.full); });
+  $('#shLink').addEventListener('click', () => { if (shCur && shCur.link) copy(shCur.link); });
+  $('#shNative').addEventListener('click', async () => { if (!shCur) return; try { await navigator.share({ title: 'Quotient', text: `Open this ${SH_KIND[shCur.kind]} in Quotient: ${shCur.full}`, url: shCur.link || undefined }); } catch {} });
+  $('#shJoin').addEventListener('submit', async e => { e.preventDefault(); const v = $('#shJoinIn').value; if (await shareImport(v)) $('#shJoinIn').value = ''; else if (!shFind(v)) toast('Paste a code that starts with s-, a- or b-'); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#shDlg').hidden) { e.preventDefault(); e.stopPropagation(); shareClose(); } }, true);
+  $('#sheetShare').addEventListener('click', e => { shareOpen('s', e.currentTarget); });
+  $('#bkShare').addEventListener('click', e => { shareOpen('b', e.currentTarget); });
+  $('#answer').addEventListener('click', e => { const b = e.target.closest('[data-act="share"]'); if (!b) return; e.stopPropagation(); shareOpen('a', b); }, true);
+  // a code pasted into the search bar opens straight away
+  $('#q').addEventListener('paste', e => { const t = (e.clipboardData || window.clipboardData)?.getData('text') || ''; if (t.length < 8000 && shFind(t) && /^\s*(?:\S*#)?[sab]-[0-9A-Za-z]{6,}\s*$/.test(t)) { e.preventDefault(); e.stopImmediatePropagation(); shareImport(t); } }, true);
+  // a link opened from a QR code
+  const shBootHash = location.hash;
+  function shFromHash(e) { const h = e && e.type === 'hashchange' ? location.hash : (shBootHash || location.hash); if (/^#[sab]-[0-9A-Za-z]{6,}$/.test(h)) { shareImport(h.slice(1)).then(() => { if (location.hash === h) { try { history.replaceState(null, '', location.pathname + location.search); } catch {} } }); } }
+  window.addEventListener('hashchange', shFromHash); setTimeout(shFromHash, 400);
+  // the meters' join boxes take these codes too
+  for (const [fid, iid] of [['#mtJoinIsl', '#mtJoinIslIn'], ['#mtJoin', '#mtJoinIn']]) $(fid).addEventListener('submit', e => { const inp = $(iid); if (shFind(inp.value) && !/m-/.test(inp.value)) { e.preventDefault(); e.stopImmediatePropagation(); shareImport(inp.value).then(ok => { if (ok) { inp.value = ''; islOpen(false); } }); } }, true);
   function setView(v, first) {
     try { setTimeout(navDot, 0); } catch {}
     view = v; const isSheet = v === 'sheet', isBk = v === 'basket'; if (ret && ((ret.kind === 'view' && ret.view === v) || (ret.kind === 'sheet' && isSheet))) ret = null;
