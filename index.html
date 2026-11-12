@@ -2447,8 +2447,8 @@ html.calc-open .calc-menu,html.gc-open .fab,html.gc-open .nav-fab,html.gc-open .
 .mtl.fin .mtl-v{text-decoration:line-through;text-decoration-thickness:1.5px;opacity:.6}
 @media (prefers-reduced-motion:reduce){.mtl-acts,.editing .mtl{animation:none!important}}
 /* ---------- share card ---------- */
-.sh{position:fixed;inset:0;z-index:70;display:grid;place-items:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:color-mix(in srgb,var(--bg) 40%,rgba(0,0,0,.45));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-.sh[hidden]{display:none}
+div.sh{position:fixed;inset:0;z-index:70;display:grid;place-items:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:color-mix(in srgb,var(--bg) 40%,rgba(0,0,0,.45));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+div.sh[hidden]{display:none}
 .sh-card{width:min(380px,100%);max-height:100%;overflow:auto;display:grid;gap:12px;padding:18px;border-radius:28px;background:var(--isl-bg,var(--surface));border:1px solid var(--isl-edge,var(--line));color:var(--ink);box-shadow:0 40px 90px -30px rgba(0,0,0,.6)}
 .sh-top{display:flex;align-items:center;justify-content:space-between}
 .sh-kind{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ai-c)}
@@ -2532,6 +2532,63 @@ html.sh-open,html.sh-open body{overflow:hidden}
 .hab-empty{margin:0;font-size:13px;color:var(--muted);line-height:1.5}
 .sm-lrn{display:inline-block;font-style:normal;font-size:10.5px;font-weight:600;color:var(--ai-c);background:var(--ai-soft);border-radius:999px;padding:1px 7px;margin-left:6px;vertical-align:1px}
 .smart-menu button.sm-hab{display:block;grid-template-columns:none;width:calc(100% - 12px);margin:4px 6px 2px;padding:8px 10px;border-radius:10px;border:1px dashed color-mix(in srgb,var(--ai-c) 45%,transparent);background:transparent;color:var(--ai-c);font:inherit;font-size:12.5px;font-weight:600;text-align:left;cursor:pointer}
+/* ---------- ringing ---------- */
+#ringCard{position:fixed;z-index:80;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 18px);width:min(560px,calc(100vw - 24px));translate:-50% 0;display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"b t s" "z z x";gap:10px 12px;align-items:center;padding:14px;border-radius:26px;background:#0B0C0F;color:#F4F5F7;border:1px solid color-mix(in srgb,#FF6A55 45%,transparent);box-shadow:0 24px 60px -18px rgba(0,0,0,.7),0 0 0 0 rgba(255,106,85,.5);animation:ringGlow 1.4s ease-in-out infinite}
+#ringCard[hidden]{display:none}
+@keyframes ringGlow{50%{box-shadow:0 24px 60px -18px rgba(0,0,0,.7),0 0 0 8px rgba(255,106,85,0),0 0 36px -6px rgba(255,106,85,.55)}}
+#ringCard.quiet{animation:none;border-color:rgba(255,255,255,.12)}
+.ring-bell{grid-area:b;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:rgba(255,106,85,.16);color:#FF8A7A;animation:ringBell 1.4s ease-in-out infinite;transform-origin:50% 10%}
+#ringCard.quiet .ring-bell{animation:none;opacity:.6}
+@keyframes ringBell{0%,50%,100%{transform:none}10%{transform:rotate(16deg)}20%{transform:rotate(-14deg)}30%{transform:rotate(10deg)}40%{transform:rotate(-6deg)}}
+.ring-txt{grid-area:t;display:grid;min-width:0}
+.ring-txt b{font-size:17px;font-weight:600;letter-spacing:-.01em}
+.ring-txt span{font-size:13px;opacity:.65;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ring-snd{grid-area:s;font:inherit;font-size:12px;font-weight:600;height:30px;padding:0 11px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:transparent;color:#C9CDD4;cursor:pointer}
+.ring-snz{grid-area:z;display:flex;gap:8px}
+.ring-snz[hidden]{display:none}
+.ring-snz button{flex:1;height:46px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#F4F5F7;font:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:transform .3s var(--press,ease)}
+.ring-stop{grid-area:x;height:46px;min-width:120px;padding:0 22px;border-radius:999px;border:0;background:linear-gradient(180deg,#FF8A7A,#F2553F);color:#1A0805;font:inherit;font-size:16px;font-weight:700;cursor:pointer;transition:transform .3s var(--press,ease)}
+.ring-snz button:active,.ring-stop:active,.ring-snd:active{transform:scale(.94)}
+#ringCard:has(.ring-snz[hidden]) .ring-stop{grid-column:1/-1}
+@media (prefers-reduced-motion:reduce){#ringCard,.ring-bell{animation:none}}
+/* ---------- settings page ---------- */
+#setPage{place-items:stretch center;padding:0}
+.set-card{width:min(640px,100%);height:100%;overflow:auto;background:var(--bg);color:var(--ink);padding:calc(env(safe-area-inset-top,0px) + 14px) max(16px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 28px) max(16px,env(safe-area-inset-left,0px));overscroll-behavior:contain}
+@media (min-width:700px){#setPage{place-items:center;padding:24px}.set-card{height:auto;max-height:calc(100vh - 48px);border-radius:30px;border:1px solid var(--line);box-shadow:0 40px 90px -30px rgba(0,0,0,.55);padding:18px 22px 26px}}
+.set-top{position:sticky;top:calc(-14px - env(safe-area-inset-top,0px));z-index:2;display:flex;align-items:center;gap:12px;padding:6px 0 12px;margin:0 0 4px;background:linear-gradient(var(--bg) 75%,transparent)}
+.set-top h2{margin:0;font-size:24px;font-weight:600;letter-spacing:-.02em}
+.set-back{width:38px;height:38px}
+.set-body{display:grid;gap:18px}
+.set-group h3{display:flex;align-items:center;gap:8px;margin:0 4px 8px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.set-group h3 svg{color:var(--ai-c)}
+.set-box{border-radius:20px;background:var(--surface);border:1px solid var(--line);overflow:hidden}
+.set-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:13px 14px;min-height:56px}
+.set-row + .set-row,.set-restore + .set-row,.set-row + .set-restore{border-top:1px solid var(--line)}
+.set-row.col{flex-direction:column;align-items:stretch;gap:10px}
+.set-l{display:grid;gap:2px;min-width:0}
+.set-l b{font-size:14.5px;font-weight:500}
+.set-l small{font-size:12px;color:var(--muted);line-height:1.35}
+.set-seg{flex:none;display:inline-flex;padding:3px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line)}
+.set-seg button{font:inherit;font-size:12.5px;font-weight:600;height:30px;padding:0 12px;border-radius:999px;border:0;background:transparent;color:var(--muted);cursor:pointer;transition:background .25s,color .25s,box-shadow .25s}
+.set-seg button[aria-checked="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12),0 0 0 1px var(--line)}
+.set-sw{flex:none;width:50px;height:30px;border-radius:999px;border:0;padding:3px;background:var(--line);cursor:pointer;transition:background .3s}
+.set-sw i{display:block;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .35s var(--spring,ease)}
+.set-sw[aria-checked="true"]{background:#2BB673}
+.set-sw[aria-checked="true"] i{transform:translateX(20px)}
+.set-chips{display:flex;flex-wrap:wrap;gap:6px}
+.set-chip{font:inherit;font-size:13px;font-weight:600;height:34px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;transition:background .2s,color .2s,border-color .2s,transform .3s var(--press,ease)}
+.set-chip.on{color:var(--accent-text);border-color:color-mix(in srgb,var(--accent) 50%,transparent);background:var(--accent-soft)}
+.set-chip:active,.set-btn:active{transform:scale(.94)}
+.set-btn{flex:none;padding:8px 14px;font-weight:600}
+.set-btn:disabled{opacity:.4;cursor:default}
+.set-danger{color:#E5484D;border-color:color-mix(in srgb,#E5484D 40%,var(--line))}
+.set-danger.sure{background:#E5484D;color:#fff;border-color:transparent}
+.set-tag{flex:none;font-family:var(--f-mono);font-size:12px;color:var(--muted);padding:4px 10px;border-radius:999px;background:var(--surface-2)}
+.set-tag.ok{color:#1F9D60;background:color-mix(in srgb,#2BB673 14%,transparent)}
+.set-restore{display:flex;gap:8px;padding:0 14px 13px;align-items:flex-end}
+.set-restore textarea{flex:1;min-width:0;font:inherit;font-size:12.5px;font-family:var(--f-mono);padding:9px 11px;border-radius:12px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);resize:vertical}
+.nav-panel .nv-set{border-top:1px solid var(--line);margin-top:4px;padding-top:10px}
+html.calm *,html.calm *::before,html.calm *::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 </style>
 </head>
 <body>
@@ -2743,8 +2800,9 @@ html.sh-open,html.sh-open body{overflow:hidden}
 <div class="nav-panel" id="navPanel" role="menu" aria-label="Go to" inert>
   <button type="button" role="menuitem" data-nav="sheet"><span class="nv-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/></svg></span><span class="nv-t"><b>Sheet</b><small>Lines that calculate as you type</small></span><i class="nv-b" data-from="tbSheet"></i></button>
   <button type="button" role="menuitem" data-nav="basket"><span class="nv-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1.5 11h-11z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg></span><span class="nv-t"><b>Basket</b><small>Shopping, budget, splitting</small></span><i class="nv-b" data-from="tbBasket"></i></button>
+  <button type="button" role="menuitem" data-nav="settings" class="nv-set"><span class="nv-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></span><span class="nv-t"><b>Settings</b><small>Theme, sounds, learning, your data</small></span></button>
 </div>
-<button class="nav-fab" id="navFab" type="button" aria-expanded="false" aria-controls="navPanel" aria-label="Sheet and Basket" title="Sheet and Basket">
+<button class="nav-fab" id="navFab" type="button" aria-expanded="false" aria-controls="navPanel" aria-label="Sheet, Basket and Settings" title="Sheet, Basket and Settings">
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path class="l1" d="M7 10h11"/><path class="l2" d="M7 15h6"/></svg>
   <i class="nv-dot" hidden></i>
 </button>
@@ -2833,6 +2891,13 @@ html.sh-open,html.sh-open body{overflow:hidden}
     <button type="button" class="mt-del" id="mtDel">Delete meter</button>
   </div>
 </div>
+<div class="rgc" id="ringCard" role="alertdialog" aria-live="assertive" aria-labelledby="ringT" hidden>
+  <span class="ring-bell" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg></span>
+  <span class="ring-txt"><b id="ringT">Time’s up</b><span id="ringS"></span></span>
+  <button type="button" class="ring-snd" id="ringSnd" title="Change the sound">♪ Marimba</button>
+  <span class="ring-snz" id="ringSnz"><button type="button" data-snz="1">+1 min</button><button type="button" data-snz="5">+5 min</button></span>
+  <button type="button" class="ring-stop" id="ringStop">Stop</button>
+</div>
 <div class="sh" id="spDlg" role="dialog" aria-modal="true" aria-label="Split the bill" hidden inert>
   <div class="sh-card sp-card" id="spCard">
     <div class="sh-top"><span class="sh-kind">Split</span><button type="button" class="sh-x" data-spclose aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
@@ -2854,6 +2919,12 @@ html.sh-open,html.sh-open body{overflow:hidden}
     <p class="sh-note" style="text-align:left">Quotient notices how you ask things and offers it back next time. It all stays on this device, and you can forget any of it.</p>
     <div class="hab-list" id="habList"></div>
     <div class="sh-row"><button type="button" class="mt-chip sh-wide" id="habOn" aria-pressed="true">Learning: on</button><button type="button" class="mt-chip" id="habReset" hidden>Learn again</button></div>
+  </div>
+</div>
+<div class="sh" id="setPage" role="dialog" aria-modal="true" aria-labelledby="setTitle" hidden inert>
+  <div class="set-card" id="setCard">
+    <div class="set-top"><button type="button" class="sh-x set-back" id="setClose" aria-label="Close settings"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button><h2 id="setTitle">Settings</h2></div>
+    <div class="set-body" id="setBody"></div>
   </div>
 </div>
 <div class="sh" id="shDlg" role="dialog" aria-modal="true" aria-labelledby="shKind" hidden inert>
@@ -6426,8 +6497,9 @@ const Engine = (() => {
     Numbers: ['twelve times seventeen', 'average of 4, 8, 15, 16, 23, 42', 'is 97 prime', '1234567 in words', 'simplify 1920:1080', 'roll 2d6']
   };
   const exBox = $('#examples');
-  const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const buzz = () => { try { navigator.vibrate && navigator.vibrate(6); } catch {} };
+  const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches || store.get('quotient.calm', false) === true;
+  const buzz = () => { try { if (store.get('quotient.vibrate', true) !== false) navigator.vibrate && navigator.vibrate(6); } catch {} };
+  { const nv = navigator.vibrate && navigator.vibrate.bind(navigator); if (nv) try { navigator.vibrate = p => store.get('quotient.vibrate', true) === false && p !== 0 ? false : nv(p); } catch {} }
   document.addEventListener('touchstart', () => {}, { passive: true });
   Object.entries(EXAMPLES).forEach(([k, list]) => {
     const row = document.createElement('div'); row.className = 'ex-row';
@@ -9059,7 +9131,7 @@ const Engine = (() => {
   function tNudge(t, key, title) {
     const k = `${t.id}:${key}:${t.end || t.target || 0}`; if (tNudged.has(k)) return; tNudged.add(k);
     try { navigator.vibrate && navigator.vibrate(60); } catch {}
-    try { if (!mAudio) mAudio = new (window.AudioContext || window.webkitAudioContext)(); const a = mAudio, at = a.currentTime, o = a.createOscillator(), g = a.createGain(); o.type = 'sine'; o.frequency.value = 1175; g.gain.setValueAtTime(0.0001, at); g.gain.exponentialRampToValueAtTime(0.07, at + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, at + 0.22); o.connect(g).connect(a.destination); o.start(at); o.stop(at + 0.25); } catch {}
+    try { sndPlay('nudge', { vol: 0.5 }); } catch {}
     if (tOpenId === t.id) { const s = $('#trSay'); s.classList.remove('flash'); void s.offsetWidth; s.classList.add('flash'); return; }
     if (mOpenId || tOpenId) return; const isl = $('#island'); if (isl.classList.contains('blooming')) return;
     isl.classList.add('blooming'); $('#islV').textContent = title; $('#islQ').textContent = t.name; clearTimeout(islBloomT); islBloomT = setTimeout(() => { isl.classList.remove('blooming'); islUpdate(true); }, 3200);
@@ -9073,16 +9145,15 @@ const Engine = (() => {
   document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && $('#trCard').classList.contains('big') && $('#trk').requestFullscreen) tBig(false); });
   // timers ring even when their window is closed
   function tRing(t) {
-    t.done = true; t.doneAt = Date.now(); t.end = null; t.left = 0; tSave(); try { navigator.vibrate && navigator.vibrate([220, 120, 220, 120, 420]); } catch {}
-    try { if (!mAudio) mAudio = new (window.AudioContext || window.webkitAudioContext)(); const a = mAudio, t0 = a.currentTime; for (let k = 0; k < 3; k++) [[880, 0], [1320, 0.16]].forEach(([f, d]) => { const o = a.createOscillator(), g = a.createGain(), at = t0 + k * 0.7 + d; o.type = 'sine'; o.frequency.value = f; g.gain.setValueAtTime(0.0001, at); g.gain.exponentialRampToValueAtTime(0.22, at + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, at + 0.3); o.connect(g).connect(a.destination); o.start(at); o.stop(at + 0.32); }); } catch {}
+    t.done = true; t.doneAt = Date.now(); t.end = null; t.left = 0; tSave();
+    try { alarmStart(t, 'alarm', 'Time’s up', t.name); } catch {}
     try { if ('Notification' in window && Notification.permission === 'granted') new Notification(`${t.name}: time’s up`, { body: 'From Quotient', tag: t.id }); } catch {}
     if (tOpenId === t.id) { tRender(true); const s = $('#trSay'); s.classList.remove('flash'); void s.offsetWidth; s.classList.add('flash'); tBurst(); }
     else { const isl = $('#island'); isl.classList.add('blooming'); $('#islV').textContent = 'Time’s up'; $('#islQ').textContent = t.name; clearTimeout(islBloomT); islBloomT = setTimeout(() => { isl.classList.remove('blooming'); islUpdate(true); }, 6000); }
     toast(`${t.name}: time’s up`); mList();
   }
   function tChime(t, title, sub) {
-    try { navigator.vibrate && navigator.vibrate([200, 100, 200]); } catch {}
-    try { if (!mAudio) mAudio = new (window.AudioContext || window.webkitAudioContext)(); const a = mAudio, t0 = a.currentTime; [[988, 0], [1319, 0.18], [1568, 0.36]].forEach(([f, d]) => { const o = a.createOscillator(), g = a.createGain(), at = t0 + d; o.type = 'sine'; o.frequency.value = f; g.gain.setValueAtTime(0.0001, at); g.gain.exponentialRampToValueAtTime(0.2, at + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, at + 0.5); o.connect(g).connect(a.destination); o.start(at); o.stop(at + 0.55); }); } catch {}
+    try { if (t.type === 'interval') { navigator.vibrate && navigator.vibrate([200, 100, 200]); sndPlay('phase'); } else alarmStart(t, 'chime', title, sub || t.name); } catch {}
     try { if ('Notification' in window && Notification.permission === 'granted') new Notification(title, { body: sub || 'From Quotient', tag: t.id + ':' + Date.now() }); } catch {}
     if (tOpenId === t.id) { tRender(true); const s = $('#trSay'); s.classList.remove('flash'); void s.offsetWidth; s.classList.add('flash'); tBurst(); }
     else { const isl = $('#island'); isl.classList.add('blooming'); $('#islV').textContent = title.length > 16 ? tShort(t) : title; $('#islQ').textContent = sub || t.name; clearTimeout(islBloomT); islBloomT = setTimeout(() => { isl.classList.remove('blooming'); islUpdate(true); }, 5000); }
@@ -9096,6 +9167,54 @@ const Engine = (() => {
       if (t.type === 'countdown' && !t.rang && t.target <= now && now - t.target < 6e5) { t.rang = true; tSave(); tChime(t, `${t.name}: it’s time`, ''); }
       if (t.type === 'interval' && t.since != null) { const P = tIvPos(t, now); if (P.count > (t.rung || 0)) { const was = P.count - (t.rung || 0) === 1; t.rung = P.count; tSave(); if (was) tChime(t, t.phases.length > 1 ? `${t.phases[P.i][0]} time` : `Time to ${t.name.toLowerCase()}`, t.phases.length > 1 ? tNice(t.phases[P.i][1]) : ''); } } }); if (!document.hidden) { if (trackers.some(t => (t.type === 'timer' && t.end != null) || (t.type === 'interval' && t.since != null) || (t.type === 'stopwatch' && t.runs.length && t.runs[t.runs.length - 1][1] == null) || (t.type === 'reminder' && !t.done && t.end - now < 36e5))) islUpdate(); if ($('#island').classList.contains('open')) mListTick(); } }, 400);
 
+  /* ---------- sounds: catchy little melodies made on the spot (no files), an alarm that keeps going until you stop it ---------- */
+  const SND_LIST = [['marimba', 'Marimba'], ['bells', 'Bells'], ['arcade', 'Arcade'], ['soft', 'Soft'], ['bright', 'Bright']];
+  let sndKind = store.get('quotient.sound', 'marimba'); if (!SND_LIST.some(x => x[0] === sndKind)) sndKind = 'marimba';
+  const midi = n => 440 * Math.pow(2, (n - 69) / 12);
+  function sndCtx() { try { if (!mAudio) mAudio = new (window.AudioContext || window.webkitAudioContext)(); if (mAudio.state === 'suspended') mAudio.resume().catch(() => {}); return mAudio; } catch { return null; } }
+  // the phone only lets sound play after a tap: wake the audio on the first one, so alarms can ring later
+  ['pointerdown', 'keydown'].forEach(ev => addEventListener(ev, () => { const a = sndCtx(); if (a && !sndCtx.primed) { sndCtx.primed = true; try { const b = a.createBuffer(1, 1, 22050), s = a.createBufferSource(); s.buffer = b; s.connect(a.destination); s.start(0); } catch {} } }, { passive: true }));
+  // one note in the chosen voice
+  function sndNote(a, out, n, at, len, vol, kind) { const f = midi(n), env = (g, peak, att, dec) => { g.gain.setValueAtTime(0.0001, at); g.gain.exponentialRampToValueAtTime(peak, at + att); g.gain.exponentialRampToValueAtTime(0.0001, at + dec); };
+    const voice = (type, freq, peak, dec, detune = 0) => { const o = a.createOscillator(), g = a.createGain(); o.type = type; o.frequency.setValueAtTime(freq, at); if (detune) o.detune.value = detune; env(g, peak * vol, 0.006, dec); o.connect(g).connect(out); o.start(at); o.stop(at + dec + 0.05); return o; };
+    if (kind === 'marimba') { voice('sine', f, 0.55, Math.max(0.35, len)); voice('sine', f * 4, 0.12, 0.09); voice('triangle', f * 2, 0.08, 0.18); }
+    else if (kind === 'bells') { voice('sine', f, 0.42, 1.4); voice('sine', f * 2.76, 0.16, 0.8); voice('sine', f * 5.4, 0.07, 0.4); voice('sine', f * 2, 0.1, 1.0, 4); }
+    else if (kind === 'arcade') { const o = a.createOscillator(), g = a.createGain(), lp = a.createBiquadFilter(); o.type = 'square'; o.frequency.setValueAtTime(f, at); o.frequency.exponentialRampToValueAtTime(f * 0.995, at + len); lp.type = 'lowpass'; lp.frequency.value = 2600; env(g, 0.16 * vol, 0.004, Math.max(0.12, len * 0.9)); o.connect(lp).connect(g).connect(out); o.start(at); o.stop(at + len + 0.05); }
+    else if (kind === 'soft') { voice('triangle', f, 0.45, Math.max(0.5, len * 1.6)); voice('sine', f / 2, 0.15, Math.max(0.5, len * 1.4)); }
+    else { voice('sawtooth', f, 0.08, Math.max(0.25, len)); voice('sine', f, 0.4, Math.max(0.3, len)); voice('sine', f * 3, 0.06, 0.12); } }
+  // melodies: [midi note, start beat, length in beats]
+  const MEL = {
+    alarm: { bpm: 168, beats: 10, notes: [[76, 0, .5], [79, .5, .5], [84, 1, .5], [79, 1.5, .5], [84, 2, .5], [88, 2.5, 1], [86, 4, .5], [84, 4.5, .5], [79, 5, .5], [81, 5.5, .5], [84, 6, 1.5]] },
+    chime: { bpm: 132, beats: 9, notes: [[72, 0, .5], [76, .5, .5], [79, 1, .5], [84, 1.5, 1.5], [83, 3.5, .5], [79, 4, .5], [81, 4.5, 2]] },
+    phase: { bpm: 180, beats: 3, notes: [[79, 0, .5], [84, .5, .5], [88, 1, .5], [91, 1.5, 1.5]] },
+    nudge: { bpm: 200, beats: 2, notes: [[84, 0, .5], [88, .5, 1]] },
+    test: { bpm: 168, beats: 4, notes: [[76, 0, .5], [79, .5, .5], [84, 1, .5], [88, 1.5, 1.5]] } };
+  function sndPlay(name, opts = {}) { const a = sndCtx(); if (!a) return 0; const m = MEL[name], b = 60 / m.bpm, at0 = a.currentTime + 0.03, out = opts.out || (() => { const g = a.createGain(); g.gain.value = 0.9; g.connect(a.destination); return g; })(), vol = opts.vol ?? 1, kind = opts.kind || sndKind;
+    m.notes.forEach(([n, s, l]) => sndNote(a, out, n, at0 + s * b, l * b, vol, kind)); return m.beats * b; }
+  // the alarm: plays its tune again and again (a little louder each time) until you stop it, up to 3 minutes
+  let ring = null;
+  function alarmStart(t, tune, title, sub) {
+    const a = sndCtx(); if (ring && ring.id === t.id) return; alarmStop(true);
+    const r = ring = { id: t.id, tune, k: 0, t0: Date.now(), title, sub, out: null };
+    if (a) { r.out = a.createGain(); r.out.gain.value = 0.9; r.out.connect(a.destination); }
+    const loop = () => { if (ring !== r) return; if (Date.now() - r.t0 > 180e3) { alarmQuiet(); return; } const vol = Math.min(1, 0.55 + r.k * 0.12); const len = a ? sndPlay(tune, { out: r.out, vol }) : 2; try { navigator.vibrate && navigator.vibrate([260, 120, 260, 120, 420]); } catch {} r.k++; r.timer = setTimeout(loop, (len + 0.9) * 1000); };
+    loop(); ringShow(t, title, sub); }
+  function alarmQuiet() { if (!ring) return; clearTimeout(ring.timer); try { const a = mAudio; ring.out && ring.out.gain.setTargetAtTime(0.0001, a.currentTime, 0.05); } catch {} ring.quiet = true; $('#ringCard')?.classList.add('quiet'); }
+  function alarmStop(silent) { if (!ring) return; const r = ring; ring = null; clearTimeout(r.timer); try { const a = mAudio; r.out && r.out.gain.setTargetAtTime(0.0001, a.currentTime, 0.04); setTimeout(() => { try { r.out.disconnect(); } catch {} }, 400); } catch {} try { navigator.vibrate && navigator.vibrate(0); } catch {} if (!silent) ringHide(); }
+  // the ringing card: what it is, snooze, stop
+  function ringShow(t, title, sub) { const el = $('#ringCard'), snooze = t.type === 'timer' || t.type === 'reminder';
+    $('#ringT').textContent = title; $('#ringS').textContent = sub || t.name; $('#ringSnz').hidden = !snooze; $('#ringSnd').textContent = '♪ ' + SND_LIST.find(x => x[0] === sndKind)[1];
+    el.classList.remove('quiet'); if (el.hidden) { el.hidden = false; if (!REDUCE) el.animate([{ transform: 'translateY(120%) scale(.9)', opacity: 0 }, { transform: 'translateY(-6%) scale(1.02)', opacity: 1, offset: .6 }, { transform: 'none', opacity: 1 }], { duration: 560, easing: 'cubic-bezier(.2,.9,.25,1)' }); }
+    setTimeout(() => { try { $('#ringStop').focus({ preventScroll: true }); } catch {} }, 60); }
+  function ringHide() { const el = $('#ringCard'); if (el.hidden) return; if (REDUCE) { el.hidden = true; return; } const a = el.animate([{ transform: 'none', opacity: 1 }, { transform: 'translateY(40%) scale(.92)', opacity: 0 }], { duration: 260, easing: 'cubic-bezier(.4,0,.6,1)', fill: 'forwards' }); a.onfinish = () => { a.cancel(); el.hidden = true; }; }
+  $('#ringStop').addEventListener('click', () => { alarmStop(); buzz(); });
+  $('#ringCard').addEventListener('click', e => { const s = e.target.closest('[data-snz]'); if (s) { const id = ring && ring.id, t = id && tGet(id); alarmStop(); if (t) { const d = +s.dataset.snz * 6e4; if (t.type === 'timer') tDo(t, 'add', d); else if (t.type === 'reminder') tDo(t, 'add', d); tSave(); mList(); islUpdate(true); if (tOpenId === t.id) tRender(true); toast(`${t.name}: ${s.dataset.snz} more min`); } return; }
+    if (e.target.closest('#ringSnd')) { const i = SND_LIST.findIndex(x => x[0] === sndKind); sndKind = SND_LIST[(i + 1) % SND_LIST.length][0]; store.set('quotient.sound', sndKind); e.target.closest('#ringSnd').textContent = '♪ ' + SND_LIST.find(x => x[0] === sndKind)[1]; if (ring && !ring.quiet) { clearTimeout(ring.timer); try { ring.out.gain.setTargetAtTime(0.0001, mAudio.currentTime, 0.03); } catch {} const a = sndCtx(); if (a) { ring.out = a.createGain(); ring.out.gain.value = 0.9; ring.out.connect(a.destination); } const r = ring; setTimeout(() => { if (ring === r) { r.k = Math.max(0, r.k - 1); const len = sndPlay(r.tune, { out: r.out }); r.timer = setTimeout(function again() { if (ring !== r) return; const l2 = sndPlay(r.tune, { out: r.out, vol: Math.min(1, 0.55 + (++r.k) * 0.12) }); r.timer = setTimeout(again, (l2 + 0.9) * 1000); }, (len + 0.9) * 1000); } }, 120); } return; } });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && ring) { e.preventDefault(); e.stopPropagation(); alarmStop(); } }, true);
+  // opening, changing or deleting the thing that rings stops it
+  { const o = tOpen; tOpen = function (id, from) { if (ring && ring.id === id) alarmStop(); return o(id, from); }; }
+  { const d = tDo; tDo = function (t, a, arg) { if (ring && ring.id === t.id && a !== 'lap') alarmStop(); return d(t, a, arg); }; }
+  setInterval(() => { if (ring && !tGet(ring.id)) alarmStop(); }, 1000);
   /* --- wiring --- */
   $('#trX').addEventListener('click', tClose);
   $('#trBody').addEventListener('click', e => { const s = e.target.closest('.tr-edit > summary'); if (!s) return; e.preventDefault(); const d = s.parentElement, f = d.querySelector('.tr-ef-form');
@@ -9220,7 +9339,7 @@ const Engine = (() => {
       isl.classList.remove('duo', 'duo2'); islDuoKey = ''; islUpdateT(force);
       // colour the single pill by what it's showing
       let it = null; if (isl.classList.contains('metering')) { const m = meters.find(mRunning); if (m) it = { k: 'm', o: m }; } else if (isl.classList.contains('timing') && islTid) { const t = tGet(islTid); if (t) it = { k: 't', o: t }; } else if (!isl.classList.contains('empty') && meters.length && !trackers.length) it = { k: 'm', o: meters[0] };
-      const st = it ? liveState(it) : isl.classList.contains('empty') ? '' : 'live'; if (isl.dataset.st !== st) { if (isl.dataset.st && st && !REDUCE) { pill.classList.remove('stchg'); void pill.offsetWidth; pill.classList.add('stchg'); } if (st) isl.dataset.st = st; else delete isl.dataset.st; }
+      const rgEl = document.getElementById('ringCard'), st = rgEl && !rgEl.hidden && !rgEl.classList.contains('quiet') ? 'alert' : it ? liveState(it) : isl.classList.contains('empty') ? '' : 'live'; if (isl.dataset.st !== st) { if (isl.dataset.st && st && !REDUCE) { pill.classList.remove('stchg'); void pill.offsetWidth; pill.classList.add('stchg'); } if (st) isl.dataset.st = st; else delete isl.dataset.st; }
       pill.title = it ? `${it.o.name}: ${ST_WORD[st] || 'live'}` : 'Live answers';
       return; }
     // your chosen one or two, always on show
@@ -10279,6 +10398,11 @@ const Engine = (() => {
     if (/^(?:stop|don'?t|turn off|pause) (?:learning|remembering)(?: (?:from|about) me)?$/.test(s)) return C('Learned', 'Stop learning from what you ask', 'Learning off', 'Turn off', () => { learnOn = false; store.set('quotient.learnon', false); toast('Learning is off'); });
     if (/^(?:start|turn on|resume) learning$/.test(s)) return C('Learned', 'Learn from what you ask again', 'Learning on', 'Turn on', () => { learnOn = true; store.set('quotient.learnon', true); toast('Learning from what you ask'); });
     if (/^(?:badge|icon number) (on|off)$/.test(s)) { const on = /on$/.test(s); return C('Setting', on ? 'Show your number on the app icon' : 'No number on the app icon', on ? 'Badge on' : 'Badge off', on ? 'Turn on' : 'Turn off', () => { store.set('quotient.badge', on); glLast = '~'; glance(); toast(on ? 'The app icon shows your number' : 'App icon badge off'); }); }
+    { const sm = s.match(/^(?:(?:alarm|timer|tracker|ring(?:ing)?) )?(?:sound|tone|ringtone)(?: to)? (marimba|bells?|arcade|soft|bright)$/) || s.match(/^(?:use )?(marimba|bells|arcade|soft|bright) (?:sound|tone|alarm)$/); if (sm) { const k = sm[1].replace(/^bell$/, 'bells'); return C('Setting', `Alarm sound: ${k}`, k.charAt(0).toUpperCase() + k.slice(1), 'Use it', () => { sndKind = k; store.set('quotient.sound', k); sndPlay('alarm'); toast(`Alarms now play ${k}`); }); } }
+    if (/^(?:test|try|play|hear)(?: the)? (?:alarm|sound|ringtone|tone)s?$|^(?:alarm )?sounds?$/.test(s)) return C('Setting', `Hear the alarm (${sndKind})`, 'Alarm sound', 'Play', () => { sndPlay('alarm'); toast(`That’s ${sndKind}. Say “sound bells”, “arcade”, “soft” or “bright” to change it`); });
+    if (/^(?:open |show |go to )?(?:the |my )?(?:settings|preferences|options|definições|configura(?:ções|coes))$/.test(s)) return C('Go', 'Settings: theme, sounds, learning, your data', 'Settings', 'Open', () => setOpen());
+    if (/^(?:calm|reduce(?:d)?) motion(?: on)?$|^(?:fewer|less) animations?$/.test(s)) return C('Setting', 'Calm motion: fewer, quicker animations', 'Calm', 'Turn on', () => { store.set('quotient.calm', true); document.documentElement.classList.add('calm'); toast('Calm motion on'); });
+    if (/^(?:vibration|vibrate|haptics?) (on|off)$|^(?:stop|no) (?:vibration|vibrating)$/.test(s)) { const on = /on$/.test(s); return C('Setting', on ? 'Vibrate on taps and alarms' : 'No vibration', on ? 'Vibration on' : 'Vibration off', on ? 'Turn on' : 'Turn off', () => { store.set('quotient.vibrate', on); toast(on ? 'Vibration on' : 'Vibration off'); }); }
     // sharing: "share this sheet", "qr code for my basket", or a code typed in
     { const rc = String(raw || '').trim().match(/^(?:open |join |load )?([sabp])-([0-9A-Za-z]{6,})$/i); if (rc && /^[sabp]-/.test(String(raw).trim().replace(/^(?:open |join |load )/i, ''))) { const kind = SH_KIND[rc[1]]; return C('Share', `Open the shared ${kind}`, 'Shared ' + kind, 'Open', () => shareImport(String(raw).trim().replace(/^(?:open |join |load )/i, ''))); } }
     if ((m = s.match(/^(?:share|send|qr(?: code)?(?: for| of)?|(?:make|create|get) (?:a )?(?:qr(?: code)?|code|link) (?:for|of))(?: this| my| the)? (sheet|page|note|basket|list|shopping list|cart|groceries)(?: (?:as|with|by) (?:a )?(?:qr(?: code)?|code|link))?$/))) { const k = /sheet|page|note/.test(m[1]) ? 's' : 'b'; return C('Share', k === 's' ? `Share “${sheet.title || 'your sheet'}”` : 'Share your basket', 'QR code · link · code', 'Share', () => shareOpen(k)); }
@@ -10418,7 +10542,7 @@ const Engine = (() => {
   let disc = store.get('quotient.discover', null); if (!disc || typeof disc !== 'object') disc = { done: {}, seen: {}, hidden: false };
   const saveDisc = () => store.set('quotient.discover', disc);
   try { if (!disc.done.ask && (hist.length || tape.some(t => !t.ex))) { disc.done.ask = disc.done.keep = 1; saveDisc(); } } catch {}
-  const QVER = '2f33b6be';
+  const QVER = '34c5db93';
   const SAMPLE_PASTE = 'Coffee 2.40\nCroissant 1.80\nOrange juice 3.20\nTotal 7.40';
   const FEATS = [
     { id: 'ask', t: 'Ask in your own words', d: 'Type it the way you would say it', q: '18% tip on 64,50 for 3 people' },
@@ -11159,7 +11283,7 @@ const Engine = (() => {
     { id: 'next', t: 'Next steps', d: 'The ✦ Next button in the bar suggests what you’d likely do next with this answer: split a dinner bill, add a tip, flip a conversion, check an equation. Each shows its result first. It never repeats what the answer already shows, and the ones you pick most rise to the top. It also learns your usual VAT rate and how many people you split with.', q: '15% of 80', v: '12', u: '', ui: 'next', spot: '#smartBtn', tip: 'Next shows smart follow-ups, each with its result.' },
     { id: 'pad', t: 'A calculator inside the bar', d: 'Tap the little calculator under the search bar for number keys, so you don’t switch between keyboards.', q: '12 × 3 + 4', v: '40', u: '', ui: 'pad', spot: '.searchbar', tip: 'The keypad lives inside the bar. Tap the calculator tab again to fold it.', act: () => { try { qpOpen(true); } catch {} } },
     { id: 'tools', t: 'Maths tools', d: 'The round button on the left opens 16 tools: equations, quadratics, fractions, percentages, shapes, trigonometry, statistics, graphs and more. Fill in the boxes and the answer appears as you type. Typed a maths question instead? Its answer gets an Edit button that opens the right tool with your numbers in. Type a tool’s name (quadratic, shapes, gcd) to open it, and Ans drops your last answer into any box.', q: '', v: 'x = 4', u: '', ui: 'tools', spot: '.qlead', tip: 'Tap here for equations, fractions and other maths tools.' },
-    { id: 'island', t: 'Live answers at the top', d: 'Some answers change by themselves: the time in another city, a countdown, what’s left of your budget. Tap Track and they keep updating in the pill at the top. Its colour tells you how things stand: green running, amber nearly done, grey paused, red ringing or over budget, purple waiting. To keep one or two always on show, tap the small pill button next to them in the list, or type “show pasta and tea on the pill”. Swipe a row left (or tap Edit) to restart or delete it; finished ones can be cleared in one tap, and they tidy themselves away after a while.', q: 'time in new york', v: '15:47', u: '', ui: 'island', spot: '#answer [data-act="track"]', tip: 'Track keeps it updating in the pill at the top.' },
+    { id: 'island', t: 'Live answers at the top', d: 'Some answers change by themselves: the time in another city, a countdown, what’s left of your budget. Tap Track and they keep updating in the pill at the top. Its colour tells you how things stand: green running, amber nearly done, grey paused, red ringing or over budget, purple waiting. To keep one or two always on show, tap the small pill button next to them in the list, or type “show pasta and tea on the pill”. When something rings, a little tune plays until you tap Stop (or +1 / +5 min to snooze); tap ♪ on it to change the sound, or say “sound bells”, “arcade”, “soft” or “bright”, and “test alarm” to hear it. Swipe a row left (or tap Edit) to restart or delete it; finished ones can be cleared in one tap, and they tidy themselves away after a while.', q: 'time in new york', v: '15:47', u: '', ui: 'island', spot: '#answer [data-act="track"]', tip: 'Track keeps it updating in the pill at the top.' },
     { id: 'split', t: 'Split the bill', d: 'Say it the way you would at the table: “pizza 18, wine 24, Ana didn’t drink, 4 of us, 10% tip”. Each person gets their own share, people can be left out of an item, and Enter opens the split: rename people, tick who has paid, choose who paid the bill, and show the table a QR code so everyone opens their own part. It stays in the live pill until everyone has paid. Quotient also learns how you do things (your usual tip, who you split with) and says so: tap “Learned from you” under Next to see it or forget it.', q: 'pizza 18, wine 24, Ana didn’t drink, 4 of us', v: '', u: '', ui: 'split' },
     { id: 'live', t: 'Track things live', d: 'Answers are for now; trackers keep going. Say it the way you would to a friend: pasta 9 minutes, remind me to call mum at 18:00, stretch every 45 minutes, rent due on the 1st, holiday budget 1200 for 10 days, water 8 glasses a day. Tap the button and it lives in the pill at the top, or use New tracker there. The pill takes turns showing whatever is ticking, with a ring that fills as it goes. Inside a tracker, the corner button fills the whole screen for your desk, and it gives you a quiet heads-up at halfway and with a minute left. You can run everything from the bar too: pause pasta, pasta +5 min, spent 12 on lunch, saved 50, +1 water, lap, snooze call mum 15 min, delete stopwatch, or just type trackers.', q: 'pasta 9 minutes', v: 'Timer', u: '', ui: 'meter', spot: '#answer [data-act="track"]', tip: 'Tap here and the timer starts. It rings even with the window closed.' },
     { id: 'log', t: 'Track time and bill it', d: 'A meter for your hourly rate (design work 40 an hour) is a time log: pause and resume it as you work, and each stretch becomes a session. The Sessions tab shows today, this week and the total, rounds to 15 minutes if you bill that way, and copies a summary for an invoice.', q: 'design work 40 an hour', v: '40.00', u: 'per hour', ui: 'log', spot: '#answer [data-act="track"]', tip: 'Tap Track to start it. Pause when you stop working; the Sessions tab keeps the log.' },
@@ -11533,9 +11657,80 @@ const Engine = (() => {
     try { document.title = it ? `${liveVal(it)} · ${it.o.name} — Quotient` : 'Quotient'; } catch {}
     if (!store.get('quotient.badge', true)) { try { navigator.clearAppBadge && navigator.clearAppBadge(); } catch {} return; }
     try { const n = it ? glNum(it) : null; if (n != null && n > 0 && navigator.setAppBadge) navigator.setAppBadge(Math.min(n, 9999)).catch(() => {}); else if (navigator.clearAppBadge) navigator.clearAppBadge().catch(() => {}); } catch {} }
+  const glStandalone = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+  const glBadgeOK = () => 'setAppBadge' in navigator && !mInFrame && glStandalone();
+  const glNoteOK = () => 'Notification' in window && 'serviceWorker' in navigator && !mInFrame && /^https?:$/.test(location.protocol);
+  // a quiet notification that stays right even when the app is asleep: it says when, not how long
+  function glText(it) { const now = Date.now(), o = it.o; if (it.k === 'm') return `${mFmt(o, mCalc(o).total, true)} so far`;
+    const t = o; if (t.type === 'timer') return t.done ? 'Time’s up' : t.end != null ? `Rings at ${mHM(t.end)}` : `Paused · ${tShort(t)} left`;
+    if (t.type === 'reminder') return t.done ? 'Now' : `At ${mHM(t.end)}${t.end - now > 864e5 ? ' · ' + new Date(t.end).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }) : ''}`;
+    if (t.type === 'countdown') { const d = new Date(t.target); return t.target - now > 864e5 ? `${d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })}${d.getHours() || d.getMinutes() ? ' · ' + mHM(t.target) : ''}` : t.target > now ? `At ${mHM(t.target)}` : 'It’s here'; }
+    if (t.type === 'stopwatch') return tRunning(t) ? `Running since ${mHM(now - tSwEl(t))}` : `Paused at ${tShort(t)}`;
+    if (t.type === 'interval') { if (t.since == null) return 'Paused'; const P = tIvPos(t); return `${t.phases.length > 1 ? t.phases[P.i][0] + ' until ' : 'Next at '}${mHM(now + P.left)}`; }
+    return tShort(t); }
+  let glNoteLast = '';
+  async function glNote(it) { if (!store.get('quotient.gnote', false) || !glNoteOK() || Notification.permission !== 'granted') return; const key = it ? `${it.o.name}|${glText(it)}` : ''; if (key === glNoteLast) return; glNoteLast = key;
+    try { const reg = await navigator.serviceWorker.ready; if (!it) { (await reg.getNotifications({ tag: 'quotient-glance' })).forEach(n => n.close()); return; } await reg.showNotification(it.o.name, { body: glText(it), tag: 'quotient-glance', silent: true, renotify: false, icon: './icon-192.png', badge: './icon-192.png', data: { url: './#live' } }); } catch {} }
+  { const g0 = glance; glance = function () { g0(); try { const sel = pillSel.map(pillItem).filter(Boolean); let it = sel[0] || null; if (!it) { const run = meters.find(mRunning); if (run) it = { k: 'm', o: run }; else { const L = trackers.filter(t => tRunning(t) || (t.type === 'timer' && t.done) || (t.type === 'reminder' && !t.done) || (t.type === 'countdown' && t.target > Date.now())); if (L.length) it = { k: 't', o: L[0] }; } } glNote(it); } catch {} }; }
   setInterval(() => { try { glance(); } catch {} }, 1000);
   // shortcuts from the app icon (long-press on the home screen): split a bill, a timer, your live list
   { const h = location.hash; setTimeout(() => { if (h === '#new-split') { try { history.replaceState(null, '', location.pathname + location.search); } catch {} spNew(); } else if (h === '#new-timer') { try { history.replaceState(null, '', location.pathname + location.search); } catch {} setView('ask'); const q = $('#q'); q.value = 'timer '; q.focus(); } else if (h === '#live') { try { history.replaceState(null, '', location.pathname + location.search); } catch {} islOpen(true); } }, 450); }
+  /* ---------- Settings: one page for everything you can also say in the bar ---------- */
+  const SET_IC = { look: '<circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 0 0 16z" fill="currentColor" stroke="none"/>', calc: '<rect x="5" y="3" width="14" height="18" rx="3"/><path d="M8.5 7.5h7M8.5 12h1M12 12h1M15 12h.5M8.5 16h1M12 16h1M15 16h.5"/>', bell: '<path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>', learn: '<path d="M12 3l1.8 4.6L18.5 9l-4.7 1.4L12 15l-1.8-4.6L5.5 9l4.7-1.4z"/><path d="M18 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/>', data: '<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/>', info: '<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5M12 7.5v.5"/>' };
+  const setSvg = k => `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${SET_IC[k]}</svg>`;
+  const seg = (key, opts, cur) => `<div class="set-seg" role="radiogroup">${opts.map(([v, l]) => `<button type="button" role="radio" data-set="${key}" data-v="${v}" aria-checked="${String(v) === String(cur)}">${l}</button>`).join('')}</div>`;
+  const sw = (key, on) => `<button type="button" class="set-sw" role="switch" data-set="${key}" aria-checked="${!!on}"><i></i></button>`;
+  const row = (title, sub, ctl, cls = '') => `<div class="set-row ${cls}"><span class="set-l"><b>${title}</b>${sub ? `<small>${sub}</small>` : ''}</span>${ctl}</div>`;
+  const group = (ic, name, rows, i) => `<section class="set-group" style="--i:${i}"><h3>${setSvg(ic)}${name}</h3><div class="set-box">${rows.join('')}</div></section>`;
+  function setRender() {
+    const theme = store.get('quotient.theme', 'system'), calm = !!store.get('quotient.calm', false), vib = store.get('quotient.vibrate', true) !== false, badge = store.get('quotient.badge', true) !== false;
+    const notif = !('Notification' in window) ? 'none' : Notification.permission, hb = habits().length, std = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+    const kept = tape.filter(t => !t.ex).length;
+    $('#setBody').innerHTML = [
+      group('look', 'Look', [row('Theme', 'Light, dark, or follow your phone', seg('theme', [['system', 'Auto'], ['light', 'Light'], ['dark', 'Dark']], theme)), row('Calm motion', 'Fewer, quicker animations', sw('calm', calm))], 0),
+      group('calc', 'Calculating', [row('Angles', 'For sin, cos and tan', seg('deg', [[true, 'Degrees'], [false, 'Radians']], deg)), row('Scientific keys', 'On the basic calculator', sw('sci', sciOpen))], 1),
+      group('bell', 'Sounds and alerts', [row('Alarm sound', 'Tap one to hear it', `<div class="set-chips">${SND_LIST.map(([k, l]) => `<button type="button" class="set-chip${k === sndKind ? ' on' : ''}" data-set="sound" data-v="${k}" aria-pressed="${k === sndKind}">${l}</button>`).join('')}</div>`, 'col'), row('Vibration', 'Taps, alarms and reminders', sw('vibrate', vib)),
+        row('Notifications', notif === 'granted' ? 'On: timers and reminders also show as notifications' : notif === 'denied' ? 'Blocked: allow them in your browser or phone settings' : notif === 'none' ? 'Not available here' : 'So timers and reminders reach you while you’re in another app', notif === 'default' ? '<button type="button" class="mt-chip set-btn" data-set="notif">Allow</button>' : `<span class="set-tag${notif === 'granted' ? ' ok' : ''}">${notif === 'granted' ? 'On' : notif === 'denied' ? 'Blocked' : '—'}</span>`),
+        glBadgeOK() ? row('Number on the app icon', 'What’s left on your timer, days to go…', sw('badge', badge)) : row('Number on the app icon', /android/i.test(navigator.userAgent) ? 'Android doesn’t show numbers on app icons for web apps. Use “Show in notifications” below instead' : mInFrame ? 'Only in the installed app, not inside another app’s window' : 'Works once Quotient is installed (and on iPhone, with notifications allowed)', '<span class="set-tag">Not here</span>'),
+        glNoteOK() ? row('Show in notifications', 'A quiet note with what’s coming, like “Pasta · rings at 14:35”. It stays right even when the app is closed', sw('gnote', store.get('quotient.gnote', false) && Notification.permission === 'granted')) : ''], 2),
+      group('learn', 'Learning', [row('Learn from what I ask', 'Your usual tip, VAT, who you split with', sw('learn', learnOn)), row('What Quotient has learned', hb ? `${hb} thing${hb === 1 ? '' : 's'}` : 'Nothing yet', '<button type="button" class="mt-chip set-btn" data-set="habits">See</button>'), row('Recent questions', `${hist.length} remembered`, `<button type="button" class="mt-chip set-btn" data-set="clearhist"${hist.length ? '' : ' disabled'}>Clear</button>`)], 3),
+      group('data', 'Your data', [row('Everything stays on this device', 'No account, no internet needed', ''), row('Back up', 'Copies all your sheets, tape, basket and trackers as text', '<button type="button" class="mt-chip set-btn" data-set="backup">Copy</button>'), row('Restore', 'Paste a backup', '<button type="button" class="mt-chip set-btn" data-set="restore">Paste…</button>'), `<form class="set-restore" id="setRestore" hidden autocomplete="off"><textarea id="setRestoreIn" rows="3" placeholder="Paste your backup here" spellcheck="false"></textarea><button type="submit" class="mt-chip set-btn">Restore</button></form>`, row('Tape', `${kept} kept answer${kept === 1 ? '' : 's'}`, `<button type="button" class="mt-chip set-btn" data-set="cleartape"${kept ? '' : ' disabled'}>Clear</button>`), row('Start fresh', 'Erase everything in Quotient', '<button type="button" class="mt-chip set-btn set-danger" data-set="erase">Erase</button>')], 4),
+      group('info', 'About', [row('Guide', 'Everything Quotient can do', '<button type="button" class="mt-chip set-btn" data-set="guide">Open</button>'), std || !$('#installBtn') || $('#installBtn').hidden ? '' : row('Install as an app', 'Works offline, from your home screen', '<button type="button" class="mt-chip set-btn" data-set="install">Install</button>'), row('Version', 'Tip: almost all of this can be typed in the search bar too, like “dark mode”', `<span class="set-tag">${esc(QVER === '__QVER__' ? 'preview' : QVER)}</span>`)], 5)
+    ].join(''); }
+  function setOpen(from) { const pg = $('#setPage'); setRender(); pg.hidden = false; pg.inert = false; document.documentElement.classList.add('sh-open'); const card = $('#setCard'); card.scrollTop = 0;
+    if (!REDUCE) { const R = (from && from.getBoundingClientRect ? from : $('#navFab')).getBoundingClientRect(), C = card.getBoundingClientRect(), dx = (R.left + R.width / 2) - (C.left + C.width / 2), dy = (R.top + R.height / 2) - (C.top + C.height / 2);
+      card.animate([{ transform: `translate(${dx}px, ${dy}px) scale(.12)`, opacity: 0, borderRadius: '60px' }, { opacity: 1, offset: 0.3 }, { transform: 'none', opacity: 1, borderRadius: getComputedStyle(card).borderRadius }], { duration: 560, easing: 'cubic-bezier(.2,.9,.25,1)' }); pg.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 260 });
+      $$('#setBody .set-group').forEach((g, i) => g.animate([{ opacity: 0, transform: 'translateY(14px)' }, { opacity: 0, offset: 0.25 }, { opacity: 1, transform: 'none' }], { duration: 480 + i * 60, easing: 'cubic-bezier(.2,.8,.2,1)' })); }
+    setTimeout(() => { try { $('#setClose').focus({ preventScroll: true }); } catch {} }, 60); }
+  function setClose() { const pg = $('#setPage'); if (pg.hidden) return; const done = () => { pg.hidden = true; pg.inert = true; document.documentElement.classList.remove('sh-open'); }; if (REDUCE) return done();
+    const card = $('#setCard'), R = $('#navFab').getBoundingClientRect(), C = card.getBoundingClientRect(), dx = (R.left + R.width / 2) - (C.left + C.width / 2), dy = (R.top + R.height / 2) - (C.top + C.height / 2);
+    const a = card.animate([{ transform: 'none', opacity: 1 }, { transform: `translate(${dx * 0.7}px, ${dy * 0.7}px) scale(.2)`, opacity: 0 }], { duration: 380, easing: 'cubic-bezier(.5,0,.7,.4)', fill: 'forwards' }); pg.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 380, fill: 'forwards' }); a.onfinish = () => { a.cancel(); pg.getAnimations().forEach(x => x.cancel()); done(); }; }
+  let setEraseT = 0;
+  $('#setPage').addEventListener('click', async e => { const el = e.target; if (el === $('#setPage') || el.closest('#setClose')) return setClose();
+    const b = el.closest('[data-set]'); if (!b || b.disabled) return; const k = b.dataset.set, v = b.dataset.v; buzz();
+    if (k === 'theme') { setTheme(v); }
+    else if (k === 'calm') { const on = !store.get('quotient.calm', false); store.set('quotient.calm', on); document.documentElement.classList.toggle('calm', on); toast(on ? 'Calm motion on' : 'Full motion back'); }
+    else if (k === 'deg') { deg = v === 'true'; store.set('quotient.deg', deg); syncToggles(); try { calc.refresh(); } catch {} }
+    else if (k === 'sci') { sciOpen = !sciOpen; store.set('quotient.sci', sciOpen); syncToggles(); }
+    else if (k === 'sound') { sndKind = v; store.set('quotient.sound', v); sndPlay('test'); }
+    else if (k === 'vibrate') { store.set('quotient.vibrate', store.get('quotient.vibrate', true) === false); if (store.get('quotient.vibrate', true) !== false) try { navigator.vibrate && navigator.vibrate(20); } catch {} }
+    else if (k === 'gnote') { const on = !(store.get('quotient.gnote', false) && Notification.permission === 'granted'); if (on && Notification.permission !== 'granted') { let r = 'denied'; try { r = await Notification.requestPermission(); } catch {} if (r !== 'granted') { toast('Notifications aren’t allowed, so this can’t work yet'); store.set('quotient.gnote', false); setRender(); return; } } store.set('quotient.gnote', on); glNoteLast = '~'; if (!on) { try { const reg = await navigator.serviceWorker.ready; (await reg.getNotifications({ tag: 'quotient-glance' })).forEach(n => n.close()); } catch {} } else { glLast = '~'; try { glance(); } catch {} } toast(on ? 'Your next thing shows in notifications' : 'Off'); }
+    else if (k === 'badge') { store.set('quotient.badge', store.get('quotient.badge', true) === false); glLast = '~'; try { glance(); } catch {} }
+    else if (k === 'notif') { try { const r = await Notification.requestPermission(); toast(r === 'granted' ? 'Notifications on' : 'Notifications not allowed'); } catch { toast('Notifications aren’t available here'); } }
+    else if (k === 'learn') { learnOn = !learnOn; store.set('quotient.learnon', learnOn); }
+    else if (k === 'habits') { setClose(); setTimeout(() => habOpen(), 300); return; }
+    else if (k === 'clearhist') { hist = []; store.set('quotient.hist', hist); toast('Recent questions cleared'); }
+    else if (k === 'cleartape') { const snap = JSON.stringify(tape); tape = tape.filter(t => t.ex); store.set('quotient.tape.v1', tape); try { renderTape(); } catch {} toast('Tape cleared'); }
+    else if (k === 'backup') { const o = {}; try { Object.keys(localStorage).filter(x => x.startsWith('quotient.')).forEach(x => { o[x] = localStorage.getItem(x); }); } catch {} copy('QUOTIENT-BACKUP ' + JSON.stringify(o)); toast('Backup copied: paste it somewhere safe'); return; }
+    else if (k === 'restore') { const f = $('#setRestore'); f.hidden = !f.hidden; if (!f.hidden) setTimeout(() => $('#setRestoreIn').focus(), 30); return; }
+    else if (k === 'guide') { setClose(); setTimeout(() => gdOpen(), 300); return; }
+    else if (k === 'install') { $('#installBtn').click(); return; }
+    else if (k === 'erase') { if (Date.now() - setEraseT > 3000) { setEraseT = Date.now(); b.textContent = 'Tap again to erase'; b.classList.add('sure'); setTimeout(() => { b.textContent = 'Erase'; b.classList.remove('sure'); }, 3000); return; } try { Object.keys(localStorage).filter(x => x.startsWith('quotient.')).forEach(x => localStorage.removeItem(x)); localStorage.setItem('quotient.data', '3'); } catch {} location.reload(); return; }
+    const y = $('#setCard').scrollTop; setRender(); $('#setCard').scrollTop = y; });
+  $('#setPage').addEventListener('submit', e => { if (e.target.id !== 'setRestore') return; e.preventDefault(); const t = $('#setRestoreIn').value.trim().replace(/^QUOTIENT-BACKUP\s*/, ''); let o; try { o = JSON.parse(t); } catch { toast('That isn’t a Quotient backup'); return; } const keys = Object.keys(o || {}).filter(x => x.startsWith('quotient.')); if (!keys.length) { toast('That isn’t a Quotient backup'); return; } try { keys.forEach(x => localStorage.setItem(x, String(o[x]))); } catch { toast('Couldn’t restore here'); return; } toast('Restored. Reloading…'); setTimeout(() => location.reload(), 700); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#setPage').hidden) { e.preventDefault(); e.stopPropagation(); setClose(); } }, true);
+  $('#navPanel').addEventListener('click', e => { const b = e.target.closest('[data-nav="settings"]'); if (!b) return; e.stopPropagation(); buzz(); navOpen(false); setTimeout(() => setOpen($('#navFab')), 120); }, true);
+  if (store.get('quotient.calm', false)) document.documentElement.classList.add('calm');
   function setView(v, first) {
     try { setTimeout(navDot, 0); } catch {}
     view = v; const isSheet = v === 'sheet', isBk = v === 'basket'; if (ret && ((ret.kind === 'view' && ret.view === v) || (ret.kind === 'sheet' && isSheet))) ret = null;
