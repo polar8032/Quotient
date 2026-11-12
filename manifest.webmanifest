@@ -69,6 +69,39 @@
           "sizes": "192x192"
         }
       ]
+    },
+    {
+      "name": "Split a bill",
+      "short_name": "Split",
+      "url": "./#new-split",
+      "icons": [
+        {
+          "src": "./icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "New timer",
+      "short_name": "Timer",
+      "url": "./#new-timer",
+      "icons": [
+        {
+          "src": "./icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Live",
+      "short_name": "Live",
+      "url": "./#live",
+      "icons": [
+        {
+          "src": "./icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     }
   ]
 }

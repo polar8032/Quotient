@@ -2465,6 +2465,73 @@ html.calc-open .calc-menu,html.gc-open .fab,html.gc-open .nav-fab,html.gc-open .
 .sh-join input{flex:1;min-width:0;font:inherit;font-size:13px;padding:9px 12px;border-radius:12px;border:1px solid var(--isl-edge,var(--line));background:transparent;color:var(--ink)}
 .sh-btn svg{flex:none}
 html.sh-open,html.sh-open body{overflow:hidden}
+/* ---------- split ---------- */
+.sp-card{width:min(420px,100%);gap:12px}
+.sp-head{display:grid;justify-items:center;gap:2px;text-align:center}
+.sp-name{width:100%;text-align:center;font:inherit;font-size:14px;font-weight:600;color:var(--muted);border:0;background:transparent;padding:2px 6px;border-radius:8px}
+.sp-name:focus{outline:none;background:var(--isl-card,var(--surface-2));color:var(--ink)}
+.sp-total{font-family:var(--f-mono);font-size:34px;font-weight:500;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.sp-meta{font-size:12.5px;color:var(--muted)}
+.sp-bar{height:6px;border-radius:999px;background:var(--isl-card,var(--surface-2));overflow:hidden}
+.sp-bar i{display:block;height:100%;width:calc(var(--p,0) * 100%);border-radius:inherit;background:linear-gradient(90deg,#3DD68C,#2BB673);transition:width .6s var(--spring,ease)}
+.sp-paidtxt{margin:-4px 0 0;font-size:12px;color:var(--muted);text-align:center}
+.sp-card.done .sp-paidtxt{color:#1F9D60;font-weight:600}
+.sp-who{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:10px;border-radius:16px;background:color-mix(in srgb,var(--ai-c) 10%,transparent);border:1px solid color-mix(in srgb,var(--ai-c) 30%,transparent)}
+.sp-who span{width:100%;font-size:13px;font-weight:600;color:var(--ai-c)}
+.sp-learn{display:flex;flex-wrap:wrap;gap:6px}
+.sp-lrn{font:inherit;font-size:12.5px;font-weight:600;padding:7px 12px;border-radius:999px;border:1px dashed color-mix(in srgb,var(--ai-c) 55%,transparent);background:color-mix(in srgb,var(--ai-c) 8%,transparent);color:var(--ai-c);cursor:pointer;transition:transform .3s var(--press,ease)}
+.sp-lrn:active{transform:scale(.95)}
+.sp-people{display:grid;gap:6px}
+.sp-p{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;align-items:center;gap:10px;padding:8px 8px 8px 10px;border-radius:16px;background:var(--isl-card,var(--surface-2));border:1px solid var(--isl-edge,var(--line));transition:background .35s,border-color .35s,opacity .35s}
+.sp-p.me{border-color:color-mix(in srgb,var(--ai-c) 55%,transparent);box-shadow:0 0 0 3px color-mix(in srgb,var(--ai-c) 14%,transparent)}
+.sp-p.paid{background:color-mix(in srgb,#3DD68C 10%,var(--isl-card,var(--surface-2)))}
+.sp-p.paid .sp-amt{color:var(--muted);text-decoration:line-through;text-decoration-thickness:1.5px}
+.sp-av{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--c);color:#141416;font-weight:700;font-size:13px}
+.sp-nm{display:grid;min-width:0}
+.sp-n{font:inherit;font-size:14.5px;font-weight:500;color:var(--ink);border:0;background:transparent;padding:2px 4px;margin-left:-4px;border-radius:6px;min-width:0;width:100%}
+.sp-n:focus{outline:none;background:var(--isl-bg,var(--surface))}
+.sp-nm em{font-style:normal;font-size:11px;color:var(--ai-c);font-weight:600}
+.sp-amt{font-family:var(--f-mono);font-size:15px;font-weight:500;font-variant-numeric:tabular-nums}
+.sp-paid{display:inline-flex;align-items:center;gap:5px;height:30px;padding:0 10px;border-radius:999px;border:1px solid var(--isl-edge,var(--line));background:var(--isl-bg,var(--surface));color:var(--muted);font:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:background .25s,color .25s,border-color .25s,transform .3s var(--press,ease)}
+.sp-paid svg{opacity:.35;transition:opacity .2s}
+.sp-paid[aria-pressed="true"]{background:#2BB673;border-color:transparent;color:#fff}
+.sp-paid[aria-pressed="true"] svg{opacity:1}
+.sp-paid:active{transform:scale(.92)}
+.sp-paid:disabled{cursor:default}
+.sp-addp{display:flex;gap:6px}
+.sp-sec{display:grid;gap:8px}
+.sp-h{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.sp-h small{text-transform:none;letter-spacing:0;font-weight:500;margin-left:6px}
+.sp-chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+#spPayer > span{width:100%;font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.sp-chip{font:inherit;font-size:12.5px;font-weight:600;height:30px;padding:0 12px;border-radius:999px;border:1px solid var(--isl-edge,var(--line));background:transparent;color:var(--muted);cursor:pointer;transition:background .2s,color .2s,border-color .2s,transform .3s var(--press,ease)}
+.sp-chip:active{transform:scale(.94)}
+.sp-chip.on{color:var(--accent-text);border-color:color-mix(in srgb,var(--accent) 50%,transparent);background:var(--accent-soft)}
+.sp-chip.sp-less{opacity:.7}
+.sp-it{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"l a" "w x";gap:4px 10px;align-items:center;padding:8px 10px;border-radius:14px;border:1px solid var(--isl-edge,var(--line))}
+.sp-il{grid-area:l;font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sp-it > b{grid-area:a;font-family:var(--f-mono);font-size:13.5px;font-weight:500}
+.sp-iw{grid-area:w;display:flex;gap:4px;flex-wrap:wrap}
+.sp-ix{grid-area:x;justify-self:end;width:24px;height:24px;border-radius:50%;border:0;background:transparent;color:var(--faint);font-size:16px;cursor:pointer}
+.sp-ini{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--c);background:transparent;color:var(--muted);font:inherit;font-size:11px;font-weight:700;cursor:pointer;transition:background .2s,color .2s,transform .3s var(--press,ease),opacity .2s;opacity:.55}
+.sp-ini.on{background:var(--c);color:#141416;opacity:1}
+.sp-ini:active{transform:scale(.88)}
+#spItems{display:grid;gap:6px}
+.sp-empty{margin:0;font-size:12.5px;color:var(--faint)}
+.sp-settle ul{list-style:none;margin:0;padding:10px 12px;border-radius:14px;background:var(--isl-card,var(--surface-2));display:grid;gap:4px;font-size:13.5px}
+.sp-settle li{display:flex;gap:6px;align-items:baseline}.sp-settle li span{margin-left:auto;font-family:var(--f-mono)}
+.sp-share{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:600}
+.sp-del{color:#E5484D;padding:9px 12px}
+/* ---------- learned ---------- */
+.hab-list{display:grid;gap:6px}
+.hab-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:10px 10px 10px 12px;border-radius:16px;background:var(--isl-card,var(--surface-2));border:1px solid var(--isl-edge,var(--line))}
+.hab-l{display:grid;font-size:13.5px;min-width:0}
+.hab-l small{font-size:11px;color:var(--faint)}
+.hab-row > b{font-family:var(--f-mono);font-size:13.5px;font-weight:500;color:var(--ai-c);text-align:right;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hab-x{padding:6px 10px;font-size:12px}
+.hab-empty{margin:0;font-size:13px;color:var(--muted);line-height:1.5}
+.sm-lrn{display:inline-block;font-style:normal;font-size:10.5px;font-weight:600;color:var(--ai-c);background:var(--ai-soft);border-radius:999px;padding:1px 7px;margin-left:6px;vertical-align:1px}
+.smart-menu button.sm-hab{display:block;grid-template-columns:none;width:calc(100% - 12px);margin:4px 6px 2px;padding:8px 10px;border-radius:10px;border:1px dashed color-mix(in srgb,var(--ai-c) 45%,transparent);background:transparent;color:var(--ai-c);font:inherit;font-size:12.5px;font-weight:600;text-align:left;cursor:pointer}
 </style>
 </head>
 <body>
@@ -2764,6 +2831,29 @@ html.sh-open,html.sh-open body{overflow:hidden}
       </div>
     </div>
     <button type="button" class="mt-del" id="mtDel">Delete meter</button>
+  </div>
+</div>
+<div class="sh" id="spDlg" role="dialog" aria-modal="true" aria-label="Split the bill" hidden inert>
+  <div class="sh-card sp-card" id="spCard">
+    <div class="sh-top"><span class="sh-kind">Split</span><button type="button" class="sh-x" data-spclose aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <div class="sp-head"><input class="sp-name" id="spName" aria-label="What was it" spellcheck="false"><b class="sp-total" id="spTotal"></b><span class="sp-meta" id="spMeta"></span></div>
+    <div class="sp-bar" aria-hidden="true"><i id="spBar"></i></div><p class="sp-paidtxt" id="spPaidTxt"></p>
+    <div class="sp-who" id="spWho" hidden></div>
+    <div class="sp-learn" id="spLearn" hidden></div>
+    <div class="sp-people" id="spPeople"></div>
+    <div class="sp-sec"><span class="sp-h">Tip</span><div class="sp-chips" id="spTips"></div></div>
+    <div class="sp-sec"><span class="sp-h">What you had <small>tap the letters to leave someone out</small></span><div id="spItems"></div><form class="sh-row sh-join" id="spAdd" autocomplete="off"><input id="spAddIn" placeholder="Add: wine 24, dessert 9" aria-label="Add an item" spellcheck="false"><button type="submit" class="mt-chip">Add</button></form></div>
+    <div class="sp-sec sp-chips" id="spPayer"></div>
+    <div class="sp-settle" id="spSettle" hidden></div>
+    <div class="sh-row"><button type="button" class="mt-chip sh-wide sp-share" id="spShare"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><path d="M14 14h2v2h-2zM18 18h2v2h-2zM14 18h2"/></svg>Show the table a QR code</button><button type="button" class="mt-chip" id="spCopy">Copy</button><button type="button" class="mt-chip sp-del" id="spDel" aria-label="Delete this split"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/></svg></button></div>
+  </div>
+</div>
+<div class="sh" id="habDlg" role="dialog" aria-modal="true" aria-label="Learned from you" hidden inert>
+  <div class="sh-card" id="habCard">
+    <div class="sh-top"><span class="sh-kind">✦ Learned from you</span><button type="button" class="sh-x" data-habclose aria-label="Close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <p class="sh-note" style="text-align:left">Quotient notices how you ask things and offers it back next time. It all stays on this device, and you can forget any of it.</p>
+    <div class="hab-list" id="habList"></div>
+    <div class="sh-row"><button type="button" class="mt-chip sh-wide" id="habOn" aria-pressed="true">Learning: on</button><button type="button" class="mt-chip" id="habReset" hidden>Learn again</button></div>
   </div>
 </div>
 <div class="sh" id="shDlg" role="dialog" aria-modal="true" aria-labelledby="shKind" hidden inert>
@@ -7547,7 +7637,7 @@ const Engine = (() => {
     const q = $('#q').value.trim() || (current && current.qText) || ''; if ($('#answer').classList.contains('stale')) { toast('Finish the question first'); return; }
     if (!current || current.error || current.kind === 'Help' || !q) return;
     if (current.run) { const run = current.run; current = null; $('#q').value = ''; run(); if (view === 'ask') runAsk(); return; }
-    hist = [q, ...hist.filter(x => x !== q)].slice(0, 40); store.set('quotient.hist', hist); hIdx = -1;
+    hist = [q, ...hist.filter(x => x !== q)].slice(0, 40); store.set('quotient.hist', hist); hIdx = -1; setTimeout(() => { try { habitCheck(); } catch {} }, 700);
     if (current && current.kind && !current.error) { ctx.kindFreq[current.kind] = (ctx.kindFreq[current.kind] || 0) + 1; saveCtx(); }
     if (current.assign) {
       ctx.vars[current.assign.name] = current.assign.value; saveCtx(); renderCtx();
@@ -8656,6 +8746,7 @@ const Engine = (() => {
     stopwatch: { name: 'Stopwatch', what: 'Counts up, with laps' },
     interval: { name: 'Repeat', what: 'Rings again and again: every so often, or focus and break' },
     reminder: { name: 'Reminder', what: 'Rings at a time with your note' },
+    split: { name: 'Split', what: 'Who owes what at the table, and who has paid' },
   };
   const T_SVG = {
     meter: '<circle cx="12" cy="12" r="4.5" fill="currentColor" stroke="none"/>',
@@ -8861,6 +8952,7 @@ const Engine = (() => {
     if (t.type === 'stopwatch') return tSwClock(tSwEl(t)).replace(/\.\d$/, '');
     if (t.type === 'interval') { const p = tIvPos(t); return `${t.phases.length > 1 ? t.phases[p.i][0] + ' ' : ''}${tClock(p.left)}`; }
     if (t.type === 'reminder') return t.done ? 'Now' : t.end - now < 864e5 ? tClock(t.end - now) : mHM(t.end);
+    if (t.type === 'split') return spPaidN(t) >= t.people.length ? 'All paid' : `${spPaidN(t)}/${t.people.length} paid`;
     return '';
   }
 
@@ -9110,6 +9202,7 @@ const Engine = (() => {
     if (t.type === 'stopwatch') return tRunning(t) ? 'run' : 'pause';
     if (t.type === 'interval') { if (t.since == null) return 'pause'; const p = tIvPos(t); return /break|rest|pausa|descanso|relax/i.test(t.phases[p.i][0] || '') ? 'rest' : p.left < 10e3 ? 'soon' : 'run'; }
     if (t.type === 'countdown') { const ms = t.target - now; return ms <= 0 ? 'alert' : ms < 36e5 ? 'soon' : 'wait'; }
+    if (t.type === 'split') return spPaidN(t) >= t.people.length ? 'done' : t.payer != null ? 'money' : 'wait';
     let sc = null; try { sc = tScreen(t); } catch {}
     if (t.type === 'goal') return tDone(t) >= t.target ? 'done' : sc && /behind|past/i.test(sc.say + sc.state) ? 'warn' : 'wait';
     if (t.type === 'budget') return sc && sc.alert || (t.days ? tBudToday(t) < 0 : t.amount - tSpent(t) < 0) ? 'over' : 'wait';
@@ -9158,7 +9251,7 @@ const Engine = (() => {
   setInterval(() => { if (document.hidden || !$('#island').classList.contains('open')) return; $$('#mtList .mtl.pp').forEach(row => { const it = pillItem(row.dataset.to ? 't:' + row.dataset.to : 'm:' + row.dataset.mo); if (it) { const st = liveState(it); if (row.dataset.st !== st) row.dataset.st = st; } }); }, 1000);
   /* ---------- tidying the list: reset or delete any event (swipe a row left, or Edit), clear what's finished, with Undo ---------- */
   const T_RESET = { timer: 'Restart', stopwatch: 'Reset', interval: 'Restart', counter: 'Reset today', goal: 'Start over', budget: 'Start over', since: 'From today' };
-  const tFinished = t => (t.type === 'timer' || t.type === 'reminder') && t.done || (t.type === 'countdown' && !t.repeat && t.target <= Date.now());
+  const tFinished = t => (t.type === 'split' && t.people && spPaidN(t) >= t.people.length) || (t.type === 'timer' || t.type === 'reminder') && t.done || (t.type === 'countdown' && !t.repeat && t.target <= Date.now());
   function liveSnap() { return JSON.stringify({ t: trackers, m: meters, p: pillSel }); }
   function liveRestore(s) { const o = JSON.parse(s); trackers = o.t; meters = o.m; pillSel = o.p; tSave(); mSave(); try { mGps(); } catch {} store.set('quotient.pill', pillSel); islDuoKey = ''; islUpdate(true); mList(); }
   function undoToast(msg, snap) { toast(msg); const el = $('#toast'), b = document.createElement('button'); b.type = 'button'; b.textContent = 'Undo'; b.onclick = e => { e.stopPropagation(); el.classList.remove('show'); liveRestore(snap); buzz(); }; el.appendChild(b); el.classList.add('has-act'); clearTimeout(tt); tt = setTimeout(() => el.classList.remove('show'), 5000); }
@@ -10182,8 +10275,12 @@ const Engine = (() => {
     const C = (kind, label, value, doLabel, fn) => ({ kind, label, value, doLabel, quiet: true, run: () => setTimeout(fn, 30) });
     const info = (kind, label, value) => ({ info: true, kind, label, value, steps: [] });
     const P = '(?:open|show|see|view|go to|switch to|bring up|launch)';
+    if (/^(?:what (?:have you|did you) learn(?:ed|t)?(?: about me)?|what do you know about me|my habits|habits|learned|what you(?:'ve)? learned|your memory|what you remember)$/.test(s)) return C('Learned', habits().length ? `${habits().length} thing${habits().length === 1 ? '' : 's'} learned from what you ask` : 'Nothing learned yet', 'Your habits', 'Show', () => habOpen());
+    if (/^(?:stop|don'?t|turn off|pause) (?:learning|remembering)(?: (?:from|about) me)?$/.test(s)) return C('Learned', 'Stop learning from what you ask', 'Learning off', 'Turn off', () => { learnOn = false; store.set('quotient.learnon', false); toast('Learning is off'); });
+    if (/^(?:start|turn on|resume) learning$/.test(s)) return C('Learned', 'Learn from what you ask again', 'Learning on', 'Turn on', () => { learnOn = true; store.set('quotient.learnon', true); toast('Learning from what you ask'); });
+    if (/^(?:badge|icon number) (on|off)$/.test(s)) { const on = /on$/.test(s); return C('Setting', on ? 'Show your number on the app icon' : 'No number on the app icon', on ? 'Badge on' : 'Badge off', on ? 'Turn on' : 'Turn off', () => { store.set('quotient.badge', on); glLast = '~'; glance(); toast(on ? 'The app icon shows your number' : 'App icon badge off'); }); }
     // sharing: "share this sheet", "qr code for my basket", or a code typed in
-    { const rc = String(raw || '').trim().match(/^(?:open |join |load )?([sab])-([0-9A-Za-z]{6,})$/i); if (rc && /^[sab]-/.test(String(raw).trim().replace(/^(?:open |join |load )/i, ''))) { const kind = SH_KIND[rc[1]]; return C('Share', `Open the shared ${kind}`, 'Shared ' + kind, 'Open', () => shareImport(String(raw).trim().replace(/^(?:open |join |load )/i, ''))); } }
+    { const rc = String(raw || '').trim().match(/^(?:open |join |load )?([sabp])-([0-9A-Za-z]{6,})$/i); if (rc && /^[sabp]-/.test(String(raw).trim().replace(/^(?:open |join |load )/i, ''))) { const kind = SH_KIND[rc[1]]; return C('Share', `Open the shared ${kind}`, 'Shared ' + kind, 'Open', () => shareImport(String(raw).trim().replace(/^(?:open |join |load )/i, ''))); } }
     if ((m = s.match(/^(?:share|send|qr(?: code)?(?: for| of)?|(?:make|create|get) (?:a )?(?:qr(?: code)?|code|link) (?:for|of))(?: this| my| the)? (sheet|page|note|basket|list|shopping list|cart|groceries)(?: (?:as|with|by) (?:a )?(?:qr(?: code)?|code|link))?$/))) { const k = /sheet|page|note/.test(m[1]) ? 's' : 'b'; return C('Share', k === 's' ? `Share “${sheet.title || 'your sheet'}”` : 'Share your basket', 'QR code · link · code', 'Share', () => shareOpen(k)); }
     // places
     if (new RegExp(`^(?:${P} )?(?:the |my )?(?:tape|history|kept answers|saved answers)$`).test(s)) return C('Go', tape.length ? `Your tape · ${tape.length} kept` : 'Your tape is empty', 'Tape', 'Open tape', () => tapeOpen(true));
@@ -10220,6 +10317,7 @@ const Engine = (() => {
   function linkCommand(raw) {
     const t = raw.trim().replace(/[.!]+$/, ''); let m;
     { let ac = null; try { ac = appCommand(t); } catch {} if (ac) return ac; }
+    { let sc = null; try { sc = splitCommand(t); } catch {} if (sc) return sc; }
     { let ta = null; try { ta = toolAnswer(t); } catch {} if (ta) return ta; }
     { let tc = null; try { tc = trackCommand(t); } catch {} if (tc) return tc; }
     { const wi = /^(?:what if|and if|suppose|imagine|if we|e se|imagina)\b/i.test(t) ? whatIf(t) : null; if (wi) return wi; }
@@ -10320,7 +10418,7 @@ const Engine = (() => {
   let disc = store.get('quotient.discover', null); if (!disc || typeof disc !== 'object') disc = { done: {}, seen: {}, hidden: false };
   const saveDisc = () => store.set('quotient.discover', disc);
   try { if (!disc.done.ask && (hist.length || tape.some(t => !t.ex))) { disc.done.ask = disc.done.keep = 1; saveDisc(); } } catch {}
-  const QVER = '21dc5aec';
+  const QVER = '2f33b6be';
   const SAMPLE_PASTE = 'Coffee 2.40\nCroissant 1.80\nOrange juice 3.20\nTotal 7.40';
   const FEATS = [
     { id: 'ask', t: 'Ask in your own words', d: 'Type it the way you would say it', q: '18% tip on 64,50 for 3 people' },
@@ -10833,12 +10931,15 @@ const Engine = (() => {
   const smNum = x => Engine.plain(+(+x).toPrecision(10));
   const smSolve = q => { try { const r = solveLinked(q); return r && !r.error ? r : null; } catch { return null; } };
   const smShow = r => r ? `${r.value}${r.unit && r.unit.length < 12 ? ' ' + r.unit : ''}`.trim() : '';
-  function usualPeople() { const n = +store.get('quotient.people', 0); return n >= 2 && n <= 20 ? n : 2; }
+  function usualPeople() { const n = learnOn ? +store.get('quotient.people', 0) : 0; return n >= 2 && n <= 20 ? n : 2; }
   /* what you usually do: rates and counts read from your own questions, and which kinds of next step you actually use */
-  function learnedFrom(re, dflt) { const all = [...hist, ...tape.map(t => t.q || '')].slice(0, 120), cnt = new Map(); for (const t of all) { const m = String(t).toLowerCase().match(re); if (m) cnt.set(m[1], (cnt.get(m[1]) || 0) + 1); } let best = dflt, n = 0; cnt.forEach((v, k) => { if (v > n) { n = v; best = k; } }); return best; }
-  const usualVat = () => learnedFrom(/(\d{1,2}(?:\.\d)?) ?% ?(?:vat|iva|tax|gst)\b/, '23');
-  const usualTip = () => learnedFrom(/(\d{1,2}) ?% ?tip\b|\btip (?:of )?(\d{1,2}) ?%/, '10');
-  const usualFuel = () => [learnedFrom(/(\d{1,2}(?:\.\d)?) ?l ?\/ ?100/, null), learnedFrom(/(\d\.\d{1,3}) ?(?:a|per|\/) ?(?:l\b|lit)/, null)];
+  let learnOn = store.get('quotient.learnon', true) !== false, LEARN_OFF = new Set(store.get('quotient.learnoff', []) || []);
+  function learnedN(re) { if (!learnOn || LEARN_OFF.has(re.source)) return { v: null, n: 0 }; const all = [...new Set([...hist, ...tape.map(t => t.q || '')].map(x => String(x).toLowerCase().trim()))].slice(0, 120), cnt = new Map(); for (const t of all) { const m = t.match(re); const k = m && (m[1] ?? m[2]); if (k) cnt.set(k, (cnt.get(k) || 0) + 1); } let best = null, n = 0; cnt.forEach((v, k) => { if (v > n) { n = v; best = k; } }); return { v: best, n }; }
+  function learnedFrom(re, dflt) { const r = learnedN(re); return r.n ? r.v : dflt; }
+  const TIP_RE = /(\d{1,2}) ?% ?tip\b|\btip (?:of )?(\d{1,2}) ?%/, VAT_RE = /(\d{1,2}(?:\.\d)?) ?% ?(?:vat|iva|tax|gst)\b/, CUR_RE = /\b(?:to|in|into)\s+(usd|eur|gbp|jpy|brl|chf|cad|aud|dollars?|euros?|pounds?|yen|reais|francs?)\b/, L100_RE = /(\d{1,2}(?:\.\d)?) ?l ?\/ ?100/, FUELP_RE = /(\d\.\d{1,3}) ?(?:a|per|\/) ?(?:l\b|lit)/;
+  const usualVat = () => learnedFrom(VAT_RE, '23');
+  const usualTip = () => learnedFrom(TIP_RE, '10');
+  const usualFuel = () => [learnedFrom(L100_RE, null), learnedFrom(FUELP_RE, null)];
   const usualHours = () => +learnedFrom(/(\d{2}) hours? a week/, '40');
   let smLearn = store.get('quotient.smlearn', {}); if (typeof smLearn !== 'object' || !smLearn) smLearn = {};
   const smBoost = f => { const x = smLearn[f]; if (!x) return 0; const rate = (x.t + 0.3) / (x.s + 1.5); return Math.min(2.5, rate * 3) - (x.s >= 12 && !x.t ? 0.8 : 0); };
@@ -10891,14 +10992,14 @@ const Engine = (() => {
       const order = per === 'month' ? ['year', 'hour', 'week'] : per === 'year' ? ['month', 'hour', 'week'] : per === 'hour' ? ['month', 'year', 'day'] : per === 'week' ? ['month', 'year'] : ['month', 'year'];
       order.forEach((t, i) => { if (t === 'hour' && !sal) return; add('rate', 'year', `What that is per ${t}${t === 'hour' ? ` (${H} h a week)` : ''}`, t === 'hour' ? `${N} a ${per} per hour` : `${N} a ${per} per ${t}`, 2.6 - i * 0.3); }); }
     if (money && !rateU && !isFin) {
-      const n = usualPeople(), tipP = usualTip();
+      const n = usualPeople(), tipP = usualTip(), lrnP = learnOn && +store.get('quotient.people', 0) >= 2 ? { lrn: `you're usually ${n}` } : {}, lrnT = learnedN(TIP_RE).n >= 2 ? { lrn: `your usual tip` } : {}, lrnV = learnedN(VAT_RE).n >= 2 ? { lrn: 'your usual rate' } : {};
       if (isSplit && /each|per person|ways|split|between/.test(ctxt) && !Number.isInteger(num)) add('round', 'split', `Round it up so everyone pays the same whole amount`, `round up ${N}`, 1.8, { pvx: ' each' });
-      if (!isSplit && (has(BILL) || isTip || has(TRIP))) { add('split', 'split', `Split ${val} between ${n}`, `${N} split between ${n}`, 3); if (n !== 3) add('split', 'split', `Split ${val} between ${n === 2 ? 3 : 2}`, `${N} split between ${n === 2 ? 3 : 2}`, 2.2); }
+      if (!isSplit && (has(BILL) || isTip || has(TRIP))) { add('split', 'split', `Split ${val} between ${n}`, `${N} split between ${n}`, 3, lrnP); if (n !== 3) add('split', 'split', `Split ${val} between ${n === 2 ? 3 : 2}`, `${N} split between ${n === 2 ? 3 : 2}`, 2.2); }
       else if (!isSplit && smBoost('split') > 0.5) add('split', 'split', `Split ${val} between ${n}`, `${N} split between ${n}`, 1);
-      if (has(BILL) && !isTip && !isSplit) add('tip', 'pct', `With a ${tipP}% tip`, `${tipP}% tip on ${N}`, 2.4);
+      if (has(BILL) && !isTip && !isSplit) add('tip', 'pct', `With a ${tipP}% tip`, `${tipP}% tip on ${N}`, 2.4, lrnT);
       const V = usualVat(), vatQ = has(/\b(?:vat|iva|tax|gst)\b/);
       if (vatQ) { /* the other direction just gives your own number back: nothing to offer */ }
-      else if (has(/\b(?:price|cost|invoice|quote|freelance|fee|charge|service|net|gross|product|sell|selling|item|order)\b/) || smBoost('vat') > 0.5) { add('vat', 'tax', `Add ${V}% VAT to ${val}`, `${N} plus ${V}% vat`, 1.8); add('vat', 'tax', `Take ${V}% VAT out of ${val}`, `${N} without ${V}% vat`, 1.5); }
+      else if (has(/\b(?:price|cost|invoice|quote|freelance|fee|charge|service|net|gross|product|sell|selling|item|order)\b/) || smBoost('vat') > 0.5) { add('vat', 'tax', `Add ${V}% VAT to ${val}`, `${N} plus ${V}% vat`, 1.8, lrnV); add('vat', 'tax', `Take ${V}% VAT out of ${val}`, `${N} without ${V}% vat`, 1.5); }
     }
     // loans and savings: the version you'd compare it with
     if (r.kind === 'Money' && (m = ql.match(/^(?:mortgage|loan)\s+(?:of\s+)?(\d[\d.,]*k?)\s+(?:at\s+)?(\d+(?:\.\d+)?)\s*%\s+(?:for|over)\s+(\d+)\s+years?$/))) { const y = +m[3]; if (y > 10) add('term', 'year', `Over ${y - 5} years instead`, `${ql.match(/^\w+/)[0]} ${m[1]} at ${m[2]}% for ${y - 5} years`, 2.2); add('term', 'year', `At ${(+m[2] + 1)}% instead`, `${ql.match(/^\w+/)[0]} ${m[1]} at ${+m[2] + 1}% for ${y} years`, 1.8); }
@@ -10938,7 +11039,7 @@ const Engine = (() => {
     const m = $('#smartMenu'), b = $('#smartBtn'); if (!m) return;
     if (!open) { m.classList.remove('quiet'); if (!m.hidden) { m.classList.remove('open'); b.setAttribute('aria-expanded', 'false'); clearTimeout(m._t); m._t = setTimeout(() => { if (!m.classList.contains('open')) m.hidden = true; }, REDUCE ? 0 : 260); } return; }
     const list = smartCur; if (!list.length) return; const empty = !$('#q').value.trim();
-    m.innerHTML = `<div class="sm-head">${empty ? 'Recent questions' : 'Next steps'}${empty ? '<button type="button" class="sm-clear" data-smclear>Clear</button>' : ''}</div>` + list.map((a, i) => `<button type="button" role="menuitem" data-smi="${i}" class="${a.rec ? 'rec' : ''}" style="--i:${i}"><span class="sm-ic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${SM_IC[a.ic] || SM_IC.next}</svg></span><span class="sm-t">${esc(a.sub || a.text)}</span><b class="sm-pv">${esc(a.pv + (a.pvx || ''))}</b>${a.rec ? `<span class="sm-del" data-smdel="${i}" role="button" aria-label="Remove “${esc(a.q)}”" title="Remove">×</span>` : ''}</button>`).join('') + (empty ? '<div class="sm-hint">Swipe left to remove one</div>' : '');
+    m.innerHTML = `<div class="sm-head">${empty ? 'Recent questions' : 'Next steps'}${empty ? '<button type="button" class="sm-clear" data-smclear>Clear</button>' : ''}</div>` + list.map((a, i) => `<button type="button" role="menuitem" data-smi="${i}" class="${a.rec ? 'rec' : ''}" style="--i:${i}"><span class="sm-ic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${SM_IC[a.ic] || SM_IC.next}</svg></span><span class="sm-t">${esc(a.sub || a.text)}${a.lrn ? `<i class="sm-lrn" title="Learned from what you ask">✦ ${esc(a.lrn)}</i>` : ''}</span><b class="sm-pv">${esc(a.pv + (a.pvx || ''))}</b>${a.rec ? `<span class="sm-del" data-smdel="${i}" role="button" aria-label="Remove “${esc(a.q)}”" title="Remove">×</span>` : ''}</button>`).join('') + (empty ? '<div class="sm-hint">Swipe left to remove one</div>' : '') + (habits().length ? `<button type="button" class="sm-hab" data-smhab>✦ Learned from you · ${habits().length}</button>` : '');
     const sb = $('.searchbar').getBoundingClientRect(), host = m.parentElement, hb = host.getBoundingClientRect(), br = b.getBoundingClientRect();
     m.style.top = (sb.bottom - hb.top + 6) + 'px'; m.style.setProperty('--ox', Math.max(20, br.left + br.width / 2 - (hb.right - Math.min(hb.width - 16, 380) - 8)) + 'px');
     m.hidden = false; void m.offsetWidth; m.classList.add('open'); b.setAttribute('aria-expanded', 'true');
@@ -11059,6 +11160,7 @@ const Engine = (() => {
     { id: 'pad', t: 'A calculator inside the bar', d: 'Tap the little calculator under the search bar for number keys, so you don’t switch between keyboards.', q: '12 × 3 + 4', v: '40', u: '', ui: 'pad', spot: '.searchbar', tip: 'The keypad lives inside the bar. Tap the calculator tab again to fold it.', act: () => { try { qpOpen(true); } catch {} } },
     { id: 'tools', t: 'Maths tools', d: 'The round button on the left opens 16 tools: equations, quadratics, fractions, percentages, shapes, trigonometry, statistics, graphs and more. Fill in the boxes and the answer appears as you type. Typed a maths question instead? Its answer gets an Edit button that opens the right tool with your numbers in. Type a tool’s name (quadratic, shapes, gcd) to open it, and Ans drops your last answer into any box.', q: '', v: 'x = 4', u: '', ui: 'tools', spot: '.qlead', tip: 'Tap here for equations, fractions and other maths tools.' },
     { id: 'island', t: 'Live answers at the top', d: 'Some answers change by themselves: the time in another city, a countdown, what’s left of your budget. Tap Track and they keep updating in the pill at the top. Its colour tells you how things stand: green running, amber nearly done, grey paused, red ringing or over budget, purple waiting. To keep one or two always on show, tap the small pill button next to them in the list, or type “show pasta and tea on the pill”. Swipe a row left (or tap Edit) to restart or delete it; finished ones can be cleared in one tap, and they tidy themselves away after a while.', q: 'time in new york', v: '15:47', u: '', ui: 'island', spot: '#answer [data-act="track"]', tip: 'Track keeps it updating in the pill at the top.' },
+    { id: 'split', t: 'Split the bill', d: 'Say it the way you would at the table: “pizza 18, wine 24, Ana didn’t drink, 4 of us, 10% tip”. Each person gets their own share, people can be left out of an item, and Enter opens the split: rename people, tick who has paid, choose who paid the bill, and show the table a QR code so everyone opens their own part. It stays in the live pill until everyone has paid. Quotient also learns how you do things (your usual tip, who you split with) and says so: tap “Learned from you” under Next to see it or forget it.', q: 'pizza 18, wine 24, Ana didn’t drink, 4 of us', v: '', u: '', ui: 'split' },
     { id: 'live', t: 'Track things live', d: 'Answers are for now; trackers keep going. Say it the way you would to a friend: pasta 9 minutes, remind me to call mum at 18:00, stretch every 45 minutes, rent due on the 1st, holiday budget 1200 for 10 days, water 8 glasses a day. Tap the button and it lives in the pill at the top, or use New tracker there. The pill takes turns showing whatever is ticking, with a ring that fills as it goes. Inside a tracker, the corner button fills the whole screen for your desk, and it gives you a quiet heads-up at halfway and with a minute left. You can run everything from the bar too: pause pasta, pasta +5 min, spent 12 on lunch, saved 50, +1 water, lap, snooze call mum 15 min, delete stopwatch, or just type trackers.', q: 'pasta 9 minutes', v: 'Timer', u: '', ui: 'meter', spot: '#answer [data-act="track"]', tip: 'Tap here and the timer starts. It rings even with the window closed.' },
     { id: 'log', t: 'Track time and bill it', d: 'A meter for your hourly rate (design work 40 an hour) is a time log: pause and resume it as you work, and each stretch becomes a session. The Sessions tab shows today, this week and the total, rounds to 15 minutes if you bill that way, and copies a summary for an invoice.', q: 'design work 40 an hour', v: '40.00', u: 'per hour', ui: 'log', spot: '#answer [data-act="track"]', tip: 'Tap Track to start it. Pause when you stop working; the Sessions tab keeps the log.' },
     { id: 'bar', t: 'Run the app from the bar', d: 'The bar does more than answer. Type what you want done and press Enter: open tape, calculator, help, dark mode, radians, undo, copy it, clear tape, empty basket, tick everything, split basket between 3, open trip sheet, rename sheet to holiday. It always shows what will happen before you confirm.', q: 'dark mode', v: 'Dark', u: '', ui: 'cmd', spot: '#answer', tip: 'Press Enter and it switches. Try “open tape” or “undo” next.' },
@@ -11085,6 +11187,7 @@ const Engine = (() => {
       case 'log': return `<div class="mk-log"><div class="mk-log-sum"><span><small>Today</small><b>€70.00</b></span><span><small>This week</small><b>€200.00</b></span></div><span>Yesterday · 13:09–16:16 <b>3 h 15 · €130.00</b></span><span>Today · 14:02–15:47 <b>1 h 45 · €70.00</b></span><span class="now">Today · 17:44–now <b>running</b></span><div class="mk-row"><span class="mk-pin">Copy summary</span></div></div>`;
       case 'cmd': return bar(c.q) + ans('Setting · switch to dark mode', c.v, c.u) + `<div class="mk-row"><span class="mk-keep">Switch</span></div></div>`;
       case 'nav': return `<div class="mk-navwrap"><div class="mk-navmenu"><span>Ask</span><span class="on">Sheet <b>1,290</b></span><span>Basket <b>12.40 left</b></span></div><div class="mk-navfab"><i></i><i></i></div></div>`;
+      case 'split': return bar(c.q) + ans('Split · 42.00 · 4 people', 'You 12.50 · Ana 4.50 …', '') + '<div class="mk-lines"><span>Person 3 <b>12.50</b></span><span>Person 4 <b>12.50</b></span><span>wine not split with Ana</span></div></div>';
       default: return bar(c.q) + ans(c.id === 'settle' ? 'Settle up · 3 people' : '18% tip, split 3 ways', c.v, c.u) + (c.id === 'settle' ? '<div class="mk-lines"><span>Carla → Ana <b>20.00</b></span><span>Carla → Bruno <b>5.00</b></span></div>' : '') + '</div>';
     }
   }
@@ -11199,7 +11302,7 @@ const Engine = (() => {
     if (by[0] === 2) txt = await new Response(new Blob([body]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).text(); else if (by[0] === 1) txt = new TextDecoder().decode(body); else throw new Error('bad');
     const o = JSON.parse(txt); if (!o || o.v !== 1) throw new Error('bad'); return o; }
   const SH_KIND = { s: 'sheet', a: 'answer', b: 'basket' };
-  const shFind = text => { const t = String(text || '').trim(); const m = t.match(/(?:^|#|\s)([sab])-([0-9A-Za-z]{6,})\b/); return m ? { k: m[1], code: m[2] } : null; };
+  const shFind = text => { const t = String(text || '').trim(); const m = t.match(/(?:^|#|\s)([sabp])-([0-9A-Za-z]{6,})\b/); return m ? { k: m[1], code: m[2] } : null; };
   // what goes in
   function shWhat(kind) {
     if (kind === 's') { if (sheet.ex || !sheet.lines.some(l => l.trim())) return null; if (!sheet.id) saveSheet(); let tot = null; try { tot = sheetLive().total; } catch {}
@@ -11241,19 +11344,198 @@ const Engine = (() => {
   $('#shCopy').addEventListener('click', () => { if (shCur) copy(shCur.full); });
   $('#shLink').addEventListener('click', () => { if (shCur && shCur.link) copy(shCur.link); });
   $('#shNative').addEventListener('click', async () => { if (!shCur) return; try { await navigator.share({ title: 'Quotient', text: `Open this ${SH_KIND[shCur.kind]} in Quotient: ${shCur.full}`, url: shCur.link || undefined }); } catch {} });
-  $('#shJoin').addEventListener('submit', async e => { e.preventDefault(); const v = $('#shJoinIn').value; if (await shareImport(v)) $('#shJoinIn').value = ''; else if (!shFind(v)) toast('Paste a code that starts with s-, a- or b-'); });
+  $('#shJoin').addEventListener('submit', async e => { e.preventDefault(); const v = $('#shJoinIn').value; if (await shareImport(v)) $('#shJoinIn').value = ''; else if (!shFind(v)) toast('Paste a code that starts with s-, a-, b- or p-'); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#shDlg').hidden) { e.preventDefault(); e.stopPropagation(); shareClose(); } }, true);
   $('#sheetShare').addEventListener('click', e => { shareOpen('s', e.currentTarget); });
   $('#bkShare').addEventListener('click', e => { shareOpen('b', e.currentTarget); });
   $('#answer').addEventListener('click', e => { const b = e.target.closest('[data-act="share"]'); if (!b) return; e.stopPropagation(); shareOpen('a', b); }, true);
   // a code pasted into the search bar opens straight away
-  $('#q').addEventListener('paste', e => { const t = (e.clipboardData || window.clipboardData)?.getData('text') || ''; if (t.length < 8000 && shFind(t) && /^\s*(?:\S*#)?[sab]-[0-9A-Za-z]{6,}\s*$/.test(t)) { e.preventDefault(); e.stopImmediatePropagation(); shareImport(t); } }, true);
+  $('#q').addEventListener('paste', e => { const t = (e.clipboardData || window.clipboardData)?.getData('text') || ''; if (t.length < 8000 && shFind(t) && /^\s*(?:\S*#)?[sabp]-[0-9A-Za-z]{6,}\s*$/.test(t)) { e.preventDefault(); e.stopImmediatePropagation(); shareImport(t); } }, true);
   // a link opened from a QR code
   const shBootHash = location.hash;
-  function shFromHash(e) { const h = e && e.type === 'hashchange' ? location.hash : (shBootHash || location.hash); if (/^#[sab]-[0-9A-Za-z]{6,}$/.test(h)) { shareImport(h.slice(1)).then(() => { if (location.hash === h) { try { history.replaceState(null, '', location.pathname + location.search); } catch {} } }); } }
+  function shFromHash(e) { const h = e && e.type === 'hashchange' ? location.hash : (shBootHash || location.hash); if (/^#[sabp]-[0-9A-Za-z]{6,}$/.test(h)) { shareImport(h.slice(1)).then(() => { if (location.hash === h) { try { history.replaceState(null, '', location.pathname + location.search); } catch {} } }); } }
   window.addEventListener('hashchange', shFromHash); setTimeout(shFromHash, 400);
   // the meters' join boxes take these codes too
   for (const [fid, iid] of [['#mtJoinIsl', '#mtJoinIslIn'], ['#mtJoin', '#mtJoinIn']]) $(fid).addEventListener('submit', e => { const inp = $(iid); if (shFind(inp.value) && !/m-/.test(inp.value)) { e.preventDefault(); e.stopImmediatePropagation(); shareImport(inp.value).then(ok => { if (ok) { inp.value = ''; islOpen(false); } }); } }, true);
+  /* ---------- splitting the bill: say it like you would at the table, then everyone sees their part and ticks it off ---------- */
+  const SP_NUMW = { two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10, dois: 2, duas: 2, tres: 3, 'três': 3, quatro: 4, cinco: 5, seis: 6 };
+  const SP_DRINK = /\b(wines?|beers?|drinks?|cocktails?|sangria|cider|vinho|cervejas?|imperia(?:l|is)|gin|whisky|vodka|champagne|prosecco|spritz|bottles?|sake|shots?|rum|tequila|margaritas?|mojitos?|caipirinhas?|aperol|negroni)\b/i;
+  const SP_COL = ['#9C84FF', '#F06E95', '#F2A93B', '#3DD68C', '#6FB4FF', '#FF8A7A', '#C9A0FF', '#5ED6C9'];
+  const SP_STOP = /^(?:total|dinner|lunch|breakfast|bill|tip|the|we|split|pizza|wine|beer|drinks?|and|for|with|between|each|everyone|nobody|someone|me|i|us|our|my|service|tax|vat|uber|taxi|hotel|food)$/i;
+  const spNum = s => readAmount(String(s).replace(/[€$£\s]/g, ''));
+  function spParse(raw) {
+    const t0 = String(raw || '').trim().replace(/[’]/g, "'"); if (t0.length < 6 || t0.length > 400) return null; const low = t0.toLowerCase();
+    if (!/\bwith\s+(?:[A-ZÀ-Ý][a-zà-ÿ]+|me)\b.*\b(?:and|&)\b/.test(t0) && !/\bsplit|\bof us\b|\bbetween\b|\bamong\b|\bways\b|\bper (?:person|head)\b|\bdidn'?t\b|\bdoesn'?t\b|\bdid not\b|\bdivid|\bpeople\b|\bfriends\b|\bwho owes\b|\bhad the\b/.test(low)) return null;
+    if (/\b(?:paid|put in|gave|spent)\s+(?:€|\$|£)?\d/i.test(t0) || /[=^√]|\b(?:mortgage|loan|salary|interest|km|miles|hours?)\b/i.test(low)) return null;
+    const cur = curOf((t0.match(/€|\$|£|\beur\b|\busd\b|\bgbp\b/i) || [''])[0]);
+    const wnum = w => /^\d+$/.test(w) ? +w : SP_NUMW[w] || 0, NAME = "[A-ZÀ-Ý][A-Za-zÀ-ÿ'-]+";
+    let count = 0, txt = t0; const meIn = /\b(?:me|i|we|us|myself|our)\b/i.test(t0);
+    const cRes = [/\b(\d{1,2}|two|three|four|five|six|seven|eight|nine|ten)\s+(?:of us|people|persons|ways|friends|guys|pax)\b/i, /\b(?:split|divided?|shared?)(?: it| the bill| this| that| everything)?\s+(?:in(?:to)?|by|between|among)\s+(\d{1,2}|two|three|four|five|six|seven|eight)\b(?!\s*[.,]\d)/i, /\b(?:between|among|for)\s+(\d{1,2}|two|three|four|five|six|seven|eight)\b(?!\s*(?:[.,]\d|€|eur|euros?|%|\$|£))/i, /\bsplit(?: it| the bill| this)?\s+(\d{1,2}|two|three|four|five|six|seven|eight)(?!\s*[.,]\d)\b(?!\s*(?:€|eur|euros?|%|\$|£))/i];
+    for (const re of cRes) { const m = txt.match(re); if (m && wnum(m[1].toLowerCase()) >= 2 && wnum(m[1].toLowerCase()) <= 20) { count = wnum(m[1].toLowerCase()); txt = txt.replace(m[0], m[0].toLowerCase().startsWith('split') ? 'split ' : ' '); break; } }
+    let tip = null, tipFix = 0; { const m = txt.match(/(\d{1,2}(?:[.,]\d)?)\s*%\s*(?:tip|service|gorjeta)|(?:tip|service|gorjeta)\s*(?:of\s*)?(\d{1,2}(?:[.,]\d)?)\s*%/i); if (m) { tip = +String(m[1] || m[2]).replace(',', '.'); txt = txt.replace(m[0], ' '); } else { const f = txt.match(/(?:\bplus\s+)?(?:a\s+)?(?:tip|gorjeta)\s*(?:of\s*)?(?:€|\$|£)?\s*(\d+(?:[.,]\d{1,2})?)(?!\s*%)/i); if (f) { tipFix = spNum(f[1]); txt = txt.replace(f[0], ' '); } } }
+    const names = [], addName = n => { n = /^(?:me|i|myself)$/i.test(n) ? 'You' : n.charAt(0).toUpperCase() + n.slice(1); if (n !== 'You' && SP_STOP.test(n)) return null; if (!names.includes(n)) names.push(n); return n; };
+    // lists of people: "with Ana, Rui and me", "between Ana, Rui and Bea"
+    { const m = txt.match(new RegExp(`\\b(?:with|between|among|for)\\s+((?:${NAME}|me|I)(?:\\s*(?:,|&|\\band\\b|\\be\\b)\\s*(?:${NAME}|me|I))+)`)); if (m) { m[1].split(/\s*(?:,|&|\band\b|\be\b)\s*/).filter(Boolean).forEach(addName); txt = txt.replace(m[0], ' '); } }
+    const rules = [], items = [];
+    // "Ana didn't drink", "Rui didn't have dessert", "Bea skipped the wine", "no wine for Ana", "Ana isn't paying"
+    txt = txt.replace(new RegExp(`\\b(${NAME}|I)\\s+(?:didn'?t|did not|doesn'?t|does not|don'?t|won'?t|isn'?t|is not|wasn'?t|had no|skipped)\\s+(?:have\\s+|order\\s+|get\\s+|eat\\s+(?:the\\s+|any\\s+)?|drink\\s+(?:the\\s+|any\\s+)?)?(?:the\\s+|any\\s+|a\\s+)?([a-zà-ÿ]+(?:\\s+[a-zà-ÿ]+)?)?`, 'g'), (all, who, what) => { const n = addName(who); if (!n) return all; const w = (what || '').toLowerCase().trim(); const verb = all.toLowerCase();
+      if (/\bpay(?:ing)?\b/.test(w)) rules.push({ n, all: true }); else if (/\b(?:drink|drank)\b/.test(verb) && (!w || /^(?:anything|alcohol|any)/.test(w) || /\bdrink\b/.test(w))) rules.push({ n, drink: true }); else if (/\b(?:eat|ate)\b/.test(verb) && (!w || /^(?:anything|food)/.test(w))) rules.push({ n, food: true }); else if (w) rules.push({ n, word: w.replace(/^(?:the|any|a)\s+/, '').split(/\s+/)[0] }); return ' '; });
+    txt = txt.replace(new RegExp(`\\bno\\s+([a-zà-ÿ]+)\\s+for\\s+(${NAME}|me)`, 'gi'), (all, w, who) => { const n = addName(who); if (n) rules.push({ n, word: w.toLowerCase() }); return ' '; });
+    // personal things: "Ana had the steak 24", "Rui's beer 5"
+    txt = txt.replace(new RegExp(`\\b(${NAME}|I)(?:'s|\\s+(?:had|ordered|got|took))\\s+(?:the\\s+|a\\s+|an\\s+|two\\s+|2\\s+)?([a-zà-ÿ][a-zà-ÿ ]{0,24}?)\\s*(?:€|\\$|£)?\\s*(\\d+(?:[.,]\\d{1,2})?)\\s*(?:€|eur|euros?)?`, 'g'), (all, who, what, a) => { const n = addName(who); if (!n) return all; items.push({ l: what.trim(), a: spNum(a), only: n }); return ' '; });
+    // everything else with an amount is shared
+    txt.split(/\s*(?:,|;|\n|\+|\band\b|\be\b)\s*/).flatMap(p => { const pairs = p.match(/[a-zà-ÿ][a-zà-ÿ ]*?\s*(?:€|\$|£)?\s*\d+(?:[.,]\d{1,2})?\s*(?:€|eur\b|euros?\b)?/gi); return pairs && pairs.length >= 2 && (p.match(/\d+(?:[.,]\d{1,2})?/g) || []).length === pairs.length ? pairs : [p]; }).forEach(p => { p = p.trim(); if (!p) return; const m = p.match(/(?:€|\$|£)?\s*(\d+(?:[.,]\d{1,2})?)\s*(?:€|eur\b|euros?\b|\$|£)?/); if (!m) return; const a = spNum(m[1]); if (!(a > 0)) return;
+      let l = p.replace(m[0], ' ').replace(/\b(?:split|divide[d]?|share[d]?|the bill|bill|between|among|each|per person|it|this|that|please|we|us|of|for|with|total|was|is|came to|cost)\b/gi, ' ').replace(/\s+/g, ' ').replace(/^[\s:–-]+|[\s:–-]+$/g, '').trim(); items.push({ l: l || '', a }); });
+    if (!items.length) return null;
+    // who's at the table
+    if (meIn && !names.includes('You')) names.unshift('You');
+    let P = Math.max(count, names.length); if (P < 2) return null; if (!count && names.length && names.length < 2) return null;
+    const people = names.slice(); for (let i = people.length; i < P; i++) people.push(i === 0 ? 'You' : `Person ${i + 1}`);
+    if (!people.includes('You') && count > names.length) { const k = people.findIndex(x => /^Person \d+$/.test(x)); if (k >= 0) people[k] = 'You'; people.sort((a, b) => a === 'You' ? -1 : b === 'You' ? 1 : 0); }
+    const idx = n => people.indexOf(n), every = people.map((_, i) => i);
+    const out = items.map(it => { let who = it.only ? [idx(it.only)].filter(i => i >= 0) : every.slice(); const isDrink = SP_DRINK.test(it.l);
+      for (const r of rules) { const i = idx(r.n); if (i < 0 || it.only) continue; if (r.all || (r.drink && isDrink) || (r.food && !isDrink && it.l) || (r.word && it.l.toLowerCase().includes(r.word.replace(/s$/, '')))) who = who.filter(x => x !== i); }
+      return { l: it.l || (items.length === 1 ? 'Bill' : 'Shared'), a: +it.a.toFixed(2), who: who.length === people.length ? null : who }; });
+    const name = (low.match(/\b(dinner|lunch|breakfast|brunch|jantar|almoço|groceries|taxi|uber|hotel|airbnb|trip|holiday|tickets|petrol|fuel)\b/) || low.match(/\b(drinks|pizza|coffee|sushi|burgers?)\b/) || [])[1];
+    return { name: name ? name.charAt(0).toUpperCase() + name.slice(1) : 'Bill', cur, items: out, people: people.map(n => ({ n, paid: false })), tip, tipFix, rules: rules.length, payer: null };
+  }
+  function spCalc(sp) { const P = sp.people.length, owe = Array(P).fill(0); let sub = 0;
+    sp.items.forEach(it => { const who = (it.who && it.who.length ? it.who : sp.people.map((_, i) => i)).filter(i => i < P); if (!who.length) return; who.forEach(i => owe[i] += it.a / who.length); sub += it.a; });
+    const tipAmt = sp.tipFix ? +sp.tipFix : sub * (sp.tip || 0) / 100, total = sub + tipAmt, raw = owe.map(x => sub ? x + tipAmt * x / sub : 0);
+    const c = raw.map(x => Math.floor(x * 100 + 1e-6)); let rem = Math.round(total * 100) - c.reduce((a, b) => a + b, 0); const ord = raw.map((x, i) => [x * 100 - c[i], i]).sort((a, b) => b[0] - a[0]); for (let k = 0; k < ord.length && rem > 0; k++, rem--) c[ord[k][1]]++;
+    const shares = c.map(x => x / 100); return { sub, tipAmt, total, shares, even: shares.every(x => Math.abs(x - shares[0]) < 0.011) }; }
+  const spM = (sp, v) => `${sp.cur || ''}${(+v).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  function spPaid(sp, i) { return !!(sp.people[i].paid || sp.payer === i); }
+  function spPaidN(sp) { return sp.people.filter((_, i) => spPaid(sp, i)).length; }
+  // a splitting answer in the bar
+  function splitCommand(raw) {
+    const t = String(raw || '').trim();
+    if (/^(?:split|new split|split a bill|split the bill|split bill|split dinner|bill split|divide a bill)$/i.test(t)) return { kind: 'Split', label: 'Start a split: add the amounts and who was there', value: 'New split', doLabel: 'Start', quiet: true, run: () => setTimeout(() => spNew(), 30) };
+    const sp = spParse(t); if (!sp) return null; const c = spCalc(sp), P = sp.people.length;
+    const lines = c.even ? [`${P} people × ${spM(sp, c.shares[0])}`] : sp.people.map((p, i) => `${p.n}: ${spM(sp, c.shares[i])}`).slice(0, 6);
+    sp.items.filter(it => it.who).slice(0, 3).forEach(it => { const out = sp.people.filter((_, i) => !it.who.includes(i)).map(p => p.n); if (out.length && out.length < P) lines.push(`${it.l} not split with ${out.join(', ')}`); });
+    if (c.tipAmt) lines.push(`includes ${sp.tip ? sp.tip + '% ' : ''}tip ${spM(sp, c.tipAmt)}`);
+    const learned = spLearnedNames(sp); if (learned) lines.push(`✦ last time it was ${learned.join(', ')}: open the split to use those names`);
+    return { kind: 'Split', label: `${spM(sp, c.total)} · ${sp.items.length > 1 ? sp.items.length + ' items · ' : ''}${P} people${c.tipAmt ? ' · with tip' : ''}`, value: c.even ? `${spM(sp, c.shares[0])} each` : sp.people.map((p, i) => `${p.n} ${spM(sp, c.shares[i])}`).slice(0, 2).join(' · ') + (P > 2 ? ' …' : ''), num: c.even ? c.shares[0] : c.total, lines, doLabel: 'Open the split', quiet: true, run: () => setTimeout(() => spStart(sp), 30) };
+  }
+  // names you split with before, offered back
+  const spNames = () => { const f = store.get('quotient.spnames', {}); return f && typeof f === 'object' ? f : {}; };
+  function spRemember(sp) { if (!learnOn) return; const f = spNames(); sp.people.forEach(p => { if (p.n !== 'You' && !/^Person \d+$/.test(p.n)) f[p.n] = (f[p.n] || 0) + 1; }); store.set('quotient.spnames', f); }
+  function spLearnedNames(sp) { if (!learnOn || LEARN_OFF.has('spnames')) return null; const gen = sp.people.map((p, i) => /^Person \d+$/.test(p.n) ? i : -1).filter(i => i >= 0); if (!gen.length) return null; const have = new Set(sp.people.map(p => p.n)); const f = spNames(), top = Object.entries(f).filter(([n, c]) => c >= 2 && !have.has(n)).sort((a, b) => b[1] - a[1]).slice(0, gen.length).map(x => x[0]); return top.length ? top : null; }
+  // as a tracker, so it lives in the pill until everyone has paid
+  T_SVG.split = '<path d="M12 4v16M5 8h14M7 8l-3 6a3 3 0 0 0 6 0zM17 8l-3 6a3 3 0 0 0 6 0z"/>';
+  const tScreenS = tScreen; tScreen = function (t) { if (t.type !== 'split') return tScreenS(t); return { state: '', meta: '', p: spPaidN(t) / t.people.length, run: false }; };
+  const tOpenS = tOpen; tOpen = function (id, from) { const t = tGet(id); if (t && t.type === 'split') return spOpen(id, from); return tOpenS(id, from); };
+  function spStart(spec, from) { const t = { id: 't' + Date.now().toString(36) + Math.random().toString(36).slice(2, 4), type: 'split', name: spec.name || 'Bill', created: Date.now(), cur: spec.cur || '', items: spec.items, people: spec.people, tip: spec.tip, tipFix: spec.tipFix || 0, payer: null, me: null };
+    trackers.unshift(t); trackers = trackers.slice(0, 14); tSave(); spRemember(t); mList(); islUpdate(true); spOpen(t.id, from || $('#answer [data-act="keep"]')); buzz(); }
+  function spNew() { spStart({ name: 'Bill', cur: '', items: [], people: [{ n: 'You', paid: false }, { n: 'Person 2', paid: false }], tip: null }); setTimeout(() => { const i = $('#spAddIn'); if (i) i.focus(); }, 450); }
+  // the split window
+  let spId = null, spAsk = false;
+  const spGet = () => spId ? tGet(spId) : null;
+  function spOpen(id, from) { const t = tGet(id); if (!t) return; spId = id; islOpen(false); const dlg = $('#spDlg'); dlg.hidden = false; dlg.inert = false; document.documentElement.classList.add('sh-open'); spRender(true);
+    if (!REDUCE) { const card = $('#spCard'), R = from && from.getBoundingClientRect ? from.getBoundingClientRect() : null, C = card.getBoundingClientRect(), dx = R ? (R.left + R.width / 2) - (C.left + C.width / 2) : 0, dy = R ? (R.top + R.height / 2) - (C.top + C.height / 2) : 40;
+      card.animate([{ transform: `translate(${dx}px, ${dy}px) scale(.25)`, opacity: 0, filter: 'blur(6px)' }, { opacity: 1, filter: 'blur(0)', offset: 0.4 }, { transform: 'none', opacity: 1, filter: 'blur(0)' }], { duration: 540, easing: 'cubic-bezier(.2,.9,.25,1.05)' }); dlg.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 260 });
+      $$('#spCard .sp-p').forEach((el, i) => el.animate([{ opacity: 0, transform: 'translateY(10px) scale(.96)' }, { opacity: 0, offset: 0.3 }, { opacity: 1, transform: 'none' }], { duration: 460 + i * 60, easing: 'cubic-bezier(.2,.8,.2,1)' })); } }
+  function spClose() { const dlg = $('#spDlg'); if (dlg.hidden) return; const t = spGet(); if (t) { spRemember(t); tSave(); } spId = null; spAsk = false; const done = () => { dlg.hidden = true; dlg.inert = true; document.documentElement.classList.remove('sh-open'); mList(); islUpdate(true); };
+    if (REDUCE) return done(); const a = $('#spCard').animate([{ transform: 'none', opacity: 1 }, { transform: 'translateY(24px) scale(.94)', opacity: 0 }], { duration: 240, easing: 'cubic-bezier(.4,0,.6,1)', fill: 'forwards' }); dlg.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 240, fill: 'forwards' }); a.onfinish = () => { a.cancel(); dlg.getAnimations().forEach(x => x.cancel()); done(); }; }
+  function spRender(full) { const t = spGet(); if (!t) return; const c = spCalc(t), P = t.people.length, paidN = spPaidN(t), all = paidN >= P && P > 0;
+    if (document.activeElement !== $('#spName')) $('#spName').value = t.name;
+    $('#spTotal').textContent = spM(t, c.total); $('#spMeta').textContent = `${t.items.length} item${t.items.length === 1 ? '' : 's'}${c.tipAmt ? ` · tip ${spM(t, c.tipAmt)}` : ''} · ${P} people${c.even && P ? ` · ${spM(t, c.shares[0])} each` : ''}`;
+    $('#spCard').classList.toggle('done', all); $('#spBar').style.setProperty('--p', P ? (paidN / P).toFixed(3) : 0); $('#spPaidTxt').textContent = all ? 'Everyone has paid ✓' : t.payer != null ? `${t.people[t.payer].n} paid the bill · ${paidN} of ${P} settled` : `${paidN} of ${P} paid`;
+    // learned, and shown as such
+    const lrn = []; const ln = spLearnedNames(t); if (ln) lrn.push(`<button type="button" class="sp-lrn" data-splrn="names">✦ Use ${esc(ln.join(', '))} from last time</button>`);
+    if (t.tip == null && !t.tipFix && t.items.length) { const ut = learnedN(TIP_RE); if (ut.n >= 2) lrn.push(`<button type="button" class="sp-lrn" data-splrn="tip" data-v="${ut.v}">✦ Add your usual ${esc(ut.v)}% tip</button>`); }
+    $('#spLearn').innerHTML = lrn.join(''); $('#spLearn').hidden = !lrn.length;
+    // which one are you? (a split that came from someone else)
+    $('#spWho').hidden = !spAsk; if (spAsk) $('#spWho').innerHTML = `<span>Which one are you?</span>${t.people.map((p, i) => `<button type="button" class="sp-chip" data-spme="${i}">${esc(p.n)}</button>`).join('')}`;
+    const rows = t.people.map((p, i) => { const pd = spPaid(t, i), me = t.me === i; return `<div class="sp-p${pd ? ' paid' : ''}${me ? ' me' : ''}" style="--c:${SP_COL[i % SP_COL.length]}" data-row="${i}"><span class="sp-av" aria-hidden="true">${esc((p.n.match(/[A-Za-zÀ-ÿ0-9]/) || ['?'])[0].toUpperCase())}</span><span class="sp-nm"><input class="sp-n" data-spn="${i}" value="${esc(p.n)}" aria-label="Name" spellcheck="false">${me ? '<em>your part</em>' : t.payer === i ? '<em>paid the bill</em>' : ''}</span><b class="sp-amt">${spM(t, c.shares[i] || 0)}</b><button type="button" class="sp-paid" data-sppaid="${i}" aria-pressed="${pd}" ${t.payer === i ? 'disabled' : ''} aria-label="${pd ? 'Paid' : 'Mark as paid'}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>${pd ? 'Paid' : 'Paid?'}</span></button></div>`; }).join('');
+    $('#spPeople').innerHTML = rows + `<div class="sp-addp"><button type="button" class="sp-chip" data-spadd>+ Person</button>${P > 2 ? '<button type="button" class="sp-chip sp-less" data-sprm>− Person</button>' : ''}</div>`;
+    $('#spTips').innerHTML = [0, 5, 10, 12, 15, 20].map(v => `<button type="button" class="sp-chip${(t.tip || 0) === v && !t.tipFix ? ' on' : ''}" data-sptip="${v}">${v ? v + '%' : 'No tip'}</button>`).join('');
+    $('#spItems').innerHTML = t.items.length ? t.items.map((it, k) => `<div class="sp-it"><span class="sp-il">${esc(it.l)}</span><b>${spM(t, it.a)}</b><span class="sp-iw">${t.people.map((p, i) => `<button type="button" class="sp-ini${!it.who || it.who.includes(i) ? ' on' : ''}" style="--c:${SP_COL[i % SP_COL.length]}" data-spiw="${k}:${i}" aria-pressed="${!it.who || it.who.includes(i)}" title="${esc(p.n)}">${esc((p.n.match(/[A-Za-zÀ-ÿ0-9]/) || ['?'])[0].toUpperCase())}</button>`).join('')}</span><button type="button" class="sp-ix" data-spidel="${k}" aria-label="Remove ${esc(it.l)}">×</button></div>`).join('') : '<p class="sp-empty">Add what you had: “pizza 18”, “wine 24”.</p>';
+    $('#spPayer').innerHTML = `<span>Who paid the bill?</span><button type="button" class="sp-chip${t.payer == null ? ' on' : ''}" data-sppay="-1">Not yet</button>` + t.people.map((p, i) => `<button type="button" class="sp-chip${t.payer === i ? ' on' : ''}" data-sppay="${i}">${esc(p.n)}</button>`).join('');
+    const owe = t.payer == null ? [] : t.people.map((p, i) => i === t.payer || p.paid ? null : `<li><b>${esc(p.n)}</b> → ${esc(t.people[t.payer].n)} <span>${spM(t, c.shares[i])}</span></li>`).filter(Boolean);
+    $('#spSettle').innerHTML = owe.length ? `<ul>${owe.join('')}</ul>` : ''; $('#spSettle').hidden = !owe.length;
+  }
+  function spSave(rerender = true) { const t = spGet(); if (!t) return; tSave(); if (rerender) spRender(); mList(); islUpdate(true); }
+  function spText(t) { const c = spCalc(t); return [`${t.name} · ${spM(t, c.total)}${c.tipAmt ? ` (tip ${spM(t, c.tipAmt)})` : ''}`, ...t.people.map((p, i) => `${p.n}: ${spM(t, c.shares[i])}${spPaid(t, i) ? ' ✓' : ''}`)].join('\n'); }
+  $('#spDlg').addEventListener('click', e => { const t = spGet(); if (!t) return; const el = e.target;
+    if (el === $('#spDlg') || el.closest('[data-spclose]')) return spClose();
+    const pd = el.closest('[data-sppaid]'); if (pd) { const i = +pd.dataset.sppaid; t.people[i].paid = !t.people[i].paid; buzz(); const was = spPaidN(t) >= t.people.length; spSave(); const row = $(`#spPeople [data-row="${i}"]`); if (row && !REDUCE) row.animate([{ transform: 'scale(.97)' }, { transform: 'scale(1.015)' }, { transform: 'none' }], { duration: 380, easing: 'cubic-bezier(.3,.7,.3,1)' });
+      if (spPaidN(t) >= t.people.length && !REDUCE) { const card = $('#spCard'); card.animate([{ boxShadow: '0 0 0 0 rgba(61,214,140,.6)' }, { boxShadow: '0 0 0 14px rgba(61,214,140,0)' }], { duration: 900, easing: 'ease-out' }); toast('Everyone has paid. Nicely settled'); } return; }
+    const pay = el.closest('[data-sppay]'); if (pay) { const v = +pay.dataset.sppay; t.payer = v < 0 ? null : v; buzz(); return spSave(); }
+    const tp = el.closest('[data-sptip]'); if (tp) { t.tip = +tp.dataset.sptip || null; t.tipFix = 0; buzz(); return spSave(); }
+    const iw = el.closest('[data-spiw]'); if (iw) { const [k, i] = iw.dataset.spiw.split(':').map(Number), it = t.items[k]; let who = it.who ? it.who.slice() : t.people.map((_, j) => j); who = who.includes(i) ? who.filter(x => x !== i) : [...who, i].sort((a, b) => a - b); if (!who.length) { toast('Someone has to pay for it'); return; } it.who = who.length === t.people.length ? null : who; buzz(); return spSave(); }
+    const idl = el.closest('[data-spidel]'); if (idl) { t.items.splice(+idl.dataset.spidel, 1); return spSave(); }
+    if (el.closest('[data-spadd]')) { t.people.push({ n: `Person ${t.people.length + 1}`, paid: false }); spSave(); setTimeout(() => { const ins = $$('#spPeople .sp-n'); const last = ins[ins.length - 1]; if (last) { last.focus(); last.select(); } }, 30); return; }
+    if (el.closest('[data-sprm]')) { const n = t.people.length - 1; t.people.pop(); t.items.forEach(it => { if (it.who) { it.who = it.who.filter(x => x < n); if (!it.who.length) it.who = null; } }); if (t.payer === n) t.payer = null; if (t.me === n) t.me = null; return spSave(); }
+    const me = el.closest('[data-spme]'); if (me) { t.me = +me.dataset.spme; if (/^Person \d+$/.test(t.people[t.me].n)) t.people[t.me].n = 'You'; spAsk = false; buzz(); spSave(); const c = spCalc(t); toast(`Your part: ${spM(t, c.shares[t.me])}`); return; }
+    const lr = el.closest('[data-splrn]'); if (lr) { if (lr.dataset.splrn === 'tip') { t.tip = +lr.dataset.v; } else { const ln = spLearnedNames(t) || []; let k = 0; t.people.forEach(p => { if (/^Person \d+$/.test(p.n) && k < ln.length) p.n = ln[k++]; }); } buzz(); return spSave(); }
+    if (el.closest('#spShare')) { spRemember(t); return shareOpen('p', el.closest('#spShare')); }
+    if (el.closest('#spCopy')) { copy(spText(t)); return; }
+    if (el.closest('#spDel')) { const snap = liveSnap(); trackers = trackers.filter(x => x !== t); tSave(); spClose(); undoToast(`${t.name} split deleted`, snap); return; } });
+  $('#spDlg').addEventListener('change', e => { const t = spGet(); if (!t) return; const n = e.target.closest('[data-spn]'); if (n) { const v = n.value.trim().slice(0, 18) || `Person ${+n.dataset.spn + 1}`; t.people[+n.dataset.spn].n = v; spSave(); } if (e.target.id === 'spName') { t.name = e.target.value.trim().slice(0, 40) || 'Bill'; spSave(false); } });
+  $('#spDlg').addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.matches('.sp-n,#spName')) { e.preventDefault(); e.target.blur(); } });
+  $('#spAdd').addEventListener('submit', e => { e.preventDefault(); const t = spGet(); if (!t) return; const v = $('#spAddIn').value.trim(); if (!v) return; let n = 0;
+    v.split(/\s*(?:,|;|\band\b)\s*/).forEach(p => { const m = p.match(/(?:€|\$|£)?\s*(\d+(?:[.,]\d{1,2})?)\s*(?:€|eur|euros?)?/i); if (!m) return; const a = spNum(m[1]); if (!(a > 0)) return; const c = (p.match(/€|\$|£/) || [''])[0]; if (c && !t.cur) t.cur = c; t.items.push({ l: p.replace(m[0], ' ').replace(/\s+/g, ' ').trim() || 'Item', a, who: null }); n++; });
+    if (!n) { toast('Add an amount, like “wine 24”'); return; } $('#spAddIn').value = ''; buzz(); spSave(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#spDlg').hidden) { e.preventDefault(); e.stopPropagation(); spClose(); } }, true);
+  // splits travel by QR / code too
+  { const shWhatS = shWhat; shWhat = function (kind) { if (kind !== 'p') return shWhatS(kind); const t = spGet(); if (!t) return null; const c = spCalc(t);
+      return { obj: { v: 1, k: 'p', i: t.src || t.id, n: t.name, c: t.cur, it: t.items.map(x => [x.l, x.a, x.who]), p: t.people.map(p => [p.n, p.paid ? 1 : 0]), t: t.tip, f: t.tipFix || 0, y: t.payer }, title: `${t.name} · ${spM(t, c.total)}`, sub: `${t.people.length} people · each sees their own part` }; };
+    SH_KIND.p = 'split'; }
+  async function spImport(o) { const src = String(o.i || ''), ex = trackers.find(t => t.type === 'split' && (t.src === src || t.id === src)); const people = (o.p || []).map(([n, pd]) => ({ n: String(n) === 'You' ? 'Sender' : String(n).slice(0, 18), paid: !!pd })), items = (o.it || []).map(([l, a, who]) => ({ l: String(l), a: +a, who: Array.isArray(who) ? who : null }));
+    let t; if (ex) { ex.items = items; ex.people = people.map((p, i) => ({ ...p, paid: p.paid || !!(ex.people[i] && ex.people[i].paid && ex.people[i].n === p.n) })); ex.tip = o.t; ex.tipFix = o.f || 0; ex.payer = o.y ?? null; ex.name = String(o.n || ex.name); t = ex; }
+    else { t = { id: 't' + Date.now().toString(36) + Math.random().toString(36).slice(2, 4), src, type: 'split', name: String(o.n || 'Bill').slice(0, 40), created: Date.now(), cur: o.c || '', items, people, tip: o.t, tipFix: o.f || 0, payer: o.y ?? null, me: null }; trackers.unshift(t); }
+    tSave(); mList(); islUpdate(true); spAsk = t.me == null; spOpen(t.id); toast(ex ? `${t.name} updated` : `${t.name}: tap your name to see your part`); return true; }
+  { const imp = shareImport; shareImport = async function (text, quiet) { const f = String(text || '').trim().match(/(?:^|#|\s)p-([0-9A-Za-z]{6,})\b/); if (!f) return imp(text, quiet); try { const o = await shDec(f[1]); if (o.k !== 'p') throw 0; shareClose(); return spImport(o); } catch { if (!quiet) toast('That code didn’t work. Copy it again from the other phone'); return false; } }; }
+  /* ---------- what Quotient has learned about you, said out loud: shown, explained, and forgettable ---------- */
+  const FAM_WORD = { split: 'splitting', tip: 'tips', pct: 'percentages', vat: 'VAT', tax: 'VAT', rate: 'per-hour and per-month', round: 'rounding up', year: 'what-ifs', 'save+': 'savings', term: 'loan terms', conv: 'conversions', unit: 'units', time: 'times' };
+  function habits() { if (!learnOn) return []; const out = [], H = (k, l, v, n) => out.push({ k, l, v, n });
+    const t = learnedN(TIP_RE); if (t.n >= 2) H(TIP_RE.source, 'You usually tip', t.v + '%', t.n);
+    const v = learnedN(VAT_RE); if (v.n >= 2) H(VAT_RE.source, 'Your VAT rate', v.v + '%', v.n);
+    const pn = +store.get('quotient.people', 0); if (pn >= 2 && !LEARN_OFF.has('people')) H('people', 'Your usual group', pn + ' people');
+    const c = learnedN(CUR_RE); if (c.n >= 2) H(CUR_RE.source, 'You often convert to', c.v.length === 3 ? c.v.toUpperCase() : c.v, c.n);
+    const f1 = learnedN(L100_RE); if (f1.n >= 2) H(L100_RE.source, 'Your car uses', f1.v + ' L/100 km', f1.n);
+    const f2 = learnedN(FUELP_RE); if (f2.n >= 2) H(FUELP_RE.source, 'Fuel costs you', f2.v + ' a litre', f2.n);
+    if (!LEARN_OFF.has('spnames')) { const nm = Object.entries(spNames()).filter(x => x[1] >= 2).sort((a, b) => b[1] - a[1]).slice(0, 4).map(x => x[0]); if (nm.length) H('spnames', 'You split bills with', nm.join(', ')); }
+    if (!LEARN_OFF.has('smlearn')) { const fm = Object.entries(smLearn).filter(([, x]) => x.t >= 3).sort((a, b) => b[1].t - a[1].t).slice(0, 3).map(([f]) => FAM_WORD[f] || f); if (fm.length) H('smlearn', 'Next steps you pick most', fm.join(', ')); }
+    return out; }
+  function habForget(k) { LEARN_OFF.add(k); store.set('quotient.learnoff', [...LEARN_OFF]); if (k === 'people') store.set('quotient.people', 0); if (k === 'spnames') store.set('quotient.spnames', {}); if (k === 'smlearn') { smLearn = {}; store.set('quotient.smlearn', smLearn); } }
+  function habRender() { const L = habits(), box = $('#habList');
+    box.innerHTML = !learnOn ? '<p class="hab-empty">Learning is off. Quotient won’t remember your habits, and suggests plain defaults.</p>' : L.length ? L.map((h, i) => `<div class="hab-row" style="--i:${i}"><span class="hab-l">${esc(h.l)}<small>${h.n ? `seen in ${h.n} of your questions` : 'from what you’ve done here'}</small></span><b>${esc(h.v)}</b><button type="button" class="mt-chip hab-x" data-habx="${esc(h.k)}">Forget</button></div>`).join('') : '<p class="hab-empty">Nothing yet. Ask a few things the way you usually do (a tip, a split, a conversion) and it will show up here.</p>';
+    $('#habOn').setAttribute('aria-pressed', String(learnOn)); $('#habOn').textContent = learnOn ? 'Learning: on' : 'Learning: off'; $('#habReset').hidden = !LEARN_OFF.size; }
+  function habOpen(from) { const d = $('#habDlg'); habRender(); d.hidden = false; d.inert = false; document.documentElement.classList.add('sh-open');
+    if (!REDUCE) { const card = $('#habCard'), R = from && from.getBoundingClientRect ? from.getBoundingClientRect() : null, C = card.getBoundingClientRect(), dx = R ? (R.left + R.width / 2) - (C.left + C.width / 2) : 0, dy = R ? (R.top + R.height / 2) - (C.top + C.height / 2) : 40;
+      card.animate([{ transform: `translate(${dx}px, ${dy}px) scale(.25)`, opacity: 0 }, { opacity: 1, offset: 0.4 }, { transform: 'none', opacity: 1 }], { duration: 500, easing: 'cubic-bezier(.2,.9,.25,1.05)' }); d.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 240 });
+      $$('#habList .hab-row').forEach((el, i) => el.animate([{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 0, offset: 0.3 }, { opacity: 1, transform: 'none' }], { duration: 440 + i * 60, easing: 'cubic-bezier(.2,.8,.2,1)' })); } }
+  function habClose() { const d = $('#habDlg'); if (d.hidden) return; const done = () => { d.hidden = true; d.inert = true; document.documentElement.classList.remove('sh-open'); }; if (REDUCE) return done();
+    const a = $('#habCard').animate([{ transform: 'none', opacity: 1 }, { transform: 'translateY(20px) scale(.95)', opacity: 0 }], { duration: 220, easing: 'cubic-bezier(.4,0,.6,1)', fill: 'forwards' }); d.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 220, fill: 'forwards' }); a.onfinish = () => { a.cancel(); d.getAnimations().forEach(x => x.cancel()); done(); }; }
+  $('#habDlg').addEventListener('click', e => { const el = e.target;
+    if (el === $('#habDlg') || el.closest('[data-habclose]')) return habClose();
+    const x = el.closest('[data-habx]'); if (x) { const row = x.closest('.hab-row'), k = x.dataset.habx; const go = () => { habForget(k); habRender(); toast('Forgotten'); }; if (row && !REDUCE) { const a = row.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateX(-20px)' }], { duration: 260, easing: 'ease-in', fill: 'forwards' }); a.onfinish = go; } else go(); return; }
+    if (el.closest('#habOn')) { learnOn = !learnOn; store.set('quotient.learnon', learnOn); habRender(); buzz(); toast(learnOn ? 'Learning from what you ask' : 'Learning is off'); return; }
+    if (el.closest('#habReset')) { LEARN_OFF = new Set(); store.set('quotient.learnoff', []); habRender(); toast('Learning again from your questions'); return; } });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#habDlg').hidden) { e.preventDefault(); e.stopPropagation(); habClose(); } }, true);
+  document.addEventListener('click', e => { const b = e.target.closest('[data-smhab]'); if (!b) return; e.stopPropagation(); smartMenu(false); habOpen(b); }, true);
+  // the moment something becomes a habit, say so, once
+  { const seen0 = store.get('quotient.habseen', null); if (!Array.isArray(seen0)) store.set('quotient.habseen', habits().map(h => h.k + '=' + h.v)); }
+  function habitCheck() { if (!learnOn) return; const seen = new Set(store.get('quotient.habseen', []) || []), L = habits(), fresh = L.filter(h => !seen.has(h.k + '=' + h.v)); if (!fresh.length) return;
+    L.forEach(h => seen.add(h.k + '=' + h.v)); store.set('quotient.habseen', [...seen]); const h = fresh[0];
+    toast(`✦ Learned: ${h.l.charAt(0).toLowerCase() + h.l.slice(1)} ${h.v}. I’ll suggest it from now on`); const el = $('#toast'), b = document.createElement('button'); b.type = 'button'; b.textContent = 'See'; b.onclick = ev => { ev.stopPropagation(); el.classList.remove('show'); habOpen(); }; el.appendChild(b); el.classList.add('has-act'); clearTimeout(tt); tt = setTimeout(() => el.classList.remove('show'), 5200); }
+  /* ---------- a glance without opening: the number on the app icon (where the phone allows it) and in the window title ---------- */
+  let glLast = '';
+  function glNum(it) { const now = Date.now(), o = it.o; if (it.k === 'm') return Math.round(mCalc(o).total);
+    const t = o; if (t.type === 'timer') return t.done ? 0 : Math.ceil(tTimerLeft(t) / 6e4); if (t.type === 'countdown') { const ms = t.target - now; return ms > 864e5 ? Math.ceil(ms / 864e5) : Math.max(0, Math.ceil(ms / 36e5)); }
+    if (t.type === 'reminder') return Math.max(0, Math.ceil((t.end - now) / 6e4)); if (t.type === 'budget') return Math.max(0, Math.floor(t.days ? tBudToday(t) : t.amount - tSpent(t))); if (t.type === 'goal') return Math.round(Math.min(1, tDone(t) / t.target) * 100);
+    if (t.type === 'counter') return tCount(t); if (t.type === 'since') return Math.floor((now - t.from) / 864e5); if (t.type === 'split') return t.people.length - spPaidN(t); if (t.type === 'stopwatch') return Math.floor(tSwEl(t) / 6e4); return null; }
+  function glance() { let it = null; const sel = pillSel.map(pillItem).filter(Boolean); if (sel.length) it = sel[0]; else { const run = meters.find(mRunning); if (run) it = { k: 'm', o: run }; else { const L = trackers.filter(t => tRunning(t) || (t.type === 'timer' && t.done)); if (L.length) it = { k: 't', o: L[0] }; } }
+    const key = it ? `${liveVal(it)} · ${it.o.name}` : ''; if (key === glLast) return; glLast = key;
+    try { document.title = it ? `${liveVal(it)} · ${it.o.name} — Quotient` : 'Quotient'; } catch {}
+    if (!store.get('quotient.badge', true)) { try { navigator.clearAppBadge && navigator.clearAppBadge(); } catch {} return; }
+    try { const n = it ? glNum(it) : null; if (n != null && n > 0 && navigator.setAppBadge) navigator.setAppBadge(Math.min(n, 9999)).catch(() => {}); else if (navigator.clearAppBadge) navigator.clearAppBadge().catch(() => {}); } catch {} }
+  setInterval(() => { try { glance(); } catch {} }, 1000);
+  // shortcuts from the app icon (long-press on the home screen): split a bill, a timer, your live list
+  { const h = location.hash; setTimeout(() => { if (h === '#new-split') { try { history.replaceState(null, '', location.pathname + location.search); } catch {} spNew(); } else if (h === '#new-timer') { try { history.replaceState(null, '', location.pathname + location.search); } catch {} setView('ask'); const q = $('#q'); q.value = 'timer '; q.focus(); } else if (h === '#live') { try { history.replaceState(null, '', location.pathname + location.search); } catch {} islOpen(true); } }, 450); }
   function setView(v, first) {
     try { setTimeout(navDot, 0); } catch {}
     view = v; const isSheet = v === 'sheet', isBk = v === 'basket'; if (ret && ((ret.kind === 'view' && ret.view === v) || (ret.kind === 'sheet' && isSheet))) ret = null;
