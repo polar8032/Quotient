@@ -3065,6 +3065,181 @@ html.is-qb-open .toast{z-index:90}
 .qb-layer::after{content:'';position:absolute;left:0;right:0;bottom:0;height:220px;background:linear-gradient(to top,rgba(0,0,0,.35),transparent);opacity:0;transition:opacity .25s;pointer-events:none}
 .qb-layer.dragging::after{opacity:1}
 @media (prefers-reduced-motion:reduce){.qb-head,.qb-win,.qb-x{transition:none!important;animation:none!important}}
+/* ---------- Basket, in the style of the settings and tools: big title, grouped rows, tonal surfaces ---------- */
+#basket.bk17{background:var(--surface-2);border:0;border-radius:28px;box-shadow:none;padding:18px 14px 16px;overflow:visible;display:flex;flex-direction:column;gap:14px;animation:bkPage .6s cubic-bezier(.2,1,.35,1) both}
+@keyframes bkPage{from{opacity:0;transform:translateY(18px) scale(.985)}to{opacity:1;transform:none}}
+#basket .bk-head{display:flex;align-items:center;gap:8px;padding:0 4px 0 8px;flex-wrap:nowrap}
+#basket .bk-tt{display:flex;align-items:center;gap:10px;margin-right:auto;min-width:0}
+#basket .bk-head h2{margin:0;font-size:clamp(28px,7.5vw,34px);font-weight:500;letter-spacing:-.025em;line-height:1.1}
+#basket .bk-tb{height:40px;padding:0 16px;border-radius:999px;border:0;background:var(--surface);color:var(--ink);font:inherit;font-size:14px;font-weight:500;display:inline-flex;align-items:center;gap:8px;cursor:pointer;white-space:nowrap;transition:background .25s,color .25s,transform .35s var(--spring),padding .3s var(--spring)}
+#basket .bk-tb.ic{width:40px;padding:0;justify-content:center}
+#basket .bk-tb:active{transform:scale(.9)}
+#basket #bkGroup[aria-pressed="true"]{background:color-mix(in srgb,var(--ai-c) 22%,var(--surface));color:color-mix(in srgb,var(--ai-c) 70%,var(--ink))}
+#basket #bkGroup[aria-pressed="true"] svg{animation:bkWig .5s var(--spring)}
+@keyframes bkWig{30%{transform:scaleX(.7)}60%{transform:scaleX(1.12)}}
+#basket #bkClear.armed{background:var(--bad);color:#fff;animation:bkShake .4s}
+@keyframes bkShake{20%{transform:translateX(-3px)}40%{transform:translateX(3px)}60%{transform:translateX(-2px)}80%{transform:translateX(1px)}}
+@media (max-width:420px){#basket #bkGroup span{display:none}#basket #bkGroup{width:40px;padding:0;justify-content:center}}
+/* the summary card */
+#basket .bk-hero{--g:var(--good);background:color-mix(in srgb,var(--g) 13%,var(--surface));border-radius:28px;padding:18px 18px 16px;display:flex;flex-direction:column;gap:14px;transition:background .5s;animation:bkPage .6s .05s cubic-bezier(.2,1,.35,1) both}
+#basket .bk-hero.over{--g:var(--bad)}
+#basket .bk-hero.warn{--g:var(--accent)}
+#basket .bk-hero-top{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap}
+#basket .bk-tot{display:flex;flex-direction:column;gap:2px;margin-right:auto;min-width:0}
+#basket .bk-tot span,#basket .bk-tile > span{font-size:13px;font-weight:500;color:var(--muted);letter-spacing:0;text-transform:none}
+#basket .bk-tot b{font-family:var(--f-mono);font-size:clamp(36px,10vw,46px);font-weight:500;letter-spacing:-.03em;line-height:1.05;font-variant-numeric:tabular-nums;color:var(--ink)}
+#basket .bk-tot b.swap,#basket .bk-tile b.swap{animation:bkNum .5s cubic-bezier(.2,1.3,.35,1) both}
+@keyframes bkNum{from{opacity:.2;transform:translateY(10px) scale(.96);filter:blur(3px)}to{opacity:1;transform:none;filter:none}}
+#basket .bk-budget{display:flex;align-items:center;gap:8px;height:44px;padding:0 6px 0 16px;border-radius:999px;border:0;background:var(--surface);font-size:13.5px;color:var(--muted);cursor:text;transition:box-shadow .2s}
+#basket .bk-budget:focus-within{box-shadow:0 0 0 2px var(--g)}
+#basket .bk-budget input{width:86px;height:36px;border-radius:999px;padding:0 10px;font-size:16px;text-align:right;color:var(--ink)}
+#basket .bk-budget input.bad{color:var(--bad)}
+#basket .bk-bar{height:12px;border-radius:999px;background:color-mix(in srgb,var(--g) 18%,var(--surface));overflow:hidden}
+#basket .bk-bar i{background:var(--g);transition:width .8s cubic-bezier(.2,1.2,.35,1),background .4s;position:relative}
+#basket .bk-bar i::after{content:'';position:absolute;right:3px;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:var(--surface);opacity:.8}
+#basket .bk-sum{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+#basket .bk-tile{background:var(--surface);border-radius:20px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;min-width:0;animation:bkTile .5s cubic-bezier(.2,1.2,.35,1) both;animation-delay:calc(120ms + var(--i,0) * 60ms);transition:background .4s}
+@keyframes bkTile{from{opacity:0;transform:translateY(10px) scale(.94)}to{opacity:1;transform:none}}
+#basket .bk-tile b{font-family:var(--f-mono);font-size:19px;font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#basket .bk-tile.over{background:color-mix(in srgb,var(--bad) 16%,var(--surface))}
+#basket .bk-tile.over b{color:var(--bad)}
+#basket .bk-split{display:flex;align-items:center;gap:4px;font-size:17px!important}
+#basket .bk-split button{width:30px;height:30px;border-radius:50%;border:0;background:var(--surface-2);color:var(--ink);font-size:16px;transition:transform .3s var(--spring)}
+#basket .bk-split button:active{transform:scale(.82)}
+#basket .bk-split > span{min-width:20px;text-align:center}
+#basket .bk-tsplit em{font-style:normal;font-size:12.5px;color:var(--muted);min-height:1em}
+@media (max-width:420px){#basket .bk-sum{grid-template-columns:repeat(2,minmax(0,1fr))}#basket .bk-tsplit{grid-column:1 / -1;flex-direction:row;align-items:center;justify-content:space-between;flex-wrap:wrap}}
+/* adding */
+#basket .bk-add{display:flex;align-items:center;gap:10px;height:56px;padding:0 6px 0 18px;margin:0;border-radius:999px;background:var(--surface);transition:box-shadow .25s}
+#basket .bk-add:focus-within{box-shadow:0 0 0 2px var(--ai-c)}
+#basket .bk-addic{flex:none;color:var(--muted)}
+#basket .bk-add input{flex:1;min-width:0;height:100%;border:0;background:none;outline:none;font:inherit;font-size:16px;color:var(--ink);padding:0}
+#basket .bk-add input::placeholder{color:var(--muted)}
+#basket .bk-go{flex:none;width:44px;height:44px;border-radius:50%;border:0;background:var(--ink);color:var(--surface);display:grid;place-items:center;cursor:pointer;transition:transform .45s var(--spring)}
+#basket .bk-go:active{transform:scale(.85) rotate(90deg)}
+#basket .bk-preview,#basket .bk-usual{padding:0 6px}
+#basket .bk-preview:not(:empty){padding-bottom:0}
+#basket .bk-preview:empty{display:none}
+#basket .bk-preview span{padding:6px 12px;font-size:13px}
+#basket .bk-usual{padding-bottom:0;gap:8px}
+#basket .bk-usual .lbl{font-size:13px;font-weight:600;color:var(--muted);width:100%;margin:0 0 2px 8px}
+#basket .bk-usual button{border:0;background:var(--surface);color:var(--ink);padding:8px 14px;font-size:13.5px;border-radius:999px;transition:transform .3s var(--spring),background .2s}
+#basket .bk-usual button:hover{background:color-mix(in srgb,var(--ai-c) 10%,var(--surface))}
+#basket .bk-usual button:active{transform:scale(.92)}
+/* the list: rows as separate rounded segments */
+#basket .bk-list{border:0;display:grid;gap:2px;border-radius:24px;overflow:hidden}
+#basket .bk-list:empty{display:none}
+#basket .bk-item{grid-template-columns:44px minmax(0,1fr) auto auto 34px;grid-template-areas:'c n q l d' 'c p q l d' 'c t t t d';column-gap:10px;row-gap:0;align-items:center;padding:10px 8px 10px 12px;min-height:72px;background:var(--surface);border:0;border-radius:6px;position:relative;touch-action:pan-y;animation:bkRow .5s cubic-bezier(.2,1.1,.35,1) both;transition:background .25s,border-radius .3s var(--spring)}
+#basket .bk-item.swiping{transition:none;border-radius:18px;z-index:1}
+#basket .bk-item.swiping,#basket .bk-item.swiping *{user-select:none;-webkit-user-select:none}
+#basket .bk-item::after{content:'Remove';position:absolute;top:0;bottom:0;left:100%;width:100vw;display:flex;align-items:center;padding-left:24px;background:var(--bad);color:#fff;font-size:14px;font-weight:600;opacity:.75;transition:opacity .2s}
+#basket .bk-item.arm::after{opacity:1}
+#basket .bk-list{position:relative}
+@keyframes bkRow{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+#basket .bk-item:focus-within{background:color-mix(in srgb,var(--ac,var(--ai-c)) 7%,var(--surface))}
+#basket .bk-dot{display:none}
+#basket .bk-check{grid-area:c;width:30px;height:30px;justify-self:center;border:2px solid color-mix(in srgb,var(--ac,var(--faint)) 70%,var(--faint));background:color-mix(in srgb,var(--ac,var(--faint)) 10%,transparent);transition:background .3s,border-color .3s,transform .45s var(--spring-bounce)}
+#basket .bk-item.got .bk-check{background:var(--good);border-color:var(--good);color:#fff}
+#basket .bk-check svg{width:15px;height:15px;stroke-dasharray:24;stroke-dashoffset:24;transition:stroke-dashoffset .35s .05s ease-out}
+#basket .bk-item.got .bk-check svg{stroke-dashoffset:0}
+#basket .bk-item.pop .bk-check{animation:bkPop .5s cubic-bezier(.2,1.6,.35,1)}
+#basket .bk-item.got.pop .bk-check{box-shadow:0 0 0 0 color-mix(in srgb,var(--good) 50%,transparent);animation:bkPop .5s cubic-bezier(.2,1.6,.35,1),bkRing .6s ease-out}
+@keyframes bkPop{0%{transform:scale(.7)}100%{transform:scale(1)}}
+@keyframes bkRing{to{box-shadow:0 0 0 12px transparent}}
+#basket .bk-name{grid-area:n;font-size:16px;font-weight:500;padding:2px 0;transition:color .3s}
+#basket .bk-item.got .bk-name{color:var(--faint);text-decoration:line-through;text-decoration-thickness:1.5px}
+#basket .bk-item.got .bk-line,#basket .bk-item.got .bk-qty{opacity:.55}
+#basket .bk-item .bk-price{grid-area:p;justify-self:start;width:110px;text-align:left;padding:2px 0;font-size:13px;color:var(--muted);border:0;border-radius:6px}
+#basket .bk-item .bk-price.empty{color:var(--ai-c)}
+#basket .bk-item .bk-price.empty::placeholder{color:var(--ai-c);opacity:.85}
+#basket .bk-item .bk-price:focus{background:var(--surface-2);padding:2px 8px}
+#basket .bk-qty{grid-area:q;border:0;background:var(--surface-2);border-radius:999px;transition:opacity .3s}
+#basket .bk-qty button{width:32px;height:32px;border-radius:50%;color:var(--ink);font-size:17px;transition:transform .3s var(--spring),background .2s}
+#basket .bk-qty button:active{transform:scale(.8);background:color-mix(in srgb,var(--ac,var(--ai-c)) 18%,transparent)}
+#basket .bk-qty span{min-width:18px;font-size:14px;display:inline-block}
+#basket .bk-qty span.up{animation:bkUp .35s cubic-bezier(.2,1.3,.35,1)}
+#basket .bk-qty span.dn{animation:bkDn .35s cubic-bezier(.2,1.3,.35,1)}
+@keyframes bkUp{from{transform:translateY(8px);opacity:0}}
+@keyframes bkDn{from{transform:translateY(-8px);opacity:0}}
+#basket .bk-line{grid-area:l;min-width:54px;font-size:15px;font-weight:500;transition:opacity .3s}
+#basket .bk-del{grid-area:d;width:32px;height:32px;display:grid;place-items:center;color:var(--faint);border-radius:50%;transition:background .2s,color .2s,transform .3s var(--spring)}
+#basket .bk-del:active{transform:scale(.8)}
+#basket .bk-note{grid-area:t;margin:2px 0 0;font-size:11.5px}
+#basket .bk-aisle{background:none;border:0;padding:16px 10px 6px;font-size:13.5px;font-weight:600;letter-spacing:.01em;text-transform:none;color:color-mix(in srgb,var(--c) 75%,var(--ink));animation:bkRow .45s cubic-bezier(.2,1.1,.35,1) both}
+#basket .bk-list:has(.bk-aisle){gap:2px;border-radius:0;overflow:visible}
+#basket .bk-list:has(.bk-aisle) .bk-item{overflow:hidden}
+#basket .bk-aisle:first-child{padding-top:2px}
+#basket .bk-aisle + .bk-item{border-top-left-radius:24px;border-top-right-radius:24px}
+#basket .bk-item:has(+ .bk-aisle),#basket .bk-list:has(.bk-aisle) .bk-item:last-child{border-bottom-left-radius:24px;border-bottom-right-radius:24px}
+#basket .bk-aisle i{width:10px;height:10px}
+#basket .bk-aisle span{color:var(--muted)}
+#basket .bk-empty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:30px 22px;background:var(--surface);border-radius:24px;color:var(--muted);font-size:14px;animation:bkRow .5s cubic-bezier(.2,1.1,.35,1) both}
+#basket .bk-empty b{color:var(--ink);font-size:17px;font-weight:500}
+#basket .bk-eic{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;color:var(--good);background:color-mix(in srgb,var(--good) 14%,transparent);margin-bottom:4px;animation:bkFloat 3.2s ease-in-out infinite}
+@keyframes bkFloat{50%{transform:translateY(-4px)}}
+#basket .bk-empty .linkbtn{margin-top:4px;font-size:14px;padding:10px 18px;border-radius:999px;background:color-mix(in srgb,var(--ai-c) 14%,var(--surface));text-decoration:none}
+#basket .bk-foot{background:none;border:0;padding:0 8px;gap:10px}
+#basket .bk-tip:empty{display:none}
+#basket .bk-tip{font-size:14px;line-height:1.5}
+#basket .bk-foot .lk-row{padding:0;margin:0}
+#basket .bk-split > span{font-family:var(--f-mono);font-size:17px;font-weight:500;color:var(--ink);text-transform:none;letter-spacing:0}
+#basket .bk-foot .lk-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;border:0}
+#basket .bk-foot .lk-row > span,#basket .bk-foot .lk-row .lbl{width:100%;font-size:13px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--muted)}
+#basket .bk-foot .lk-row button{border:0;background:var(--surface);border-radius:999px;padding:9px 15px;font-size:13.5px;color:var(--ink);transition:transform .3s var(--spring),background .2s}
+#basket .bk-foot .lk-row button:active{transform:scale(.92)}
+@media (prefers-reduced-motion:reduce){#basket *,#basket{animation:none!important}}
+/* ---------- Search anywhere: the bar floats over the page ---------- */
+.fs-scrim{position:fixed;inset:0;z-index:58;background:rgba(10,10,14,.42);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);animation:fsFade .3s ease both}
+.fs-scrim.out{animation:fsFadeOut .22s ease both}
+html:not(.fs-on) .fs-scrim{display:none}
+@keyframes fsFade{from{opacity:0}}@keyframes fsFadeOut{to{opacity:0}}
+html.fs-on .grid > .col{position:fixed;z-index:60;top:calc(env(safe-area-inset-top,0px) + 10px);left:max(10px,calc(50% - 340px));right:max(10px,calc(50% - 340px));max-height:calc(var(--fsvh,100dvh) - env(safe-area-inset-top,0px) - 20px);overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;scrollbar-width:none;background:var(--bg);border-radius:30px;padding:14px 14px 16px;box-shadow:0 30px 70px -20px rgba(0,0,0,.55),0 0 0 1px var(--line);transform-origin:50% 0;animation:fsIn .5s cubic-bezier(.2,1.15,.35,1) both!important}
+html.fs-on .grid > .col::-webkit-scrollbar{display:none}
+html.fs-on .grid > .col.fs-out{animation:fsOut .22s cubic-bezier(.4,0,.8,.4) both!important;pointer-events:none}
+@keyframes fsIn{from{opacity:0;transform:translateY(-22px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes fsOut{to{opacity:0;transform:translateY(-14px) scale(.97)}}
+html.fs-on .grid > .col > :not(.ask),html.fs-on #start,html.fs-on #exwrap,html.fs-on #retRow,html.fs-on #ctxbar{display:none!important}
+html.fs-on .grid > .col > .ask{padding:0!important;margin:0!important}
+.fs-ctx{display:none}
+html.fs-on #smartMenu{position:relative;top:auto!important;right:auto;left:auto;width:auto;margin:10px 0 2px;transform-origin:calc(100% - 40px) 0}
+html.fs-on #smartMenu:not(.open){position:absolute;visibility:hidden}
+html.fs-on .fs-ctx{display:flex;flex-direction:column;gap:10px;margin:0 0 12px}
+.fs-top{display:flex;align-items:center;gap:12px;padding:0 2px 0 4px}
+.fs-ic{width:40px;height:40px;flex:none;border-radius:50%;display:grid;place-items:center;color:color-mix(in srgb,var(--ai-c) 80%,var(--ink));background:color-mix(in srgb,var(--ai-c) 16%,transparent);animation:fsPop .5s .08s cubic-bezier(.2,1.5,.35,1) both}
+@keyframes fsPop{from{transform:scale(.4);opacity:0}}
+.fs-t{display:grid;gap:1px;min-width:0;flex:1}
+.fs-t small{font-size:12.5px;color:var(--muted)}
+.fs-t b{font-size:17px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fs-x{width:40px;height:40px;flex:none;border-radius:50%;border:0;background:var(--surface-2);color:var(--ink);display:grid;place-items:center;cursor:pointer;transition:transform .3s var(--spring)}
+.fs-x:active{transform:scale(.86)}
+.fs-tries{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:0 -14px;padding:0 14px}
+.fs-tries::-webkit-scrollbar{display:none}
+.fs-tries button{flex:none;border:0;border-radius:999px;padding:8px 14px;font:inherit;font-size:13.5px;color:var(--ink);background:var(--surface-2);cursor:pointer;animation:chipIn .4s var(--spring) both;animation-delay:calc(120ms + var(--i,0) * 50ms);transition:transform .3s var(--spring),background .2s}
+.fs-tries button:active{transform:scale(.92);background:color-mix(in srgb,var(--ai-c) 16%,var(--surface-2))}
+.fs-hint{margin:0 6px;font-size:13px;color:var(--muted);line-height:1.45}
+.fs-hint b{color:var(--ink);font-weight:600}
+html.fs-on .fs-hint{display:block}
+html.fs-on .grid > .col:has(#q:not(:placeholder-shown)) .fs-hint{display:none}
+.nl.fs-new{animation:fsLine 1.4s ease}
+@keyframes fsLine{0%,30%{background:color-mix(in srgb,var(--ai-c) 22%,transparent)}100%{background:transparent}}
+@media (prefers-reduced-motion:reduce){html.fs-on .grid > .col,.fs-scrim{animation:none!important}}
+/* bottom bar: menu, home, and search (only away from home, where it calls the floating bar) */
+.home-fab{left:calc(max(16px, calc(env(safe-area-inset-left,0px) + 16px)) + 64px)!important}
+.search-fab:not(.home-fab){left:calc(max(16px, calc(env(safe-area-inset-left,0px) + 16px)) + 128px)!important}
+html.v-home .search-fab:not(.home-fab){opacity:0;transform:translateX(-40px) scale(.5);pointer-events:none}
+.home-fab.here{background:color-mix(in srgb,var(--ai-c) 30%,var(--dev-body));color:#fff}
+.home-fab svg path{transform-origin:12px 12px;transform-box:view-box}
+.home-fab .hf-roof.hop{animation:hfHop .5s cubic-bezier(.2,1.6,.35,1)}
+@keyframes hfHop{40%{transform:translateY(-3px)}}
+/* touch screens keep :hover after a tap, so the hover tilts would stick: only real mice get them */
+.home-fab svg,.home-fab:hover svg{transform:none!important}
+@media (hover:none){
+.guide-q:hover{transform:none}
+.search-fab:hover svg,.tape-fab:hover svg,.qp-handle:hover .qh-calc,.a-goal:hover svg{transform:none}
+.qlead:hover:not([aria-expanded="true"]) .qicon{transform:none}
+.search-fab:hover,.nav-fab:hover,.a-goal:hover{transform:none}
+.searchbar.qp-open .qp-handle .qh-calc{transform:scale(.9)}
+}
 </style>
 </head>
 <body>
@@ -3182,6 +3357,7 @@ html.is-qb-open .toast{z-index:90}
         <div class="kp-ebar">
           <button type="button" class="kp-ic" id="kpBack" aria-label="Back to all sheets"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
           <span class="kp-sp"></span>
+          <button type="button" class="kp-ic" id="kpAsk" aria-label="Search and ask here" title="Search and ask here"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg></button>
           <button type="button" class="kp-ic" id="kpPin" aria-label="Pin" aria-pressed="false" title="Pin"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4h6l-1 6 4 3v2H6v-2l4-3z"/><path d="M12 15v6"/></svg></button>
           <button type="button" class="kp-ic" id="kpColor" aria-label="Colour" title="Colour"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.6-.8 1.6-1.6 0-.9-.6-1.3-.6-2.1 0-.9.7-1.6 1.6-1.6H17a4 4 0 0 0 4-4C21 6.6 17 3 12 3z"/><circle cx="7.5" cy="11" r="1" fill="currentColor"/><circle cx="10" cy="7" r="1" fill="currentColor"/><circle cx="14.5" cy="7" r="1" fill="currentColor"/></svg></button>
           <button type="button" class="kp-ic" id="kpShare" aria-label="Share" title="Share"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M5 12v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg></button>
@@ -3224,29 +3400,34 @@ html.is-qb-open .toast{z-index:90}
       </div>
     </section>
 
-    <section class="basket" id="basket" aria-label="Basket" hidden>
+    <section class="basket bk17" id="basket" aria-label="Basket" hidden>
       <div class="bk-head">
-        <h2>Basket</h2><span class="chip-kind ex" id="bkEx" hidden>Example</span>
-        <label class="bk-budget" for="bkBudget">Budget <input id="bkBudget" type="text" inputmode="decimal" placeholder="none" autocomplete="off" aria-describedby="bkBudgetHint"></label><span class="sr-only" id="bkBudgetHint">A number, or a name from your Sheet such as groceries</span>
-        <button class="btn" id="bkGroup" type="button" aria-pressed="false" title="Sort the list the way you walk the shop">By aisle</button>
-        <button class="btn ic sh-btn" id="bkShare" type="button" title="Share this basket: QR code, link or code"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M5 12v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg><span class="t">Share</span></button>
-        <button class="btn" id="bkClear" type="button">Clear</button>
+        <div class="bk-tt"><h2>Basket</h2><span class="chip-kind ex" id="bkEx" hidden>Example</span></div>
+        <button class="bk-tb" id="bkGroup" type="button" aria-pressed="false" title="Sort the list the way you walk the shop"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h10M4 12h16M4 18h7"/></svg><span>By aisle</span></button>
+        <button class="bk-tb ic sh-btn" id="bkShare" type="button" title="Share this basket: QR code, link or code" aria-label="Share"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M5 12v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg></button>
+        <button class="bk-tb" id="bkClear" type="button">Clear</button>
+      </div>
+      <div class="bk-hero">
+        <div class="bk-hero-top">
+          <div class="bk-tot"><span>Total</span><b id="bkTotal">0.00</b></div>
+          <label class="bk-budget" for="bkBudget"><span>Budget</span><input id="bkBudget" type="text" inputmode="decimal" placeholder="none" autocomplete="off" aria-describedby="bkBudgetHint"></label><span class="sr-only" id="bkBudgetHint">A number, or a name from your Sheet such as groceries</span>
+        </div>
+        <div class="bk-bar" id="bkBar" hidden><i id="bkBarFill"></i></div>
+        <div class="bk-sum">
+          <div class="bk-tile" style="--i:0"><span>In the trolley</span><b id="bkGot">0.00</b></div>
+          <div class="bk-tile" id="bkLeftBox" style="--i:1"><span id="bkLeftL">Left of budget</span><b id="bkLeft">—</b></div>
+          <div class="bk-tile bk-tsplit" style="--i:2"><span>Split between</span><b class="bk-split"><button type="button" id="bkPm" aria-label="Fewer people">−</button><span id="bkPeople">1</span><button type="button" id="bkPp" aria-label="More people">+</button></b><em id="bkEach"></em></div>
+        </div>
       </div>
       <form class="bk-add" id="bkAdd" autocomplete="off">
-        <input id="bkInput" type="text" spellcheck="false" placeholder="Add: 2 x milk 1.09, ham 350 g at 12.90/kg · or: remove milk, budget 30" aria-label="Add items">
-        <button class="btn primary" type="submit">Add</button>
+        <svg class="bk-addic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 5h2l2.2 10.5h10.6L20 8H6.3"/><circle cx="9" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg>
+        <input id="bkInput" type="text" spellcheck="false" placeholder="Add items: 2 milk 1.09, 6 eggs…" aria-label="Add items: 2 x milk 1.09, ham 350 g at 12.90/kg, or remove milk, budget 30">
+        <button class="bk-go" type="submit" aria-label="Add"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
       </form>
       <div class="bk-preview" id="bkPreview" aria-live="polite"></div>
       <div class="bk-usual" id="bkUsual" hidden></div>
       <ul class="bk-list" id="bkList"></ul>
       <div class="bk-foot">
-        <div class="bk-bar" id="bkBar" hidden><i id="bkBarFill"></i></div>
-        <div class="bk-sum">
-          <div><span>Total</span><b id="bkTotal">0.00</b></div>
-          <div><span>In the trolley</span><b id="bkGot">0.00</b></div>
-          <div id="bkLeftBox"><span id="bkLeftL">Left of budget</span><b id="bkLeft">—</b></div>
-          <div><span>Split between</span><b class="bk-split"><button type="button" id="bkPm" aria-label="Fewer people">−</button><span id="bkPeople">1</span><button type="button" id="bkPp" aria-label="More people">+</button><em id="bkEach"></em></b></div>
-        </div>
         <p class="bk-tip" id="bkTip"></p>
         <div class="lk-row" id="bkLinks" hidden></div>
       </div>
@@ -3324,6 +3505,7 @@ html.is-qb-open .toast{z-index:90}
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path class="l1" d="M7 10h11"/><path class="l2" d="M7 15h6"/></svg>
   <i class="nv-dot" hidden></i>
 </button>
+<button class="search-fab home-fab" id="homeFab" type="button" aria-label="Home" title="Home"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="hf-roof" d="M3.5 11 12 4l8.5 7"/><path d="M5.5 9.5V19a1 1 0 0 0 1 1H10v-5.5h4V20h3.5a1 1 0 0 0 1-1V9.5"/></svg></button>
 <button class="search-fab" id="searchFab" type="button" aria-label="Search" title="Search"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg></button>
 <button class="tasks-fab" id="tasksFab" type="button" aria-label="Open tasks" title="Open tasks"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="7" height="14" rx="2.2"/><rect x="13.5" y="5" width="7" height="14" rx="2.2"/></svg><span class="tk-n" id="tasksFabN" hidden></span></button>
 <button class="tape-fab" id="tapeFab" type="button" aria-expanded="false" aria-controls="tapeSheet" aria-label="Open your tape" title="Your tape">
@@ -9373,7 +9555,7 @@ const Engine = (() => {
 
   const KEYMAP = { '*': '×', 'x': '×', '/': '÷', '-': '−', '+': '+', 'Enter': '=', '=': '=', 'Backspace': 'del', 'Delete': 'ac', '(': '(', ')': ')', '^': '^', '%': '%', '.': '.', ',': '.', '!': '!', 'p': 'π' };
   document.addEventListener('keydown', e => {
-    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); if (filling) closeFill(true); if (device.classList.contains('open') && innerWidth <= 640) setCalc(false); $('#q').focus(); $('#q').select(); return; }
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); try { if (fsWhere()) { fsOpen(); return; } } catch {} if (filling) closeFill(true); if (device.classList.contains('open') && innerWidth <= 640) setCalc(false); $('#q').focus(); $('#q').select(); return; }
     if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') { e.preventDefault(); setCalc(!device.classList.contains('open')); return; }
     if (e.key === 'Escape' && device.classList.contains('open') && !e.target.closest('input')) { e.preventDefault(); setCalc(false); return; }
     if (e.metaKey || e.ctrlKey || e.altKey) return;
@@ -11003,6 +11185,7 @@ const Engine = (() => {
   $('#kpSx').addEventListener('click', () => { kpQ = ''; $('#kpSearch').value = ''; $('#kpSx').hidden = true; kpRender(); $('#kpSearch').focus(); });
   $('#kpView').addEventListener('click', () => { kpList = !kpList; store.set('quotient.kplist', kpList); kpRender(); });
   $('#kpBack').addEventListener('click', () => kpSetEdit(false));
+  $('#kpAsk').addEventListener('click', () => { buzz(); try { const c = ntGetCaret(); if (c) ntCaret = c; } catch {} fsOpen(); });
   $('#kpPin').addEventListener('click', () => { if (sheet.ex) { touchSheet(); } sheet.pinned = !sheet.pinned; saveSheet(); kpSync(); toast(sheet.pinned ? 'Pinned to the top' : 'Unpinned'); });
   $('#kpColor').addEventListener('click', () => kpPop('color'));
   $('#kpMore').addEventListener('click', () => kpPop('more'));
@@ -11136,19 +11319,19 @@ const Engine = (() => {
   function bkTotals() { const tot = bk.items.reduce((a, it) => a + it.qty * (it.price || 0), 0), got = bk.items.filter(i => i.got).reduce((a, it) => a + it.qty * (it.price || 0), 0); return { tot, got }; }
   function renderBasket(newIdx) {
     const ul = $('#bkList');
-    if (!bk.items.length) ul.innerHTML = '<li class="bk-empty">Your basket is empty. Type items above, with or without prices: “milk 1.09, 6 eggs, cheese 200 g at 14.90 per kg”. <button type="button" class="linkbtn" data-bkexample>Show an example</button></li>';
+    if (!bk.items.length) ul.innerHTML = '<li class="bk-empty"><span class="bk-eic" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h2l2.2 10.5h10.6L20 8H6.3"/><circle cx="9" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg></span><b>Your basket is empty</b><span>Type items above, with or without prices: “milk 1.09, 6 eggs, cheese 200 g at 14.90 per kg”.</span><button type="button" class="linkbtn" data-bkexample>Show an example</button></li>';
     else ul.innerHTML = (() => { const idx = bk.items.map((it, i) => i); const order = AISLES.map(a => a[0]).concat('Other');
       if (bk.group) idx.sort((a, b) => order.indexOf(aisleOf(bk.items[a].name)[0]) - order.indexOf(aisleOf(bk.items[b].name)[0]) || (bk.items[a].got ? 1 : 0) - (bk.items[b].got ? 1 : 0) || a - b);
-      let lastA = null; return idx.map(i => { const it = bk.items[i], [an, ac] = aisleOf(it.name); const head = bk.group && an !== lastA ? `<li class="bk-aisle" style="--c:${ac}"><i></i>${an}<span>${m2(bk.items.filter(x => aisleOf(x.name)[0] === an).reduce((s, x) => s + x.qty * (x.price || 0), 0))}</span></li>` : ''; lastA = an; return head + rowHtml(it, i, ac, an); }).join(''); })();
+      let lastA = null; return idx.map(i => { const it = bk.items[i], [an, ac] = aisleOf(it.name); const head = bk.group && an !== lastA ? `<li class="bk-aisle" style="--c:${ac};--i:${i}"><i></i>${an}<span>${m2(bk.items.filter(x => aisleOf(x.name)[0] === an).reduce((s, x) => s + x.qty * (x.price || 0), 0))}</span></li>` : ''; lastA = an; return head + rowHtml(it, i, ac, an); }).join(''); })();
     bk.items.forEach(it => { delete it.bump; });
     renderUsual();
-    function rowHtml(it, i, ac, an) { return `<li class="bk-item${it.got ? ' got' : ''}${it.bump ? ' bumped' : ''}" data-i="${i}" style="${i === newIdx || (newIdx === 'all') ? '' : 'animation:none'}" ${typeof newIdx === 'number' && i >= newIdx ? 'data-new="1"' : ''}>
+    function rowHtml(it, i, ac, an) { return `<li class="bk-item${it.got ? ' got' : ''}${it.bump ? ' bumped' : ''}" data-i="${i}" style="--ac:${ac};${i === newIdx || (newIdx === 'all') ? '' : 'animation:none'}" ${typeof newIdx === 'number' && i >= newIdx ? 'data-new="1"' : ''}>
         <button type="button" class="bk-check" data-act="got" aria-label="${it.got ? 'Not in the trolley yet' : 'Got it'}" aria-pressed="${!!it.got}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></button>
         <input class="bk-name" data-act="name" value="${esc(it.name)}" aria-label="Item name">
         <span class="bk-qty"><button type="button" data-act="minus" aria-label="One less">−</button><span>${it.qty}</span><button type="button" data-act="plus" aria-label="One more">+</button></span>
-        <input class="bk-price${it.price ? '' : ' empty'}" data-act="price" inputmode="decimal" value="${it.price ? m2(it.price) : ''}" placeholder="price" aria-label="Price each">
+        <input class="bk-price${it.price ? '' : ' empty'}" data-act="price" inputmode="decimal" value="${it.price ? m2(it.price) : ''}" placeholder="add price" aria-label="Price each">
         <span class="bk-line">${it.price ? m2(it.qty * it.price) : '—'}</span>
-        <button type="button" class="bk-del" data-act="del" aria-label="Remove">×</button>${it.mem ? '<span class="bk-note">price from last time</span>' : ''}<i class="bk-dot" style="background:${ac}" title="${an}"></i></li>`; }
+        <button type="button" class="bk-del" data-act="del" aria-label="Remove"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>${it.mem ? '<span class="bk-note">price from last time</span>' : ''}<i class="bk-dot" style="background:${ac}" title="${an}"></i></li>`; }
     $$('#bkList [data-new]').forEach((li, k) => { li.classList.add('in-new'); li.style.animationDelay = (k * 60) + 'ms'; li.style.animation = ''; });
     if (document.activeElement !== $('#bkBudget')) $('#bkBudget').value = bk.budgetExpr || (bk.budget ? m2(bk.budget) : ''); $('#bkPeople').textContent = bk.people || 1; $('#bkGroup').setAttribute('aria-pressed', String(!!bk.group));
     updateBk();
@@ -11157,7 +11340,7 @@ const Engine = (() => {
     const { tot, got } = bkTotals(), people = bk.people || 1, B = bk.budget || 0;
     const setB = (id, t) => { const e = $(id); if (e.textContent !== t) { e.textContent = t; if (!REDUCE) { e.classList.remove('swap'); void e.offsetWidth; e.classList.add('swap'); } } };
     setB('#bkTotal', m2(tot)); setB('#bkGot', m2(got)); $('#bkEach').textContent = people > 1 ? `= ${m2(tot / people)} each` : '';
-    const bar = $('#bkBar'); bar.hidden = !B; $('#bkLeftBox').classList.toggle('over', B && tot > B);
+    const bar = $('#bkBar'); bar.hidden = !B; $('#bkLeftBox').classList.toggle('over', B && tot > B); { const hero = document.querySelector('#basket .bk-hero'); if (hero) { hero.classList.toggle('over', !!B && tot > B); hero.classList.toggle('warn', !!B && tot <= B && tot / B > .85); } }
     if (B) { const pct = tot / B * 100; $('#bkBarFill').style.width = Math.min(100, pct) + '%'; bar.classList.toggle('over', pct > 100); bar.classList.toggle('warn', pct > 85 && pct <= 100); $('#bkLeftL').textContent = tot > B ? 'Over budget' : 'Left of budget'; setB('#bkLeft', m2(Math.abs(B - tot))); }
     else { $('#bkLeftL').textContent = 'Left of budget'; $('#bkLeft').textContent = '—'; }
     // a smart tip
@@ -11186,15 +11369,40 @@ const Engine = (() => {
   $('#bkGroup').addEventListener('click', e => { bk.group = !bk.group; e.currentTarget.setAttribute('aria-pressed', String(bk.group)); bkTouch(); renderBasket('all'); });
   $('#bkList').addEventListener('click', e => {
     const b = e.target.closest('[data-act]'); if (!b || b.tagName === 'INPUT') return; const li = b.closest('.bk-item'), i = +li.dataset.i, it = bk.items[i];
-    if (b.dataset.act === 'got') { it.got = !it.got; li.classList.toggle('got', it.got); b.setAttribute('aria-pressed', String(!!it.got)); buzz(); }
+    if (b.dataset.act === 'got') { it.got = !it.got; li.classList.toggle('got', it.got); if (!REDUCE) { li.classList.remove('pop'); void li.offsetWidth; li.classList.add('pop'); } b.setAttribute('aria-pressed', String(!!it.got)); buzz(); }
+    if (b.dataset.act === 'plus' || b.dataset.act === 'minus') { const q = li.querySelector('.bk-qty span'); if (!REDUCE) { q.classList.remove('up', 'dn'); void q.offsetWidth; q.classList.add(b.dataset.act === 'plus' ? 'up' : 'dn'); } }
     if (b.dataset.act === 'plus') { it.qty++; li.querySelector('.bk-qty span').textContent = it.qty; li.querySelector('.bk-line').textContent = it.price ? m2(it.qty * it.price) : '—'; }
     if (b.dataset.act === 'minus') { if (it.qty > 1) { it.qty--; li.querySelector('.bk-qty span').textContent = it.qty; li.querySelector('.bk-line').textContent = it.price ? m2(it.qty * it.price) : '—'; } }
-    if (b.dataset.act === 'del') { bk.items.splice(i, 1); bkTouch(); renderBasket(); return; }
+    if (b.dataset.act === 'del') { bkDrop(li); return; }
     bkTouch(); updateBk();
   });
   $('#bkList').addEventListener('input', e => { const inp = e.target, li = inp.closest('.bk-item'); if (!li) return; const it = bk.items[+li.dataset.i];
     if (inp.dataset.act === 'name') it.name = inp.value; if (inp.dataset.act === 'price') { it.price = num(inp.value) || 0; it.mem = false; rememberPrice(it.name, it.price); inp.classList.toggle('empty', !it.price); li.querySelector('.bk-line').textContent = it.price ? m2(it.qty * it.price) : '—'; } bkTouch(); updateBk(); });
   $('#bkList').addEventListener('change', e => { if (e.target.dataset.act === 'price') { const it = bk.items[+e.target.closest('.bk-item').dataset.i]; e.target.value = it.price ? m2(it.price) : ''; } });
+  // a row leaves smoothly: it slides away, the gap closes, then the list redraws
+  function bkDrop(li, fromSwipe) {
+    const i = +li.dataset.i; if (!bk.items[i] || li._going) return; li._going = true; buzz();
+    const done = () => { const k = bk.items.indexOf(it); if (k >= 0) bk.items.splice(k, 1); bkTouch(); renderBasket(); }, it = bk.items[i];
+    if (REDUCE) return done();
+    const h = li.getBoundingClientRect().height; li.style.height = h + 'px'; li.style.animation = 'none';
+    li.style.transition = 'transform .28s cubic-bezier(.4,0,.2,1), opacity .25s'; li.style.transform = `translateX(${fromSwipe ? '-110%' : '-24px'})`; li.style.opacity = '0';
+    setTimeout(() => { li.style.transition = 'height .28s cubic-bezier(.4,0,.2,1), padding .28s, margin .28s'; li.style.height = '0px'; li.style.paddingTop = li.style.paddingBottom = '0px'; li.style.marginTop = '-2px'; }, fromSwipe ? 200 : 160);
+    setTimeout(done, fromSwipe ? 500 : 460);
+  }
+  // swipe a row left to remove it, like a phone's lists
+  $('#bkList').addEventListener('pointerdown', e => {
+    const li = e.target.closest('.bk-item'); if (!li || e.button > 0 || e.target.closest('input:focus, .bk-qty, .bk-check')) return;
+    const x0 = e.clientX, y0 = e.clientY; let on = false, dx = 0;
+    const mv = ev => { dx = Math.min(0, ev.clientX - x0); const dy = ev.clientY - y0;
+      if (!on) { if (Math.abs(ev.clientX - x0) < 10) return; if (Math.abs(dy) > Math.abs(ev.clientX - x0) || ev.clientX > x0) return end(); on = true; li.style.animation = 'none'; li.classList.add('swiping'); try { getSelection().removeAllRanges(); } catch {} try { li.setPointerCapture(ev.pointerId); } catch {} try { document.activeElement && li.contains(document.activeElement) && document.activeElement.blur(); } catch {} }
+      ev.preventDefault(); li.style.transform = `translateX(${dx}px)`; li.classList.toggle('arm', dx < -li.offsetWidth * .35); };
+    const end = () => { removeEventListener('pointermove', mv); removeEventListener('pointerup', up); removeEventListener('pointercancel', up); };
+    const up = () => { end(); if (!on) return; li.classList.remove('swiping'); const arm = li.classList.contains('arm'); li.classList.remove('arm');
+      if (arm) { li._sw = true; bkDrop(li, true); } else { li.style.transition = 'transform .45s cubic-bezier(.2,1.3,.35,1)'; li.style.transform = ''; setTimeout(() => { li.style.transition = ''; }, 460); }
+      li._swallow = true; setTimeout(() => { li._swallow = false; }, 0); };
+    addEventListener('pointermove', mv, { passive: false }); addEventListener('pointerup', up); addEventListener('pointercancel', up);
+  });
+  $('#bkList').addEventListener('click', e => { const li = e.target.closest('.bk-item'); if (li && li._swallow) { e.stopImmediatePropagation(); e.preventDefault(); } }, true);
   function budgetFrom(text) {
     const t = String(text || '').trim(); if (!t) return { v: 0, expr: '' };
     if (/^(?:€|\$|£)?\s*\d+(?:[.,]\d+)?\s*(?:€)?$/.test(t)) return { v: num(t) || 0, expr: '' };
@@ -11208,7 +11416,7 @@ const Engine = (() => {
   $('#bkPm').addEventListener('click', () => { bk.people = Math.max(1, (bk.people || 1) - 1); $('#bkPeople').textContent = bk.people; bkTouch(); updateBk(); });
   $('#bkPp').addEventListener('click', () => { bk.people = Math.min(50, (bk.people || 1) + 1); $('#bkPeople').textContent = bk.people; bkTouch(); updateBk(); });
   let bkArm = null;
-  $('#bkClear').addEventListener('click', e => { const b = e.currentTarget; if (!bkArm && !bk.ex && bk.items.length) { b.textContent = 'Tap again to clear'; bkArm = setTimeout(() => { b.textContent = 'Clear'; bkArm = null; }, 2600); return; } clearTimeout(bkArm); bkArm = null; b.textContent = 'Clear'; bk = { items: [], budget: bk.ex ? 0 : bk.budget, people: 1 }; saveBk(); renderBasket(); $('#bkInput').focus(); });
+  $('#bkClear').addEventListener('click', e => { const b = e.currentTarget; if (!bkArm && !bk.ex && bk.items.length) { b.textContent = 'Tap again to clear'; b.classList.add('armed'); bkArm = setTimeout(() => { b.textContent = 'Clear'; b.classList.remove('armed'); bkArm = null; }, 2600); return; } clearTimeout(bkArm); bkArm = null; b.textContent = 'Clear'; b.classList.remove('armed'); bk = { items: [], budget: bk.ex ? 0 : bk.budget, people: 1 }; saveBk(); renderBasket(); $('#bkInput').focus(); });
   function addToBasket(q, r) { if (bk.ex) bk = { items: [], budget: bk.budget, people: 1 }; const its = parseItems(q); bkAddItems(its.length && its.some(x => x.price) ? its : [{ name: q, qty: 1, price: r && typeof r.num === 'number' ? r.num : 0 }]); saveBk(); toast('Added to your basket', 'basket'); }
 
   /* ---------- Smart paste: any text with amounts → totals, checks, categories, who owes whom ---------- */
@@ -12205,7 +12413,7 @@ const Engine = (() => {
   let disc = store.get('quotient.discover', null); if (!disc || typeof disc !== 'object') disc = { done: {}, seen: {}, hidden: false };
   const saveDisc = () => store.set('quotient.discover', disc);
   try { if (!disc.done.ask && (hist.length || tape.some(t => !t.ex))) { disc.done.ask = disc.done.keep = 1; saveDisc(); } } catch {}
-  const QVER = '51daec28';
+  const QVER = '346de83f';
   const SAMPLE_PASTE = 'Coffee 2.40\nCroissant 1.80\nOrange juice 3.20\nTotal 7.40';
   const FEATS = [
     { id: 'ask', t: 'Ask in your own words', d: 'Type it the way you would say it', q: '18% tip on 64,50 for 3 people' },
@@ -13200,8 +13408,8 @@ const Engine = (() => {
   /* ---------- moving around with your fingers: swipe sideways between Ask, Sheet and Basket; tap three times for every task you have open ---------- */
   const VIEWS = ['ask', 'sheet', 'basket'], viewEl = v => v === 'sheet' ? $('#sheet') : v === 'basket' ? $('#basket') : document.querySelector('.grid > .col');
   const SPRING_E = (() => { try { return CSS.supports('animation-timing-function', 'linear(0, 1)') ? getComputedStyle(document.documentElement).getPropertyValue('--spring').trim() || 'cubic-bezier(.2,.9,.25,1.04)' : 'cubic-bezier(.2,.9,.25,1.04)'; } catch { return 'cubic-bezier(.2,.9,.25,1.04)'; } })();
-  const overlayOpen = () => document.documentElement.classList.contains('sh-open') || document.documentElement.classList.contains('is-qb-open') || document.documentElement.classList.contains('kp-on') || document.documentElement.classList.contains('is-kp-dial') || document.documentElement.classList.contains('is-kp-act') || document.documentElement.classList.contains('is-kp-sel') || document.documentElement.classList.contains('gc-open') || $('#island').classList.contains('open') || !!document.querySelector('.tsw') || filling || (typeof tOpenId !== 'undefined' && tOpenId) || [...document.querySelectorAll('dialog[open], .dlg:not([hidden]), [role="dialog"]:not([hidden])')].some(d => d.offsetParent !== null && !d.closest('#fillbar'));
-  const noGesture = el => !!(el && el.closest && el.closest('input, textarea, select, [contenteditable="true"], button, a, label.searchbar, .sl, #fill, #fillbar, .mtl, #islPanel, #gcalc, .smart-menu, .sugg, #opsRow, .ops, .sw-row, .qpad, .calc, #calc, .keys, canvas, svg.plot, .plot, .slider, input[type=range], .tsw'));
+  const overlayOpen = () => document.documentElement.classList.contains('sh-open') || document.documentElement.classList.contains('fs-on') || document.documentElement.classList.contains('is-qb-open') || document.documentElement.classList.contains('kp-on') || document.documentElement.classList.contains('is-kp-dial') || document.documentElement.classList.contains('is-kp-act') || document.documentElement.classList.contains('is-kp-sel') || document.documentElement.classList.contains('gc-open') || $('#island').classList.contains('open') || !!document.querySelector('.tsw') || filling || (typeof tOpenId !== 'undefined' && tOpenId) || [...document.querySelectorAll('dialog[open], .dlg:not([hidden]), [role="dialog"]:not([hidden])')].some(d => d.offsetParent !== null && !d.closest('#fillbar'));
+  const noGesture = el => !!(el && el.closest && el.closest('input, textarea, select, [contenteditable="true"], button, .bk-item, .qb-layer, a, label.searchbar, .sl, #fill, #fillbar, .mtl, #islPanel, #gcalc, .smart-menu, .sugg, #opsRow, .ops, .sw-row, .qpad, .calc, #calc, .keys, canvas, svg.plot, .plot, .slider, input[type=range], .tsw'));
   const scrollsX = el => { for (let e = el; e && e !== document.body; e = e.parentElement) { const cs = getComputedStyle(e); if (/(auto|scroll)/.test(cs.overflowX) && e.scrollWidth > e.clientWidth + 2) return true; } return false; };
   // swipe between the three views like turning a page: the next one rides in beside the current one under your finger,
   // and when you let go both keep the speed you gave them and settle in one continuous glide
@@ -13407,7 +13615,7 @@ const Engine = (() => {
   document.addEventListener('click', e => { if (document.documentElement.classList.contains('nav-open') && !e.target.closest('#navPanel, #navFab')) navOpen(false); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.documentElement.classList.contains('nav-open')) { e.stopPropagation(); navOpen(false); $('#navFab').focus(); } }, true);
   // a small dot when you're away from Ask, so the way back is clear
-  function navDot() { const d = $('#navFab .nv-dot'); if (d) d.hidden = true; const f = $('#navFab'); if (f) f.title = 'Sheet and Basket'; const s = $('#searchFab'); if (s) s.classList.toggle('here', view === 'ask'); }
+  function navDot() { const d = $('#navFab .nv-dot'); if (d) d.hidden = true; const f = $('#navFab'); if (f) f.title = 'Sheet and Basket'; const s = $('#searchFab'); if (s) s.classList.toggle('here', view === 'ask'); const h = $('#homeFab'); if (h) h.classList.toggle('here', view === 'ask'); document.documentElement.classList.toggle('v-home', view === 'ask'); }
   /* ---------- number pad inside the search bar ---------- */
   const qpOn = () => !!document.querySelector('.searchbar.qp-open');
   const qpTouch = matchMedia('(pointer: coarse)').matches;
@@ -13632,7 +13840,84 @@ const Engine = (() => {
       if (r.tool) { cmMount('sheet'); cmTarget = r.target || { i, replace: false }; openComposer(r.tool.k, r.tool); } } catch {} }, 80); }
   $('#retChip').addEventListener('click', e => { e.stopPropagation(); retGo(); });
   // the search button: from the Sheet or the Basket it opens the search bar and keeps your place, so one tap takes you back
+  /* ---------- Search anywhere: the bar floats over the page you're on, and knows what that page is ---------- */
+  let fs = null; const fsCol = () => document.querySelector('.grid > .col');
+  function fsWhere() {
+    const H = document.documentElement.classList;
+    if (H.contains('kp-on')) return { k: 'sheet', name: sheet.title || 'Untitled', s: sheet };
+    if (view === 'sheet') return { k: 'sheets', name: 'Sheets' };
+    if (view === 'basket') return { k: 'basket', name: 'Basket' };
+    return null;
+  }
+  const FS_IC = { sheet: '<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/>', sheets: '<rect x="3.5" y="3.5" width="7.5" height="9" rx="2"/><rect x="13" y="3.5" width="7.5" height="5.5" rx="2"/><rect x="3.5" y="14.5" width="7.5" height="6" rx="2"/><rect x="13" y="11" width="7.5" height="9.5" rx="2"/>', basket: '<path d="M3 5h2l2.2 10.5h10.6L20 8H6.3"/><circle cx="9" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/>' };
+  function fsTries(w) {
+    if (w.k === 'sheet') { let t = 0; try { t = sheetLive().total || 0; } catch {} const nm = ((sheet.lines || []).map(l => (l.match(/^\s*([A-Za-z][\w ]{1,18}?)\s*:/) || [])[1]).find(Boolean) || '').trim();
+      return [t ? ['total ÷ 2', 'total / 2'] : null, ['add Taxi: 25', 'add Taxi: 25'], nm ? [`${nm.toLowerCase()} × 2`, `${nm.toLowerCase()} * 2`] : ['15% of 80', '15% of 80'], ['rename to …', 'rename to ']].filter(Boolean); }
+    if (w.k === 'basket') return [['add 2 milk 1.09', 'add 2 milk 1.09'], ['budget 30', 'budget 30'], ['split between 3', 'split between 3'], ['remove ticked', 'remove ticked']];
+    return [['new list', 'new list'], ['new budget sheet', 'new budget sheet'], ['18% tip on 64', '18% tip on 64']];
+  }
+  function fsOpen() {
+    const w = fsWhere(); if (!w) { const q = $('#q'); window.scrollTo({ top: 0, behavior: REDUCE ? 'auto' : 'smooth' }); q.focus({ preventScroll: true }); q.select(); return; }
+    if (fs) { $('#q').focus(); return; }
+    try { mathMenu(false); } catch {} try { if (QB.open) qbCollapse(); } catch {}
+    fs = w; const col = fsCol(), H = document.documentElement; col.hidden = false; col.classList.remove('enter', 'fs-out');
+    let box = $('#fsCtx'); if (!box) { box = document.createElement('div'); box.id = 'fsCtx'; box.className = 'fs-ctx'; document.querySelector('.grid > .col > .ask').prepend(box); }
+    box.innerHTML = `<div class="fs-top"><span class="fs-ic" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${FS_IC[w.k]}</svg></span><span class="fs-t"><small>${w.k === 'sheet' ? 'Working in your sheet' : w.k === 'basket' ? 'Working in' : 'You’re on'}</small><b>${esc(w.name)}</b></span><button type="button" class="fs-x" data-fsx aria-label="Close search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+      <div class="fs-tries">${fsTries(w).map(([l, q], i) => `<button type="button" data-fsq="${esc(q)}" style="--i:${i}">${esc(l)}</button>`).join('')}</div>
+      <p class="fs-hint">${w.k === 'sheet' ? 'Ask anything. <b>Enter</b> puts the answer on this sheet. Your line names work too.' : w.k === 'basket' ? 'Add items, change the budget or split it. Anything else is answered here.' : 'Ask anything, or make a new sheet.'}</p>`;
+    let sc = $('#fsScrim'); if (!sc) { sc = document.createElement('div'); sc.id = 'fsScrim'; sc.className = 'fs-scrim'; document.body.appendChild(sc); sc.addEventListener('click', () => fsClose()); }
+    fsVV(); H.classList.add('fs-on'); sc.classList.remove('out');
+    fs.q0 = $('#q').value; $('#q').value = ''; $('#q').placeholder = w.k === 'sheet' ? 'Ask, or add a line…' : w.k === 'basket' ? 'Ask, or add items…' : 'Ask anything…'; try { runAsk(); } catch {}
+    setTimeout(() => { const q = $('#q'); q.focus({ preventScroll: true }); }, REDUCE ? 0 : 60);
+  }
+  const fsVV = () => { try { const h = window.visualViewport ? visualViewport.height : innerHeight; document.documentElement.style.setProperty('--fsvh', h + 'px'); } catch {} };
+  try { (window.visualViewport || window).addEventListener('resize', () => { if (fs) { fsVV(); const c = fsCol(), a = document.activeElement; if (a && c.contains(a)) setTimeout(() => { try { a.scrollIntoView({ block: 'nearest' }); } catch {} }, 60); } }); } catch {}
+  { const smf = smartMenu; smartMenu = function (open) { const r = smf.apply(this, arguments); if (fs && open) setTimeout(() => { const m = $('#smartMenu'); if (m && !m.hidden) { const c = fsCol(), mb = m.getBoundingClientRect(), cb = c.getBoundingClientRect(); if (mb.bottom > cb.bottom - 8) c.scrollBy({ top: mb.bottom - cb.bottom + 16, behavior: REDUCE ? 'auto' : 'smooth' }); } }, REDUCE ? 0 : 320); return r; }; }
+  function fsClose() {
+    if (!fs) return; const col = fsCol(), H = document.documentElement, sc = $('#fsScrim'); fs = null;
+    try { document.activeElement && col.contains(document.activeElement) && document.activeElement.blur(); } catch {}
+    const done = () => { if (fs) return; H.classList.remove('fs-on'); col.classList.remove('fs-out'); col.hidden = view !== 'ask'; if (sc) sc.classList.remove('out'); $('#q').value = ''; try { setPh(); } catch {} try { runAsk(); } catch {} };
+    if (REDUCE || col.hidden) return done(); col.classList.add('fs-out'); if (sc) sc.classList.add('out'); setTimeout(done, 230);
+  }
+  document.addEventListener('click', e => { if (!fs) return; if (e.target.closest('[data-fsx]')) { fsClose(); return; } const t = e.target.closest('[data-fsq]'); if (t) { const q = $('#q'); q.value = t.dataset.fsq; q.focus(); q.setSelectionRange(q.value.length, q.value.length); runAsk(); } });
+  document.addEventListener('keydown', e => { if (!fs || e.key !== 'Escape') return; e.stopImmediatePropagation(); e.preventDefault(); const q = $('#q'); if (q.value) { q.value = ''; runAsk(); } else fsClose(); }, true);
+  // the page's own commands come first while the bar floats over it
+  function fsLine(line) { const s = fs && fs.s; if (!s) return; addToSheet(line, s); fsClose(); setTimeout(() => { try { const ed = ntEd(); const ln = ed && ed.lastElementChild; if (ln) { ln.scrollIntoView({ block: 'center', behavior: REDUCE ? 'auto' : 'smooth' }); ln.classList.remove('fs-new'); void ln.offsetWidth; ln.classList.add('fs-new'); } } catch {} }, 260); }
+  function fsCommand(v) {
+    if (!fs) return null; const t = v.trim().replace(/[.!]+$/, ''), L = t.toLowerCase(); let m;
+    if (fs.k === 'sheet') { const title = fs.s.title || 'this sheet', shown = x => { try { const r = solveLinked(x); return r && !r.error ? `${r.value}${r.unit ? ' ' + r.unit : ''}` : null; } catch { return null; } };
+      if ((m = t.match(/^(?:add|write|put|insert|type|note|new line:?)\s+(.+?)(?:\s+(?:to|in|on|into) (?:the |this |my )?(?:sheet|note|page|list))?$/i))) { const line = m[1].trim(), sv = shown(line);
+        return { kind: 'Sheet', label: `Add a line to “${title}”`, value: line, doLabel: `Add to ${title.length > 18 ? 'this sheet' : title}`, steps: sv ? [['shows', sv]] : [], run: () => fsLine(line) }; }
+      if ((m = t.match(/^(?:rename|retitle|title|call|name)(?: (?:it|this|the sheet|this sheet|sheet|the note))?(?: to| as|:)?\s+(.+)$/i)) && m[1].length <= 60) { const nn = m[1].replace(/^["“']|["”']$/g, '');
+        return { kind: 'Sheet', label: `Rename “${title}”`, value: nn, doLabel: 'Rename', steps: [], run: () => { fs && (fs.s.title = nn); sheet.title = nn; try { $('#sheetTitle').value = nn; } catch {} saveSheet(); try { kpSync(); } catch {} fsClose(); toast(`Renamed to “${nn}”`); } }; }
+      if (/^(?:delete|remove|undo|erase|drop)(?: the)? last line$/i.test(L)) { const li = sheet.lines.map((x, i) => [x, i]).filter(x => x[0].trim()).pop();
+        return li ? { kind: 'Sheet', label: 'Remove the last line', value: li[0].slice(0, 30), doLabel: 'Remove', steps: [], run: () => { sheet.lines.splice(li[1], 1); saveSheet(); renderLines(); fsClose(); toast('Last line removed'); } } : null; }
+      if (/^(?:un)?pin(?: it| this(?: sheet)?)?$/i.test(L)) return { kind: 'Sheet', label: sheet.pinned ? 'Unpin this sheet' : 'Pin this sheet', value: title, doLabel: sheet.pinned ? 'Unpin' : 'Pin', steps: [], run: () => { $('#kpPin').click(); fsClose(); } };
+      if (/^(?:what(?:'s| is) )?(?:the )?(?:sheet )?total\??$|^(?:sum|how much(?: is it)?(?: in total| altogether)?)$/i.test(L)) { let tt = null; try { tt = sheetLive().total; } catch {}
+        if (tt != null) return { info: true, kind: 'Sheet', label: `Total of “${title}”`, value: m2(tt), num: tt, steps: [['use it', 'type “total / 2”, “total + 10%”…']] }; }
+      if (/\btotal\b/i.test(L) && !/\btotal (?:interest|paid|cost of|price of)\b/i.test(L)) { const q2 = t.replace(/\b(?:the )?(?:sheet )?total\b/i, 'sheet'); try { const r = solveLinked(q2); if (r && !r.error) { r.steps = [['read as', q2.replace(/\bsheet\b/, 'the sheet total')]].concat(r.steps || []); r.asked = t; if (r.label) r.label = String(r.label).replace(/\bsheet\b/, 'total'); return r; } } catch {} }
+    }
+    if (fs.k === 'basket') {
+      { let c = null; try { c = bkCommand(t); } catch {} if (c) return c.run ? { kind: 'Basket', label: c.label, value: '✓', doLabel: 'Do it', steps: [], run: () => { if (bk.ex) bk.ex = false; c.run(); bkTouch(); renderBasket(); fsClose(); toast(c.label); } } : { info: true, kind: 'Basket', label: c.label, value: '—', steps: [] }; }
+      if ((m = t.match(/^(?:add|put|buy|get|need)\s+(.+?)(?:\s+(?:to|in|into) (?:the |my )?(?:basket|list|trolley))?$/i))) { let its = []; try { its = parseItems(m[1]); } catch {} if (its.length) { const tot = its.reduce((a, x) => a + x.qty * (x.price || recalled(x.name) || 0), 0);
+        return { kind: 'Basket', label: `Add ${its.length} item${its.length > 1 ? 's' : ''} to the basket`, value: its.map(x => (x.qty > 1 ? x.qty + ' × ' : '') + x.name).join(', ').slice(0, 40), doLabel: 'Add to basket', steps: tot ? [['adds', m2(tot)]] : [], run: () => { if (bk.ex) bk = { items: [], budget: bk.budget, people: 1, group: bk.group }; const st = bk.items.length; bkAddItems(its); bkTouch(); renderBasket(st); fsClose(); toast(`Added to your basket`); } }; } }
+    }
+    return null;
+  }
+  { const ai0 = aiSay; aiSay = function (raw) { if (fs) { let c = null; try { c = fsCommand(String(raw || '')); } catch {} if (c) { aiSay.loose = true; return null; } } return ai0.apply(this, arguments); }; }
+  { const lc0 = linkCommand; linkCommand = function (raw) { if (fs) { let c = null; try { c = fsCommand(raw); } catch {} if (c) return c; } return lc0.apply(this, arguments); };
+    // Enter on an answer: in a sheet it goes on that sheet; any command closes the floating bar when it's done
+    const kp0 = keep; keep = function () { if (!fs) return kp0.apply(this, arguments); const cur = current;
+      if (fs.k === 'sheet' && cur && !cur.error && !cur.run && !cur.info && cur.kind !== 'Help') { const q = $('#q').value.trim(); if (!q || $('#answer').classList.contains('stale')) return; hist = [q, ...hist.filter(x => x !== q)].slice(0, 40); store.set('quotient.hist', hist); fsLine(cur.asked || q); return; }
+      const r = kp0.apply(this, arguments); if (cur && cur.run) fsClose(); return r; };
+    const ra0 = renderAnswer; renderAnswer = function (r) { const o = ra0.apply(this, arguments); if (fs && fs.k === 'sheet' && r && !r.error && !r.run && !r.info) { const b = $('#answer [data-act="keep"]'); if (b) b.innerHTML = `Add to ${esc((fs.s.title || 'this sheet').slice(0, 18))} <span class="kbd" style="border-color:color-mix(in srgb,var(--surface) 30%,transparent);color:inherit;opacity:.7">↵</span>`; } return o; };
+    const sv0 = setView; setView = function (v) { if (fs) { fs = null; const H = document.documentElement; H.classList.remove('fs-on'); const sc = $('#fsScrim'); if (sc) sc.classList.remove('out'); } return sv0.apply(this, arguments); };
+  }
+  $('#homeFab').addEventListener('click', e => { e.stopPropagation(); buzz(); try { if (fs) fsClose(); } catch {} try { navOpen && navOpen(false); } catch {}
+    const h = e.currentTarget.querySelector('.hf-roof'); if (h && !REDUCE) { h.classList.remove('hop'); void h.getBoundingClientRect(); h.classList.add('hop'); }
+    if (view !== 'ask') { ret = null; setView('ask'); window.scrollTo({ top: 0, behavior: 'auto' }); try { retSync(); } catch {} } else window.scrollTo({ top: 0, behavior: REDUCE ? 'auto' : 'smooth' }); });
   $('#searchFab').addEventListener('click', e => { e.stopPropagation(); buzz();
+    if (view !== 'ask' && fsWhere()) { fsOpen(); return; }
     if (view !== 'ask') { const fromSheet = view === 'sheet', c = fromSheet ? (ntGetCaret() || ntCaret) : null; retSet({ kind: 'view', view, y: window.scrollY, sheetId: fromSheet ? sheet.id || null : null, line: c ? c.i : null, o: c ? c.o : null, label: fromSheet ? (sheet.title || 'your sheet') : 'the Basket' }); setView('ask'); window.scrollTo({ top: 0, behavior: 'auto' }); setTimeout(() => { const q = $('#q'); q.focus({ preventScroll: true }); q.select(); }, 80); }
     else { window.scrollTo({ top: 0, behavior: REDUCE ? 'auto' : 'smooth' }); const q = $('#q'); q.focus({ preventScroll: true }); q.select(); } });
   $('#retX').addEventListener('click', () => { ret = null; retSync(); });
