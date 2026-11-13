@@ -1216,7 +1216,7 @@ body{padding-block:14px 112px}
 .sh-tips button{flex:none;font-family:var(--f-mono);font-size:12px;padding:4px 10px;border-radius:999px;border:1px solid var(--line-strong);background:var(--surface);color:var(--muted);cursor:pointer;animation:chipIn .4s var(--spring) both;animation-delay:calc(min(var(--i,0), 10) * 30ms);transition:color .2s,border-color .2s,transform .3s var(--spring)}
 .sh-tips button:hover{color:var(--ink);border-color:var(--ink)}
 .sh-tips button:active{transform:scale(.95)}
-#sheet.is-empty .sheet-foot,#sheet.is-empty .sh-vars{display:none}
+#kpEd.is-empty .sheet-foot,#kpEd.is-empty .sh-vars{display:none}
 .sheet-foot[hidden]{display:none!important}
 /* add-to-sheet picker on an answer */
 .sheet-pick{display:flex;flex-wrap:wrap;gap:6px;align-items:center;width:100%;padding:10px;margin-top:6px;border-radius:14px;background:var(--surface-2);border:1px solid var(--line);animation:panelIn .35s var(--spring) both}
@@ -1376,6 +1376,9 @@ body{padding-block:14px 112px}
 .smart-btn.mini{padding:0 8px;gap:0}.smart-btn.mini span{max-width:0;opacity:0}
 
 /* "almost": it understood part of it; calm, not an error */
+.a-need{display:flex;align-items:flex-start;gap:7px;margin-top:6px;font-size:13.5px;line-height:1.45;color:var(--muted);animation:cardIn .35s cubic-bezier(.2,.8,.2,1) both}
+.a-need svg{flex:none;margin-top:3px;color:var(--ai-c)}
+.answer .suggest + .suggest{margin-top:8px}
 .chip-kind.soft{color:var(--ai-c);background:var(--ai-soft);position:relative}
 .chip-kind.soft::after{content:"";display:inline-block;width:5px;height:5px;margin-left:6px;border-radius:50%;background:currentColor;vertical-align:middle;animation:softPulse 1.4s ease-in-out infinite}
 @keyframes softPulse{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1.1)}}
@@ -1906,7 +1909,7 @@ html.meter-open .mt{opacity:1}
 .mtl.tr.hasp.ring{background:linear-gradient(90deg,color-mix(in srgb,var(--mt-over,#FF6A55) 16%,transparent) 100%,transparent 0),var(--isl-card,var(--surface-2))}
 @media (prefers-reduced-motion:reduce){.tr-frame,.isl-txt.swap,#trk.big::before{animation:none;transition:none}}
 /* the Sheet as a page */
-#sheet .sh-vars{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}#sheet .sh-vars::-webkit-scrollbar{display:none}#sheet .sh-vars > *{flex:none}
+#kpEd .sh-vars{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}#kpEd .sh-vars::-webkit-scrollbar{display:none}#kpEd .sh-vars > *{flex:none}
 .nt{position:relative;padding:6px 0 14px;--rw:0px;display:block}
 .nt-ed{white-space:pre-wrap;outline:none;min-height:240px;padding:10px calc(var(--rw) + 30px) 10px 20px;font-size:16px;line-height:1.75;color:var(--ink);caret-color:var(--ai-c);word-break:break-word;overflow-wrap:anywhere;transition:padding-right .35s var(--ease-out,ease)}
 .nt-ed:empty::before,.nt-ed .nl:only-child.empty::before{content:attr(data-ph)}
@@ -1952,7 +1955,7 @@ html.meter-open .mt{opacity:1}
 .np-bar{flex:0 0 80px;height:5px;border-radius:5px;background:var(--surface-2);overflow:hidden}
 .np-bar i{display:block;height:100%;width:calc(var(--p) * 100%);background:linear-gradient(90deg,var(--ai-a),var(--ai-c));border-radius:inherit;transition:width .5s var(--spring)}
 .np-left{margin-left:auto}
-#sheet .sh-tips{display:none}
+#kpEd .sh-tips{display:none}
 @media (max-width:560px){.nt-ed{padding-left:16px;font-size:15.5px;padding-right:calc(var(--rw) + 22px)}.nt-rs .res{font-size:13.5px}}
 /* the way back, and tools in the Sheet */
 .ret-row{display:flex;align-items:center;gap:6px;margin:2px 0 10px}
@@ -2763,6 +2766,187 @@ html.sh-open,html.sh-open body{overflow:hidden}
 .set-restore textarea{flex:1;min-width:0;font:inherit;font-size:12.5px;font-family:var(--f-mono);padding:9px 11px;border-radius:12px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);resize:vertical}
 .nav-panel .nv-set{border-top:1px solid var(--line);margin-top:4px;padding-top:10px}
 html.calm *,html.calm *::before,html.calm *::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+
+/* ===== Sheets, Keep-style: a grid of note cards, and each sheet opens full screen ===== */
+:root{
+  --nc-coral:#F7D4CF; --nc-peach:#F8DCC6; --nc-sand:#F6ECC3; --nc-mint:#DCEFD6; --nc-sage:#CFE8E1; --nc-fog:#D9E6EE; --nc-storm:#CBD8E6; --nc-dusk:#E2D7EE; --nc-blossom:#F4DDE7; --nc-clay:#E8E2D8;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --nc-coral:#3A1F22; --nc-peach:#3B2719; --nc-sand:#363016; --nc-mint:#1C3122; --nc-sage:#163330; --nc-fog:#1B2C36; --nc-storm:#1F2737; --nc-dusk:#2B2238; --nc-blossom:#36202C; --nc-clay:#302B24;
+}}
+:root[data-theme="dark"]{
+  --nc-coral:#3A1F22; --nc-peach:#3B2719; --nc-sand:#363016; --nc-mint:#1C3122; --nc-sage:#163330; --nc-fog:#1B2C36; --nc-storm:#1F2737; --nc-dusk:#2B2238; --nc-blossom:#36202C; --nc-clay:#302B24;
+}
+.nc-coral{--nb:var(--nc-coral)}.nc-peach{--nb:var(--nc-peach)}.nc-sand{--nb:var(--nc-sand)}.nc-mint{--nb:var(--nc-mint)}.nc-sage{--nb:var(--nc-sage)}.nc-fog{--nb:var(--nc-fog)}.nc-storm{--nb:var(--nc-storm)}.nc-dusk{--nb:var(--nc-dusk)}.nc-blossom{--nb:var(--nc-blossom)}.nc-clay{--nb:var(--nc-clay)}
+
+/* the page itself: no card frame, the grid sits on the desk */
+.sheet{background:none;border:0;box-shadow:none;border-radius:0;padding-top:0;overflow:visible}
+.kp-home{display:flex;flex-direction:column;gap:14px;padding-bottom:110px}
+.sheet.kp-edit .kp-home{visibility:hidden}
+.kp-top{position:sticky;top:calc(env(safe-area-inset-top,0px) + 8px);z-index:5;display:flex;gap:8px;align-items:center}
+.kp-search{flex:1;min-width:0;display:flex;align-items:center;gap:10px;height:48px;padding:0 8px 0 16px;border-radius:999px;background:color-mix(in srgb,var(--surface) 92%,transparent);border:1px solid var(--line);color:var(--muted);box-shadow:0 10px 26px -18px rgba(0,0,0,.35);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);cursor:text}
+.kp-search input{flex:1;min-width:0;border:0;background:none;outline:none;font:inherit;font-size:15.5px;color:var(--ink)}
+.kp-search input::placeholder{color:var(--faint)}
+.kp-search input::-webkit-search-cancel-button{display:none}
+.kp-sx{width:32px;height:32px;border-radius:50%;border:0;background:var(--surface-2);color:var(--muted);font-size:18px;line-height:1;cursor:pointer}
+.kp-ic{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;border:0;background:none;color:var(--muted);cursor:pointer;transition:background .2s,color .2s,transform .25s var(--spring)}
+.kp-ic:hover{background:color-mix(in srgb,var(--ink) 7%,transparent);color:var(--ink)}
+.kp-ic:active{transform:scale(.88)}
+.kp-top .kp-ic{width:48px;height:48px;background:color-mix(in srgb,var(--surface) 92%,transparent);border:1px solid var(--line)}
+.kp-sec{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin:6px 4px 2px}
+.kp-grid{columns:2;column-gap:10px}
+@media (min-width:640px){.kp-grid{columns:3}}
+@media (min-width:980px){.kp-grid{columns:4}}
+.kp-body.list .kp-grid{columns:1}
+.kp-card{break-inside:avoid;display:block;width:100%;margin:0 0 10px;padding:14px 14px 12px;border-radius:18px;border:1px solid var(--line);background:var(--nb,var(--surface));color:var(--ink);text-align:left;font:inherit;cursor:pointer;position:relative;overflow:hidden;transition:transform .35s var(--spring),box-shadow .3s,border-color .2s;animation:kpIn .5s var(--spring) both;animation-delay:calc(var(--i,0) * 35ms)}
+.kp-card[class*="nc-"]{border-color:transparent}
+.kp-card:hover{box-shadow:0 12px 28px -18px rgba(0,0,0,.45)}
+.kp-card:active{transform:scale(.97)}
+.kp-card.on{outline:2px solid color-mix(in srgb,var(--ai-c) 55%,transparent);outline-offset:-2px}
+@keyframes kpIn{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
+.kp-card h3{margin:0 0 6px;font-size:15.5px;font-weight:600;letter-spacing:-.01em;line-height:1.3;overflow-wrap:anywhere}
+.kp-card .kp-pinned{position:absolute;top:12px;right:12px;color:var(--faint)}
+.kp-card h3:has(+ .kp-pinned),.kp-card.pin h3{padding-right:20px}
+.kp-ln{display:flex;gap:8px;align-items:center;font-size:13.5px;line-height:1.5;color:var(--muted);min-width:0}
+.kp-ln .t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.kp-ln .v{flex:none;font-family:var(--f-mono);font-size:12.5px;color:var(--faint)}
+.kp-ln.h .t{color:var(--ink);font-weight:600}
+.kp-ln.done .t{text-decoration:line-through;opacity:.7}
+.kp-ln.sum .t,.kp-ln.sum .v{color:var(--accent-text);font-weight:600}
+.kp-ln .bx{flex:none;width:14px;height:14px;border:1.6px solid currentColor;border-radius:4px;display:grid;place-items:center;box-sizing:border-box}
+.kp-ln .bx.x{background:var(--muted);border-color:var(--muted)}
+.kp-ln .bx.x::after{content:"";width:6px;height:3px;border:solid var(--surface);border-width:0 0 1.6px 1.6px;transform:rotate(-45deg) translate(1px,-1px)}
+.kp-ln .dot{flex:none;width:4px;height:4px;border-radius:50%;background:currentColor;margin:0 3px 0 2px}
+.kp-more{font-size:12px;color:var(--faint);margin-top:4px}
+.kp-cf{display:flex;align-items:center;gap:8px;margin-top:10px}
+.kp-chip{display:inline-flex;align-items:baseline;gap:5px;height:24px;padding:0 9px;border-radius:999px;font-size:12px;background:color-mix(in srgb,var(--ink) 7%,transparent);color:var(--ink);font-family:var(--f-mono)}
+.kp-chip b{font-family:var(--f-ui);color:var(--accent-text);font-weight:700}
+.kp-chip.prog{font-family:var(--f-ui);color:var(--muted)}
+.kp-empty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:60px 20px;color:var(--muted)}
+.kp-empty svg{color:var(--faint);opacity:.7}
+.kp-empty b{color:var(--ink);font-size:16px;font-weight:600}
+.kp-empty p{margin:0;font-size:13.5px;line-height:1.5;max-width:30ch}
+.kp-empty .row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+.kp-fab{position:fixed;z-index:31;right:max(18px,calc(env(safe-area-inset-right,0px) + 18px));bottom:calc(env(safe-area-inset-bottom,0px) + 18px);width:58px;height:58px;border-radius:18px;border:0;display:grid;place-items:center;background:var(--ink);color:var(--surface);box-shadow:0 16px 34px -14px rgba(0,0,0,.55);cursor:pointer;opacity:0;pointer-events:none;transform:scale(.5) rotate(-90deg);transition:transform .5s var(--spring-bounce),opacity .2s,border-radius .3s}
+.kp-fab svg{transition:transform .45s var(--spring)}
+html.kp-homeon .kp-fab{opacity:1;pointer-events:auto;transform:none}
+html.kp-homeon .kp-fab:active{transform:scale(.9)}
+html.is-kp-dial .kp-fab{border-radius:50%}
+html.is-kp-dial .kp-fab svg{transform:rotate(135deg)}
+html.calc-open .kp-fab,html.tape-open .kp-fab{opacity:0!important;pointer-events:none!important}
+.kp-scrim{position:fixed;inset:0;z-index:30;background:color-mix(in srgb,var(--bg) 55%,transparent);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .25s}
+html.is-kp-dial .kp-scrim,html.is-kp-act .kp-scrim{opacity:1;pointer-events:auto}
+.kp-dial{position:fixed;z-index:31;right:max(18px,calc(env(safe-area-inset-right,0px) + 18px));bottom:calc(env(safe-area-inset-bottom,0px) + 88px);display:flex;flex-direction:column-reverse;align-items:flex-end;gap:10px;pointer-events:none}
+.kp-dial button{display:flex;align-items:center;gap:12px;height:48px;padding:0 18px 0 14px;border-radius:16px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:15px;font-weight:550;box-shadow:0 14px 30px -18px rgba(0,0,0,.5);cursor:pointer;opacity:0;transform:translateY(16px) scale(.9);transform-origin:100% 100%;transition:opacity .15s,transform .3s var(--spring)}
+.kp-dial button svg{flex:none;color:var(--ai-c)}
+.kp-dial button small{font-size:12px;font-weight:400;color:var(--faint)}
+.kp-dial button:active{transform:scale(.95)!important}
+html.is-kp-dial .kp-dial{pointer-events:auto}
+html.is-kp-dial .kp-dial button{opacity:1;transform:none;transition:opacity .25s calc(var(--i) * 30ms),transform .5s var(--spring-bounce) calc(var(--i) * 30ms)}
+.kp-card{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+.kp-card.lp{transform:scale(.97)!important;box-shadow:0 22px 44px -18px rgba(0,0,0,.55);z-index:2;transition:transform .4s var(--spring-bounce),box-shadow .3s}
+.kp-act{position:fixed;z-index:32;left:0;right:0;bottom:0;margin:0 auto;width:min(520px,100%);padding:8px 10px calc(env(safe-area-inset-bottom,0px) + 12px);border-radius:24px 24px 0 0;background:var(--surface);border:1px solid var(--line);border-bottom:0;box-shadow:0 -24px 60px -30px rgba(0,0,0,.6);transform:translateY(105%);transition:transform .45s var(--spring);visibility:hidden}
+html.is-kp-act .kp-act{transform:none;visibility:visible}
+.kp-act .grab{width:36px;height:4px;border-radius:2px;background:var(--line-strong);margin:2px auto 10px}
+.kp-act h4{margin:0 8px 8px;font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kp-act .kp-pal{grid-template-columns:repeat(auto-fill,34px);gap:8px;padding:4px 8px 10px}
+.kp-act .kp-pal button{width:34px;height:34px}
+.kp-act .mi{display:flex;width:100%;align-items:center;gap:14px;padding:13px 10px;border:0;border-radius:14px;background:none;color:var(--ink);font:inherit;font-size:15px;text-align:left;cursor:pointer}
+.kp-act .mi:hover{background:var(--surface-2)}
+.kp-act .mi svg{flex:none;color:var(--muted)}
+.kp-act .mi.bad,.kp-act .mi.bad svg{color:var(--bad)}
+#sheet.kp-closing .kp-home{visibility:visible}
+.ts-kp{display:flex;flex-direction:column;gap:2px}
+.ts-card[class*="nc-"]{background:var(--nb)}
+.ts-card[class*="nc-"] .ts-foot{background:none}
+.ts-kp .kp-ln{font-size:13.5px}
+.ts-card[data-k="sheet"] .ts-foot b{font-size:inherit;font-family:var(--f-ui)}
+.ts-card[data-k="sheet"] .ts-foot{justify-content:flex-start;gap:8px}
+
+
+/* the open sheet: full screen, edge to edge */
+.kp-ed{display:none}
+#shPanel{display:none!important}
+html.kp-on .kp-ed{display:flex;flex-direction:column;position:fixed;inset:0;z-index:40;background:var(--nb,var(--bg));color:var(--ink)}
+html.kp-on .kp-ed:not([class*="nc-"]){background:var(--surface)}
+html.kp-on .toast{z-index:50}
+html.kp-on body{overflow:hidden}
+.kp-ebar{position:relative;flex:none;display:flex;align-items:center;gap:2px;padding:calc(env(safe-area-inset-top,0px) + 6px) max(8px,env(safe-area-inset-right,0px)) 4px max(6px,env(safe-area-inset-left,0px))}
+.kp-sp{flex:1}
+.kp-ic[aria-pressed="true"]{color:var(--ink)}
+.kp-ic[aria-pressed="true"] svg path:first-child{fill:currentColor}
+.kp-scroll{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-bottom:8px;display:flex;flex-direction:column}
+.kp-scroll > .lines{flex:1 0 auto}
+.kp-ed .sheet-head{border:0;padding:4px 20px 0;gap:6px}
+.kp-ed .sheet-head > :not(#sheetTitle):not(#sheetEx){display:none!important}
+.kp-ed #sheetTitle{font-size:24px;font-weight:600;letter-spacing:-.02em;padding:6px 0;background:none;border:0;outline:none;width:100%;color:var(--ink)}
+.kp-ed #sheetTitle::placeholder{color:var(--faint)}
+.kp-ed .lines.nt{padding-top:0}
+.kp-ed .nt-ed{padding-left:20px;min-height:120px;font-size:16.5px}
+.kp-ed .nt-prog,.kp-ed .ex-offer,.kp-ed .sh-tips{border-top:0;padding-left:20px;padding-right:20px}
+.kp-meta{padding:6px 20px 10px;font-size:12px;color:var(--faint);text-align:right}
+.kp-bot{flex:none;position:relative;border-top:1px solid color-mix(in srgb,var(--ink) 8%,transparent);background:color-mix(in srgb,var(--nb,var(--surface)) 94%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.kp-bot .nt-tools{max-height:52vh;overflow:auto;padding:0 12px}
+.kp-bbar{display:flex;align-items:center;gap:6px;padding:6px max(10px,env(safe-area-inset-right,0px)) 6px max(8px,env(safe-area-inset-left,0px))}
+.kp-bbar .nt-bar{position:static;flex:1;min-width:0;padding:0;background:none;border:0;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:none;gap:4px;overflow-x:auto;scrollbar-width:none}
+.kp-bbar .nt-bar::-webkit-scrollbar{display:none}
+.kp-bbar .nt-fmt{background:none;border:0;padding:0;gap:0;overflow:visible}
+.kp-bbar .nt-fmt button{height:40px;min-width:40px;border-radius:12px;color:var(--muted)}
+.kp-bbar .nt-fmt button span{display:none}
+.kp-bbar .nt-act{margin-left:2px;gap:4px}
+.kp-bbar .nt-act button{height:40px;padding:0 10px;border-radius:12px;border:0;background:none;color:var(--ai-c)}
+.kp-bbar .nt-act button:hover{background:color-mix(in srgb,var(--ai-c) 12%,transparent)}
+.kp-bbar .nt-act button span{display:none}
+@media (min-width:560px){.kp-bbar .nt-act button span{display:inline}}
+.kp-tot{flex:none;display:inline-flex;align-items:baseline;gap:6px;height:38px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-family:var(--f-mono);font-size:15px;cursor:pointer;transition:transform .3s var(--spring),background .2s;line-height:36px}
+.kp-tot b{font-family:var(--f-ui);color:var(--accent-text);font-weight:700}
+.kp-tot:active{transform:scale(.94)}
+.kp-tot[aria-expanded="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.kp-tot.bump span{animation:valIn .35s var(--spring) both;display:inline-block}
+/* the summary slides up over the page */
+.kp-sum{touch-action:pan-y;position:absolute;left:0;right:0;bottom:var(--botH,64px);z-index:3;max-height:62vh;overflow:auto;margin:0 8px 8px;border-radius:22px;background:var(--surface);border:1px solid var(--line);box-shadow:0 -20px 50px -26px rgba(0,0,0,.5);animation:kpSumIn .45s var(--spring) both;transform-origin:100% 100%}
+.kp-sum[hidden]{display:none}
+.kp-sum.out{animation:kpSumOut .22s ease-in both}
+@keyframes kpSumIn{from{opacity:0;transform:translateY(24px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes kpSumOut{to{opacity:0;transform:translateY(16px) scale(.97)}}
+.kp-sum-grab{width:36px;height:4px;border-radius:2px;background:var(--line-strong);margin:8px auto 2px}
+.kp-sum .sheet-foot{background:none;border:0}
+.kp-sum .sh-vars{border-top:1px dashed var(--line)}
+/* menus */
+.kp-pop{position:absolute;top:calc(100% - 2px);right:10px;z-index:8;min-width:220px;max-width:calc(100vw - 24px);padding:6px;border-radius:18px;background:var(--surface);border:1px solid var(--line);box-shadow:0 24px 50px -22px rgba(0,0,0,.5);transform-origin:calc(100% - 20px) 0;animation:kpPopIn .32s var(--spring) both}
+.kp-pop[hidden]{display:none}
+@keyframes kpPopIn{from{opacity:0;transform:scale(.85) translateY(-6px)}to{opacity:1;transform:none}}
+.kp-pop button.mi{display:flex;width:100%;align-items:center;gap:12px;padding:11px 12px;border:0;border-radius:12px;background:none;color:var(--ink);font:inherit;font-size:14.5px;text-align:left;cursor:pointer}
+.kp-pop button.mi:hover{background:var(--surface-2)}
+.kp-pop button.mi svg{color:var(--muted);flex:none}
+.kp-pop button.mi.bad{color:var(--bad)}.kp-pop button.mi.bad svg{color:var(--bad)}
+.kp-pal{display:grid;grid-template-columns:repeat(6,36px);gap:8px;padding:8px}
+.kp-pal button{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--line-strong);background:var(--nb,var(--surface));cursor:pointer;display:grid;place-items:center;color:var(--ink);transition:transform .25s var(--spring)}
+.kp-pal button:active{transform:scale(.85)}
+.kp-pal button.on{border-color:var(--ink);box-shadow:0 0 0 2px var(--surface) inset}
+.kp-pal button.none{--nb:var(--surface)}
+.kp-pal button.none::after{content:"";width:18px;height:1.6px;background:var(--faint);transform:rotate(-45deg)}
+@media (prefers-reduced-motion:reduce){.kp-card,.kp-fab,.kp-sum,.kp-pop{animation:none}}
+
+/* selecting several sheets: a long press starts it, taps add or remove */
+.kp-selbar{display:none;position:sticky;top:calc(env(safe-area-inset-top,0px) + 8px);z-index:6;align-items:center;gap:2px;height:52px;padding:0 6px;border-radius:18px;background:var(--surface);border:1px solid var(--line);box-shadow:0 14px 30px -20px rgba(0,0,0,.5);animation:kpPopIn .3s var(--spring) both;transform-origin:50% 0}
+.kp-selbar b{font-size:17px;font-weight:600;margin-left:4px;font-variant-numeric:tabular-nums}
+.kp-home.selecting .kp-selbar{display:flex}
+.kp-home.selecting .kp-top{display:none}
+.kp-selbar .kp-pop{top:calc(100% + 6px)}
+.kp-card.sel{border-color:transparent;box-shadow:inset 0 0 0 2.5px var(--ink);transform:scale(.97)}
+.kp-grid{padding:3px 2px 0;margin:-3px -2px 0}
+.kp-card .kp-tick{position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;background:var(--ink);color:var(--surface);display:grid;place-items:center;transform:scale(0);opacity:0;transition:transform .35s var(--spring-bounce),opacity .15s}
+.kp-card.sel .kp-tick{transform:scale(1);opacity:1}
+.kp-card.sel .kp-pinned{opacity:0}
+html.is-kp-sel .kp-fab{opacity:0!important;pointer-events:none!important;transform:scale(.6)!important}
+/* a new sheet from a template shows its example, faded, until you type */
+.kp-ghost{position:absolute;left:0;right:0;top:0;padding:10px 30px 10px 20px;font-size:16.5px;line-height:1.75;color:var(--faint);opacity:.55;pointer-events:none;white-space:pre-wrap;transition:opacity .25s}
+.kp-ghost .g1{display:block}
+.kp-ghost .gb{display:inline-block;width:.9em;height:.9em;border:1.6px solid currentColor;border-radius:4px;margin-right:.5em;vertical-align:-1px;box-sizing:border-box}
+.kp-ghost.gone{opacity:0}
+#lines.has-ghost .nt-ed .nl:only-child.empty::before{content:none}
+#lines{position:relative}
 </style>
 </head>
 <body>
@@ -2858,7 +3042,35 @@ html.calm *,html.calm *::before,html.calm *::after{animation-duration:.01ms!impo
       </section>
     </div>
 
-    <section class="sheet" id="sheet" aria-label="Sheet" hidden>
+    <section class="sheet" id="sheet" aria-label="Sheets" hidden>
+      <div class="kp-home" id="kpHome">
+        <div class="kp-top">
+          <label class="kp-search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="kpSearch" type="search" placeholder="Search your sheets" autocomplete="off" spellcheck="false" aria-label="Search your sheets"><button type="button" class="kp-sx" id="kpSx" aria-label="Clear search" hidden>×</button></label>
+          <button type="button" class="kp-ic" id="kpView" aria-label="List view" title="Grid or list"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="6" rx="2"/><rect x="4" y="14" width="16" height="6" rx="2"/></svg></button>
+        </div>
+        <div class="kp-selbar" id="kpSelBar" role="toolbar" aria-label="Selected sheets">
+          <button type="button" class="kp-ic" id="kpSelX" aria-label="Cancel selection"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+          <b id="kpSelN">1</b>
+          <span class="kp-sp"></span>
+          <button type="button" class="kp-ic" id="kpSelPin" aria-label="Pin"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4h6l-1 6 4 3v2H6v-2l4-3z"/><path d="M12 15v6"/></svg></button>
+          <button type="button" class="kp-ic" id="kpSelCol" aria-label="Colour"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.6-.8 1.6-1.6 0-.9-.6-1.3-.6-2.1 0-.9.7-1.6 1.6-1.6H17a4 4 0 0 0 4-4C21 6.6 17 3 12 3z"/><circle cx="7.5" cy="11" r="1" fill="currentColor"/><circle cx="10" cy="7" r="1" fill="currentColor"/><circle cx="14.5" cy="7" r="1" fill="currentColor"/></svg></button>
+          <button type="button" class="kp-ic" id="kpSelMore" aria-label="More"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="5" r="1.4" fill="currentColor"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/><circle cx="12" cy="19" r="1.4" fill="currentColor"/></svg></button>
+          <div class="kp-pop" id="kpSelPop" hidden></div>
+        </div>
+        <div class="kp-body" id="kpBody"></div>
+        <button type="button" class="kp-fab" id="kpFab" aria-label="New sheet"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+      </div>
+      <div class="kp-ed" id="kpEd" role="region" aria-label="Sheet">
+        <div class="kp-ebar">
+          <button type="button" class="kp-ic" id="kpBack" aria-label="Back to all sheets"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+          <span class="kp-sp"></span>
+          <button type="button" class="kp-ic" id="kpPin" aria-label="Pin" aria-pressed="false" title="Pin"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4h6l-1 6 4 3v2H6v-2l4-3z"/><path d="M12 15v6"/></svg></button>
+          <button type="button" class="kp-ic" id="kpColor" aria-label="Colour" title="Colour"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.6-.8 1.6-1.6 0-.9-.6-1.3-.6-2.1 0-.9.7-1.6 1.6-1.6H17a4 4 0 0 0 4-4C21 6.6 17 3 12 3z"/><circle cx="7.5" cy="11" r="1" fill="currentColor"/><circle cx="10" cy="7" r="1" fill="currentColor"/><circle cx="14.5" cy="7" r="1" fill="currentColor"/></svg></button>
+          <button type="button" class="kp-ic" id="kpShare" aria-label="Share" title="Share"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M5 12v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg></button>
+          <button type="button" class="kp-ic" id="kpMore" aria-label="More" title="More"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="5" r="1.4" fill="currentColor"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/><circle cx="12" cy="19" r="1.4" fill="currentColor"/></svg></button>
+          <div class="kp-pop" id="kpPop" hidden></div>
+        </div>
+        <div class="kp-scroll" id="kpScroll">
       <div class="sheet-head">
         <button class="sh-list-btn" id="shListBtn" type="button" aria-expanded="false" aria-controls="shPanel" title="Your sheets"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="13" height="16" rx="2.5"/><path d="M8 21h9.5a2.5 2.5 0 0 0 2.5-2.5V7"/><path d="M8 8h5M8 12h5"/></svg><b></b></button>
         <input id="sheetTitle" type="text" aria-label="Sheet title" spellcheck="false" autocomplete="off" placeholder="Untitled">
@@ -2868,19 +3080,30 @@ html.calm *,html.calm *::before,html.calm *::after{animation-duration:.01ms!impo
         <button class="btn primary" id="sheetNew" type="button">+ New</button>
       </div>
       <div class="sh-panel" id="shPanel" hidden></div>
-      <div class="nt-bar" id="ntBar" role="toolbar" aria-label="Format">
-        <div class="nt-fmt"><button type="button" data-nt="h" title="Heading"><b>H</b><span>Heading</span></button><button type="button" data-nt="chk" title="To-do"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="m8.5 12 2.5 2.5 5-5"/></svg><span>To-do</span></button><button type="button" data-nt="bul" title="List"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="5" cy="7" r="1.3" fill="currentColor"/><circle cx="5" cy="12" r="1.3" fill="currentColor"/><circle cx="5" cy="17" r="1.3" fill="currentColor"/><path d="M10 7h10M10 12h10M10 17h10"/></svg><span>List</span></button><button type="button" data-nt="total" title="Add the lines above"><b>Σ</b><span>Total</span></button><button type="button" data-nt="date" title="Today's date"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></svg><span>Date</span></button></div>
-        <div class="nt-act"><button type="button" data-nt="tools" title="Maths tools: the answer comes back to this page"><b class="nt-fx">ƒx</b><span>Tools</span></button><button type="button" data-nt="ask" title="See how this line is worked out, then come back"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h10M4 12h7M4 18h10"/><path d="m16 10 4 4-4 4"/></svg><span>Steps</span></button></div>
-      </div>
-      <div class="nt-tools" id="ntTools"></div>
       <div class="lines nt" id="lines"></div>
       <div class="nt-prog" id="ntProg" hidden></div>
       <div class="ex-offer" id="shOffer" hidden><span>Want to see one filled in?</span><button type="button" class="linkbtn" data-shexample>Show an example</button></div>
       <div class="sh-tips" id="shTips" aria-label="Quick ways to write"></div>
-      <div class="sh-vars" id="shVars" hidden></div>
+          <div class="kp-meta" id="kpMeta"></div>
+        </div>
+        <div class="kp-sum" id="kpSum" hidden>
+          <div class="kp-sum-grab" aria-hidden="true"></div>
       <div class="sheet-foot"><span id="sheetFootL">Total</span><b id="sheetTotal">0</b></div>
+      <div class="sh-vars" id="shVars" hidden></div>
       <div class="sh-break" id="shBreak" hidden></div>
       <div class="lk-row" id="shLinks" hidden></div>
+        </div>
+        <div class="kp-bot">
+      <div class="nt-tools" id="ntTools"></div>
+          <div class="kp-bbar">
+      <div class="nt-bar" id="ntBar" role="toolbar" aria-label="Format">
+        <div class="nt-fmt"><button type="button" data-nt="h" title="Heading"><b>H</b><span>Heading</span></button><button type="button" data-nt="chk" title="To-do"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="m8.5 12 2.5 2.5 5-5"/></svg><span>To-do</span></button><button type="button" data-nt="bul" title="List"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="5" cy="7" r="1.3" fill="currentColor"/><circle cx="5" cy="12" r="1.3" fill="currentColor"/><circle cx="5" cy="17" r="1.3" fill="currentColor"/><path d="M10 7h10M10 12h10M10 17h10"/></svg><span>List</span></button><button type="button" data-nt="total" title="Add the lines above"><b>Σ</b><span>Total</span></button><button type="button" data-nt="date" title="Today's date"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></svg><span>Date</span></button></div>
+        <div class="nt-act"><button type="button" data-nt="tools" title="Maths tools: the answer comes back to this page"><b class="nt-fx">ƒx</b><span>Tools</span></button><button type="button" data-nt="ask" title="See how this line is worked out, then come back"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h10M4 12h7M4 18h10"/><path d="m16 10 4 4-4 4"/></svg><span>Steps</span></button></div>
+      </div>
+            <button type="button" class="kp-tot" id="kpTot" aria-expanded="false" aria-controls="kpSum" title="Total and summary"><b>Σ</b><span id="kpTotV">0</span></button>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section class="basket" id="basket" aria-label="Basket" hidden>
@@ -5067,7 +5290,7 @@ const Engine = (() => {
     return d[a.length][b.length];
   }
   // ordinary English words are never 'corrected' into calculator words (costs → coats, pack → pace)
-  const COMMONW = new Set('about above across after again almost also altogether always am among another anyone anything apple apples are around ask asked asks ate autumn away baby back bad bag bags banana bananas been beer beers before being below best better between big bill bills birthday book books boss both bottle bottles bought box boxes bread breakfast brother buying cake cakes came cans car card cars cash change cheap cheaper cheapest child children christmas class coffee coffees combined come comes cost costing costs could cups dad daily deep delivery did different dinner divided does doing done double drank drink drinks drive drives driving drove during each early easter eat eating eats eggs either enough episode episodes even evening every everyone everything exam exams expensive false family far fast father fee fees few first flight flights food friend friends from front game games garden gave give given gives giving glass glasses goal goals goes going gone good grade grades grandma grandpa had half has have having heavy hello help high holiday holidays home hour hourly hours house husband income into is item items just keep keeps kept kids kitchen knew know knows large last late least leave leaves left less light like liked likes little live lived lives long lunch made make makes making many maybe meal meals might milk minus minute minutes mom money month monthly months more morning most mother much must near need needed needs neither never new next night nightly nights nobody nothing often okay old only onto order orders other over pack packs page pages paid partner party pay paying pays people person persons piece pieces pizza pizzas plane plates please plus points pretty previous price prices quarter quite ran rather read reading reads really remain remaining remains rent ride rides right room rooms run running runs said salary same says school score scores seat seats second seconds sell selling sells service several shall share shared sharing shipping shop shops short should side sister sleep sleeps slept slice slices slow small sold some someone something sometimes song songs sorry spend spending spent split spring stay stayed stays still store stuff summer sure take takes taking tall tax taxes team tell tells test thank thanks that their them there these they thing things think thinks this those thought ticket tickets times tip tips today together told tomorrow tonight took total totals train trains trip triple trips true twice under very wage wages walk walked walks want wanted wants was week weekend weekends weekly weeks were what when where which while whom whose wide wife will wine winter with without work worked working works worse worst worth would write writes wrong wrote year yearly years yesterday young'.split(' '));
+  const COMMONW = new Set('plumber charger butcher pasta oranges orange lemons lemon for taxi metro burger internet market vet concert mum wedding uber bolt airbnb kebab tapas brunch cafe gelato snack snacks pub bar club gig festival cinema theatre ferry tram tube hostel spa salon laundry cleaner nanny tutor rent about above across after again almost also altogether always am among another anyone anything apple apples are around ask asked asks ate autumn away baby back bad bag bags banana bananas been beer beers before being below best better between big bill bills birthday book books boss both bottle bottles bought box boxes bread breakfast brother buying cake cakes came cans car card cars cash change cheap cheaper cheapest child children christmas class coffee coffees combined come comes cost costing costs could cups dad daily deep delivery did different dinner divided does doing done double drank drink drinks drive drives driving drove during each early easter eat eating eats eggs either enough episode episodes even evening every everyone everything exam exams expensive false family far fast father fee fees few first flight flights food friend friends from front game games garden gave give given gives giving glass glasses goal goals goes going gone good grade grades grandma grandpa had half has have having heavy hello help high holiday holidays home hour hourly hours house husband income into is item items just keep keeps kept kids kitchen knew know knows large last late least leave leaves left less light like liked likes little live lived lives long lunch made make makes making many maybe meal meals might milk minus minute minutes mom money month monthly months more morning most mother much must near need needed needs neither never new next night nightly nights nobody nothing often okay old only onto order orders other over pack packs page pages paid partner party pay paying pays people person persons piece pieces pizza pizzas plane plates please plus points pretty previous price prices quarter quite ran rather read reading reads really remain remaining remains rent ride rides right room rooms run running runs said salary same says school score scores seat seats second seconds sell selling sells service several shall share shared sharing shipping shop shops short should side sister sleep sleeps slept slice slices slow small sold some someone something sometimes song songs sorry spend spending spent split spring stay stayed stays still store stuff summer sure take takes taking tall tax taxes team tell tells test thank thanks that their them there these they thing things think thinks this those thought ticket tickets times tip tips today together told tomorrow tonight took total totals train trains trip triple trips true twice under very wage wages walk walked walks want wanted wants was week weekend weekends weekly weeks were what when where which while whom whose wide wife will wine winter with without work worked working works worse worst worth would write writes wrong wrote year yearly years yesterday young'.split(' '));
   function correct(s, ctx) {
     const fixes = [];
     const out = s.replace(/[a-z]{4,}/g, w => {
@@ -6184,8 +6407,43 @@ const Engine = (() => {
     const ts = txtSpeak(q), ug = unglue(ts), rs = respell(ug, fixes), rs2 = rs !== ug ? unglue(rs) : rs;
     for (const c of [ts, ug, rs, rs2]) { if (!c || tried.has(c)) continue; tried.add(c); let r = null; try { r = solveA(c, ctx, 0); } catch {} if (r && !r.error && r.kind !== 'Not sure') { r.steps = [['read as', c]].concat((r.steps || []).filter(x => x[0] !== 'read as')); if (fixes.length) r.corrected = fixes; r.healed = c; return r; } }
     return null; }
+  // everyday phrasings that the readers below get wrong if read word for word
+  function preWords(raw) { let t = String(raw || '').trim(); const l = t.toLowerCase().replace(/[?!.]+$/, '').replace(/\s+/g, ' '), N = '(\\d+(?:[.,]\\d+)?)'; let m;
+    const pf = (x, n) => x.replace(/\bbetween me and (\d+) (?:friends|others|people|mates|colleagues|of them|more)\b/, (m0, k) => `between ${+k + n}`);
+    if (/\bbetween me and \d+ (?:friends|others|people|mates|colleagues|of them|more)\b/.test(l)) return pf(l, 1);
+    // "we're 6 people and the bill is 230 with 10% tip, how much each"
+    if ((m = l.match(new RegExp(`(?:we(?:'re| are| were)|there (?:are|were)|for) (\\d+)(?: people| of us| persons| friends)?\\b.*?\\b(?:bill|check|total|dinner|meal|tab)(?: is| was| came to| comes to| of)? (?:€|\\$|£)?${N}.*?\\b${N} ?(?:%|percent) tip`))) || (m = l.match(new RegExp(`\\b(?:bill|check|total|dinner|meal|tab)(?: is| was| came to| comes to| of)? (?:€|\\$|£)?${N}.*?\\b${N} ?(?:%|percent) tip.*?\\b(\\d+) (?:people|of us|persons|friends|ways)`)))) {
+      const [n, b, p] = /^(?:we|there|for)/.test(m[0]) ? [m[1], m[2], m[3]] : [m[3], m[1], m[2]]; return `bill ${b} for ${n} people with ${p}% tip`; }
+    // "what was the price before a 25% discount if i paid 60"
+    if ((m = l.match(new RegExp(`\\b(?:price|it|cost)\\b.*?\\bbefore (?:a |an |the )?${N} ?(?:%|percent) (?:discount|off|reduction|sale)\\b.*?\\b(?:paid|pay|now|is|costs?|was) (?:€|\\$|£)?${N}\\s*(?:€|euros?|dollars?)?$`)))) return `original price if it's now ${m[2]} after ${m[1]}% off`;
+    // "add 45 minutes to 22:30", "22:30 plus 45 min"
+    if ((m = l.match(/^(?:add|put) (\d+(?:\.\d+)?) ?(minutes?|mins?|m|hours?|hrs?|h) (?:to|on|onto) (\d{1,2}[:h.]\d{2}|\d{1,2} ?(?:am|pm))$/))) return `${m[3]} + ${m[1]} ${m[2]}`;
+    if ((m = l.match(/^(?:take|subtract|remove) (\d+(?:\.\d+)?) ?(minutes?|mins?|m|hours?|hrs?|h) (?:from|off) (\d{1,2}[:h.]\d{2}|\d{1,2} ?(?:am|pm))$/))) return `${m[3]} - ${m[1]} ${m[2]}`;
+    // "fuel cost 450 km at 6.5 l/100km petrol 1.85"
+    if ((m = l.match(/^(?:fuel |petrol |diesel |gas |trip |driving )?(?:cost|price)?(?: of| for)? ?(\d+(?:\.\d+)?) ?km (?:at|with|using|doing) (\d+(?:\.\d+)?) ?l ?\/ ?100 ?(?:km)?,? (?:with |and |at )?(?:petrol|diesel|fuel|gas)?(?: at| is| costs?| price)? ?(?:€|\$|£)?(\d+(?:\.\d+)?)(?: ?(?:€|euros?)? ?(?:a|per|\/) ?(?:l|litre|liter))?$/))) return `cost of ${m[1]} km at ${m[2]} l/100km with petrol at ${m[3]}`;
+    // fractions in words as a percentage: "7 eighths as a percentage"
+    { const FW = { half: 2, halves: 2, third: 3, thirds: 3, quarter: 4, quarters: 4, fourth: 4, fourths: 4, fifth: 5, fifths: 5, sixth: 6, sixths: 6, seventh: 7, sevenths: 7, eighth: 8, eighths: 8, ninth: 9, ninths: 9, tenth: 10, tenths: 10 }, NW = { a: 1, an: 1, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9 };
+      if ((m = l.match(/^(?:what'?s |whats |what is )?(\d+|a|an|one|two|three|four|five|six|seven|eight|nine) (halves|half|thirds?|quarters?|fourths?|fifths?|sixths?|sevenths?|eighths?|ninths?|tenths?) (?:as|in|to) (?:a )?(percentage|percent|%|decimal)$/))) return `${NW[m[1]] || m[1]}/${FW[m[2]]} as a ${m[3] === 'decimal' ? 'decimal' : 'percentage'}`; }
+    if (/^(?:what(?:'s| is)? (?:the )?)?(?:current )?week(?: number)?(?: is it| are we in| is this| of the year| today| now)?$|^which week (?:is it|are we in|of the year is it)$/.test(l)) return 'week number';
+    // sizes typed halfway: "men's 10 us to e" → to eu
+    if (/\b(?:us|uk|eu|fr|it|jp)\b|\b(?:men'?s|women'?s|ladies)\b|\bsize\b/.test(l) && /\d/.test(l) && /\s(?:to|in) e$/.test(l)) return l.replace(/e$/, 'eu');
+    return t; }
   function solve(raw, ctx = {}, depth = 0) {
     if (solveNest > 24) return null;
+    if (!depth && solveNest === 0) raw = preWords(raw);
+    if (!depth && solveNest === 0) { const l = String(raw || '').toLowerCase(); let m;
+      // calories from a run, walk, ride or swim: about 1 kcal per kg per km running (walking ~0.55, cycling ~0.3, swimming ~2.5 per km)
+      if (/\b(?:calories|kcal|cals)\b/.test(l) && (m = l.match(/\b(run(?:ning)?|jog(?:ging)?|walk(?:ing)?|hik(?:e|ing)|cycl(?:e|ing)|bik(?:e|ing)|swim(?:ming)?)\b/))) { const act = m[1].replace(/ning$|ging$|ing$|e$/, '').replace(/^jog$/, 'run').replace(/^hik$/, 'walk').replace(/^bik$/, 'cycl'); const K = { run: 1.0, walk: 0.55, cycl: 0.3, swim: 2.5 }[act] || 1; const name = { run: 'running', walk: 'walking', cycl: 'cycling', swim: 'swimming' }[act];
+        const km = (l.match(/(\d+(?:\.\d+)?)\s*(?:k|km|kms|kilometres?|kilometers?)\b/) || [])[1], mi = (l.match(/(\d+(?:\.\d+)?)\s*(?:mi|miles?)\b/) || [])[1], kg = (l.match(/(\d+(?:\.\d+)?)\s*(?:kg|kgs|kilos?)\b/) || [])[1], lb = (l.match(/(\d+(?:\.\d+)?)\s*(?:lb|lbs|pounds?)\b/) || [])[1];
+        const d = km ? +km : mi ? +mi * 1.609344 : null, w = kg ? +kg : lb ? +lb * 0.4536 : null;
+        if (d && w) { const v = Math.round(K * w * d); return { kind: 'Health', label: `Calories ${name} ${fmt(sig(d, 4))} km at ${fmt(sig(w, 4))} kg`, value: fmt(v), unit: 'kcal', num: v, steps: [['rule of thumb', `≈ ${K} kcal per kg per km ${name}`], ['work', `${K} × ${fmt(sig(w, 4))} × ${fmt(sig(d, 4))}`], ['note', 'pace, hills and fitness change it by ±20%']] }; } }
+      // which is cheaper: "45 for 3 kg or 14 per kg", "2.40 for 500 g vs 4.20 a kilo"
+      if (/\b(?:better|cheaper|cheapest|best|deal|worth|which|compare|vs|versus|or)\b/.test(l)) { const U = { kg: ['kg', 1], kgs: ['kg', 1], kilo: ['kg', 1], kilos: ['kg', 1], g: ['kg', .001], grams: ['kg', .001], gram: ['kg', .001], l: ['L', 1], litre: ['L', 1], litres: ['L', 1], liter: ['L', 1], liters: ['L', 1], ml: ['L', .001], cl: ['L', .01] };
+        const re = /(?:€|\$|£)?\s*(\d+(?:\.\d+)?)\s*(?:€|euros?|dollars?)?\s*(?:(for|per|a|an|\/|each)\s*(\d+(?:\.\d+)?)?\s*(kg|kgs|kilos?|grams?|g|l|litres?|liters?|ml|cl)\b)|(\d+(?:\.\d+)?)\s*(kg|kgs|kilos?|grams?|g|l|litres?|liters?|ml|cl)\s*(?:for|at|@)\s*(?:€|\$|£)?\s*(\d+(?:\.\d+)?)/g; const offers = []; let mm;
+        while ((mm = re.exec(l))) { let price, qty, u; if (mm[1] != null) { price = +mm[1]; qty = /for/.test(mm[2]) ? +(mm[3] || 1) : +(mm[3] || 1); u = mm[4]; } else { qty = +mm[5]; u = mm[6]; price = +mm[7]; } const uu = U[u]; if (!uu || !qty) continue; offers.push({ price, qty, u, base: uu[0], per: price / (qty * uu[1]), txt: mm[0].trim() }); }
+        if (offers.length >= 2 && offers.every(o => o.base === offers[0].base)) { const [a, b] = offers, best = a.per <= b.per ? 0 : 1, diff = Math.abs(a.per - b.per), pc = diff / Math.max(a.per, b.per) * 100, B = offers[0].base;
+          return { kind: 'Compare', label: `${a.txt} vs ${b.txt}`, value: diff < 1e-9 ? 'Same price' : `${best ? 'Second' : 'First'} is cheaper`, steps: [['first', `${fmt(sig(a.per, 4))} per ${B}`], ['second', `${fmt(sig(b.per, 4))} per ${B}`], ['difference', `${fmt(sig(diff, 3))} per ${B} (${fmt(sig(pc, 3))}%)`]] }; } }
+      if ((m = l.match(/(\d+(?:\.\d+)?) ?mpg\b.*?\b(\d+(?:\.\d+)?) ?(?:gallons?|gal)\b/)) || ((m = l.match(/(\d+(?:\.\d+)?) ?(?:gallons?|gal)\b.*?\b(\d+(?:\.\d+)?) ?mpg\b/)) && (m = [m[0], m[2], m[1]]))) { const mpg = +m[1], g = +m[2], mi = mpg * g; return { kind: 'Units', label: `${fmt(g)} gallons at ${fmt(mpg)} mpg`, value: fmt(sig(mi, 6)), unit: 'miles', num: sig(mi, 10), steps: [['work', `${fmt(mpg)} × ${fmt(g)}`], ['in km', fmt(sig(mi * 1.609344, 5)) + ' km'], ['as L/100 km', fmt(sig(235.215 / mpg, 4)) + ' (US gallons)']] }; } }
     solveNest++; try {
       // before anything: a little bill ("3 coffees at 2.40 and 2 cakes at 3.50") and text-speak that would otherwise be misread
       if (!depth && solveNest === 1) { { const t0 = fixWords(String(raw || '')), fw = fracWords(' ' + t0.toLowerCase().replace(/\b(?:remove|deduct|subtract|take away|take off|knock off|minus)\s+(\d+(?:[.,]\d+)?\s*%)\s+(?:from|off|of)\s+(?:€|\$|£)?\s*(\d+(?:[.,]\d+)?)/g, '$2 minus $1').replace(/\btea ?spoons?\b/g, 'teaspoons').replace(/\btable ?spoons?\b/g, 'tablespoons').replace(/\bkilo ?(meters?|metres?|grams?)\b/g, 'kilo$1').replace(/\bcenti ?(meters?|metres?)\b/g, 'centi$1').replace(/\bmilli ?(liters?|litres?|meters?|metres?)\b/g, 'milli$1').replace(/^(\d+(?:[.,]\d+)?)([a-z]{1,6})2([a-z]{1,6})$/, (m, n, a, b) => unit(a) && unit(b) ? `${n} ${a} to ${b}` : m) + ' ').replace(/\b(?:(?:me|i) and|with) my (\d+|two|three|four|five|six|seven|eight|nine) (friends|mates|colleagues|kids|children|brothers|sisters|cousins|pals|buddies|guys)\b/g, (m, n) => `${(+n || NUMW[n] || 0) + 1} people`).replace(/(\d(?:[.,]\d+)?\s*)([a-z]{2,})\s+(?:2|too|t0)\s+([a-z]{2,})\b(?!\s*\d)/g, (m, d, a, b) => unit(a) && unit(b) && !/^(?:in|at|to|of|on|by|is|per|ft|foot|feet)$/.test(a) && !/^(?:in|at|to|of|on|by|is|per)$/.test(b) ? `${d}${a} to ${b}` : m).trim(); if (fw !== String(raw || '').toLowerCase().trim() && /\d/.test(fw)) { let r1 = null; try { r1 = solveA(fw, ctx, depth); } catch {} if (r1 && !r1.error) { r1.steps = [['read as', fw]].concat(r1.steps || []); r1.healed = fw; return r1; } } }
@@ -6719,7 +6977,7 @@ const Engine = (() => {
     const lw = String(w).toLowerCase(); if (lw.length < 2 && !/^[mglk]$/.test(lw)) return null;
     if (/^(in|at|to|a|an|of|on|or|per|for|by|is|it|and|x|h|min|day|days|week|weeks|year|years|month|months|hours?|people|each)$/.test(lw)) return null;
     let u = null; try { u = unit(w); } catch {} if (!u || !u.cat || !ALT[u.cat]) return null;
-    return [u.sym, ...unitNames(u.cat, u).slice(0, 8)].filter((x, i, a) => a.indexOf(x) === i);
+    return [u.sym, ...unitNames(u.cat, u).slice(0, 16)].filter((x, i, a) => a.indexOf(x) === i);
   }
   // everything the suggestions can search through, and a unit's short name ("kilometers" → "km")
   let CATALOG = null;
@@ -6731,7 +6989,7 @@ const Engine = (() => {
   // only sure misspellings, every word kept as typed otherwise (safe to run on anything)
   const fixWords = q => String(q || '').replace(/[A-Za-z]{4,}/g, w => { const k = w.toLowerCase(), v = MISS[k]; return v && v !== k ? v : w; });
   const tidy = q => { try { const fx = []; return respell(unglue(txtSpeak(String(q || ''))), fx); } catch { return String(q || ''); } };
-  return { stepMath, mathNorm, settleParse, settleUp, complete, fn: fnOf, solve, evaluate, fmt, plain, setDeg, parseDate, normalize, correct, unitChoices, catalog, unitOf, tagsOf, tidy, fixWords, cities: () => Object.keys(TZ) };
+  return { stepMath, mathNorm, settleParse, settleUp, complete, fn: fnOf, solve, evaluate, fmt, plain, setDeg, parseDate, normalize, correct, unitChoices, catalog, unitOf, tagsOf, tidy, fixWords, preWords, ingredients: () => Object.keys(DENS), cities: () => Object.keys(TZ) };
 })();
 
 </script>
@@ -7778,11 +8036,106 @@ const Engine = (() => {
   let current = null;
   const FLAT = Object.values(EXAMPLES).flat();
   const STOP = new Set(['the','a','an','of','to','in','is','what','how','much','many','for','and','on','at','my','i','it','with','from','by','me','do']);
+  /* ---------- half-understood requests: work out what you're trying to do, use what you gave, and ask only for what's missing ---------- */
+  const INTENT_STRONG = /\bbmi\b|\bbody mass\b|\btiles?\b|\bpaint(?:ing)?\b|\b(?:earn|salary|income|wage)\b.*\btax\b|\btax\b.*\b(?:earn|salary|income|wage)\b|\bloan\b|\bmortgage\b|\bborrow|\bsav(?:e|ing)\b.*\bfor\b|\bcalories\b.*\b(?:run|walk|cycl|swim|jog)|^-?\d[\d.]*\s+-?\d[\d.]*$|^(?:what'?s |whats |what is |how much is )?\d+(?:\.\d+)? of \d+(?:\.\d+)?\??$|^(?:convert|change|turn) \d+(?:\.\d+)?$/;
+  intentRead.over = (q, r) => !!r && !r.error && (INTENT_STRONG.test(String(q || '').toLowerCase().trim()) || (r.steps || []).some(x => x && x[0] === 'ignored') || !!r.guess);
+  function intentRead(q0, r) {
+    const q = String(q0 || '').trim(), l = q.toLowerCase().replace(/[’']/g, "'").replace(/(\d),(\d{1,2})(?!\d)/g, '$1.$2'); if (!l || l.length > 140) return null;
+    const N = [...l.matchAll(/(?:€|\$|£)?\s*(\d+(?:\.\d+)?)\s*(k\b|kg|kgs|kilos?|lbs?|pounds?|cm|m2|m²|sqm|square met(?:er|re)s?|m\b|metres?|meters?|ft|feet|km|mi|miles?|%|years?|yrs?|y\b|months?|nights?|days?|people|persons|minutes?|mins?|hours?|h\b)?/g)].map(m => ({ v: +m[1], u: (m[2] || '').replace(/^(?:kgs|kilos?)$/, 'kg').replace(/^(?:lbs|pounds?)$/, 'lb').replace(/^(?:m²|sqm|square.*)$/, 'm2').replace(/^(?:metres?|meters?)$/, 'm').replace(/^(?:feet)$/, 'ft').replace(/^(?:miles?)$/, 'mi').replace(/^(?:years?|yrs?|y)$/, 'yr').replace(/^(?:months?)$/, 'mo').replace(/^(?:nights?)$/, 'night').replace(/^(?:persons)$/, 'people').replace(/^(?:minutes?|mins?)$/, 'min').replace(/^(?:hours?|h)$/, 'h') }));
+    const nu = u => N.find(n => n.u === u), bare = N.filter(n => !n.u), big = [...N].filter(n => !n.u || n.u === '').sort((a, b) => b.v - a.v)[0];
+    const f = x => String(+(+x).toFixed(2));
+    const card = (say, need, fill, tries, extra) => ({ kind: 'Almost', soft: true, error: true, intent: true, label: say, need, value: '', steps: [], blank: fill || null, tries: (tries || []).map(t => Array.isArray(t) ? t : [t, preview(t)]).filter(x => x[1]).slice(0, 3), ...(extra || {}) });
+    const done = (qq, why) => { let rr = null; try { rr = linkCommand(qq); } catch {} if (!rr) try { rr = solveLinked(qq); } catch {} if (!rr || rr.error || rr.kind === 'Not sure') return null; rr.steps = [['read as', qq]].concat((rr.steps || []).filter(x => x && !/^read(?:ing)? as$/.test(x[0]))); if (why) rr.steps.push(['because', why]); rr.readAs = qq; return rr; };
+    const ok = r && !r.error && r.kind !== 'Not sure' && r.kind !== 'Almost', lab = ok ? `${r.kind} ${r.label || ''} ${r.unit || ''}`.toLowerCase() : '';
+    const ignored = ok && (r.steps || []).some(x => x && /^(?:ignored|read as)$/.test(x[0]));
+    const weakOk = !ok || ignored || r.guess;   // a confident reading that used everything stays
+    let m;
+    // two bare numbers and nothing else: ask, with the usual things
+    if (/^-?\d[\d.]*\s+-?\d[\d.]*$/.test(l)) { const [a, b] = l.split(/\s+/); return card(`Two numbers, ${a} and ${b}. What should I do with them?`, 'Tap one, or add a word like “plus”, “of” or “to”', null, [`${a} + ${b}`, `${a} × ${b}`, `${a} to ${b} percentage change`, `${a} is what % of ${b}`, `${b} − ${a}`]); }
+    { const core = l.replace(/\b(?:the|thing|things|stuff|with|these|those|numbers?|and|do|something|what|about|of|some|please|pls|just|ok|so|hmm+|um+|uh+|like)\b/g, ' ').replace(/[?!.,]/g, ' ').trim(); if (core !== l && /^-?\d[\d.]*\s+-?\d[\d.]*$/.test(core.replace(/\s+/g, ' '))) return intentRead(core.replace(/\s+/g, ' '), null); }
+    // "what's 15 of 200": a share, most likely
+    if ((m = l.match(/^(?:what'?s |whats |what is |how much is )?(\d+(?:\.\d+)?) of (\d+(?:\.\d+)?)\??$/)) && +m[1] <= 100) return card(`${m[1]} of ${m[2]}: did you mean ${m[1]}%?`, 'Pick the one you meant', null, [`${m[1]}% of ${m[2]}`, `${m[1]} is what % of ${m[2]}`, `${m[1]} × ${m[2]}`]);
+    // "convert 20": into what?
+    if ((m = l.match(/^(?:convert|change|turn) (\d+(?:\.\d+)?)$/))) return card(`Convert ${m[1]}… into what?`, 'Add the unit, like “km to miles”', `${m[1]} {from} to {to}`, [`${m[1]} km to miles`, `${m[1]} c to f`, `${m[1]} kg to lb`]);
+    // bare commands with nothing else yet
+    if (/^(?:remind me|set (?:a |an )?(?:reminder|alarm)|reminder|new reminder|alarm)$/.test(l)) return card('A reminder', 'What, and when?', 'remind me to {what} at {time}', ['remind me to call mum at 7pm', 'remind me in 20 minutes', 'wake me at 7']);
+    if (/^(?:set |start |new )?(?:a |an )?timer$/.test(l)) return card('A timer', 'How long, and for what?', '{name} {minutes} minutes', ['timer 5 minutes', 'pasta 9 minutes', 'tea 4 minutes']);
+    if (/^(?:new |set (?:a )?|make (?:a )?)?budget$/.test(l)) return card('A budget', 'For what, and how much?', '{what} budget {amount} a month', ['groceries budget 300 a month', 'fun budget 50 a week']);
+    if (/^(?:a |my |new )?(?:shopping|grocery) list$/.test(l)) return card('A shopping list', 'Tell me the items and I’ll put them in the basket', 'add {items} to the basket', ['open basket', 'add milk and eggs to the basket']);
+    if (/^(?:split(?: it| this| that)?|how much (?:do|should) (?:we|i) (?:each|all) pay|how much (?:each|per person)|who pays what|how much do we owe)$/.test(l)) return card('Splitting something', 'How much, and between how many?', '{amount} split between {people}', ['split the bill', '60 split between 3', '60 split between 3 with 10% tip']);
+    if (/^how old(?: am i| is (?:he|she|someone))?$/.test(l)) return card('An age', 'Born when?', 'how old am i if i was born on {date}', ['born in 1990 how old', 'how old am i if i was born on 3 march 1995']);
+    if (/^how much will i (?:have|get|make|earn)$/.test(l)) return card('Growing money', 'How much, at what rate, for how long?', '{amount} at {rate}% for {years} years', ['1000 at 5% for 10 years', 'if i save 200 a month how long until i have 5000']);
+    // a tip with no bill yet
+    if (/\btip(?:ping)?\b/.test(l) && !N.length) return card('A tip', 'On how much? And what percent (10–15% is usual)', '{percent}% tip on {bill}', ['10% tip on 50', '15% tip on 50', '20% tip on 50']);
+    // BMI
+    if (/\bbmi\b|\bbody mass\b/.test(l) && !/bmi/.test(lab)) { const w = nu('kg') || nu('lb') || bare.find(n => n.v >= 30 && n.v <= 250), h = nu('cm') || nu('m') || nu('ft') || bare.find(n => n !== w && n.v >= 120 && n.v <= 230);
+      if (w && h) { const d = done(`bmi ${f(w.v)} ${w.u || 'kg'} ${f(h.v)} ${h.u || 'cm'}`); if (d) return d; }
+      return card(`Sounds like you want your BMI${w ? ` · ${f(w.v)} ${w.u || 'kg'}` : ''}${h ? ` · ${f(h.v)} ${h.u || 'cm'}` : ''}`, `I still need your ${!w && !h ? 'weight and height' : !w ? 'weight' : 'height'}`, `bmi ${w ? f(w.v) : '{weight}'} ${w ? w.u || 'kg' : 'kg'} ${h ? f(h.v) : '{height}'} ${h ? h.u || 'cm' : 'cm'}`, [w && !h ? `bmi ${f(w.v)} ${w.u || 'kg'} 170 cm` : '', w && !h ? `bmi ${f(w.v)} ${w.u || 'kg'} 180 cm` : '', h && !w ? `bmi 70 kg ${f(h.v)} ${h.u || 'cm'}` : ''].filter(Boolean)); }
+    // paint
+    if (/\bpaint(?:ing)?\b/.test(l) && !/paint/.test(lab)) { const a = nu('m2'); if (a) { const d = done(`paint ${f(a.v)} m2 2 coats`); if (d) return d; }
+      if ((m = l.match(/(\d+(?:\.\d+)?)\s*(?:m\s*)?(?:by|x|×)\s*(\d+(?:\.\d+)?)/))) { const A = +m[1], B = +m[2], hh = (l.match(/(\d+(?:\.\d+)?)\s*m?\s*(?:high|tall|height|ceiling)/) || [])[1];
+        if (/\broom|walls?|bedroom|kitchen|living|office|bathroom\b/.test(l) && hh) { const d = done(`paint a room ${A} by ${B} m ${hh} m high`); if (d) return d; }
+        if (/\broom|walls|bedroom|kitchen|living|office|bathroom\b/.test(l)) return card(`Painting the walls of a ${f(A)} × ${f(B)} m room`, 'How high are the walls? The usual is 2.4–2.7 m', `paint a room ${f(A)} by ${f(B)} m {height} m high`, [`paint a room ${f(A)} by ${f(B)} m 2.5 m high`, `paint a room ${f(A)} by ${f(B)} m 2.7 m high`, `paint ${f(A * B)} m2 2 coats`]);
+        const d = done(`paint ${f(A * B)} m2 2 coats`, `a ${f(A)} × ${f(B)} m wall is ${f(A * B)} m²`); if (d) return d; }
+      return card('Sounds like you want to know how much paint', 'Give me the area, or the room’s size', 'paint {area} m2 2 coats', ['paint a room 4 by 5 m 2.5 m high', 'paint 30 m2 2 coats']); }
+    // tiles
+    if (/\btiles?\b/.test(l) && !/tile/.test(lab)) { const a = nu('m2'), sz = l.match(/(\d+)\s*(?:x|×|by)\s*(\d+)\s*(?:cm)?/); if (a && sz) { const d = done(`tiles ${sz[1]}x${sz[2]} cm for ${f(a.v)} m2`); if (d) return d; }
+      const area = a ? f(a.v) : (m = l.match(/(\d+(?:\.\d+)?)\s*(?:m\s*)?(?:by|x|×)\s*(\d+(?:\.\d+)?)\s*m\b/)) ? f(+m[1] * +m[2]) : null;
+      return card(`Tiles${area ? ` for ${area} m²` : ''}`, area ? 'What size are the tiles?' : 'How big is the floor or wall, and the tile size?', `tiles {width}x{length} cm for ${area || '{area}'} m2`, area ? [`tiles 30x30 cm for ${area} m2`, `tiles 60x60 cm for ${area} m2`, `tiles 20x20 cm for ${area} m2`] : ['tiles 30x30 cm for 12 m2']); }
+    // income tax / take-home pay: depends on the country, so ask for the rate
+    if (/\b(?:income tax|tax|take home|take-home|net pay|net salary|after tax)\b/.test(l) && /\b(?:earn|earning|salary|income|paid|gross|make|wage|pay)\b/.test(l) && !/\b(?:vat|iva)\b/.test(l)) { const a = big && big.v; const per = /\b(?:a|per|each) month|monthly\b/.test(l) ? ' a month' : /\b(?:a|per) year|yearly|annual\b/.test(l) ? ' a year' : '';
+      return card(`Tax on ${a ? f(a) : 'your pay'}${per}`, 'Income tax depends on your country and bracket, so I can’t know it offline. Give me the rate', a ? `${f(a)} minus {rate}%` : '{amount} minus {rate}%', a ? [`${f(a)} minus 20%`, `${f(a)} minus 30%`, a >= 10000 && !/month/.test(per) ? `${f(a)} a year per month` : `${f(a)} a month per year`] : []); }
+    // loans and mortgages
+    if (/\b(?:loan|mortgage|borrow(?:ing)?|financ(?:e|ing)|car finance)\b/.test(l) && !(ok && /over \d+ years|per month|a month/.test(lab) && /%/.test(l))) { const amt = big && big.v >= 100 ? big.v : null, yr = nu('yr'), rt = nu('%');
+      if (amt && yr && rt) { const d = done(`loan ${f(amt)} over ${f(yr.v)} years at ${f(rt.v)}%`); if (d) return d; }
+      return card(`A loan${amt ? ` of ${f(amt)}` : ''}: the monthly payment`, `I still need ${[!amt && 'the amount', !yr && 'how many years', !rt && 'the interest rate'].filter(Boolean).join(', ').replace(/, ([^,]*)$/, ' and $1')}`, `loan ${amt ? f(amt) : '{amount}'} over ${yr ? f(yr.v) : '{years}'} years at ${rt ? f(rt.v) : '{rate}'}%`, amt ? (amt >= 50000 ? [[25, 3.5], [30, 4]] : [[5, 6], [3, 7]]).map(([y0, r0]) => `loan ${f(amt)} over ${yr ? f(yr.v) : y0} years at ${rt ? f(rt.v) : r0}%`) : ['loan 10000 over 5 years at 6%']); }
+    // saving up for something
+    if (/\bsav(?:e|ing)\b/.test(l) && /\b(?:for|until|till|reach|need|goal|get|buy|afford|how long)\b/.test(l) && !/\bsave (?:it|this|that|answer)\b/.test(l)) { const mo = l.match(/(\d+(?:\.\d+)?)\s*(?:€|euros?)?\s*(?:a|per|each|every)\s*(month|week)/), tg = N.filter(n => !n.u && (!mo || n.v !== +mo[1])).sort((a, b) => b.v - a.v)[0], thing = (l.match(/\bfor (?:a |an |my |the )?([a-zà-ÿ]+(?: [a-zà-ÿ]+)?)/) || [])[1];
+      if (tg && mo) { const d = done(`if i save ${mo[1]} a ${mo[2]} how long until i have ${f(tg.v)}`); if (d) return d; }
+      if (tg) return card(`Saving ${f(tg.v)}${thing && !/^\d/.test(thing) ? ` for your ${thing.replace(/\s+\d.*$/, '')}` : ''}`, 'How much can you put aside each month? Or set a date and I’ll tell you how much', `if i save {amount} a month how long until i have ${f(tg.v)}`, [`if i save 200 a month how long until i have ${f(tg.v)}`, `if i save 500 a month how long until i have ${f(tg.v)}`, `save ${f(tg.v)} for ${(thing || 'it').replace(/\s+\d.*$/, '')} by december`]); }
+    // calories from exercise without the weight
+    if (/\b(?:calories|kcal|burn(?:ed|t)?)\b/.test(l) && /\b(?:run|running|jog|walk|walking|cycl|bike|swim)/.test(l) && !/kcal/.test(lab)) { const d0 = l.match(/(\d+(?:\.\d+)?)\s*(k|km|kms|mi|miles?)\b/), act = ((l.match(/\b(run\w*|jog\w*|walk\w*|cycl\w*|bik\w*|swim\w*)/) || [])[1] || 'running').replace(/^(?:run|runs|ran)$/, 'running').replace(/^jog\w*$/, 'running').replace(/^(?:walk|walks)$/, 'walking').replace(/^(?:bik\w*|cycle|cycles)$/, 'cycling').replace(/^(?:swim|swims)$/, 'swimming');
+      if (d0) return card(`Calories ${act.replace(/^run$/, 'running')} ${d0[1]} ${/^k/.test(d0[2]) ? 'km' : 'miles'}`, 'It depends on your weight. How much do you weigh?', `calories ${act} ${d0[1]} ${/^k/.test(d0[2]) ? 'km' : 'miles'} {weight} kg`, [60, 70, 80].map(w => `calories ${act} ${d0[1]} ${/^k/.test(d0[2]) ? 'km' : 'miles'} ${w} kg`)); }
+    // per person with nights or items but no head count
+    if (/\b(?:per person|each|per head|a head|split|share|between us)\b/.test(l) && !/\b\d+\s*(?:people|persons|of us|friends|ways)\b|\bbetween \d|\bsplit \d+ (?:ways|between)/.test(l) && N.length && (!ok || ignored)) { const nights = nu('night'), price = N.filter(n => !n.u).sort((a, b) => b.v - a.v)[0];
+      if (price) { const tot = nights ? null : price.v; return card(`${nights ? `${f(price.v)} for ${f(nights.v)} nights` : f(price.v)}, shared`, 'How many people?', nights ? `${f(price.v)} split between {people}` : `${f(price.v)} split between {people}`, nights ? [`${f(price.v)} split between 2`, `${f(price.v)} × ${f(nights.v)} split between 2`, `${f(price.v)} ÷ ${f(nights.v)}`] : [`${f(tot)} split between 2`, `${f(tot)} split between 3`, `${f(tot)} split between 4`]); } }
+    // distance between places: no maps offline
+    if (/\bhow far\b|\bdistance\b|\bkm (?:from|to|between)\b/.test(l) && !N.length) { let C = []; try { C = Engine.cities(); } catch {} const found = C.filter(c => new RegExp(`\\b${c.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`).test(l)).slice(0, 2);
+      return card(found.length ? `Distance ${found.map(cap1).join(' – ')}` : 'A distance', 'I don’t carry maps, so I can’t look it up offline. If you know the distance, I can do the trip', 'how long to drive {km} km at {speed} km/h', [found.length === 2 ? `time difference between ${found[0]} and ${found[1]}` : '', found[0] ? `time in ${found[found.length - 1]}` : '', 'fuel cost 300 km at 6 l/100km petrol 1.80'].filter(Boolean)); }
+    // a reminder without a time
+    if ((m = l.match(/^(?:please |can you |could you )?remind me (to |about |of )?(.+)$/)) && !/\b(?:at|in|on|tomorrow|tonight|today|morning|evening|afternoon|next|every|\d)\b/.test(m[2])) { const what = (/^(?:about|of)/.test(m[1] || '') ? 'check ' : '') + m[2];
+      return card(`A reminder: ${what}`, 'When should it ring?', `remind me to ${what} at {time}`, [`remind me to ${what} in 1 hour`, `remind me to ${what} tomorrow at 9am`, `remind me to ${what} tonight at 8pm`]); }
+    // a timer without a length
+    if ((m = l.match(/^(?:start |set |new )?(?:a |the )?(?:timer|countdown)(?: for| on)?(?: (?:the|my|a))? ([a-zà-ÿ ]{2,24})$|^(?:start |set )?(?:a |the )?([a-zà-ÿ]{2,20}) timer$/))) { const nm = (m[1] || m[2]).trim(); const T = { pasta: 9, eggs: 7, egg: 7, rice: 15, tea: 4, coffee: 4, pizza: 12, potatoes: 20, oven: 30, laundry: 45, nap: 20, workout: 30, study: 25, focus: 25, parking: 60 }; const d = T[nm.split(' ').pop()];
+      return card(`A timer for ${nm}`, 'How long?', `${nm} {minutes} minutes`, [d ? `${nm} ${d} minutes` : `${nm} 5 minutes`, `${nm} 10 minutes`, `${nm} 15 minutes`, `${nm} 30 minutes`].filter((x, i, a) => a.indexOf(x) === i)); }
+    // a budget without an amount
+    if ((m = l.match(/\bbudget\b(?: (?:for|on))? (?:my |the |a )?([a-zà-ÿ ]{3,20}?)$|\b(?:budget|limit) (?:for|on) (?:my |the )?([a-zà-ÿ ]{3,20}?)$/)) && !N.length) { const th = (m[1] || m[2]).replace(/^(?:should i|for|i)\s+/, '').trim();
+      return card(`A budget for ${th}`, 'How much a month (or a week)?', `${th} budget {amount} a month`, [`${th} budget 200 a month`, `${th} budget 50 a week`, `${th} budget 400 a month`]); }
+    // spending, overall
+    if (/\b(?:spending|expenses|spent|outgoings)\b/.test(l) && /\b(?:show|my|how much|see|what|check|total)\b/.test(l) && !N.length) { const B = trackers.filter(t => t.type === 'budget').map(t => `how is ${t.name.toLowerCase()}`), S = sheets.filter(x => !x.ex).slice(0, 2).map(x => `total of ${x.title.toLowerCase()} sheet`);
+      if (B.length || S.length) return card('Your spending', B.length ? 'Here is what you track' : 'From your sheets', null, [...B, ...S]); }
+    // colours and looks
+    if ((/\b(?:colou?rs?|theme|look|appearance|style|bright|darker|lighter)\b/.test(l) && /\b(?:change|switch|make|set|different|new|update|customi[sz]e)\b/.test(l) || /\b(?:prettier|nicer|more beautiful|ugly|easier to read|hard to read|too small|too bright)\b/.test(l)) && !N.length) return card('Changing how it looks', 'Pick one, or say “dark mode” any time', null, ['dark mode', 'light mode', 'make the text bigger', 'calm motion on']);
+    // a new tracker with only a name
+    if ((m = l.match(/^(?:make |create |start |add )?(?:a |an )?new (?:tracker|counter|habit|goal|thing to track)(?: (?:for|called|named|of))? (?:my |the )?([a-zà-ÿ ]{2,24})$|^track(?:er)? for (?:my |the )?([a-zà-ÿ ]{2,24})$/))) { const nm = (m[1] || m[2]).trim();
+      return card(`Something to track: ${nm}`, 'What kind? Count it, make it a daily habit, time it, or save for it', null, [`count ${nm}`, `habit: ${nm}`, `${nm} 30 minutes`, `save 500 for ${nm} by june`]); }
+    // shopping lists and recipes
+    if (/\b(?:shopping list|grocery list|ingredients|what do i need)\b.*\bfor\b|\blist for (?:a |the )?[a-z]+/.test(l) && !N.length) { const dish = (l.match(/\bfor (?:a |an |the |my )?([a-zà-ÿ ]{3,24})$/) || [])[1];
+      return card(`A list${dish ? ` for ${dish}` : ''}`, 'I don’t know recipes offline. Tell me the items and I’ll put them in the basket', 'add {items} to the basket', [dish ? `new sheet ${dish}` : '', 'open basket'].filter(Boolean)); }
+    // a meal out, no numbers yet
+    if (/\b(?:dinner|lunch|restaurant|bill|meal|eating out|drinks)\b/.test(l) && !N.length && /\b(?:not sure|help|what|how|do|going|split|pay|owe)\b/.test(l)) return card('Sounds like a meal out', 'I can split the bill, add the tip, or both', '{amount} split between {people} with {tip}% tip', ['split the bill', '60 split between 3 with 10% tip', '15% tip on 48']);
+    // things that need the internet
+    if (/\b(?:weather|forecast|translate|translation|news|score|stock price|share price|exchange rate today)\b/.test(l)) { const C = (() => { try { return Engine.cities(); } catch { return []; } })().filter(c => new RegExp(`\\b${c.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`).test(l)).slice(0, 1);
+      return card(/weather|forecast/.test(l) ? 'Weather needs the internet' : /translat/.test(l) ? 'Translating needs the internet' : 'That needs the internet', 'Quotient works offline, so it can’t look that up. Close by:', null, /weather|forecast/.test(l) ? [C[0] ? `time in ${C[0]}` : '', '25 c to f', 'days until christmas'].filter(Boolean) : C[0] ? [`time in ${C[0]}`] : ['what can you do']); }
+    // one grocery word
+    if (/^[a-zà-ÿ]{3,16}s?$/.test(l) && (() => { try { return AISLES.some(a => a[2].test(l)); } catch { return false; } })()) return card(`${cap1(l)}`, 'Add it to the basket, or work out a price', `{kg} kg ${l} at {price} per kg`, [`add ${l} to the basket`, `1.5 kg ${l} at 1.99 per kg`]);
+    return null;
+  }
   /* ---------- when it can't answer yet: say what it understood and offer the likeliest questions, never "I couldn't read that" ---------- */
   function softNotSure(q, r) {
     q = (q || '').trim(); if (!q) return r;
     const Q = sQuery(q), numsRaw = q.match(/-?\d[\d.,]*\s*%?/g) || [], nums = numsRaw.map(x => x.trim()).filter(Boolean).slice(0, 4);
-    const tries = [], seen = new Set(), put = t => { if (!t || seen.has(t) || /\{/.test(t) || !sSane(t)) return; const pv = preview(t); if (pv) { seen.add(t); tries.push([t, pv]); } };
+    const ignW = (Q.ignored || []).filter(w => w.length > 2).map(w => w.toLowerCase()); const tries = [], seen = new Set(), put = t => { if (!t || seen.has(t) || /\{/.test(t) || !sSane(t) || ignW.some(w => new RegExp(`\\b${w}\\b`, 'i').test(t))) return; const pv = preview(t); if (pv) { seen.add(t); tries.push([t, pv]); } };
     // the questions it can answer that use your words and your numbers
     if (Q.words.length) for (const t of searchCatalog(Q, q)) { if (tries.length >= 3) break; put(t); }
     for (const t of sugg) { if (tries.length >= 3) break; if (!/\s$/.test(t)) put(t); }
@@ -7883,9 +8236,10 @@ const Engine = (() => {
     let actions = '', secondary = '';
     if (r.error) {
       const near = r.soft ? r.tries : [...sugg.filter(x => !/\s$/.test(x)), ...suggestFor((AQ || $('#q').value))].filter((x, i, a) => a.indexOf(x) === i).map(x => [x, preview(x)]).filter(x => x[1]).slice(0, 3);
-      if (r.soft && r.blank) actions = `<div class="suggest"><span class="lbl">Fill in</span><button type="button" class="ex blank-ex" data-fillq="${esc(r.blank)}">${r.blank.split(/(\{[a-z]+\})/).map(x => /^\{[a-z]+\}$/.test(x) ? `<i class="ph">${x.slice(1, -1)}</i>` : esc(x)).join('')}</button></div>`;
+      const blankH = r.soft && r.blank ? `<div class="suggest"><span class="lbl">Fill in</span><button type="button" class="ex blank-ex" data-fillq="${esc(r.blank)}">${r.blank.split(/(\{[a-z]+\})/).map(x => /^\{[a-z]+\}$/.test(x) ? `<i class="ph">${x.slice(1, -1)}</i>` : esc(x)).join('')}</button></div>` : '';
+      if (r.soft && r.blank && !(r.intent && near.length)) actions = blankH;
       else if (!near.length && r.soft) actions = '';
-      else actions = `<div class="suggest"><span class="lbl">${r.soft ? 'Maybe' : near.length && sugg.length ? 'Closest' : 'Try'}</span>${near.map(([x, pv]) => `<button type="button" class="ex" data-try="${esc(x)}">${esc(x)}<b class="pvb">${esc(pv)}</b></button>`).join('')}</div>`;
+      else actions = blankH + `<div class="suggest"><span class="lbl">${r.intent ? (r.blank ? 'Or' : 'Try') : r.soft ? 'Maybe' : near.length && sugg.length ? 'Closest' : 'Try'}</span>${near.map(([x, pv]) => `<button type="button" class="ex" data-try="${esc(x)}">${esc(x)}<b class="pvb">${esc(pv)}</b></button>`).join('')}</div>`;
     } else if (r.kind !== 'Help') {
       const primary = example ? `<button class="btn primary" data-act="try" type="button">Try it</button><button class="btn" data-act="examples" type="button">Browse examples</button>`
         : `<button class="btn primary" data-act="keep" type="button">${r.doLabel ? esc(r.doLabel) : r.assign ? 'Store ' + esc(r.assign.name) : '<svg class="kp-ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v10M7.5 9.5 12 14l4.5-4.5"/><path d="M4 16v2.5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5V16"/></svg>Keep<span class="kl2"> on tape</span>'} <span class="kbd kb-hint" style="border-color:color-mix(in srgb,var(--surface) 30%,transparent);color:inherit;opacity:.7">↵</span></button>`;
@@ -7917,7 +8271,7 @@ const Engine = (() => {
     const hasMore = compact && ((r.work && r.work.length) || facts(r, (AQ || $('#q').value).trim()).length || moreSteps.length || secondary.trim() || trail.length || insight(r, (AQ || $('#q').value)));
     let html = `
       <div class="a-head"><span class="chip-kind ${kindCls}">${example ? 'Example' : esc(r.kind)}</span><span class="a-label">${r.soft ? '' : esc(example ? '“' + example + '”' : r.label)}</span>${ansBack.length && !example ? `<button type="button" class="a-back" data-back title="Back to “${esc(ansBack[ansBack.length - 1])}”"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg><span>Back</span></button>` : ''}</div>
-      ${r.value ? `<div class="a-value">${r.swatch && /^#[0-9A-F]{6}$/.test(r.swatch) ? `<span class="sw" style="background:${r.swatch}"></span>` : ''}<span class="av">${esc(r.value)}${r.unit ? `<small>${esc(r.unit)}</small>` : ''}</span>${!example && !r.error && !r.plot && !r.assign && !r.paste && !r.lines && !r.settle && r.kind !== 'Solve' && ((typeof r.num === 'number' && isFinite(r.num) && r.kind !== 'Time' && r.kind !== 'Sizes' && revTokens((AQ || $('#q').value)).length) || altGoalFor(r, ((AQ || $('#q').value) || '').trim())) ? `<button type="button" class="a-goal" data-act="rev" title="Type the answer you want: Quotient changes your question to match"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg><span>Set the answer</span></button>` : ''}</div>` : r.plot ? '' : `<div class="a-label" style="color:var(--ink);font-size:17px">${esc(r.error ? r.label : 'Ask in your own words. A few shapes that work:')}</div>`}
+      ${r.value ? `<div class="a-value">${r.swatch && /^#[0-9A-F]{6}$/.test(r.swatch) ? `<span class="sw" style="background:${r.swatch}"></span>` : ''}<span class="av">${esc(r.value)}${r.unit ? `<small>${esc(r.unit)}</small>` : ''}</span>${!example && !r.error && !r.plot && !r.assign && !r.paste && !r.lines && !r.settle && r.kind !== 'Solve' && ((typeof r.num === 'number' && isFinite(r.num) && r.kind !== 'Time' && r.kind !== 'Sizes' && revTokens((AQ || $('#q').value)).length) || altGoalFor(r, ((AQ || $('#q').value) || '').trim())) ? `<button type="button" class="a-goal" data-act="rev" title="Type the answer you want: Quotient changes your question to match"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg><span>Set the answer</span></button>` : ''}</div>` : r.plot ? '' : `<div class="a-label" style="color:var(--ink);font-size:17px">${esc(r.error ? r.label : 'Ask in your own words. A few shapes that work:')}</div>${r.need ? `<div class="a-need"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg><span>${esc(r.need)}</span></div>` : ''}`}
       ${r.lines && r.lines.length ? `<ul class="a-lines">${r.lines.map((x, i) => `<li style="--i:${i}">${esc(x)}</li>`).join('')}</ul>` : ''}
       @@NOTE@@
       @@OPTS@@${!example && !r.error ? toggleRow(r, ((AQ || $('#q').value) || '').trim()) : ''}
@@ -8272,6 +8626,22 @@ const Engine = (() => {
   function askCtx() { const { v } = linkVars(); return { c: { ...ctx, vars: { ...v } }, q: 'basket' in v }; }
   let lastGood = null, errT = null;
   var recentPending = '';
+  function finishWord(v, r) {
+    const t = v.trim(), mm = t.match(/(?:^|[\s\d])([a-zà-ÿ]{1,6})$/i); if (!mm || t.length < 3) return null; const part = mm[1].toLowerCase();
+    const tok = x => String(x || '').toLowerCase().replace(/[’']/g, "'").replace(/[°µ]/g, '').replace(/(\d)([a-z])/g, '$1 $2').replace(/([a-z])(\d)/g, '$1 $2').split(/[^a-zà-ÿ0-9.'%]+/).map(w => w.replace(/^'+|'+$/g, '').replace(/\.$/, '')).filter(Boolean);
+    const have = tok(t); if (!have.length || have[have.length - 1] !== part) return null; const whole = have.slice(0, -1); if (!whole.length) return null;
+    // sizes are said both ways round: "5 us" is "us 5"
+    for (let i = 0; i < whole.length - 1; i++) if (/^\d/.test(whole[i]) && /^(?:us|uk|eu|fr|it|jp|au)$/.test(whole[i + 1])) { [whole[i], whole[i + 1]] = [whole[i + 1], whole[i]]; i++; }
+    const STOPW = /^(?:to|in|into|of|the|a|an|is|it|what|whats|what's|how|much|many|convert|for|at|my|me|and|per|as|on|by|i|can|you|please|from|with)$/;
+    // already read as itself, or as a word it begins ("42 eu sho" → shoe size), and nothing else typed was left out: leave it
+    if (r && !r.error && r.kind !== 'Not sure' && !/^Almost/i.test(r.kind || '')) { const lab = tok(`${r.label || ''} ${r.unit || ''} ${r.kind || ''}`); if (lab.some(w => w === part || (w.length > part.length && w.startsWith(part))) && !whole.some(w => /^[a-zà-ÿ]{3,}$/.test(w) && !STOPW.test(w) && !lab.some(x => x.startsWith(w.slice(0, 3))))) return null; }
+    const inOrder = ct => { let j = 0; for (const w of ct) { if (j < whole.length && (w === whole[j] || w === whole[j].replace(/s$/, '') || w === whole[j] + 's')) j++; } return j === whole.length; };
+    let C = []; try { C = contSugg(v); } catch {} C = C.concat(sugg || []).filter(c => c && !/\s$/.test(c) && !/\b(?:number|fraction|fill in)\b/.test(c));
+    { const prev = finishWord.last; if (prev && prev.t && t.toLowerCase().startsWith(prev.t.toLowerCase().slice(0, -1)) && C.includes(prev.c)) C = [prev.c, ...C.filter(x => x !== prev.c)]; }
+    for (const c of C.slice(0, 10)) { const ct = tok(c); if (!ct.some(w => w.length > part.length && w.startsWith(part)) || ct.includes(part)) continue; if (!inOrder(ct)) continue;
+      let rc = null; try { rc = linkCommand(c); } catch {} if (!rc) try { rc = solveLinked(c); } catch {} if (!rc || rc.error || rc.kind === 'Not sure' || rc.run && !rc.doLabel) continue;
+      rc.steps = [['reading as', c]].concat((rc.steps || []).filter(x => x && !/^read(?:ing)? as$/.test(x[0]))); rc.readAs = c; finishWord.last = { t, c }; return rc; }
+    return null; }
   function runAsk(fromScrub) {
     const qel = $('#q'); if (/\n/.test(qel.value)) qel.value = qel.value.replace(/\s*\n+\s*/g, ' ');
     const v = qel.value; $('#qclear').hidden = !v; document.querySelector('.searchbar').classList.toggle('has-v', !!v); growQ();
@@ -8284,12 +8654,15 @@ const Engine = (() => {
     if (/\s(?:and then|then|and also|and|,|;)\s/i.test(v) && !(r && r.kind === 'Split') && !(r && /^Add \d+ items/.test(r.label || ''))) { try { const mc = multiAsk(v); if (mc) r = mc; } catch {} }
     let aiPre = null, aiSure = false; try { aiPre = aiSay(v); aiSure = !!aiPre && !aiSay.loose; } catch {}
     if (!r || r.error || !(r.run || r.track || r.doLabel) || aiSure) { try { const a = aiPre; if (a && a !== v.trim().toLowerCase()) { let rr = null; try { rr = linkCommand(a); } catch {} if (!rr) rr = solveLinked(a); if (rr && !rr.error && (aiSure || !r || !r.track || !rr.track || rr.track.type === r.track.type) && (rr.run || rr.track || rr.doLabel || rr.info || /^(?:Tracker|Basket|Split|Sheet|Money)$/.test(rr.kind) && /basket|sheet|left/i.test(a))) { if (!(rr.steps || []).some(x => x && x[0] === 'read as')) rr.steps = [['read as', a]].concat(rr.steps || []); if (rr.track && !rr.qText) rr.trackQ = a; r = rr; } } } catch {} }
+    // still typing a word ("5us sh", "3 cups of fl", "350 ml in o"): when a suggestion finishes it and keeps everything typed, its answer is the answer
+    if (!fromScrub && !/\s$/.test(v)) { try { const f = finishWord(v, r); if (f) r = f; } catch {} }
+    if (!(r && (r.run || r.track || r.doLabel))) { try { const ir = intentRead(v, r); if (ir && (!r || r.error || r.kind === 'Not sure' || r.kind === 'Almost' || intentRead.over(v, r))) r = ir; } catch {} }
     noteLast(v.trim(), r); if (r && typeof r === 'object') r.__q = v.trim();
     { const looksCalc = /[\d)]\s*%?\s*$/.test(v.trim()) && /[+\-*/×÷^%!√()]|\b(?:times|plus|minus|divided|squared|cubed|root|of|mod)\b/i.test(v) && v.trim().length <= 48;
       inlineEq = r && !r.error && !r.run && looksCalc && r.value && String(r.value).length <= 16 && /^(Math|Percent|Numbers|Money)$/.test(r.kind) && !r.lines ? { q: v, v: r.value } : null; } renderGhost();
     renderScrub(r);
     // just a word with suggestions showing ("us", "shoes"): let the suggestions answer, no error card
-    if (r && r.error && sugg.length && !/\d/.test(v) && v.trim().split(/\s+/).length <= 3) { lastGood = null; renderAnswer(null); return; }
+    if (r && r.error && !r.intent && sugg.length && !/\d/.test(v) && v.trim().split(/\s+/).length <= 3) { lastGood = null; renderAnswer(null); return; }
     // while you are mid-sentence, keep the last good answer (dimmed) instead of flashing an error
     if (r && r.error && lastGood && !$('#answer').hidden) {
       const guess = sugg.filter(x => !/\s$/.test(x)).map(x => [x, preview(x)]).find(x => x[1]);
@@ -9839,7 +10212,7 @@ const Engine = (() => {
     if (/^(?:lap|split|new lap|mark(?: a)? lap)$/.test(s)) { const t = trackers.find(x => x.type === 'stopwatch' && tRunning(x)); if (t) return R(`Lap ${t.laps.length + 1} on ${t.name}`, tSwClock(tSwEl(t)), 'Lap', () => tDo(t, 'lap'), `Lap ${t.laps.length + 1}`); }
     if ((m = s.match(/^(?:skip|next)(?: (?:the )?(?:break|phase|round|focus|this one))?(?: (?:on|in) (.+))?$/))) { const t = m[1] ? tcFind(m[1], ['interval']) : trackers.find(x => x.type === 'interval' && tRunning(x)) || trackers.find(x => x.type === 'interval'); if (t) { const P = tIvPos(t), nx = t.phases[(P.i + 1) % t.phases.length][0]; return R(`Skip to ${t.phases.length > 1 ? nx.toLowerCase() : 'the next round'} on ${t.name}`, t.phases.length > 1 ? nx : tShort(t), 'Skip', () => tDo(t, 'skip'), `${t.name}: skipped`); } }
     // budgets: "spent 12 on lunch", "paid 40 for petrol from holiday"
-    if ((m = s.match(/^(?:i )?(?:spent|paid|spend|bought|pay) [€$£]?\s?(\d+(?:\.\d+)?)\s?(?:€|euros?|dollars?|pounds?|quid|bucks)?(?: (?:on|for) (.+?))?(?: (?:from|in|out of|off) (?:the |my )?(.+?))?$/))) { const B = trackers.filter(t => t.type === 'budget');
+    if (!/\b(?:how much|what) (?:is |was |does |do |did )?(?:it |that |they )?(?:each|per)\b|\beach\??$|\bper (?:one|piece|item|unit|person)\b|\b(?:split|between|share)\b/.test(s) && (m = s.match(/^(?:i )?(?:spent|paid|spend|bought|pay) [€$£]?\s?(\d+(?:\.\d+)?)\s?(?:€|euros?|dollars?|pounds?|quid|bucks)?(?: (?:on|for) (.+?))?(?: (?:from|in|out of|off) (?:the |my )?(.+?))?$/))) { const B = trackers.filter(t => t.type === 'budget');
       if (B.length) { const v = +m[1]; let note = m[2] || '', t = m[3] ? tcFind(m[3].replace(/\s+budget$/, ''), ['budget']) : null; if (m[3] && !t) return null;
         if (!t && note) { const byNote = tcFind(note, ['budget']); if (byNote && tcKey(byNote.name).replace(/ ?budget$/, '') === tcKey(note)) { t = byNote; note = ''; } }
         t = t || B[0]; const left = (t.days ? t.amount - tSpent(t) : t.amount - tSpent(t)) - v; note = note ? cap1(note).slice(0, 24) : '';
@@ -9914,7 +10287,8 @@ const Engine = (() => {
           if (!r0 || r0.error || r0.kind === 'Not sure') { const v = parseFloat(it[2].replace(',', '.')), nm = it[1].trim(); block.push(v); all.push(v); prev = v; prevUnit = null; vars['line' + (i + 1)] = v; { const k = slug(nm); if (/^[a-z][a-z0-9_]*$/.test(k) && k.length <= 24) vars[k] = v; }
             out.push({ t: 'ok', text: /[.,]\d/.test(it[2]) ? v.toFixed(2) : Engine.fmt(v), kind: 'Money', label: nm, num: v, summed: true, note: '', chk: isChkL, done: isDoneL }); return; } } }
       // a label that says what kind of sum it is ("Loan: 15000 at 6% for 5 years") is part of the question
-      const kwLabel = label && SHEET_KW.test(label.trim());
+      // …but not when the line already says what to do with your own names ("Tax: 23% of amount" is 23% of amount, not amount plus tax)
+      const kwLabel = label && SHEET_KW.test(label.trim()) && !/%\s*of\b/i.test(lm[2]) && !Object.keys(vars).some(k => k.length > 1 && !/^line\d+$/.test(k) && new RegExp('(^|[^a-z_])' + k + '($|[^a-z_0-9])', 'i').test(String(lm[2]).toLowerCase()));
       let r = null, fixed = null; try { r = kwLabel ? sl(`${label.trim()} ${lm[2]}`) : null; if (!r || r.error || r.kind === 'Not sure') r = sl(label ? lm[2] : line); if ((!r || r.error) && label) r = sl(line); } catch {}
       // a misspelled name from an earlier line ("hotle × 2") is read as that name
       if ((!r || r.error) && !/^[^\d×*+\/^%=−-]+\s+[€$£]?\d[\d.,]*\s*(?:€|eur|euros?)?$/i.test(label ? lm[2] : line)) { const names = Object.keys(vars).filter(k => !/^line\d+$/.test(k) && k.length > 2); const body = label ? lm[2] : line; let changed = body, fx = [];
@@ -10129,6 +10503,7 @@ const Engine = (() => {
   /* many sheets, and templates to start from */
   const SHEET_TPL = [
     { k: 'note', t: 'Sheet', d: 'Plain text, sums wherever you type them', lines: [''] },
+    { k: 'calc', t: 'Calculation', d: 'Name numbers, then use them in sums', lines: ['Price: 24.90', 'Quantity: 3', 'Amount: price × quantity', 'Tax: 23% of amount', 'To pay: amount + tax'] },
     { k: 'list', t: 'To-do list', d: 'Tick things off as you go', lines: ['- [ ] '] },
     { k: 'shop', t: 'Shopping list', d: 'Items with prices, a running total', lines: ['- [ ] milk 1.09', '- [ ] bread 0.85', '- [ ] coffee 4.99', '- [ ] '] },
     { k: 'budget', t: 'Monthly budget', d: 'Income, spending, what’s left', lines: ['Income: 2000', '', '# Spending', 'Rent: 850', 'Groceries: 300', 'Transport: 60', 'Phone: 15', 'Spent: total', '', 'Left: income − spent'] },
@@ -10173,6 +10548,177 @@ const Engine = (() => {
   });
   $('#shListBtn').addEventListener('click', () => sheetPanel($('#shPanel').hidden || $('#shPanel').dataset.mode !== 'list' ? 'list' : null));
   $('#sheetNew').addEventListener('click', () => { newSheet('note'); setTimeout(() => $('#sheetTitle').select(), 50); });
+  /* ---------- Sheets home: a Keep-style grid of cards; a sheet opens full screen ---------- */
+  const kpV = () => { try { return view; } catch { return ''; } };
+  const NCOLS = ['', 'coral', 'peach', 'sand', 'mint', 'sage', 'fog', 'storm', 'dusk', 'blossom', 'clay'];
+  let kpQ = '', kpList = !!store.get('quotient.kplist', false), kpFrom = null, kpRT = 0; const kpSel = new Set();
+  const kpEvCache = new Map();
+  function kpEval(s) { const k = (s.id || '') + '|' + s.lines.join('\n'); if (kpEvCache.has(k)) return kpEvCache.get(k); const keep = sheet; let r = { out: [], total: 0 }; try { sheet = s; r = evalSheet(); } catch {} finally { sheet = keep; } if (kpEvCache.size > 80) kpEvCache.clear(); kpEvCache.set(k, r); return r; }
+  const kpFmt = v => { try { return Engine.fmt(+(+v).toPrecision(10)); } catch { return String(v); } };
+  const kpPinSvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M9 4h6l-1 6 4 3v2H6v-2l4-3z"/><path d="M12 15v6" fill="none"/></svg>';
+  function kpCard(s, k) {
+    const ev = kpEval(s), L = s.lines, rows = []; let shown = 0, chk = 0, done = 0, summed = false;
+    L.forEach((raw, i) => { const o = ev.out[i] || {}; if (o.summed) summed = true; const t0 = raw.trim(); const mm = t0.match(/^(?:[-*•]\s+)?\[( |x|X)?\]/); if (mm) { chk++; if (/x/i.test(mm[1] || '')) done++; } });
+    for (let i = 0; i < L.length && shown < 8; i++) { const raw = L[i]; if (!raw.trim()) continue; const o = ev.out[i] || {}; let cls = '', pre = '', t = raw.trim(), m;
+      if (/^#/.test(t)) { cls = 'h'; t = t.replace(/^#+\s*/, ''); }
+      else if ((m = t.match(/^(?:[-*•]\s+)?\[( |x|X)?\]\s*/))) { const x = /x/i.test(m[1] || ''); pre = `<i class="bx${x ? ' x' : ''}"></i>`; if (x) cls = 'done'; t = t.slice(m[0].length); }
+      else if ((m = t.match(/^[-*•]\s+/))) { pre = '<i class="dot"></i>'; t = t.slice(m[0].length); }
+      if (/^(?:total|sum|subtotal|grand total|average|avg)\b/i.test(t)) cls += ' sum';
+      let v = o.t === 'ok' && o.text ? String(o.text) : ''; { const lastN = (t.match(/(\d[\d.,]*)\s*(?:€|\$|£)?\s*$/) || [])[1]; if (v && lastN && parseFloat(v.replace(/,/g, '')) === parseFloat(lastN.replace(/,(?=\d{3})/g, '').replace(',', '.')) && !/[×*+\/^%]|\bx\b/.test(t)) v = ''; }
+      rows.push(`<div class="kp-ln ${cls}">${pre}<span class="t">${esc(t)}</span>${v && v !== t ? `<span class="v">${esc(v)}</span>` : ''}</div>`); shown++; }
+    const more = L.filter(l => l.trim()).length - shown;
+    const chips = [summed && ev.total ? `<span class="kp-chip"><b>Σ</b>${esc(Math.abs(ev.total % 1) > 1e-9 ? (+ev.total).toFixed(2) : kpFmt(ev.total))}</span>` : '', chk ? `<span class="kp-chip prog">${done}/${chk} done</span>` : ''].join('');
+    return `<div role="button" tabindex="0" class="kp-card${s.color ? ' nc-' + s.color : ''}${s.pinned ? ' pin' : ''}${kpSel.has(s.id) ? ' sel' : ''}" aria-pressed="${kpSel.has(s.id)}" data-kp="${esc(s.id)}" style="--i:${k}" aria-label="${esc(s.title || 'Untitled sheet')}">${s.title && s.title !== 'Untitled sheet' ? `<h3>${esc(s.title)}</h3>` : ''}${s.pinned ? `<span class="kp-pinned">${kpPinSvg}</span>` : ''}<span class="kp-tick" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span>${rows.join('') || '<div class="kp-ln"><span class="t">Empty sheet</span></div>'}${more > 0 ? `<div class="kp-more">+${more} more</div>` : ''}${chips ? `<div class="kp-cf">${chips}</div>` : ''}</div>`; }
+  function kpRender() {
+    const box = $('#kpBody'); if (!box) return; box.classList.toggle('list', kpList);
+    const vb = $('#kpView'); vb.setAttribute('aria-label', kpList ? 'Grid view' : 'List view'); vb.innerHTML = kpList ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg>' : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="6" rx="2"/><rect x="4" y="14" width="16" height="6" rx="2"/></svg>';
+    const all = sheets.filter(x => !x.ex), q = kpQ.trim().toLowerCase();
+    let L = q ? all.filter(x => ((x.title || '') + ' ' + x.lines.join(' ')).toLowerCase().includes(q)) : all.slice();
+    L.sort((a, b) => (b.at || 0) - (a.at || 0));
+    if (!all.length) { box.innerHTML = ''; return; }
+    if (!L.length) { box.innerHTML = `<div class="kp-empty"><b>Nothing matches “${esc(kpQ.trim())}”</b><p>Search looks in titles and every line.</p></div>`; return; }
+    const P = L.filter(x => x.pinned), O = L.filter(x => !x.pinned); let k = 0;
+    box.innerHTML = (P.length ? `<div class="kp-sec">Pinned</div><div class="kp-grid">${P.map(x => kpCard(x, k++)).join('')}</div>` : '') + (O.length ? `${P.length ? '<div class="kp-sec">Others</div>' : ''}<div class="kp-grid">${O.map(x => kpCard(x, k++)).join('')}</div>` : ''); }
+  const kpRenderSoon = () => { clearTimeout(kpRT); kpRT = setTimeout(() => { if (!$('#sheet').classList.contains('kp-edit')) kpRender(); }, 60); };
+  function kpOnSync() { const ed = $('#sheet').classList.contains('kp-edit'), here = kpV() === 'sheet' && !$('#sheet').hidden; document.documentElement.classList.toggle('kp-on', here && ed); document.documentElement.classList.toggle('kp-homeon', here && !ed); if (!(here && !ed)) { try { kpDial(false); kpActClose(); kpSelClear(); } catch {} } }
+  function kpWhen(t) { if (!t) return ''; const d = new Date(t), n = new Date(); const hm = d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }); if (d.toDateString() === n.toDateString()) return `Edited ${hm}`; const y = new Date(n); y.setDate(n.getDate() - 1); if (d.toDateString() === y.toDateString()) return `Edited yesterday, ${hm}`; return `Edited ${d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}`; }
+  function kpSync() { const ed = $('#kpEd'); if (!ed) return; NCOLS.forEach(c => c && ed.classList.remove('nc-' + c)); if (sheet.color) ed.classList.add('nc-' + sheet.color);
+    $('#kpPin').setAttribute('aria-pressed', String(!!sheet.pinned)); $('#kpPin').setAttribute('aria-label', sheet.pinned ? 'Unpin' : 'Pin');
+    const tv = ($('#sheetTotal') || {}).textContent || '0', has = (() => { try { return kpHasText(sheet); } catch { return !!sheet.lines.some(l => l.trim()); } })(); const sp = $('#kpTotV'); if (sp.textContent !== tv) { sp.textContent = tv; const b = $('#kpTot'); b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump'); }
+    $('#kpTot').hidden = !has; $('#kpMeta').textContent = sheet.ex ? 'Example' : kpWhen(sheet.at); }
+  function kpSum(open) { const p = $('#kpSum'), b = $('#kpTot'); if (open == null) open = p.hidden; if (open) { p.style.setProperty('--botH', $('.kp-bot').offsetHeight + 'px'); p.classList.remove('out'); p.hidden = false; b.setAttribute('aria-expanded', 'true'); try { buzz(); } catch {} } else if (!p.hidden) { b.setAttribute('aria-expanded', 'false'); if (REDUCE) { p.hidden = true; return; } p.classList.add('out'); setTimeout(() => { if (p.classList.contains('out')) { p.hidden = true; p.classList.remove('out'); } }, 200); } }
+  function kpPop(which) { const p = $('#kpPop'); if (!which || p.dataset.w === which && !p.hidden) { p.hidden = true; p.dataset.w = ''; return; } p.dataset.w = which;
+    const ic = d => `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+    if (which === 'color') p.innerHTML = `<div class="kp-pal" role="radiogroup" aria-label="Colour">${NCOLS.map(c => `<button type="button" role="radio" aria-checked="${(sheet.color || '') === c}" aria-label="${c || 'No colour'}" class="${c ? 'nc-' + c : 'none'}${(sheet.color || '') === c ? ' on' : ''}" data-kpc="${c}"></button>`).join('')}</div>`;
+    else p.innerHTML = [['copy', ic('<rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>'), 'Copy as text'], ['dup', ic('<rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M14 11v6M11 14h6"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>'), 'Make a copy'], ['new', ic('<path d="M12 5v14M5 12h14"/>'), 'New sheet'], ['del', ic('<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>'), 'Delete', 'bad']].map(([k, sv, t, c]) => `<button type="button" class="mi${c ? ' ' + c : ''}" data-kpm="${k}">${sv}<span>${t}</span></button>`).join('');
+    p.hidden = false; }
+  function kpSetEdit(on, fromEl) { const S = $('#sheet'), ed = $('#kpEd'), was = S.classList.contains('kp-edit'); store.set('quotient.kpedit', !!on); kpPop(null);
+    if (on === was) { if (on) kpSync(); kpOnSync(); return; }
+    if (on) { S.classList.add('kp-edit'); kpOnSync(); kpSync(); try { ed.querySelector('.kp-scroll').scrollTop = 0; } catch {}
+      if (!REDUCE && kpV() === 'sheet' && !S.hidden) { const R = fromEl && fromEl.isConnected ? fromEl.getBoundingClientRect() : null;
+        if (R && R.width) ed.animate([{ clipPath: `inset(${R.top}px ${innerWidth - R.right}px ${innerHeight - R.bottom}px ${R.left}px round 18px)` }, { clipPath: 'inset(0px 0px 0px 0px round 0px)' }], { duration: 460, easing: 'cubic-bezier(.2,.85,.25,1)' });
+        else ed.animate([{ opacity: 0, transform: 'translateY(28px) scale(.98)' }, { opacity: 1, transform: 'none' }], { duration: 380, easing: 'cubic-bezier(.2,.85,.25,1)' });
+        [...ed.querySelectorAll('.kp-ebar, .kp-scroll, .kp-bot')].forEach((el, i) => el.animate([{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }], { duration: 360, delay: 90 + i * 40, easing: 'cubic-bezier(.2,.85,.25,1)', fill: 'backwards' })); }
+      return; }
+    // back to the grid: the page folds back into its card
+    try { document.activeElement && document.activeElement.blur(); } catch {} kpSum(false);
+    if (!sheet.ex && sheet.id && !kpHasText(sheet) && (!sheet.title || sheet.title === 'Untitled sheet' || (sheet.ph && SHEET_TPL.some(t => t.t === sheet.title)))) { const id = sheet.id; S.classList.remove('kp-edit'); kpOnSync(); store.set('quotient.kpedit', false); if (!REDUCE) ed.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'scale(.96)' }], { duration: 220, easing: 'ease-in' }); try { deleteSheet(id); } catch {} kpRender(); toast('Empty sheet discarded'); return; }
+    if (sheet.ex && !sheet.lines.some(l => l.trim())) {} 
+    S.classList.add('kp-closing'); kpRender(); const fin = () => { S.classList.remove('kp-edit', 'kp-closing'); kpOnSync(); const c = $(`#kpBody [data-kp="${CSS.escape(sheet.id || '')}"]`); if (c && !REDUCE) c.animate([{ transform: 'scale(1.04)', boxShadow: '0 0 0 3px color-mix(in srgb, var(--ai-c) 45%, transparent)' }, { transform: 'none', boxShadow: '0 0 0 0 transparent' }], { duration: 520, easing: 'cubic-bezier(.2,.85,.25,1)' }); };
+    if (REDUCE || kpV() !== 'sheet' || S.hidden) return fin();
+    const c = $(`#kpBody [data-kp="${CSS.escape(sheet.id || '')}"]`), R = c ? c.getBoundingClientRect() : null;
+    const a = R && R.width && R.bottom > 0 && R.top < innerHeight ? ed.animate([{ clipPath: 'inset(0px 0px 0px 0px round 0px)', opacity: 1 }, { opacity: 1, offset: .7 }, { clipPath: `inset(${R.top}px ${innerWidth - R.right}px ${innerHeight - R.bottom}px ${R.left}px round 18px)`, opacity: 0 }], { duration: 380, easing: 'cubic-bezier(.4,0,.2,1)' })
+      : ed.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(24px) scale(.98)' }], { duration: 260, easing: 'ease-in' });
+    a.onfinish = fin; a.oncancel = fin; }
+  { const o0 = openSheet; openSheet = function (id) { const r = o0.apply(this, arguments); kpSetEdit(true, kpFrom); kpFrom = null; return r; }; }
+  { const n0 = newSheet; newSheet = function () { const r = n0.apply(this, arguments); kpSetEdit(true, kpFrom); kpFrom = null; return r; }; }
+  { const d0 = deleteSheet; deleteSheet = function (id) { const cur = sheet.id === id; const r = d0.apply(this, arguments); if (cur) { $('#sheet').classList.remove('kp-edit'); store.set('quotient.kpedit', false); kpOnSync(); } kpRender(); return r; }; }
+  { const s0 = saveSheets; saveSheets = function () { if (sheet && !sheet.ex) sheet.at = Date.now(); const r = s0.apply(this, arguments); kpRenderSoon(); try { if ($('#sheet').classList.contains('kp-edit')) kpSync(); } catch {} return r; }; }
+  { const r0 = renderLines; renderLines = function () { const r = r0.apply(this, arguments); try { kpSync(); } catch {} try { kpGhostSync(); } catch {} return r; }; }
+  $('#kpBody').addEventListener('click', e => { if (e.target.closest('[data-kpnew]')) { kpFrom = e.target.closest('[data-kpnew]'); newSheet('note'); return; } if (e.target.closest('[data-kpex]')) { setTimeout(() => kpSetEdit(true, null), 0); return; }
+    const c = e.target.closest('[data-kp]'); if (!c) return; if (kpLpSw) { kpLpSw = false; return; } if (kpSel.size) { kpSelToggle(c.dataset.kp); return; } try { buzz(); } catch {} kpFrom = c; if (sheet.id === c.dataset.kp) { kpSetEdit(true, c); kpFrom = null; } else openSheet(c.dataset.kp); });
+  $('#kpBody').addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('[data-kp]')) { e.preventDefault(); e.target.click(); } });
+  // a template's example, faded behind an empty sheet; it goes the moment you write
+  const kpHasText = s0 => s0.lines.some(l => l.replace(/^\s*(?:[-*•]\s+)?(?:\[(?: |x|X)?\])?\s*/, '').trim());
+  function kpGhostSync() { const host = $('#lines'); if (!host) return; let g = host.querySelector('.kp-ghost'); const T = sheet.ph && SHEET_TPL.find(t => t.k === sheet.ph), show = !!(T && T.lines && !sheet.ex && !kpHasText(sheet));
+    if (!show) { if (sheet.ph && kpHasText(sheet)) { delete sheet.ph; try { store.set('quotient.sheets', sheets.filter(x => !x.ex)); } catch {} } host.classList.remove('has-ghost'); if (g) { g.classList.add('gone'); setTimeout(() => { if (g.isConnected && g.classList.contains('gone')) g.remove(); }, 260); } return; }
+    if (!g) { g = document.createElement('div'); g.className = 'kp-ghost'; g.setAttribute('aria-hidden', 'true'); host.appendChild(g); }
+    g.classList.remove('gone'); host.classList.add('has-ghost'); const chk = /^(?:list|shop)$/.test(sheet.ph);
+    const GL = { list: ['- [ ] Buy a birthday card', '- [ ] Call the plumber', '- [ ] Book the dentist'] }[sheet.ph] || T.lines; g.innerHTML = GL.filter(l => chk ? l.replace(/^\s*(?:[-*•]\s+)?\[(?: |x|X)?\]\s*/, '').trim() : true).map((l, i) => { const m = l.match(/^(?:[-*•]\s+)?\[(?: |x|X)?\]\s*/), body = esc(m ? l.slice(m[0].length) : l) || '&nbsp;'; return `<span class="g1">${m && i > 0 ? '<i class="gb"></i>' : ''}${body}</span>`; }).join('');
+    // the first example line starts where your first line's text starts (after its tick box)
+    try { const ed = ntEd(), first = ed && ed.firstElementChild, mk = first && first.querySelector('.ckm'); const er = host.getBoundingClientRect(); let ind = 0; if (mk) { const r = mk.getBoundingClientRect(); ind = r.right - er.left - 20; } g.style.setProperty('--ind', Math.max(0, ind) + 'px'); const f1 = g.querySelector('.g1'); if (f1) f1.style.textIndent = Math.max(0, ind) + 'px'; } catch {} }
+  document.addEventListener('input', e => { if (e.target.closest && e.target.closest('#lines')) setTimeout(() => { try { kpGhostSync(); } catch {} }, 0); }, true);
+  // + : choose what kind of sheet, the choices rise out of the button
+  const KP_IC = { note: '<path d="M6 4h9l4 4v12H6z"/><path d="M14 4v5h5M9 13h7M9 17h5"/>', calc: '<rect x="5" y="3" width="14" height="18" rx="3"/><path d="M8 7h8M8.5 12h1M12 12h1M15.5 12h0M8.5 16h1M12 16h1M15.5 15v2"/>', list: '<rect x="4" y="4" width="6" height="6" rx="1.5"/><path d="m5.5 7 1.2 1.2L9 6M13 7h7M4 15h6v6H4zM13 18h7"/>', shop: '<path d="M4 5h2l2 11h10l2-8H7"/><circle cx="9.5" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/>', budget: '<path d="M4 7h16v12H4z"/><path d="M4 11h16M16 15h1.5M7 4h10"/>', table: '<rect x="4" y="5" width="16" height="14" rx="2"/><path d="M4 10h16M4 14.5h16M10 5v14"/>', trip: '<path d="M3 12l7-2 6-7 2 2-5 7 1 7-2 1-3-6-4 1-1 3-1-1z"/>', answers: '<path d="M4 6h16M4 12h10M4 18h7"/><path d="m16 15 3 3-3 3"/>' };
+  document.body.appendChild($('#kpFab'));
+  { const sc = document.createElement('div'); sc.className = 'kp-scrim'; sc.id = 'kpScrim'; document.body.appendChild(sc); const d = document.createElement('div'); d.className = 'kp-dial'; d.id = 'kpDialBox'; d.setAttribute('role', 'menu'); d.setAttribute('aria-label', 'New sheet'); document.body.appendChild(d); const a = document.createElement('div'); a.className = 'kp-act'; a.id = 'kpActBox'; a.setAttribute('role', 'dialog'); a.setAttribute('aria-label', 'Sheet actions'); document.body.appendChild(a); }
+  function kpDial(open) { const H = document.documentElement, on = H.classList.contains('is-kp-dial'); if (open == null) open = !on; if (open === on) return;
+    if (open) { const order = ['note', 'calc', 'list', 'shop', 'budget', 'table', 'trip', 'answers']; const L = order.map(k => SHEET_TPL.find(t => t.k === k)).filter(t => t && (t.k !== 'answers' || tape.some(x => !x.ex && x.src !== 'calc')));
+      $('#kpDialBox').innerHTML = L.map((t, i) => `<button type="button" role="menuitem" data-kpt="${t.k}" style="--i:${i}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${KP_IC[t.k] || KP_IC.note}</svg><span>${t.k === 'note' ? 'Note' : esc(t.t)}</span></button>`).join('');
+      void $('#kpDialBox').offsetWidth; H.classList.add('is-kp-dial'); $('#kpFab').setAttribute('aria-expanded', 'true'); $('#kpFab').setAttribute('aria-label', 'Close'); try { buzz(); } catch {} }
+    else { H.classList.remove('is-kp-dial'); $('#kpFab').setAttribute('aria-expanded', 'false'); $('#kpFab').setAttribute('aria-label', 'New sheet'); } }
+  $('#kpFab').addEventListener('click', () => kpDial());
+  $('#kpScrim').addEventListener('click', () => { if (Date.now() - kpLpAt < 700) return; kpDial(false); kpActClose(); });
+  $('#kpDialBox').addEventListener('click', e => { const b = e.target.closest('[data-kpt]'); if (!b) return; const k = b.dataset.kpt, T = SHEET_TPL.find(t => t.k === k); kpFrom = b; kpDial(false);
+    newSheet(k, k === 'note' ? '' : T ? T.t : ''); if (k === 'note') sheet.title = ''; sheet.lines = /^(?:list|shop)$/.test(k) ? ['- [ ] '] : ['']; if (k !== 'note' && k !== 'answers') sheet.ph = k; try { saveSheet(); renderLines(0); kpGhostSync(); } catch {}
+    setTimeout(() => { try { if (k === 'note') $('#sheetTitle').focus(); else { const ed = ntEd(); ed && ed.focus(); } } catch {} }, 460); });
+  // selecting several sheets (long press, then tap others): pin, colour, copy, delete them together
+  function kpSelSync() { const n = kpSel.size, H = $('#kpHome'); H.classList.toggle('selecting', n > 0); document.documentElement.classList.toggle('is-kp-sel', n > 0); if (!n) { $('#kpSelPop').hidden = true; } $('#kpSelN').textContent = n;
+    $$('#kpBody [data-kp]').forEach(c => { const on = kpSel.has(c.dataset.kp); c.classList.toggle('sel', on); c.setAttribute('aria-pressed', String(on)); });
+    const L = sheets.filter(x => kpSel.has(x.id)), allPinned = L.length && L.every(x => x.pinned); $('#kpSelPin').setAttribute('aria-label', allPinned ? 'Unpin' : 'Pin'); $('#kpSelPin').setAttribute('aria-pressed', String(!!allPinned)); }
+  function kpSelToggle(id, fromPress) { const was = kpSel.size; if (kpSel.has(id) && !fromPress) kpSel.delete(id); else kpSel.add(id); try { buzz(); } catch {} kpSelSync(); if (!was && kpSel.size) { try { kpDial(false); } catch {} } }
+  function kpSelClear() { if (!kpSel.size) return; kpSel.clear(); kpSelSync(); }
+  const kpSelList = () => sheets.filter(x => kpSel.has(x.id));
+  $('#kpSelX').addEventListener('click', kpSelClear);
+  $('#kpSelPin').addEventListener('click', () => { const L = kpSelList(), pin = !L.every(x => x.pinned); L.forEach(x => x.pinned = pin); kpSaveAll(); toast(`${pin ? 'Pinned' : 'Unpinned'} ${L.length} sheet${L.length === 1 ? '' : 's'}`); kpSel.clear(); kpRender(); kpSelSync(); });
+  function kpSelPop(which) { const p = $('#kpSelPop'); if (!which || (p.dataset.w === which && !p.hidden)) { p.hidden = true; p.dataset.w = ''; return; } p.dataset.w = which; const L = kpSelList(), one = L.length === 1 ? (L[0].color || '') : null;
+    const ic = d => `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+    p.innerHTML = which === 'color' ? `<div class="kp-pal" role="radiogroup" aria-label="Colour">${NCOLS.map(c => `<button type="button" role="radio" aria-checked="${one === c}" aria-label="${c || 'No colour'}" class="${c ? 'nc-' + c : 'none'}${one === c ? ' on' : ''}" data-ksc="${c}"></button>`).join('')}</div>`
+      : [['dup', ic('<rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M14 11v6M11 14h6"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>'), L.length > 1 ? 'Make copies' : 'Make a copy'], ['copy', ic('<rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>'), 'Copy as text'], ['del', ic('<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>'), L.length > 1 ? `Delete ${L.length} sheets` : 'Delete', 'bad']].map(([k, sv, t, c]) => `<button type="button" class="mi${c ? ' ' + c : ''}" data-ksm="${k}">${sv}<span>${t}</span></button>`).join('');
+    p.hidden = false; }
+  $('#kpSelCol').addEventListener('click', () => kpSelPop('color'));
+  $('#kpSelMore').addEventListener('click', () => kpSelPop('more'));
+  $('#kpSelPop').addEventListener('click', e => { const L = kpSelList();
+    const c = e.target.closest('[data-ksc]'); if (c) { L.forEach(x => x.color = c.dataset.ksc || undefined); kpSaveAll(); $$('#kpSelPop [data-ksc]').forEach(b => b.classList.toggle('on', b === c)); L.forEach(x => { const card = $(`#kpBody [data-kp="${CSS.escape(x.id)}"]`); if (card) { NCOLS.forEach(n => n && card.classList.remove('nc-' + n)); if (x.color) card.classList.add('nc-' + x.color); } }); try { buzz(); } catch {} return; }
+    const m = e.target.closest('[data-ksm]'); if (!m) return; const k = m.dataset.ksm;
+    if (k === 'dup') { L.slice().reverse().forEach((f, i) => sheets.unshift({ ...JSON.parse(JSON.stringify(f)), id: 's' + Date.now().toString(36) + i, title: (f.title || 'Untitled sheet') + ' (copy)', pinned: false, at: Date.now() })); kpSaveAll(); toast(L.length > 1 ? `Made ${L.length} copies` : 'Made a copy'); kpSel.clear(); kpRender(); kpSelSync(); }
+    else if (k === 'copy') { const txt = L.map(f => [f.title || '', ...f.lines].join('\n').trim()).join('\n\n'); try { navigator.clipboard.writeText(txt).then(() => toast('Copied'), () => toast('Couldn’t copy')); } catch { toast('Couldn’t copy'); } kpSel.clear(); kpSelSync(); }
+    else if (k === 'del') { if (!m.dataset.arm) { m.dataset.arm = '1'; m.querySelector('span').textContent = 'Tap again to delete'; setTimeout(() => { if (m.isConnected) { delete m.dataset.arm; m.querySelector('span').textContent = L.length > 1 ? `Delete ${L.length} sheets` : 'Delete'; } }, 2600); return; }
+      $('#kpSelPop').hidden = true; const ids = L.map(x => x.id), cards = ids.map(id => $(`#kpBody [data-kp="${CSS.escape(id)}"]`)).filter(Boolean);
+      const go = () => { const keep = sheet; ids.forEach(id => { try { deleteSheet(id); } catch {} }); if (keep && sheets.includes(keep)) { sheet = keep; store.set('quotient.sheetActive', keep.id); } kpSel.clear(); kpRender(); kpSelSync(); toast(`Deleted ${ids.length} sheet${ids.length === 1 ? '' : 's'}`); };
+      if (cards.length && !REDUCE) { let left = cards.length; cards.forEach((cd, i) => { const a = cd.animate([{ opacity: 1, transform: 'scale(.97)' }, { opacity: 0, transform: 'scale(.8)' }], { duration: 240, delay: i * 30, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'forwards' }); a.onfinish = () => { if (!--left) go(); }; }); } else go(); } });
+  // long press a card (or right-click it): actions for that sheet
+  let kpLp = null, kpLpAt = 0, kpActId = null, kpLpSw = false;
+  function kpActOpen(id, card) { const f = sheets.find(x => x.id === id); if (!f) return; kpActId = id; kpLpAt = Date.now(); try { buzz(); } catch {} $$('#kpBody .kp-card.lp').forEach(c => c.classList.remove('lp')); if (card) card.classList.add('lp');
+    const ic = d => `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+    $('#kpActBox').innerHTML = `<div class="grab" aria-hidden="true"></div><h4>${esc(f.title || 'Untitled sheet')}</h4><div class="kp-pal" role="radiogroup" aria-label="Colour">${NCOLS.map(c => `<button type="button" role="radio" aria-checked="${(f.color || '') === c}" aria-label="${c || 'No colour'}" class="${c ? 'nc-' + c : 'none'}${(f.color || '') === c ? ' on' : ''}" data-kac="${c}"></button>`).join('')}</div>` +
+      [['open', ic('<path d="M14 4h6v6M20 4l-8 8M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>'), 'Open'], ['pin', ic('<path d="M9 4h6l-1 6 4 3v2H6v-2l4-3z"/><path d="M12 15v6"/>'), f.pinned ? 'Unpin' : 'Pin to the top'], ['dup', ic('<rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M14 11v6M11 14h6"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>'), 'Make a copy'], ['copy', ic('<rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>'), 'Copy as text'], ['del', ic('<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>'), 'Delete', 'bad']].map(([k, sv, t, c]) => `<button type="button" class="mi${c ? ' ' + c : ''}" data-kam="${k}">${sv}<span>${t}</span></button>`).join('');
+    document.documentElement.classList.add('is-kp-act'); }
+  function kpActClose() { if (!document.documentElement.classList.contains('is-kp-act')) return; document.documentElement.classList.remove('is-kp-act'); $$('#kpBody .kp-card.lp').forEach(c => c.classList.remove('lp')); kpActId = null; }
+  const kpSaveAll = () => { store.set('quotient.sheets', sheets.filter(x => !x.ex)); kpEvCache.clear(); };
+  $('#kpActBox').addEventListener('click', e => { const f = sheets.find(x => x.id === kpActId); if (!f) return kpActClose();
+    const c = e.target.closest('[data-kac]'); if (c) { f.color = c.dataset.kac || undefined; kpSaveAll(); $$('#kpActBox [data-kac]').forEach(b => { const on = b === c; b.classList.toggle('on', on); b.setAttribute('aria-checked', String(on)); }); const card = $(`#kpBody [data-kp="${CSS.escape(f.id)}"]`); if (card) { NCOLS.forEach(n => n && card.classList.remove('nc-' + n)); if (f.color) card.classList.add('nc-' + f.color); } try { buzz(); } catch {} return; }
+    const m = e.target.closest('[data-kam]'); if (!m) return; const k = m.dataset.kam;
+    if (k === 'open') { const card = $(`#kpBody [data-kp="${CSS.escape(f.id)}"]`); kpActClose(); kpFrom = card; if (sheet.id === f.id) { kpSetEdit(true, card); kpFrom = null; } else openSheet(f.id); }
+    else if (k === 'pin') { f.pinned = !f.pinned; kpSaveAll(); kpActClose(); kpRender(); toast(f.pinned ? 'Pinned to the top' : 'Unpinned'); }
+    else if (k === 'dup') { const c2 = { ...JSON.parse(JSON.stringify(f)), id: 's' + Date.now().toString(36), title: (f.title || 'Untitled sheet') + ' (copy)', pinned: false, at: Date.now() }; sheets.unshift(c2); kpSaveAll(); kpActClose(); kpRender(); toast('Made a copy'); }
+    else if (k === 'copy') { const txt = [f.title || '', ...f.lines].join('\n').trim(); try { navigator.clipboard.writeText(txt).then(() => toast('Copied'), () => toast('Couldn’t copy')); } catch { toast('Couldn’t copy'); } kpActClose(); }
+    else if (k === 'del') { if (!m.dataset.arm) { m.dataset.arm = '1'; m.querySelector('span').textContent = 'Tap again to delete'; setTimeout(() => { if (m.isConnected) { delete m.dataset.arm; m.querySelector('span').textContent = 'Delete'; } }, 2600); return; }
+      const card = $(`#kpBody [data-kp="${CSS.escape(f.id)}"]`), id = f.id; kpActClose(); const go = () => { if (sheet.id === id) deleteSheet(id); else { const keep = sheet; deleteSheet(id); if (sheets.includes(keep)) { sheet = keep; store.set('quotient.sheetActive', keep.id); } } kpRender(); };
+      if (card && !REDUCE) { const a = card.animate([{ opacity: 1, transform: 'scale(1.04)' }, { opacity: 0, transform: 'scale(.8)' }], { duration: 260, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'forwards' }); a.onfinish = go; } else go(); } });
+  $('#kpBody').addEventListener('pointerdown', e => { kpLpSw = false; const c = e.target.closest('[data-kp]'); if (!c || e.button > 0) return; clearTimeout(kpLp && kpLp.t); kpLp = { x: e.clientX, y: e.clientY, c, t: setTimeout(() => { if (kpLp && kpLp.c === c) { kpLpAt = Date.now(); kpLpSw = true; kpSelToggle(c.dataset.kp, true); kpLp = null; } }, 430) }; });
+  document.addEventListener('pointermove', e => { if (kpLp && Math.hypot(e.clientX - kpLp.x, e.clientY - kpLp.y) > 9) { clearTimeout(kpLp.t); kpLp = null; } }, true);
+  ['pointerup', 'pointercancel'].forEach(ev => document.addEventListener(ev, () => { if (kpLp) { clearTimeout(kpLp.t); kpLp = null; } }, true));
+  $('#kpBody').addEventListener('contextmenu', e => { const c = e.target.closest('[data-kp]'); if (!c) return; e.preventDefault(); if (kpLp) { clearTimeout(kpLp.t); kpLp = null; } kpLpAt = Date.now(); kpSelToggle(c.dataset.kp, true); });
+  $('#kpSearch').addEventListener('input', e => { kpQ = e.target.value; $('#kpSx').hidden = !kpQ; kpRender(); });
+  $('#kpSx').addEventListener('click', () => { kpQ = ''; $('#kpSearch').value = ''; $('#kpSx').hidden = true; kpRender(); $('#kpSearch').focus(); });
+  $('#kpView').addEventListener('click', () => { kpList = !kpList; store.set('quotient.kplist', kpList); kpRender(); });
+  $('#kpBack').addEventListener('click', () => kpSetEdit(false));
+  $('#kpPin').addEventListener('click', () => { if (sheet.ex) { touchSheet(); } sheet.pinned = !sheet.pinned; saveSheet(); kpSync(); toast(sheet.pinned ? 'Pinned to the top' : 'Unpinned'); });
+  $('#kpColor').addEventListener('click', () => kpPop('color'));
+  $('#kpMore').addEventListener('click', () => kpPop('more'));
+  $('#kpShare').addEventListener('click', () => { kpPop(null); $('#sheetShare').click(); });
+  $('#kpTot').addEventListener('click', () => kpSum());
+  // pull the summary down to put it away
+  { let d = null; const P = $('#kpSum');
+    P.addEventListener('pointerdown', e => { if (P.scrollTop > 0 && !e.target.closest('.kp-sum-grab')) return; d = { y: e.clientY, t: performance.now(), dy: 0, id: e.pointerId }; });
+    document.addEventListener('pointermove', e => { if (!d || e.pointerId !== d.id) return; const dy = e.clientY - d.y; if (!d.on) { if (dy > 6) { d.on = true; try { P.setPointerCapture(e.pointerId); } catch {} P.style.animation = 'none'; } else if (dy < -6) { d = null; return; } else return; } d.dy = Math.max(0, dy); P.style.transform = `translateY(${d.dy}px)`; P.style.opacity = String(1 - Math.min(.5, d.dy / 400)); });
+    const up = e => { if (!d || (e && e.pointerId !== d.id)) return; const s0 = d; d = null; if (!s0.on) return; const v = s0.dy / Math.max(1, performance.now() - s0.t);
+      if (s0.dy > 90 || v > 0.6) { const a = P.animate([{ transform: `translateY(${s0.dy}px)`, opacity: P.style.opacity }, { transform: 'translateY(110%)', opacity: 0 }], { duration: 220, easing: 'ease-in' }); a.onfinish = () => { P.hidden = true; P.style.transform = ''; P.style.opacity = ''; P.style.animation = ''; $('#kpTot').setAttribute('aria-expanded', 'false'); }; }
+      else { P.animate([{ transform: `translateY(${s0.dy}px)` }, { transform: 'none' }], { duration: 380, easing: 'cubic-bezier(.2,.9,.25,1)' }); P.style.transform = ''; P.style.opacity = ''; } };
+    document.addEventListener('pointerup', up); document.addEventListener('pointercancel', up); }
+  // a tap on the empty paper below the last line puts you at the end, like a notebook
+  $('#kpScroll').addEventListener('click', e => { if (e.target.closest('.nl, .res, button, input, a, .sheet-head, .sh-tips, .ex-offer, .nt-prog')) return; const ed = ntEd(); if (!ed) return; const last = ed.lastElementChild; if (last && e.clientY < last.getBoundingClientRect().bottom) return; ed.focus(); try { const r = document.createRange(); r.selectNodeContents(last || ed); r.collapse(false); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); } catch {} });
+  $('#kpPop').addEventListener('click', e => { const c = e.target.closest('[data-kpc]'); if (c) { if (sheet.ex) touchSheet(); sheet.color = c.dataset.kpc || undefined; saveSheet(); kpSync(); kpPop('color'); kpPop('color'); try { buzz(); } catch {} return; }
+    const m = e.target.closest('[data-kpm]'); if (!m) return; const k = m.dataset.kpm;
+    if (k === 'copy') { kpPop(null); $('#sheetCopy').click(); }
+    else if (k === 'dup') { kpPop(null); const c2 = { ...JSON.parse(JSON.stringify(sheet)), id: 's' + Date.now().toString(36), title: (sheet.title || 'Untitled sheet') + ' (copy)', ex: false, pinned: false, at: Date.now() }; sheets.unshift(c2); sheet = c2; saveSheet(); renderLines(); kpSync(); toast('Made a copy'); }
+    else if (k === 'new') { kpPop(null); newSheet('note'); }
+    else if (k === 'del') { if (!m.dataset.arm) { m.dataset.arm = '1'; m.querySelector('span').textContent = 'Tap again to delete'; setTimeout(() => { if (m.isConnected) { delete m.dataset.arm; m.querySelector('span').textContent = 'Delete'; } }, 2600); return; } kpPop(null); if (sheet.ex || !sheet.id) { kpSetEdit(false); return; } const id = sheet.id; const ed = $('#kpEd'); if (!REDUCE) { const a = ed.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'scale(.94)' }], { duration: 240, easing: 'ease-in' }); a.onfinish = () => deleteSheet(id); } else deleteSheet(id); } });
+  document.addEventListener('pointerdown', e => { const sp = $('#kpSelPop'); if (!sp.hidden && !e.target.closest('#kpSelPop, #kpSelCol, #kpSelMore')) sp.hidden = true; const p = $('#kpPop'); if (!p.hidden && !e.target.closest('#kpPop, #kpColor, #kpMore')) kpPop(null); const sm = $('#kpSum'); if (!sm.hidden && !e.target.closest('#kpSum, #kpTot')) kpSum(false); }, true);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && kpSel.size) { kpSelClear(); return; } if (e.key === 'Escape' && document.documentElement.classList.contains('is-kp-dial')) { kpDial(false); return; } if (e.key === 'Escape' && document.documentElement.classList.contains('is-kp-act')) { kpActClose(); return; } if (e.key !== 'Escape' || !document.documentElement.classList.contains('kp-on')) return; if (!$('#kpPop').hidden) { kpPop(null); return; } if (!$('#kpSum').hidden) { kpSum(false); return; } kpSetEdit(false); });
+  document.body.appendChild($('#kpEd'));
+  if (store.get('quotient.kpedit', false) && sheets.some(x => !x.ex)) $('#sheet').classList.add('kp-edit');
   // quick ways to write: tap to add an example line of that kind
   const SH_TIPS = [['Name: value', 'Rent: 850', 'reuse it by name below and in the search bar'], ['total', 'total', 'adds up the lines above'], ['2x + 3 = 11', '2x + 3 = 11', 'solve an equation'], ['20% of rent', '20% of rent', 'use a name from above'], ['5 km in miles', '5 km in miles', 'units, dates, money, anything the search bar knows'], ['# Heading', '# ', 'a section']];
   function renderSheetChrome() {
@@ -10180,7 +10726,7 @@ const Engine = (() => {
     $('#sheetEx').hidden = !(sheet.ex && !sheet.blank);
     const empty = !sheet.lines.some(l => l.trim());
     $('#shTips').innerHTML = SH_TIPS.map(([l, ins, why], k) => `<button type="button" data-tip="${esc(ins)}" title="${esc(why)}" style="--i:${k}">${esc(l)}</button>`).join('');
-    $('#sheet').classList.toggle('is-empty', empty);
+    $('#sheet').classList.toggle('is-empty', empty); $('#kpEd').classList.toggle('is-empty', empty);
   }
   $('#shTips').addEventListener('click', e => { const b = e.target.closest('[data-tip]'); if (!b) return; const ins = b.dataset.tip; if (sheet.ex) { sheet = { title: 'Untitled sheet', ex: false, lines: [''] }; }
     const last = sheet.lines.length - 1; if (sheet.lines[last].trim()) sheet.lines.push(ins); else sheet.lines[last] = ins;
@@ -10214,6 +10760,8 @@ const Engine = (() => {
     const out = [];
     for (let part of text.split(/\s*[;,]\s*(?![0-9]{1,2}\b)|\s+and\s+/i).map(x => x.trim()).filter(Boolean)) {
       let m, p = part.replace(/^(?:a |an |some )/i, '');
+      // "2kg potatoes 1.99" → potatoes 2 kg at 1.99; "a dozen eggs 3.20" → eggs (dozen)
+      p = p.replace(/^(\d+(?:[.,]\d+)?)\s*(kg|g|grams?|kilos?|l|litres?|liters?|ml|lbs?)\s+(?:of\s+)?([a-zà-ÿ][a-zà-ÿ ]*?)(?=\s+(?:at |@ |for )?(?:€)?\d|$)/i, (x, n, u, w) => `${w} ${n} ${u.toLowerCase()}`).replace(/^(?:half (?:a )?)?dozen\s+(?:of\s+)?([a-zà-ÿ][a-zà-ÿ ]*?)(?=\s+(?:at |@ |for )?(?:€)?\d|$)/i, (x, w) => `${w} (${/^half/i.test(x) ? 'half dozen' : 'dozen'})`);
       if ((m = p.match(/^(\d+)\s+for\s+(?:€)?(\d+(?:[.,]\d+)?)\s*(.*)$/i))) { const n = +m[1], tot = num(m[2]); out.push({ name: (m[3] || 'item') + ` (${n} for ${m2(tot)})`, qty: n, price: tot / n }); continue; }
       if (/\d\s*(g|kg|grams?|kilos?|ml|l|litres?)\b/i.test(p) && /\b(?:at|@|per)\b/i.test(p)) { let r = null; try { r = Engine.solve(p, ctx); } catch {} if (r && !r.error && typeof r.num === 'number') { out.push({ name: p.replace(/\s+(?:at|@)\s.*$/i, '').trim() + ' ' + (p.match(/(?:at|@)\s.*$/i) || [''])[0].replace(/^(?:at|@)\s*/i, 'at '), qty: 1, price: r.num }); continue; } }
       if ((m = p.match(/^(\d+)\s*(?:x|×)?\s+(.+?)\s+(?:at |@ |for )?(?:€)?(\d+(?:[.,]\d{1,2})?)\s*(?:each|ea|€)?$/i)) && /[a-z]/i.test(m[2])) { out.push({ name: m[2], qty: +m[1], price: num(m[3]) }); continue; }
@@ -10761,6 +11309,9 @@ const Engine = (() => {
   // things you can tell the bar to do somewhere else
   /* ---------- run the app from the bar: "open tape", "dark mode", "radians", "clear basket", "help" ---------- */
   function setTheme(mode) { const r = document.documentElement; if (mode === 'dark' || mode === 'light') r.setAttribute('data-theme', mode); else r.removeAttribute('data-theme'); store.set('quotient.theme', mode === 'dark' || mode === 'light' ? mode : 'system'); try { if (current && current.plot) runAsk(); } catch {} }
+  const TSIZE = { s: 0.92, m: 1, l: 1.1, xl: 1.2 }, TSNAME = { s: 'Small', m: 'Default', l: 'Large', xl: 'Extra large' };
+  function setTextSize(v) { v = TSIZE[v] ? v : 'm'; store.set('quotient.tsize', v); document.documentElement.style.zoom = v === 'm' ? '' : String(TSIZE[v]); }
+  try { const ts = store.get('quotient.tsize', 'm'); if (ts !== 'm' && TSIZE[ts]) document.documentElement.style.zoom = String(TSIZE[ts]); } catch {}
   try { const th = store.get('quotient.theme', 'system'); if (th === 'dark' || th === 'light') document.documentElement.setAttribute('data-theme', th); } catch {}
   function appCommand(raw) {
     const s = String(raw || '').toLowerCase().replace(/[’']/g, "'").replace(/\s+/g, ' ').replace(/[?!.]+$/, '').trim(); if (!s || s.length > 70) return null; let m;
@@ -10768,6 +11319,29 @@ const Engine = (() => {
     const info = (kind, label, value) => ({ info: true, kind, label, value, steps: [] });
     const P = '(?:open|show|see|view|go to|switch to|bring up|launch)';
     const setRe = () => { try { if (!$('#setPage').hidden) { const y = $('#setCard').scrollTop; setRender(); $('#setCard').scrollTop = y; } } catch {} };
+    // exchange rates: Quotient works offline, so it uses the rate you give it once
+    { const CUR = [['eur', /^(?:€|eur|euros?)$/, '€'], ['usd', /^(?:\$|usd|us|us dollars?|dollars?|bucks)$/, '$'], ['gbp', /^(?:£|gbp|pounds?(?: sterling)?|quid)$/, '£'], ['brl', /^(?:brl|reais|reals?|r\$)$/, 'R$'], ['jpy', /^(?:¥|jpy|yen)$/, '¥'], ['chf', /^(?:chf|swiss francs?|francs?)$/, 'CHF'], ['cad', /^(?:cad|canadian dollars?)$/, 'CA$'], ['aud', /^(?:aud|australian dollars?)$/, 'A$']];
+      const cur = w => { w = String(w || '').trim(); const c = CUR.find(x => x[1].test(w)); return c ? c[0] : null; }, sym = k => (CUR.find(x => x[0] === k) || [0, 0, k.toUpperCase()])[2];
+      const NM = '(€|\\$|£|¥|eur|euros?|usd|us(?=$)|us dollars?|dollars?|bucks|gbp|pounds?(?: sterling)?|quid|brl|reais|reals?|jpy|yen|chf|swiss francs?|francs?|cad|canadian dollars?|aud|australian dollars?)';
+      const fx = store.get('quotient.fx', {}) || {}; const rate = (a, b) => a === b ? 1 : fx[a + b] ? fx[a + b] : fx[b + a] ? 1 / fx[b + a] : null;
+      // "1 euro = 1.08 dollars", "set the euro to dollar rate to 1.08"
+      if ((m = s.match(new RegExp(`^(?:set )?(?:the )?(?:rate )?1 ?${NM} ?(?:=|is|equals|to) ?(\\d+(?:[.,]\\d+)?) ?${NM}$`))) || ((m = s.match(new RegExp(`^(?:set )?(?:the )?${NM} (?:to|in|into) ${NM} (?:exchange )?rate (?:to |is |at |=)?\\s?(\\d+(?:[.,]\\d+)?)$`))) && (m = [m[0], m[1], m[3], m[2]]))) {
+        const a = cur(m[1]), b = cur(m[3]), v = +String(m[2]).replace(',', '.'); if (a && b && a !== b && v > 0) return C('Money', `Remember 1 ${a.toUpperCase()} = ${v} ${b.toUpperCase()}`, `${sym(a)}1 = ${sym(b)}${v}`, 'Remember', () => { const o = store.get('quotient.fx', {}) || {}; delete o[b + a]; o[a + b] = v; store.set('quotient.fx', o); toast(`Rate saved: 1 ${a.toUpperCase()} = ${v} ${b.toUpperCase()}`); }); }
+      // "1 euro in dollars", "how much is 50 pounds in euros", "€20 to usd"
+      if ((m = s.match(new RegExp(`^(?:(?:what'?s|whats|what is|how much is|how much are|convert|change) )?(?:(\\d+(?:[.,]\\d+)?) ?${NM}|${NM} ?(\\d+(?:[.,]\\d+)?)|(?:an? |one )?${NM}) (?:in|to|into|as|=) ${NM}(?: now| today)?$`)))) {
+        const n = +String(m[1] || m[4] || '1').replace(',', '.'), a = cur(m[2] || m[3] || m[5]), b = cur(m[6]);
+        if (a && b && a !== b) { const r = rate(a, b); if (r) { const v = n * r; return { kind: 'Money', label: `${sym(a)}${+n.toFixed(2)} in ${b.toUpperCase()}`, value: `${sym(b)}${v.toFixed(2)}`, num: +v.toFixed(2), steps: [['your rate', `1 ${a.toUpperCase()} = ${+r.toFixed(6)} ${b.toUpperCase()}`], ['change it', `type “1 ${a} = … ${b}”`]] }; }
+          return { info: true, kind: 'Money', label: `No ${a.toUpperCase()} → ${b.toUpperCase()} rate yet`, value: 'Add a rate', steps: [['why', 'Quotient works offline, so it can’t look rates up'], ['tell it once', `type “1 ${a} = 1.08 ${b}” with today’s rate`], ['then', 'every conversion uses it, both ways']] }; } } }
+    if (s === 'basket left') { const L = bk.ex ? [] : bk.items.filter(i => !i.got); return L.length ? info('Basket', `${L.length} still to get${bk.items.length > L.length ? ` · ${bk.items.length - L.length} ticked` : ''}`, L.slice(0, 6).map(i => (i.qty > 1 ? i.qty + ' × ' : '') + i.name).join(', ') + (L.length > 6 ? ` +${L.length - 6}` : '')) : info('Basket', bk.items.length ? 'Everything’s ticked' : 'Your list is empty', bk.items.length ? 'All done' : '—'); }
+    if (/^(?:what(?:'s| is) )?the meaning of life(?:,? the universe and everything)?$|^the answer to (?:life|everything)/.test(s)) return info('Quotient', 'The answer to life, the universe and everything', '42');
+    // the last thing you asked
+    if (/^(?:what (?:did|was) (?:i|my) (?:ask|asked|last (?:ask|question|answer)|question)(?: (?:before|last|earlier|just now|previously))?|what was the last (?:thing i asked|question|answer)|(?:my )?last (?:question|answer)|previous (?:question|answer))$/.test(s)) { const L = tape.filter(t => !t.ex)[0]; return L ? info('Tape', `You last asked “${L.q}”`, String(L.r || '')) : info('Tape', 'Nothing on your tape yet', '—'); }
+    // a sheet by its name: "rename trip to lisbon", "rename the trip sheet to lisbon"
+    if ((m = s.match(/^(?:rename|call) (?:the |my )?(.+?)(?: sheet)? (?:to|as) (.+)$/)) && !/^(?:sheet|this|it)$/.test(m[1])) { const f = findSheet(m[1]), tr = typeof tcFind === 'function' ? tcFind(m[1]) : null; if (f && !tr) { const nn = cap1(String(raw).trim().replace(/[.!?]+$/, '').slice(-m[2].length)).slice(0, 40); return C('Sheet', `Rename “${f.title}”`, nn, 'Rename', () => { f.title = nn; if (f === sheet) saveSheet(); else store.set('quotient.sheets', sheets.filter(x => !x.ex)); try { renderLines(); setView(view); } catch {} toast(`Sheet renamed to ${nn}`, 'sheet'); }); } }
+    // a little small talk, kept short
+    if (/^(?:thanks?(?: you)?(?: so much| a lot)?|thank u|thx|ty|cheers|obrigad[oa]|nice|great|perfect|awesome|cool)$/.test(s)) return info('Quotient', 'You’re welcome', 'Any time');
+    if (/^(?:hi|hello|hey|hiya|ol[aá]|bom dia|good (?:morning|afternoon|evening))(?: there| quotient)?$/.test(s)) return info('Quotient', 'Hi! Ask a sum, a date, a split, or say “timer 5 min”', 'Hello');
+    if (/^(?:tell me )?(?:a )?(?:math |maths )?joke$|^make me laugh$/.test(s)) { const J = [['Why was 6 afraid of 7?', 'Because 7 8 9'], ['Why did the two 4s skip lunch?', 'They already 8'], ['Parallel lines have so much in common…', 'It’s a shame they’ll never meet'], ['What’s a math teacher’s favourite tree?', 'Geometree'], ['Why is the obtuse angle always upset?', 'It’s never right']]; const j = J[Math.floor(Date.now() / 6e4) % J.length]; return info('Quotient', j[0], j[1]); }
     // several timers in one go
     if ((m = s.match(/^timers: (.+)$/))) { const sp = m[1].split(' | ').map(x => { try { return trackFrom(x); } catch { return null; } }); if (sp.length >= 2 && sp.every(x => x && x.type === 'timer')) return C('Timer', `Start ${sp.length} timers`, sp.map(x => x.desc || x.name).join(' · '), 'Start all', () => { sp.forEach((x, i) => setTimeout(() => { tQuiet = true; try { tStart(x); } finally { tQuiet = false; } }, i * 120)); toast(`${sp.length} timers running`); }); }
     // a timer set to a new length
@@ -10830,6 +11404,12 @@ const Engine = (() => {
     if (/^(?:test|try|play|hear)(?: the)? (?:alarm|sound|ringtone|tone)s?$|^(?:alarm )?sounds?$/.test(s)) return C('Setting', `Hear the alarm (${sndKind})`, 'Alarm sound', 'Play', () => { sndPlay('alarm'); toast(`That’s ${sndKind}. Say “sound bells”, “arcade”, “soft” or “bright” to change it`); });
     if (/^(?:open |show |go to )?(?:the |my )?(?:app |quotient )?(?:settings|preferences|options|definições|configura(?:ções|coes))$/.test(s)) return C('Go', 'Settings: theme, sounds, learning, your data', 'Settings', 'Open', () => setOpen());
     if (/^(?:calm|reduce(?:d)?) motion(?: on)?$|^(?:fewer|less) animations?$/.test(s)) return C('Setting', 'Calm motion: fewer, quicker animations', 'Calm', 'Turn on', () => { store.set('quotient.calm', true); document.documentElement.classList.add('calm'); toast('Calm motion on'); });
+    { const tz = store.get('quotient.tsize', 'm'), order = ['s', 'm', 'l', 'xl']; let to = null;
+      if (/^(?:make |set |put )?(?:the )?(?:text|font|letters|writing|words|everything)(?: size)? (?:bigger|larger|big|large|up)$|^(?:bigger|larger|big|large) (?:text|font|letters)$|^increase (?:the )?(?:text|font)(?: size)?$/.test(s)) to = order[Math.min(3, order.indexOf(tz) + 1)];
+      else if (/^(?:make |set |put )?(?:the )?(?:text|font|letters|writing|words|everything)(?: size)? (?:smaller|small|down|tiny)$|^(?:smaller|small) (?:text|font|letters)$|^decrease (?:the )?(?:text|font)(?: size)?$/.test(s)) to = order[Math.max(0, order.indexOf(tz) - 1)];
+      else if (/^(?:reset|normal|default) (?:the )?(?:text|font)(?: size)?$|^(?:text|font)(?: size)? (?:normal|default|reset)$/.test(s)) to = 'm';
+      else if ((m = s.match(/^(?:text|font) size (small|default|normal|large|big|extra large|xl|huge)$/))) to = { small: 's', default: 'm', normal: 'm', large: 'l', big: 'l', 'extra large': 'xl', xl: 'xl', huge: 'xl' }[m[1]];
+      if (to) { if (to === tz) return C('Setting', `Text is already ${TSNAME[tz].toLowerCase()}`, TSNAME[tz], 'Settings', () => setOpen()); return C('Setting', `Text size: ${TSNAME[to]}`, TSNAME[to], order.indexOf(to) > order.indexOf(tz) ? 'Make bigger' : 'Make smaller', () => { setTextSize(to); toast(`Text size: ${TSNAME[to]}`); }); } }
     if (/^(?:vibration|vibrate|haptics?) (on|off)$|^(?:stop|no) (?:vibration|vibrating)$/.test(s)) { const on = /on$/.test(s); return C('Setting', on ? 'Vibrate on taps and alarms' : 'No vibration', on ? 'Vibration on' : 'Vibration off', on ? 'Turn on' : 'Turn off', () => { store.set('quotient.vibrate', on); toast(on ? 'Vibration on' : 'Vibration off'); }); }
     if (/^scientific keys (on|off)$/.test(s)) { const on = /on$/.test(s); return C('Setting', on ? 'Show the scientific keys on the calculator' : 'Hide the scientific keys', on ? 'Scientific keys' : 'Basic keys only', on ? 'Show' : 'Hide', () => { sciOpen = on; store.set('quotient.sci', on); syncToggles(); toast(on ? 'Scientific keys on' : 'Scientific keys hidden'); }); }
     if (/^forget (?:what you learned|everything you learned|my habits)$/.test(s)) return C('Learned', 'Forget everything Quotient learned about you (your things stay)', 'Forget habits', 'Forget', () => { ['quotient.me', 'quotient.smlearn', 'quotient.spnames', 'quotient.people', 'quotient.habseen', 'quotient.lmem', 'quotient.learnoff'].forEach(k => { try { localStorage.removeItem(k); } catch {} }); try { ME.tpl = {}; ME.fix = {}; ME.tim = {}; ME.cur = {}; ME.next = {}; smLearn = {}; LEARN_OFF = new Set(); } catch {} toast('Forgotten. Learning starts again from now'); });
@@ -10936,7 +11516,7 @@ const Engine = (() => {
     const got = parts.map(p => { let x = null; try { x = linkCommand(p); } catch {} if (!x || !(x.run || x.track)) { try { const a = aiSay(p); if (a) { x = linkCommand(a); if (!x) { const y = solveLinked(a); if (y && y.track) x = y; } } } catch {} } if (!x) { try { const y = solveLinked(p); if (y && y.track) x = y; } catch {} } return x && (x.run || x.track) ? x : null; });
     if (got.some(x => !x)) return null;
     return { kind: 'Do', label: got.map(x => x.track ? (x.track.desc || x.label) : x.label).join(' · then '), value: `${got.length} things`, doLabel: got.length > 2 ? 'Do all' : 'Do both', quiet: true, steps: got.map((x, i) => [`${i + 1}`, x.label]), run: () => got.forEach((x, i) => setTimeout(() => { try { if (x.run) x.run(); else tStart(x.track); } catch {} }, 80 + i * 260)) }; }
-  function aiSay(raw) { aiSay.loose = false; let t = ' ' + String(raw || '').toLowerCase().replace(/[’']/g, "'").replace(/(\d),(\d{1,2})(?!\d)/g, '$1.$2').replace(/(?<!\d)[.,;:!?]+|[.,;:!?]+(?!\d)/g, ' , ') + ' '; let m; const base = t.replace(/\s*,\s*/g, ' ').replace(/\s+/g, ' ').trim();
+  function aiSay(raw) { aiSay.loose = false; try { raw = Engine.preWords(raw) || raw; } catch {} let t = ' ' + String(raw || '').toLowerCase().replace(/[’']/g, "'").replace(/(\d),(\d{1,2})(?!\d)/g, '$1.$2').replace(/(?<!\d)[.,;:!?]+|[.,;:!?]+(?!\d)/g, ' , ') + ' '; let m; const base = t.replace(/\s*,\s*/g, ' ').replace(/\s+/g, ' ').trim();
     // text-speak and Portuguese, into the plain English the commands know
     t = t.replace(/\bremindme\b/g, 'remind me').replace(/\b(?:tmrw|tmr|tomoz|2moro|2morrow)\b/g, 'tomorrow').replace(/\bu\b/g, 'you').replace(/\bgimme\b/g, 'give me').replace(/\bwanna\b/g, 'want to').replace(/\b(me|remind me|need|want|have|got)\s+2\s+(?=[a-z])/g, '$1 to ').replace(/\b(\d{1,2})h(\d{2})?\b(?!\s*(?:timer|min))/g, (x, h, mm) => /(?:^|\s)(?:às|as|at|para as)\s*$/.test(t.slice(0, t.indexOf(x))) ? `${h}:${mm || '00'}` : x);
     if (/\b(?:gastei|paguei|temporizador|cronómetro|cronometro|lembra|lembrar|acorda|adiciona|adicionar|põe|poe|mete|cesto|lista|modo|escuro|claro|muda|mudar|som|alarme|orçamento|orcamento|quanto|resta|minutos|segundos|horas|definições|limpa|apaga|vibração|almoço|almoco|jantar|supermercado|acorda-me|lembra-me)(?![a-zà-ÿ])/.test(t)) {
@@ -10969,6 +11549,16 @@ const Engine = (() => {
     if ((m = t.match(/\bdid i (?:drink|have|do|eat|get) enough ([a-zà-ÿ]+)|\bhave i (?:had|drunk|done) enough ([a-zà-ÿ]+)/))) { const c = tcFind(m[1] || m[2]); if (c) return `how is ${c.name.toLowerCase()}`; }
     // how something is going: "what's my water at", "how close am i to my phone goal"
     if ((m = t.match(/^(?:what'?s|where'?s|how'?s|how is|where is|what is) (?:my |the )?([a-zà-ÿ ]+?) (?:at|going|doing|looking|so far)$|^how close am i to (?:my |the )?([a-zà-ÿ ]+?)(?: goal| target)?$|^how far (?:am i|along is) (?:my |the |with )?([a-zà-ÿ ]+?)(?: goal)?$|^(?:status|progress) (?:of|on) (?:my |the )?([a-zà-ÿ ]+?)$/))) { const nm = aiThing(m[1] || m[2] || m[3] || m[4]), tr = tcFind(nm); if (tr) return `how is ${tr.name.toLowerCase()}`; if (/sheet$/.test(m[1] || '')) return `total of ${aiThing((m[1] || '').replace(/ sheet$/, ''))} sheet`; if (m[2] || m[3] || /goal|savings/.test(t)) return `no goal called ${nm}`; }
+    // "how much water have i had", "how many coffees did i have"
+    if ((m = t.match(/^how (?:much|many) (?:(?:glasses|cups|bottles) of )?([a-zà-ÿ ]+?) (?:have i|did i|i've|i have|have we|did we)(?: (?:had|have|drunk|drank|drink|done|did|made|eaten|ate))?(?: so far)?(?: today| this week)?$|^how (?:much|many) ([a-zà-ÿ ]+?) (?:so far|today)$/))) { const tr = tcFind(aiThing(m[1] || m[2])); if (tr) return `how is ${tr.name.toLowerCase()}`; }
+    // "how much did i spend on the trip": a budget or a sheet with that name
+    if ((m = t.match(/^how much (?:did|have|do) (?:i|we) (?:spend|spent|pay|paid|put)(?: so far)? (?:on|for|in|at) (?:the |my |our )?([a-zà-ÿ0-9 ]+?)(?: so far| in total| altogether)?$|^how much (?:was|is|were) (?:the |my |our )?([a-zà-ÿ0-9 ]+?) (?:in total|altogether|all together|so far)$/))) { const nm = aiThing(m[1] || m[2]), tr = tcFind(nm); if (tr && tr.type === 'budget') return `how is ${tr.name.toLowerCase()}`; const f = findSheet(nm.replace(/ sheet$/, '')); if (f) return `total of ${f.title.toLowerCase()} sheet`; }
+    if ((m = t.match(/^(?:add|get|buy|i need|we need|need)\s+(.+)$/)) && !/\b(?:to|in|into|on|onto)\s+(?:the |my |a )?[a-zà-ÿ ]*$/.test(m[1]) && !/\b(?:minutes?|mins?|hours?|seconds?|days?|%|percent|timer|reminder|alarm)\b/.test(m[1]) && /[a-zà-ÿ]{3}/.test(m[1]) && (() => { try { return m[1].split(/\s*(?:,|\band\b)\s*/).every(x => AISLES.some(a => a[2].test(x))); } catch { return false; } })()) return `add ${m[1]} to the basket`;
+    if ((m = t.match(/^(?:mark|set|put|make)\s+(?:the |my )?(.+?)\s+(?:as\s+)?(?:bought|got|done|ticked|picked up|in the (?:trolley|cart|basket))$/))) return `tick ${aiThing(m[1])}`;
+    if (/^(?:what'?s|what is|whats|what do i have|what have i got) (?:still )?(?:left|remaining) (?:to (?:buy|get|pick up)|on (?:my |the )?(?:list|basket|shopping list))$|^what (?:do i |else do i )?(?:still )?(?:need|have) to (?:buy|get)$|^what (?:haven'?t i|have i not) (?:bought|got|picked up)(?: yet)?$|^(?:what'?s|whats|what is) (?:not|un)?ticked$/.test(t)) return 'basket left';
+    if ((m = t.match(/^(?:wake me(?: up)?|alarm|set (?:an |my )?alarm(?: for)?)\s+(tomorrow|today|tonight|on (?:monday|tuesday|wednesday|thursday|friday|saturday|sunday)|(?:monday|tuesday|wednesday|thursday|friday|saturday|sunday))\s+(?:at\s+)?(\d{1,2}(?:[:.h]\d{2})?\s*(?:am|pm)?)$/))) return `wake me at ${m[2]} ${m[1].replace(/^on /, '')}`;
+    if ((m = t.match(/^(?:a\s+)?budget\s+(?:of\s+)?[€$£]?(\d[\d.,]*)\s*(?:€|euros?)?\s+(?:for|a|per|each)\s+(?:this |the |a |every )?(week|month|day|year)\s+(?:for|on)\s+(?:my |the )?([a-zà-ÿ ]+?)$/)) || ((m = t.match(/^(?:a\s+)?budget\s+(?:of\s+)?[€$£]?(\d[\d.,]*)\s*(?:€|euros?)?\s+(?:for|on)\s+(?:my |the )?([a-zà-ÿ ]+?)\s+(?:for |a |per |each )?(?:this |the |a |every )?(week|month|day|year)$/)) && (m = [m[0], m[1], m[3], m[2]]))) return `${m[3]} budget ${m[1]} a ${m[2]}`;
+    if ((m = t.match(/^(?:i\s+)?(?:want|need|would like|'d like|wanna|aim|try|plan|have|should)\s+to\s+(?:drink|have|do|eat|read|walk|take|run|write|study|practise|practice)\s+(\d+)\s+([a-zà-ÿ]+?)(?:\s+of\s+([a-zà-ÿ]+))?\s+(?:a|per|each|every)\s+day$/))) return `${m[1]} ${m[2]}${m[3] ? ' of ' + m[3] : ''} a day`;
     // budgets said other ways
     if ((m = t.match(/^(?:a\s+)?(monthly|weekly|daily|yearly)\s+(?:limit|budget|cap|allowance)\s+(?:of\s+)?[€$£]?(\d[\d.,]*)\s*(?:€|euros?)?\s+(?:for|on)\s+(?:my |the )?([a-zà-ÿ ]+?)$/)) || (m = t.match(/^(?:set\s+)?(?:a\s+)?(?:limit|budget|cap)\s+(?:of\s+)?[€$£]?(\d[\d.,]*)\s*(?:€|euros?)?\s+(?:a|per)\s+(month|week|day|year)\s+(?:for|on)\s+(?:my |the )?([a-zà-ÿ ]+?)$/)) && (m = [m[0], m[2], m[1], m[3]])) { const per = { monthly: 'month', weekly: 'week', daily: 'day', yearly: 'year' }[m[1]] || m[1]; return `${m[3].replace(/\s+stuff$/, '')} budget ${m[2]} a ${per}`; }
     if ((m = t.match(/\b(?:i'?ve got|i have|i've|there'?s)\s+[€$£]?(\d[\d.,]*)\s*(?:€|euros?)?\s+left\s+(?:this|for the)\s+(month|week)\s+(?:for|on)\s+(?:my |the )?([a-zà-ÿ ]+?)(?:\s+track it|\s+keep track)?$/))) return `${m[3]} budget ${m[1]} this ${m[2]}`;
@@ -11051,7 +11641,7 @@ const Engine = (() => {
     // --- the basket ---
     if ((m = t.match(/^(?:i need|i have to buy|i gotta get|get me|pick up|buy|we need|we're out of|i'?m out of|grab)\s+(.+)$/)) && /\d/.test(m[1]) && !/\b(?:minutes?|hours?|timer|to know)\b/.test(m[1])) return `add ${m[1].replace(/\s+for\s+[€$£]?(?=\d)/g, ' ').replace(/\s+and\s+/g, ', ')} to the basket`;
     if ((m = t.match(/^(?:remove|take|delete|drop|scratch|cross)\s+(?:the |my |off )?(.+?)\s+(?:from|off|out of)\s+(?:my |the )?(?:shopping )?(?:list|basket|cart|trolley)$/))) return `remove ${aiThing(m[1])} from basket`;
-    if (has(/\bhow much (?:is|are|does|will) (?:my |the )?(?:shopping|basket|cart|groceries|trolley)(?: list)?(?: (?:so far|cost|come to|total|now))*$|\b(?:what'?s|what is) (?:my |the )?(?:shopping|basket|cart)(?: list)? (?:total|at)\b|\bhow much (?:have i got|is) in (?:my |the )?(?:basket|cart|trolley)\b/)) return 'basket total';
+    if (has(/\bhow much (?:is|are|does|will) (?:my |the )?(?:shopping|basket|cart|groceries|trolley)(?: list)?(?: (?:so far|cost|come to|total|now))*$|\b(?:what'?s|what is) (?:my |the )?(?:shopping|basket|cart)(?: list)? (?:total|at)\b|\bhow much (?:have i got|is) in (?:my |the )?(?:basket|cart|trolley)\b|\bhow much (?:is|are|does|do|will|would) (?:everything|it all|all of it|all|(?:all )?the (?:stuff|items|things)|my (?:stuff|items|things)) (?:in|on) (?:my |the )?(?:basket|cart|trolley|shopping(?: list)?|list)(?: (?:cost|come to|be))?\b|\b(?:what does|what will) (?:my |the )?(?:basket|cart|shopping)(?: list)? (?:come to|cost|add up to)\b|\b(?:total|sum) (?:of |for |up )?(?:my |the )?(?:basket|cart|shopping)\b/)) return 'basket total';
     if ((m = t.match(/^(?:tick|check|cross)\s+off\s+(?:the |my )?(.+)$|^(?:i )?(?:got|bought|picked up)\s+(?:the |my )?([a-zà-ÿ ]+)$/))) return `tick ${aiThing(m[1] || m[2])}`;
     if ((m = t.match(/\bsplit (?:the |my |our )?(?:shopping|basket|groceries|cart)(?: list)?\s+(?:between|with|among|by)\s+(.+)$/))) { const who = m[1]; let n = (who.match(/\d+/) || [])[0]; if (!n) { const parts = who.replace(/\b(?:my|the|our)\b/g, ' ').split(/\s*(?:,|\band\b|&)\s*/).filter(x => x.trim()); n = parts.length + (/\bme\b|\bmyself\b/.test(who) ? 0 : 1); if (/^(?:us|us two|the two of us)$/.test(who.trim())) n = 2; } return `split basket between ${Math.max(2, +n)}`; }
     // --- splitting a bill ---
@@ -11104,7 +11694,10 @@ const Engine = (() => {
     if (/\bremind me\b.*\bin$/.test(ctx)) add('10 minutes', '30 minutes', '1 hour');
     if (/\b(?:new sheet|start a sheet|make a sheet|sheet) (?:called|named)$|\brename (?:the |this |my )?sheet to$/.test(ctx)) add('holiday', 'groceries', new Date().toLocaleDateString('en-GB', { month: 'long' }).toLowerCase());
     else if (/\b(?:time|clock|what time is it|o'?clock|\d(?::\d\d)?\s*(?:am|pm)?|\d{1,2}:\d{2})\b.*\bin$/.test(ctx) || /^(?:time|what time is it|whats the time|what's the time) in$/.test(ctx)) add(...CONT_CITY);
-    if ((m = ctx.match(/(\d[\d.,]*)\s*([a-zµ°'"][a-zµ°²³\/]*)\s+(?:to|in|into|as)$/))) { const tc = /^(?:c|°c|celsius|centigrade)$/.test(m[2]) ? ['f', 'k'] : /^(?:f|°f|fahrenheit)$/.test(m[2]) ? ['c', 'k'] : null; if (tc) tc.forEach(u => add(u)); const ch = tc ? null : Engine.unitChoices(m[2]); if (ch) ch.filter(u => u.toLowerCase() !== m[2].toLowerCase() && Engine.unitOf(u) !== Engine.unitOf(m[2])).slice(0, 5).forEach(u => add(u)); }
+    if ((m = ctx.match(/(\d[\d.,]*)\s*([a-zµ°'"][a-zµ°²³\/]*)\s+(?:to|in|into|as)$/))) { const tc = /^(?:c|°c|celsius|centigrade)$/.test(m[2]) ? ['f', 'k'] : /^(?:f|°f|fahrenheit)$/.test(m[2]) ? ['c', 'k'] : null; if (tc) tc.forEach(u => add(u)); const ch = tc ? null : Engine.unitChoices(m[2]); if (ch) ch.filter(u => u.toLowerCase() !== m[2].toLowerCase() && Engine.unitOf(u) !== Engine.unitOf(m[2])).slice(0, 16).forEach(u => add(u)); }
+    if ((m = ctx.match(/\d[\d.,\/ ]*\s*(cups?|tbsp|tsp|tablespoons?|teaspoons?|grams?|g|kg|ml|oz|ounces?)\s+(?:of\s+)?[a-z ]+?\s+(?:in|to|into|as)$/))) { const mass = /^(?:grams?|g|kg|oz|ounces?)$/.test(m[1]); (mass ? ['cups', 'tbsp', 'tsp', 'ml'] : ['grams', 'oz', 'ml']).forEach(u => add(u)); }
+    // "3 cups of", "1 tbsp of": the kitchen things it knows, already asking for grams (or ml)
+    if ((m = ctx.match(/\d[\d.,\/ ]*\s*(cups?|tbsp|tsp|tablespoons?|teaspoons?|grams?|g|kg|ml|oz|ounces?)\s+(?:of\s+)?$|\d[\d.,\/ ]*\s*(cups?|tbsp|tsp|tablespoons?|teaspoons?|grams?|g|kg|ml|oz|ounces?)\s+of$/))) { const mass = /^(?:grams?|g|kg|oz|ounces?)$/.test(m[1] || m[2]); let I = []; try { I = Engine.ingredients(); } catch {} const top = ['flour', 'sugar', 'butter', 'rice', 'milk', 'water', 'oil', 'honey', 'salt', 'oats', 'cocoa', 'brown sugar', 'icing sugar', 'olive oil', 'yogurt', 'cream', 'cheese', 'peanut butter']; [...top.filter(x => I.includes(x)), ...I.filter(x => !top.includes(x))].forEach(x => add(`${x} in ${mass ? 'ml' : 'grams'}`)); }
     if (/\b(?:days|weeks|months|sleeps|how long|time|hours)\s+(?:until|till|to|before)$|\bcountdown to$|\bhow many days (?:until|till|to)$|\buntil$/.test(ctx)) add(...CONT_HOL);
     if (/\b(?:remind me|reminder|alarm|wake me(?: up)?|wake up|meet(?:ing)?|call)\b.*\bat$/.test(ctx) || /^(?:alarm|wake me(?: up)?) at$/.test(ctx)) add(/wake|alarm/.test(ctx) ? '7:00' : '18:00', /wake|alarm/.test(ctx) ? '6:30' : '9:00 tomorrow', '7:00 tomorrow');
     if ((m = ctx.match(/\b(?:alarm|wake me(?: up)?|remind me .*|meet .*)\s+at\s+(\d{1,2})$/))) add(':00', ':30', 'am', 'pm');
@@ -11117,11 +11710,12 @@ const Engine = (() => {
     if (/\bturn (?:on|off)$|\bswitch (?:on|off)$/.test(ctx)) add('dark mode', 'vibration', 'notifications', 'calm motion');
     if (/\bturn on dark$|\bdark$/.test(ctx)) add('mode');
     return L; }
+  const UNIT_LONG = { lb: 'pounds', oz: 'ounces', st: 'stone', g: 'grams', mg: 'milligrams', t: 'tonnes', L: 'litres', ml: 'millilitres', cl: 'centilitres', dl: 'decilitres', gal: 'gallons', 'uk gal': 'uk gallons', pt: 'pints', 'uk pt': 'uk pints', qt: 'quarts', cup: 'cups', tsp: 'teaspoons', tbsp: 'tablespoons', 'fl oz': 'fluid ounces', ft: 'feet', in: 'inches', yd: 'yards', mi: 'miles', m: 'metres', cm: 'centimetres', mm: 'millimetres', km: 'kilometres', nmi: 'nautical miles', h: 'hours', min: 'minutes', s: 'seconds', d: 'days', wk: 'weeks', mo: 'months', yr: 'years', 'km/h': 'kmh', mph: 'mph', kn: 'knots', 'm/s': 'metres per second', ha: 'hectares', ac: 'acres', 'm²': 'square metres', 'ft²': 'square feet', kcal: 'calories', kJ: 'kilojoules', kWh: 'kwh', B: 'bytes', KB: 'kilobytes', MB: 'megabytes', GB: 'gigabytes', TB: 'terabytes' };
   function contSugg(v) { const raw = String(v || ''); if (!raw.trim() || raw.length < 3) return []; const sp = /\s$/.test(raw), t = raw.replace(/\s+$/, ''), out = [], seen = new Set();
     const push = full => { const k = full.toLowerCase().trim(); if (seen.has(k) || k === t.toLowerCase()) return; seen.add(k); out.push(full); };
     // (a) the last word is still being typed: finish it in a way that fits what came before
     if (!sp) { const mm = t.match(/^(.*?\s)?(\S+)$/); const head = (mm && mm[1]) || '', part = (mm && mm[2] || '').toLowerCase(), ctx = head.toLowerCase().trim();
-      if (part && ctx) contNext(ctx).forEach(c => { const cl = c.toLowerCase(); if (cl.startsWith(part) && cl !== part) push(head + c); else if (/^:/.test(c) && /^\d{1,2}$/.test(part) === false) {} }); }
+      if (part && ctx) contNext(ctx).forEach(c => { const cl = c.toLowerCase(), ln = UNIT_LONG[c] || ''; if (cl.startsWith(part) && cl !== part) push(head + c); else if (ln && ln.startsWith(part)) push(head + ln); else if (/\s/.test(cl) && cl.split(/\s+/).some(w => w.startsWith(part) && w !== part)) push(head + c); else if (/^:/.test(c) && /^\d{1,2}$/.test(part) === false) {} }); }
     // (b) the last word is complete: what usually follows it
     const ctx2 = t.toLowerCase(); contNext(ctx2).forEach(c => push(t + (/^[:]/.test(c) ? '' : ' ') + c));
     return out.slice(0, 4); }
@@ -11299,7 +11893,7 @@ const Engine = (() => {
   let disc = store.get('quotient.discover', null); if (!disc || typeof disc !== 'object') disc = { done: {}, seen: {}, hidden: false };
   const saveDisc = () => store.set('quotient.discover', disc);
   try { if (!disc.done.ask && (hist.length || tape.some(t => !t.ex))) { disc.done.ask = disc.done.keep = 1; saveDisc(); } } catch {}
-  const QVER = '0b631c0e';
+  const QVER = '713b74a0';
   const SAMPLE_PASTE = 'Coffee 2.40\nCroissant 1.80\nOrange juice 3.20\nTotal 7.40';
   const FEATS = [
     { id: 'ask', t: 'Ask in your own words', d: 'Type it the way you would say it', q: '18% tip on 64,50 for 3 people' },
@@ -12120,7 +12714,7 @@ const Engine = (() => {
   /* ---------- moving around with your fingers: swipe sideways between Ask, Sheet and Basket; tap three times for every task you have open ---------- */
   const VIEWS = ['ask', 'sheet', 'basket'], viewEl = v => v === 'sheet' ? $('#sheet') : v === 'basket' ? $('#basket') : document.querySelector('.grid > .col');
   const SPRING_E = (() => { try { return CSS.supports('animation-timing-function', 'linear(0, 1)') ? getComputedStyle(document.documentElement).getPropertyValue('--spring').trim() || 'cubic-bezier(.2,.9,.25,1.04)' : 'cubic-bezier(.2,.9,.25,1.04)'; } catch { return 'cubic-bezier(.2,.9,.25,1.04)'; } })();
-  const overlayOpen = () => document.documentElement.classList.contains('sh-open') || document.documentElement.classList.contains('gc-open') || $('#island').classList.contains('open') || !!document.querySelector('.tsw') || filling || (typeof tOpenId !== 'undefined' && tOpenId) || [...document.querySelectorAll('dialog[open], .dlg:not([hidden]), [role="dialog"]:not([hidden])')].some(d => d.offsetParent !== null && !d.closest('#fillbar'));
+  const overlayOpen = () => document.documentElement.classList.contains('sh-open') || document.documentElement.classList.contains('kp-on') || document.documentElement.classList.contains('is-kp-dial') || document.documentElement.classList.contains('is-kp-act') || document.documentElement.classList.contains('is-kp-sel') || document.documentElement.classList.contains('gc-open') || $('#island').classList.contains('open') || !!document.querySelector('.tsw') || filling || (typeof tOpenId !== 'undefined' && tOpenId) || [...document.querySelectorAll('dialog[open], .dlg:not([hidden]), [role="dialog"]:not([hidden])')].some(d => d.offsetParent !== null && !d.closest('#fillbar'));
   const noGesture = el => !!(el && el.closest && el.closest('input, textarea, select, [contenteditable="true"], button, a, label.searchbar, .sl, #fill, #fillbar, .mtl, #islPanel, #gcalc, .smart-menu, .sugg, #opsRow, .ops, .sw-row, .qpad, .calc, #calc, .keys, canvas, svg.plot, .plot, .slider, input[type=range], .tsw'));
   const scrollsX = el => { for (let e = el; e && e !== document.body; e = e.parentElement) { const cs = getComputedStyle(e); if (/(auto|scroll)/.test(cs.overflowX) && e.scrollWidth > e.clientWidth + 2) return true; } return false; };
   // swipe between the three views like turning a page: the next one rides in beside the current one under your finger,
@@ -12160,7 +12754,7 @@ const Engine = (() => {
   const tKey = t => t.k === 'sheet' ? 's:' + t.id : t.k, taskSave = () => store.set('quotient.tasks', tasks.slice(0, 16));
   function taskTouch(t) { if (t.k === 'sheet' && !t.id) return; const k = tKey(t); tasks = [{ ...t, at: Date.now() }, ...tasks.filter(x => tKey(x) !== k)].slice(0, 16); taskSave(); }
   const curTask = () => view === 'sheet' && !sheet.ex ? { k: 'sheet', id: sheet.id } : view === 'basket' ? { k: 'basket' } : document.documentElement.classList.contains('gc-open') ? { k: 'graph' } : { k: 'ask' };
-  { const sv = setView; setView = function (v, first) { sv(v, first); try { VIEWS.forEach(x => { const el = viewEl(x); if (el && el.hidden) el.classList.remove('no-in'); }); } catch {} try { if (v === 'sheet') { if (!sheet.ex && !sheet.id) { saveSheet(); } if (!sheet.ex && sheet.id) taskTouch({ k: 'sheet', id: sheet.id }); } else taskTouch({ k: v }); } catch {} }; }
+  { const sv = setView; setView = function (v, first) { sv(v, first); try { kpOnSync(); if (v === 'sheet' && !$('#sheet').classList.contains('kp-edit')) kpRender(); } catch {} try { VIEWS.forEach(x => { const el = viewEl(x); if (el && el.hidden) el.classList.remove('no-in'); }); } catch {} try { if (v === 'sheet') { if (!sheet.ex && !sheet.id) { saveSheet(); } if (!sheet.ex && sheet.id) taskTouch({ k: 'sheet', id: sheet.id }); } else taskTouch({ k: v }); } catch {} }; }
   { const os = openSheet; openSheet = function (id) { os(id); try { taskTouch({ k: 'sheet', id }); } catch {} }; }
   { const ns = newSheet; newSheet = function (a, b) { ns(a, b); try { if (sheet.id) taskTouch({ k: 'sheet', id: sheet.id }); } catch {} }; }
   { const go0 = gcOpen; gcOpen = function () { go0(); try { taskTouch({ k: 'graph' }); } catch {} }; }
@@ -12169,10 +12763,10 @@ const Engine = (() => {
   const TS_IC = { ask: AC_IC.go.replace('M7 17 17 7M9 7h8v8', 'M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM20 20l-4.2-4.2'), sheet: AC_IC.doc, basket: AC_IC.cart, graph: AC_IC.graph };
   function taskCard(t, i) { let title = '', body = '', foot = '';
     if (t.k === 'ask') { const q = ($('#q').value || '').trim(); title = 'Ask'; if (q && current && !current.error) body = `<div class="ts-q">${esc(q)}</div><div class="ts-big">${esc(String(current.value || current.label || '').slice(0, 40))}</div>`; else { const L = tape.filter(x => !x.ex).slice(0, 4); body = L.length ? L.map(x => `<div class="ts-row"><span>${esc(String(x.q).slice(0, 34))}</span><b>${esc(String(x.r || '').slice(0, 14))}</b></div>`).join('') : '<div class="ts-empty">Ask anything</div>'; } }
-    else if (t.k === 'sheet') { const f = sheets.find(x => x.id === t.id); title = f.title || 'Untitled sheet'; const L = f.lines.filter(x => x.trim()).slice(0, 7); body = L.length ? L.map(x => `<div class="ts-line">${esc(x.slice(0, 40))}</div>`).join('') : '<div class="ts-empty">Empty sheet</div>'; const tot = tsSheetTotal(f); if (tot != null && isFinite(tot)) foot = `<span>Total</span><b>${esc(Engine.fmt(+(+tot).toFixed(2)))}</b>`; }
+    else if (t.k === 'sheet') { const f = sheets.find(x => x.id === t.id); title = f.title || 'Untitled sheet'; try { const html = kpCard(f, 0); const d = document.createElement('div'); d.innerHTML = html; const c = d.firstElementChild; c.querySelector('h3')?.remove(); c.querySelector('.kp-pinned')?.remove(); const cf = c.querySelector('.kp-cf'); if (cf) { foot = cf.innerHTML; cf.remove(); } body = `<div class="ts-kp">${c.innerHTML}</div>`; } catch { body = '<div class="ts-empty">Empty sheet</div>'; } }
     else if (t.k === 'basket') { title = 'Basket'; const I = bk.ex ? [] : bk.items; body = I.length ? I.slice(0, 7).map(x => `<div class="ts-row${x.got ? ' got' : ''}"><span>${esc(x.name)}${x.qty > 1 ? ' × ' + x.qty : ''}</span><b>${x.price ? esc(m2(x.price * (x.qty || 1))) : ''}</b></div>`).join('') : '<div class="ts-empty">Nothing on your list</div>'; if (I.length) foot = `<span>${I.length} item${I.length === 1 ? '' : 's'}</span><b>${esc(m2(bkTotals().tot))}</b>`; }
     else if (t.k === 'graph') { title = 'Graphing calculator'; body = `<div class="ts-graph"><svg viewBox="0 0 120 70" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 64h108M10 6v58" opacity=".35"/><path d="M12 56c18-40 30-46 44-20s26 22 56-28"/></svg></div>`; }
-    return `<div class="ts-card" data-ti="${i}" data-k="${t.k}" style="--i:${i}"><div class="ts-head"><span class="ts-ic">${acSvg('x').replace(/<svg([^>]*)>.*<\/svg>/, `<svg$1>${TS_IC[t.k] || AC_IC.go}</svg>`)}</span><b>${esc(title)}</b></div><div class="ts-body">${body}</div>${foot ? `<div class="ts-foot">${foot}</div>` : ''}</div>`; }
+    const tcol = t.k === 'sheet' ? ((sheets.find(x => x.id === t.id) || {}).color || '') : ''; return `<div class="ts-card${tcol ? ' nc-' + tcol : ''}" data-ti="${i}" data-k="${t.k}" style="--i:${i}"><div class="ts-head"><span class="ts-ic">${acSvg('x').replace(/<svg([^>]*)>.*<\/svg>/, `<svg$1>${TS_IC[t.k] || AC_IC.go}</svg>`)}</span><b>${esc(title)}</b></div><div class="ts-body">${body}</div>${foot ? `<div class="ts-foot">${foot}</div>` : ''}</div>`; }
   function taskGo(t) { try { const v = t.k === 'sheet' ? 'sheet' : t.k === 'basket' ? 'basket' : 'ask'; if (v !== view) viewEl(v).classList.add('no-in'); } catch {} if (t.k === 'graph') { try { if (view !== 'ask') setView('ask', true); } catch {} gcOpen(); return; } try { gcClose(); } catch {} if (t.k === 'sheet') { if (sheet.id !== t.id) openSheet(t.id); setView('sheet', true); } else setView(t.k, true); }
   function tasksOpen() { if (document.querySelector('.tsw')) return; try { islOpen(false); smartMenu(false); } catch {} const cur = curTask(); taskTouch(cur); tasks = tasks.filter(taskValid); taskSave(); if (!tasks.some(t => t.k === 'ask')) tasks.push({ k: 'ask' });
     const list = tasks.slice(0, 12), w = document.createElement('div'); w.className = 'tsw'; w.setAttribute('role', 'dialog'); w.setAttribute('aria-label', 'Open tasks');
@@ -12674,7 +13268,7 @@ const Engine = (() => {
   function spPaidN(sp) { return sp.people.filter((_, i) => spPaid(sp, i)).length; }
   // a splitting answer in the bar
   function splitCommand(raw) {
-    const t = String(raw || '').trim();
+    let t = String(raw || '').trim(); try { t = Engine.preWords(t) || t; } catch {}
     if (/^(?:split|new split|split a bill|split the bill|split bill|split dinner|bill split|divide a bill)$/i.test(t)) return { kind: 'Split', label: 'Start a split: add the amounts and who was there', value: 'New split', doLabel: 'Start', quiet: true, run: () => setTimeout(() => spNew(), 30) };
     const sp = spParse(t); if (!sp) return null; const c = spCalc(sp), P = sp.people.length;
     const lines = c.even ? [`${P} people × ${spM(sp, c.shares[0])}`] : sp.people.map((p, i) => `${p.n}: ${spM(sp, c.shares[i])}`).slice(0, 6);
@@ -12915,7 +13509,7 @@ const Engine = (() => {
     const notif = !('Notification' in window) ? 'none' : Notification.permission, hb = habits().length, std = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
     const kept = tape.filter(t => !t.ex).length;
     $('#setBody').innerHTML = [
-      group('look', 'Look', [row('Theme', 'Light, dark, or follow your phone', seg('theme', [['system', 'Auto'], ['light', 'Light'], ['dark', 'Dark']], theme)), row('Calm motion', 'Fewer, quicker animations', sw('calm', calm))], 0),
+      group('look', 'Look', [row('Theme', 'Light, dark, or follow your phone', seg('theme', [['system', 'Auto'], ['light', 'Light'], ['dark', 'Dark']], theme)), row('Text size', 'Makes everything easier to read', seg('tsize', [['s', 'Small'], ['m', 'Default'], ['l', 'Large'], ['xl', 'XL']], store.get('quotient.tsize', 'm')), 'col'), row('Calm motion', 'Fewer, quicker animations', sw('calm', calm))], 0),
       group('calc', 'Calculating', [row('Angles', 'For sin, cos and tan', seg('deg', [[true, 'Degrees'], [false, 'Radians']], deg)), row('Scientific keys', 'On the basic calculator', sw('sci', sciOpen))], 1),
       group('bell', 'Sounds and alerts', [row('Alarm sound', 'Tap one to hear it', `<div class="set-chips">${SND_LIST.map(([k, l]) => `<button type="button" class="set-chip${k === sndKind ? ' on' : ''}" data-set="sound" data-v="${k}" aria-pressed="${k === sndKind}">${l}</button>`).join('')}</div>`, 'col'), row('Vibration', 'Taps, alarms and reminders', sw('vibrate', vib)),
         row('Notifications', notif === 'granted' ? 'On: timers and reminders also show as notifications' : notif === 'denied' ? 'Blocked: allow them in your browser or phone settings' : notif === 'none' ? 'Not available here' : 'So timers and reminders reach you while you’re in another app', notif === 'default' ? '<button type="button" class="mt-chip set-btn" data-set="notif">Allow</button>' : `<span class="set-tag${notif === 'granted' ? ' ok' : ''}">${notif === 'granted' ? 'On' : notif === 'denied' ? 'Blocked' : '—'}</span>`),
@@ -12935,7 +13529,7 @@ const Engine = (() => {
     const a = card.animate([{ transform: 'none', opacity: 1 }, { transform: `translate(${dx * 0.7}px, ${dy * 0.7}px) scale(.2)`, opacity: 0 }], { duration: 380, easing: 'cubic-bezier(.5,0,.7,.4)', fill: 'forwards' }); pg.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 380, fill: 'forwards' }); a.onfinish = () => { a.cancel(); pg.getAnimations().forEach(x => x.cancel()); done(); }; }
   let setEraseT = 0;
   // two ways to start over: your things only (what Quotient learned about you stays), or absolutely everything
-  const KEEP_LEARNED = ['quotient.data', 'quotient.guide', 'quotient.discover', 'quotient.theme', 'quotient.calm', 'quotient.deg', 'quotient.sci', 'quotient.sound', 'quotient.vibrate', 'quotient.badge', 'quotient.gnote', 'quotient.gnwhich', 'quotient.gnstyle', 'quotient.learnon', 'quotient.learnoff', 'quotient.me', 'quotient.smlearn', 'quotient.spnames', 'quotient.people', 'quotient.habseen', 'quotient.prices', 'quotient.bkfreq', 'quotient.lmem'];
+  const KEEP_LEARNED = ['quotient.data', 'quotient.guide', 'quotient.discover', 'quotient.theme', 'quotient.tsize', 'quotient.calm', 'quotient.deg', 'quotient.sci', 'quotient.sound', 'quotient.vibrate', 'quotient.badge', 'quotient.gnote', 'quotient.gnwhich', 'quotient.gnstyle', 'quotient.learnon', 'quotient.learnoff', 'quotient.me', 'quotient.smlearn', 'quotient.spnames', 'quotient.people', 'quotient.habseen', 'quotient.prices', 'quotient.bkfreq', 'quotient.lmem'];
   function eraseApp(keepLearned) { try {
       if (keepLearned) { const mem = [...new Set([...(store.get('quotient.lmem', []) || []), ...hist, ...tape.filter(t => !t.ex).map(t => t.q || '')].filter(Boolean))].slice(0, 160); localStorage.setItem('quotient.lmem', JSON.stringify(mem)); Object.keys(localStorage).filter(x => x.startsWith('quotient.') && !KEEP_LEARNED.includes(x)).forEach(x => localStorage.removeItem(x)); }
       else { Object.keys(localStorage).filter(x => x.startsWith('quotient.')).forEach(x => localStorage.removeItem(x)); localStorage.setItem('quotient.data', '3'); localStorage.setItem('quotient.guide', JSON.stringify({ seen: true, done: {} })); }
@@ -12944,6 +13538,7 @@ const Engine = (() => {
   $('#setPage').addEventListener('click', async e => { const el = e.target; if (el === $('#setPage') || el.closest('#setClose')) return setClose();
     const b = el.closest('[data-set]'); if (!b || b.disabled) return; const k = b.dataset.set, v = b.dataset.v; buzz();
     if (k === 'theme') { setTheme(v); }
+    else if (k === 'tsize') { setTextSize(v); setRender(); }
     else if (k === 'calm') { const on = !store.get('quotient.calm', false); store.set('quotient.calm', on); document.documentElement.classList.toggle('calm', on); toast(on ? 'Calm motion on' : 'Full motion back'); }
     else if (k === 'deg') { deg = v === 'true'; store.set('quotient.deg', deg); syncToggles(); try { calc.refresh(); } catch {} }
     else if (k === 'sci') { sciOpen = !sciOpen; store.set('quotient.sci', sciOpen); syncToggles(); }
@@ -12968,7 +13563,7 @@ const Engine = (() => {
   let setCat = null; const SET_HUE = { look: '#8B7CF6', calc: '#E3A12F', bell: '#E5675C', learn: '#2FAE7A', data: '#3D8BEF', info: '#8A93A6' };
   const SET_NAME = { look: 'Look', calc: 'Calculating', bell: 'Sounds and alerts', learn: 'Learning', data: 'Your data', info: 'About' };
   function setSummary(k) { try {
-      if (k === 'look') { const th = store.get('quotient.theme', 'system'); return `${th === 'system' ? 'Follows your phone' : th === 'dark' ? 'Dark' : 'Light'}${store.get('quotient.calm', false) ? ' · calm motion' : ''}`; }
+      if (k === 'look') { const th = store.get('quotient.theme', 'system'); const tz = store.get('quotient.tsize', 'm'); return `${th === 'system' ? 'Follows your phone' : th === 'dark' ? 'Dark' : 'Light'}${tz !== 'm' && TSNAME[tz] ? ' · ' + TSNAME[tz].toLowerCase() + ' text' : ''}${store.get('quotient.calm', false) ? ' · calm motion' : ''}`; }
       if (k === 'calc') return `${deg ? 'Degrees' : 'Radians'} · scientific keys ${sciOpen ? 'on' : 'off'}`;
       if (k === 'bell') return `${cap1(sndKind)} · vibration ${store.get('quotient.vibrate', true) !== false ? 'on' : 'off'}${(() => { try { return glOn() ? ' · notifications' : ''; } catch { return ''; } })()}`;
       if (k === 'learn') { const n = habits().length; return learnOn ? (n ? `On · ${n} thing${n === 1 ? '' : 's'} learned` : 'On') : 'Off'; }
