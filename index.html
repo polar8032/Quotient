@@ -3240,6 +3240,34 @@ html.v-home .search-fab:not(.home-fab){opacity:0;transform:translateX(-40px) sca
 .search-fab:hover,.nav-fab:hover,.a-goal:hover{transform:none}
 .searchbar.qp-open .qp-handle .qh-calc{transform:scale(.9)}
 }
+/* ---------- For you ---------- */
+.fy{margin:4px 0 18px;padding:16px 14px 14px;border-radius:28px;background:var(--surface-2);display:flex;flex-direction:column;gap:14px}
+.fy.in{animation:fyIn .55s cubic-bezier(.2,1.1,.35,1) both}
+@keyframes fyIn{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.fy-head{display:flex;align-items:center;gap:12px;padding:0 4px}
+.fy-ic{width:40px;height:40px;flex:none;border-radius:50%;display:grid;place-items:center;color:color-mix(in srgb,var(--ai-c) 80%,var(--ink));background:color-mix(in srgb,var(--ai-c) 16%,transparent)}
+.fy.in .fy-ic{animation:fsPop .55s .1s cubic-bezier(.2,1.5,.35,1) both}
+.fy-t{display:grid;gap:1px;flex:1;min-width:0}
+.fy-t small{font-size:12.5px;color:var(--muted)}
+.fy-t b{font-size:19px;font-weight:500;letter-spacing:-.01em}
+.fy-more{border:0;background:var(--surface);color:var(--ink);font:inherit;font-size:13px;font-weight:500;padding:8px 14px;border-radius:999px;cursor:pointer;transition:transform .3s var(--spring)}
+.fy-more:active{transform:scale(.92)}
+.fy-sec{display:flex;flex-direction:column;gap:8px}
+.fy-l{font-size:13px;font-weight:600;color:var(--muted);padding:0 8px}
+.fy-row{display:flex;flex-wrap:wrap;gap:8px}
+.fy-chip{display:inline-flex;align-items:baseline;gap:8px;max-width:100%;border:0;border-radius:999px;padding:9px 15px;font:inherit;font-size:14px;color:var(--ink);background:var(--surface);cursor:pointer;animation:chipIn .45s var(--spring) both;animation-delay:calc(80ms + var(--i,0) * 45ms);transition:transform .3s var(--spring),background .2s}
+.fy-chip span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.fy-chip b{font-family:var(--f-mono);font-weight:500;font-size:13px;color:var(--muted);white-space:nowrap}
+.fy-chip.hot{background:color-mix(in srgb,var(--ai-c) 14%,var(--surface))}
+.fy-chip.hot b{color:color-mix(in srgb,var(--ai-c) 75%,var(--ink))}
+.fy-chip.tim{background:color-mix(in srgb,var(--good) 14%,var(--surface))}
+.fy-chip:active,.fy-pick:active{transform:scale(.94)}
+.fy-pick{display:flex;align-items:center;gap:12px;flex:1 1 200px;min-width:0;text-align:left;border:0;border-radius:20px;padding:12px 14px;font:inherit;color:var(--ink);background:var(--surface);cursor:pointer;animation:chipIn .45s var(--spring) both;animation-delay:calc(80ms + var(--i,0) * 45ms);transition:transform .3s var(--spring)}
+.fy-pi{width:34px;height:34px;flex:none;border-radius:50%;display:grid;place-items:center;color:color-mix(in srgb,var(--accent) 80%,var(--ink));background:color-mix(in srgb,var(--accent) 16%,transparent)}
+.fy-pt{display:grid;gap:2px;min-width:0}
+.fy-pt b{font-size:15px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fy-pt small{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html.fs-on #forYou{display:none!important}
 </style>
 </head>
 <body>
@@ -11934,7 +11962,7 @@ const Engine = (() => {
       if (to) { if (to === tz) return C('Setting', `Text is already ${TSNAME[tz].toLowerCase()}`, TSNAME[tz], 'Settings', () => setOpen()); return C('Setting', `Text size: ${TSNAME[to]}`, TSNAME[to], order.indexOf(to) > order.indexOf(tz) ? 'Make bigger' : 'Make smaller', () => { setTextSize(to); toast(`Text size: ${TSNAME[to]}`); }); } }
     if (/^(?:vibration|vibrate|haptics?) (on|off)$|^(?:stop|no) (?:vibration|vibrating)$/.test(s)) { const on = /on$/.test(s); return C('Setting', on ? 'Vibrate on taps and alarms' : 'No vibration', on ? 'Vibration on' : 'Vibration off', on ? 'Turn on' : 'Turn off', () => { store.set('quotient.vibrate', on); toast(on ? 'Vibration on' : 'Vibration off'); }); }
     if (/^scientific keys (on|off)$/.test(s)) { const on = /on$/.test(s); return C('Setting', on ? 'Show the scientific keys on the calculator' : 'Hide the scientific keys', on ? 'Scientific keys' : 'Basic keys only', on ? 'Show' : 'Hide', () => { sciOpen = on; store.set('quotient.sci', on); syncToggles(); toast(on ? 'Scientific keys on' : 'Scientific keys hidden'); }); }
-    if (/^forget (?:what you learned|everything you learned|my habits)$/.test(s)) return C('Learned', 'Forget everything Quotient learned about you (your things stay)', 'Forget habits', 'Forget', () => { ['quotient.me', 'quotient.smlearn', 'quotient.spnames', 'quotient.people', 'quotient.habseen', 'quotient.lmem', 'quotient.learnoff'].forEach(k => { try { localStorage.removeItem(k); } catch {} }); try { ME.tpl = {}; ME.fix = {}; ME.tim = {}; ME.cur = {}; ME.next = {}; smLearn = {}; LEARN_OFF = new Set(); } catch {} toast('Forgotten. Learning starts again from now'); });
+    if (/^forget (?:what you learned|everything you learned|my habits)$/.test(s)) return C('Learned', 'Forget everything Quotient learned about you (your things stay)', 'Forget habits', 'Forget', () => { ['quotient.me', 'quotient.smlearn', 'quotient.spnames', 'quotient.people', 'quotient.habseen', 'quotient.lmem', 'quotient.learnoff'].forEach(k => { try { localStorage.removeItem(k); } catch {} }); try { ME.tpl = {}; ME.fix = {}; ME.tim = {}; ME.cur = {}; ME.next = {}; ME.pg = {}; ME.words = {}; smLearn = {}; LEARN_OFF = new Set(); } catch {} toast('Forgotten. Learning starts again from now'); });
     if (/^clear (?:my )?recent(?: questions)?$/.test(s)) return C('Setting', `Clear your recent questions · ${hist.length}`, 'Recent', 'Clear', () => { hist = []; store.set('quotient.hist', hist); toast('Recent questions cleared'); });
     // sharing: "share this sheet", "qr code for my basket", or a code typed in
     { const rc = String(raw || '').trim().match(/^(?:open |join |load )?([sabp])-([0-9A-Za-z]{6,})$/i); if (rc && /^[sabp]-/.test(String(raw).trim().replace(/^(?:open |join |load )/i, ''))) { const kind = SH_KIND[rc[1]]; return C('Share', `Open the shared ${kind}`, 'Shared ' + kind, 'Open', () => shareImport(String(raw).trim().replace(/^(?:open |join |load )/i, ''))); } }
@@ -12413,7 +12441,7 @@ const Engine = (() => {
   let disc = store.get('quotient.discover', null); if (!disc || typeof disc !== 'object') disc = { done: {}, seen: {}, hidden: false };
   const saveDisc = () => store.set('quotient.discover', disc);
   try { if (!disc.done.ask && (hist.length || tape.some(t => !t.ex))) { disc.done.ask = disc.done.keep = 1; saveDisc(); } } catch {}
-  const QVER = '346de83f';
+  const QVER = 'eb658026';
   const SAMPLE_PASTE = 'Coffee 2.40\nCroissant 1.80\nOrange juice 3.20\nTotal 7.40';
   const FEATS = [
     { id: 'ask', t: 'Ask in your own words', d: 'Type it the way you would say it', q: '18% tip on 64,50 for 3 people' },
@@ -14264,6 +14292,80 @@ const Engine = (() => {
       if (!LEARN_OFF.has('me:fix')) { const fx = Object.entries(ME.fix).slice(-2); if (fx.length) H('me:fix', 'When you write', fx.map(([a, b]) => `“${a}” → “${b.to}”`).join(' · ')); }
       return out; }; }
   { const hf = habForget; habForget = function (k) { hf(k); if (/^me:/.test(k)) { if (k === 'me:cur') ME.cur = {}; if (k === 'me:tpl') ME.tpl = {}; if (k === 'me:next') ME.next = {}; if (k === 'me:tim') ME.tim = {}; if (k === 'me:fix') ME.fix = {}; meSave(); LEARN_OFF.delete(k); store.set('quotient.learnoff', [...LEARN_OFF]); } }; }
+  /* ---------- learning more: which days, which pages, the words you use, and a "For you" card on the home page ---------- */
+  ME.pg = ME.pg || {}; ME.words = ME.words || {};
+  const meDay = () => new Date().getDay(), DAYN = ['Sundays', 'Mondays', 'Tuesdays', 'Wednesdays', 'Thursdays', 'Fridays', 'Saturdays'];
+  const mePart = h => h < 5 ? 'at night' : h < 12 ? 'in the morning' : h < 18 ? 'in the afternoon' : 'in the evening';
+  // the day of the week counts too: Monday questions come up on Mondays
+  { const ok0 = meOk; meOk = function (q, r) { ok0.apply(this, arguments); try { const t = learnOn && meTpl(q), e = t && ME.tpl[t.k]; if (e) { e.d = e.d || Array(7).fill(0); e.d[meDay()]++; meSave(); } } catch {} }; }
+  const meDayNear = e => { if (!e.d || e.n < 4) return 0; const tot = e.d.reduce((a, b) => a + b, 0) || 1; return e.d[meDay()] / tot; };
+  { const sc0 = meScore; meScore = function (e) { return sc0(e) + meDayNear(e) * 2; }; }
+  // pages: when you open the Basket or a sheet
+  function mePage(k) { if (!learnOn || LEARN_OFF.has('me:pg') || !k) return; const e = ME.pg[k] || (ME.pg[k] = { n: 0, h: Array(24).fill(0), d: Array(7).fill(0), last: 0 }); if (Date.now() - e.last < 10 * 60e3) return; e.n++; e.h[meHour()]++; e.d[meDay()]++; e.last = Date.now(); meSave(); }
+  const mePgNear = e => { if (!e || e.n < 3) return false; const h = meHour(), tot = e.h.reduce((a, b) => a + b, 0) || 1, dt = e.d.reduce((a, b) => a + b, 0) || 1; return (e.h[h] + e.h[(h + 23) % 24] + e.h[(h + 1) % 24]) / tot >= .45 || (e.n >= 5 && e.d[meDay()] / dt >= .5); };
+  { const sv1 = setView; setView = function (v, first) { const r = sv1.apply(this, arguments); try { if (!first && v === 'basket') mePage('basket'); } catch {} return r; }; }
+  { const os1 = openSheet; openSheet = function (id) { const r = os1.apply(this, arguments); try { if (id) mePage('s:' + id); } catch {} return r; }; }
+  // your words: when you pick what it should have been, the words you wrote are learned
+  const meLev = (a, b) => { if (Math.abs(a.length - b.length) > 2) return 9; const d = Array.from({ length: a.length + 1 }, (_, i) => [i]); for (let j = 1; j <= b.length; j++) d[0][j] = j; for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)); return d[a.length][b.length]; };
+  function meLearnPick(raw, to) { if (!learnOn || !raw || !to || LEARN_OFF.has('me:fix')) return; const a = meNorm(raw), b = meNorm(to); if (a === b || a.length < 3) return;
+    const f = ME.fix[a] || (ME.fix[a] = { to: b, n: 0 }); if (f.to !== b) { f.to = b; f.n = 0; } f.n += 2;
+    const bw = b.split(/[^a-zà-ÿ]+/).filter(w => w.length >= 3); a.split(/[^a-zà-ÿ]+/).filter(w => w.length >= 3 && !bw.includes(w) && !COMMONW_ME.test(w)).forEach(w => { let best = null, bd = 3; bw.forEach(x => { const dd = meLev(w, x); if (dd < bd && dd <= (w.length > 5 ? 2 : 1)) { bd = dd; best = x; } }); if (best) ME.words[w] = { to: best, n: ((ME.words[w] || {}).n || 0) + 1 }; });
+    meSave(); }
+  const COMMONW_ME = /^(?:the|and|for|with|what|how|much|many|from|into|per|each|you|your|this|that)$/;
+  document.addEventListener('click', e => { const t = e.target.closest('#answer [data-try]'); if (!t || !current) return; if (current.soft || current.error || /^(?:Not sure|Almost)$/.test(current.kind || '')) { try { meLearnPick($('#q').value, t.dataset.try); } catch {} } }, true);
+  // and it uses them: a question you've corrected before is read the way you meant it
+  { const lc1 = linkCommand; linkCommand = function (raw) {
+      if (learnOn && !LEARN_OFF.has('me:fix') && raw && raw.trim().length >= 3) { const low = meNorm(raw), f = ME.fix[low];
+        const tryQ = (q2, why) => { let r = null; try { r = lc1.call(this, q2); } catch {} if (!r) try { r = solveLinked(q2); } catch {} if (r && !r.error && r.kind !== 'Not sure' && r.kind !== 'Almost') { r.steps = [['read as', `${q2}  (${why})`]].concat((r.steps || []).filter(x => !(x && x[0] === 'read as'))); return r; } return null; };
+        if (f && f.n >= 2) { const r = tryQ(f.to, 'what you usually mean'); if (r) return r; }
+        const ws = Object.keys(ME.words); if (ws.length) { let ch = false; const q2 = raw.replace(/[a-zà-ÿ]+/gi, w => { const x = ME.words[w.toLowerCase()]; if (x) { ch = true; return x.to; } return w; }); if (ch) { const r0 = (() => { try { return lc1.call(this, raw); } catch { return null; } })(); if (!r0) { const r = tryQ(q2, 'your word'); if (r) return r; } else return r0; } } }
+      return lc1.apply(this, arguments); }; }
+  // ---- For you: the home page card ----
+  function fyItems() {
+    const out = { now: [], often: [], tim: [], pick: [] }; if (!learnOn) return out; const seen = new Set();
+    const pv = q => { try { let r = null; try { r = linkCommand(q); } catch {} if (!r || r.run) r = r && r.run ? null : solveLinked(q); return r && !r.error && !r.run ? smShow(r) : ''; } catch { return ''; } };
+    if (!LEARN_OFF.has('me:tpl')) { const T = Object.entries(ME.tpl).filter(([, e]) => e.n >= 2);
+      T.filter(([, e]) => meNear(e) || meDayNear(e) >= .5).sort((a, b) => meScore(b[1]) - meScore(a[1])).slice(0, 3).forEach(([k, e]) => { const q = meFill(k, e.num); seen.add(k); out.now.push({ q, pv: pv(q), why: meNear(e) ? 'around now' : 'on ' + DAYN[meDay()] }); });
+      T.filter(([k, e]) => e.n >= 3 && !seen.has(k)).sort((a, b) => b[1].n - a[1].n).slice(0, 3).forEach(([k, e]) => { const q = meFill(k, e.num); out.often.push({ q, pv: pv(q) }); }); }
+    if (!LEARN_OFF.has('me:tim')) Object.entries(ME.tim).filter(([, x]) => x.n >= 2).sort((a, b) => b[1].n - a[1].n).slice(0, 2).forEach(([n, x]) => out.tim.push({ q: `${n} ${tNice(x.d)}`, n }));
+    try { const last = sheets.filter(s => !s.ex && s.id && (s.lines || []).some(l => l.trim())).map(s => [s, ME.pg['s:' + s.id]]).sort((a, b) => (mePgNear(b[1]) - mePgNear(a[1])) || ((b[0].at || 0) - (a[0].at || 0))).slice(0, 2);
+      last.forEach(([s, e]) => out.pick.push({ k: 'sheet', id: s.id, t: s.title || 'Untitled', why: mePgNear(e) ? 'you usually open it now' : 'last edited' })); } catch {}
+    try { if (!bk.ex && bk.items.length) { const left = bk.items.filter(i => !i.got).length; if (left) out.pick.push({ k: 'basket', t: 'Basket', v: `${left} to get`, why: mePgNear(ME.pg.basket) ? `you shop ${DAYN[meDay()].toLowerCase() === 'saturdays' ? 'on Saturdays' : mePart(meHour())}` : '' }); } } catch {}
+    return out; }
+  function fyRender() {
+    const box = $('#forYou'); if (!box) return; const H = document.documentElement;
+    const show = learnOn && view === 'ask' && !H.classList.contains('fs-on') && !$('#q').value.trim() && ($('#answer').hidden || $('#answer').classList.contains('leaving'));
+    if (!show) { box.hidden = true; return; }
+    const I = fyItems(), n = I.now.length + I.often.length + I.tim.length + I.pick.length; if (!n) { box.hidden = true; return; }
+    const sig = JSON.stringify(I) + meHour(); if (!box.hidden && box._sig === sig) return; box._sig = sig;
+    const h = meHour(), hi = h < 5 ? 'Good night' : h < 12 ? 'Good morning' : h < 18 ? 'Good afternoon' : 'Good evening'; let i = 0;
+    const chip = (x, cls) => `<button type="button" class="fy-chip${cls ? ' ' + cls : ''}" data-fyq="${esc(x.q)}" style="--i:${i++}"><span>${esc(x.q)}</span>${x.pv ? `<b>${esc(x.pv)}</b>` : ''}</button>`;
+    const sec = (t, inner) => inner ? `<div class="fy-sec"><span class="fy-l">${t}</span><div class="fy-row">${inner}</div></div>` : '';
+    box.innerHTML = `<div class="fy-head"><span class="fy-ic" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.6L18.5 9l-4.7 1.4L12 15l-1.8-4.6L5.5 9l4.7-1.4z"/><path d="M18 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg></span><span class="fy-t"><small>${hi}</small><b>For you</b></span><button type="button" class="fy-more" data-fyhab>What it knows</button></div>
+      ${sec(I.now.length && I.now[0].why === 'around now' ? `Usually ${mePart(h)}` : `Usually on ${DAYN[meDay()]}`, I.now.map(x => chip(x, 'hot')).join(''))}
+      ${sec('Pick up', I.pick.map(p => `<button type="button" class="fy-pick" data-fypick="${p.k}" ${p.id ? `data-id="${esc(p.id)}"` : ''} style="--i:${i++}"><span class="fy-pi" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${p.k === 'basket' ? '<path d="M3 5h2l2.2 10.5h10.6L20 8H6.3"/><circle cx="9" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/>' : '<path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/>'}</svg></span><span class="fy-pt"><b>${esc(p.t)}</b><small>${esc([p.v, p.why].filter(Boolean).join(' · '))}</small></span></button>`).join(''))}
+      ${sec('You often ask', I.often.map(x => chip(x)).join(''))}
+      ${sec('Your timers', I.tim.map(x => `<button type="button" class="fy-chip tim" data-fyq="${esc(x.q)}" data-fygo="1" style="--i:${i++}"><span>▶ ${esc(x.q)}</span></button>`).join(''))}`;
+    box.hidden = false; box.classList.remove('in'); void box.offsetWidth; if (!REDUCE) box.classList.add('in');
+  }
+  document.addEventListener('click', e => {
+    const c = e.target.closest('[data-fyq]'); if (c) { buzz(); const q = $('#q'); q.value = c.dataset.fyq; runAsk(); q.focus(); if (c.dataset.fygo) setTimeout(() => { try { if (current && current.run) keep(); } catch {} }, 60); return; }
+    const p = e.target.closest('[data-fypick]'); if (p) { buzz(); if (p.dataset.fypick === 'basket') { setView('basket'); window.scrollTo({ top: 0 }); return; } const id = p.dataset.id; setView('sheet'); setTimeout(() => { const card = document.querySelector(`#kpBody [data-kp="${CSS.escape(id)}"]`); if (card) card.click(); else try { openSheet(id); } catch {} }, 120); return; }
+    if (e.target.closest('[data-fyhab]')) { habOpen(e.target.closest('[data-fyhab]')); }
+  });
+  { const fyBox = document.createElement('div'); fyBox.id = 'forYou'; fyBox.className = 'fy'; fyBox.hidden = true; const st = $('#start'); st.parentNode.insertBefore(fyBox, st); }
+  { const ra2 = renderAnswer; renderAnswer = function () { const r = ra2.apply(this, arguments); try { fyRender(); } catch {} return r; }; }
+  { const sv2 = setView; setView = function () { const r = sv2.apply(this, arguments); try { fyRender(); } catch {} return r; }; }
+  setInterval(() => { try { fyRender(); } catch {} }, 5 * 60e3);
+  // the habits page tells you all of this, and each part can be forgotten
+  { const hb2 = habits; habits = function () { const out = hb2(); if (!learnOn) return out; const H = (k, l, v) => out.push({ k, l, v });
+      if (!LEARN_OFF.has('me:pg')) { const pg = []; const b = ME.pg.basket; if (b && b.n >= 3) { const d = b.d.indexOf(Math.max(...b.d)), hh = b.h.indexOf(Math.max(...b.h)); pg.push(`Basket ${b.d[d] / b.n >= .4 ? 'on ' + DAYN[d] : mePart(hh)}`); }
+        Object.entries(ME.pg).filter(([k, e]) => k.startsWith('s:') && e.n >= 3).sort((a, b) => b[1].n - a[1].n).slice(0, 2).forEach(([k, e]) => { const s = sheets.find(x => 's:' + x.id === k); if (s) pg.push(`${s.title || 'a sheet'} ${mePart(e.h.indexOf(Math.max(...e.h)))}`); });
+        if (pg.length) H('me:pg', 'You usually open', pg.join(' · ')); }
+      if (!LEARN_OFF.has('me:fix')) { const w = Object.entries(ME.words).slice(-3); if (w.length) H('me:words', 'Your words', w.map(([a, b]) => `${a} → ${b.to}`).join(' · ')); }
+      if (!LEARN_OFF.has('me:tpl')) { const dd = Object.entries(ME.tpl).filter(([, e]) => meDayNear(e) >= .5).sort((a, b) => b[1].n - a[1].n)[0]; if (dd) H('me:tpl', `On ${DAYN[meDay()]} you ask`, dd[0].replace('{n}', '…')); }
+      return out; }; }
+  { const hf2 = habForget; habForget = function (k) { if (k === 'me:pg') { ME.pg = {}; meSave(); return; } if (k === 'me:words') { ME.words = {}; meSave(); return; } hf2(k); try { fyRender(); } catch {} }; }
   /* ---------- Settings: one page for everything you can also say in the bar ---------- */
   const SET_IC = { look: '<circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 0 0 16z" fill="currentColor" stroke="none"/>', calc: '<rect x="5" y="3" width="14" height="18" rx="3"/><path d="M8.5 7.5h7M8.5 12h1M12 12h1M15 12h.5M8.5 16h1M12 16h1M15 16h.5"/>', bell: '<path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>', learn: '<path d="M12 3l1.8 4.6L18.5 9l-4.7 1.4L12 15l-1.8-4.6L5.5 9l4.7-1.4z"/><path d="M18 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/>', data: '<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/>', info: '<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5M12 7.5v.5"/>' };
   const setSvg = k => `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${SET_IC[k]}</svg>`;
