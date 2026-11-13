@@ -1912,8 +1912,12 @@ html.meter-open .mt{opacity:1}
 #kpEd .sh-vars{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}#kpEd .sh-vars::-webkit-scrollbar{display:none}#kpEd .sh-vars > *{flex:none}
 .nt{position:relative;padding:6px 0 14px;--rw:0px;display:block}
 .nt-ed{white-space:pre-wrap;outline:none;min-height:240px;padding:10px calc(var(--rw) + 30px) 10px 20px;font-size:16px;line-height:1.75;color:var(--ink);caret-color:var(--ai-c);word-break:break-word;overflow-wrap:anywhere;transition:padding-right .35s var(--ease-out,ease)}
-.nt-ed:empty::before,.nt-ed .nl:only-child.empty::before{content:attr(data-ph)}
-.nt-ed .nl:only-child.empty::before{content:"Write anything: notes, lists, sums. “Rent: 850” names a number you can reuse.";color:var(--faint);pointer-events:none;font-size:15px}
+/* the hint sits behind the caret (never inline with it), faded, the same whether the sheet is new or you just cleared it */
+.nt-ed{position:relative}
+.nt-ed .nl:only-child.empty{position:relative}
+.nt-ed:empty::before,.nt-ed .nl:only-child.empty::before{content:"Write anything: notes, lists, sums. “Rent: 850” names a number you can reuse.";position:absolute;color:var(--faint);pointer-events:none;font-size:15px;line-height:inherit;white-space:normal}
+.nt-ed .nl:only-child.empty::before{left:0;right:0;top:0}
+.nt-ed:empty::before{left:20px;right:calc(var(--rw) + 30px);top:10px}
 .nl{position:relative;min-height:1.75em;border-radius:6px;transition:background .25s}
 .nl .n{color:var(--ink);font-variant-numeric:tabular-nums}
 .nl .o{color:var(--muted)}
@@ -2947,6 +2951,120 @@ html.is-kp-sel .kp-fab{opacity:0!important;pointer-events:none!important;transfo
 .kp-ghost.gone{opacity:0}
 #lines.has-ghost .nt-ed .nl:only-child.empty::before{content:none}
 #lines{position:relative}
+
+/* the bottom: menu and search on the left, tasks on the right */
+.tape-fab,#calcFab{display:none!important}
+.tasks-fab{position:fixed;z-index:26;right:max(16px,calc(env(safe-area-inset-right,0px) + 16px));bottom:calc(env(safe-area-inset-bottom,0px) + 18px);width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:var(--dev-body);color:var(--dev-ink);border:1px solid color-mix(in srgb,var(--ink) 10%,transparent);box-shadow:0 14px 30px -14px rgba(0,0,0,.5);cursor:pointer;transition:transform .35s var(--spring),opacity .25s}
+.tasks-fab:active{transform:scale(.9)}
+.tasks-fab:focus:not(:focus-visible){outline:none}
+.tasks-fab .tk-n{position:absolute;top:-2px;right:-2px;min-width:19px;height:19px;padding:0 5px;border-radius:10px;background:var(--accent);color:var(--accent-ink);font-size:11px;font-weight:700;display:grid;place-items:center;font-variant-numeric:tabular-nums}
+html.calc-open .tasks-fab,html.tape-open .tasks-fab,html.kp-on .tasks-fab,html.is-kp-sel .tasks-fab,html.ts-on .tasks-fab{opacity:0;pointer-events:none;transform:scale(.8)}
+html.is-kp-dial .tasks-fab{opacity:0;pointer-events:none}
+.kp-fab{bottom:calc(env(safe-area-inset-bottom,0px) + 84px)!important}
+.kp-dial{bottom:calc(env(safe-area-inset-bottom,0px) + 152px)!important}
+
+.soft-best{display:grid;grid-template-columns:1fr auto;align-items:baseline;gap:4px 12px;width:100%;margin:12px 0 4px;padding:14px 16px;border-radius:18px;border:1px solid color-mix(in srgb,var(--ai-c) 35%,var(--line));background:color-mix(in srgb,var(--ai-soft) 70%,var(--surface));color:var(--ink);font:inherit;text-align:left;cursor:pointer;animation:cardIn .4s var(--spring) both;transition:transform .25s var(--spring)}
+.soft-best:active{transform:scale(.98)}
+.soft-best .sb-q{font-size:14px;color:var(--muted);min-width:0;overflow-wrap:anywhere}
+.soft-best .sb-v{grid-row:span 2;align-self:center;font-family:var(--f-mono);font-size:24px;letter-spacing:-.02em;color:var(--ink)}
+.soft-best .sb-go{font-size:12px;font-weight:600;color:var(--ai-c)}
+/* ---------- Maths tools menu, in the style of the settings ---------- */
+#mathMenu.math-menu{border:0;border-radius:28px;background:var(--surface-2);padding:18px 14px 16px;margin-top:-2px}
+.mm-top{display:flex;align-items:flex-start;gap:12px;margin:0 6px 14px}
+.mm-tt{display:grid;gap:4px;min-width:0;flex:1}
+.mm-tt b{font-size:24px;font-weight:500;letter-spacing:-.02em;line-height:1.15}
+.mm-tt small{font-size:13.5px;color:var(--muted)}
+#mathMenu .mm-x{margin-left:auto;width:40px;height:40px;border:0;background:var(--surface);color:var(--ink);display:grid;place-items:center;border-radius:50%;cursor:pointer;transition:transform .3s var(--spring),background .2s}
+#mathMenu .mm-x:active{transform:scale(.88)}
+.mm-search{display:flex;align-items:center;gap:10px;height:50px;padding:0 18px;border-radius:999px;background:var(--surface);color:var(--muted);margin:0 0 14px;cursor:text}
+.mm-search input{flex:1;min-width:0;border:0;background:none;font:inherit;font-size:16px;color:var(--ink);outline:none}
+.mm-search input::placeholder{color:var(--muted)}
+.mm-search input::-webkit-search-cancel-button{display:none}
+.mm-search:focus-within{box-shadow:0 0 0 2px var(--ai-c)}
+#mathMenu .mm-bridge{border-radius:22px;border:0;background:var(--surface)}
+#mathMenu .mm-rec{margin:0 4px 14px}
+#mathMenu .mm-rec button{border:0;background:color-mix(in srgb,var(--ai-c) 14%,var(--surface));padding:7px 13px 7px 7px;font-weight:500}
+.mm-secs{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:16px 14px}
+.mm-sec h4{margin:0 14px 8px;font-size:13.5px;font-weight:600;color:color-mix(in srgb,var(--c) 75%,var(--ink));letter-spacing:.01em}
+.mm-box{display:grid;gap:2px;border-radius:24px;overflow:hidden}
+.mm-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:16px;width:100%;text-align:left;font:inherit;color:var(--ink);background:var(--surface);border:0;border-radius:6px;padding:13px 16px;min-height:68px;cursor:pointer;transition:background .2s,transform .3s var(--spring),border-radius .3s var(--spring);animation:stIn .5s var(--spring,ease) both;animation-delay:calc(var(--i,0) * 22ms)}
+.mm-row:hover{background:color-mix(in srgb,var(--c) 6%,var(--surface))}
+.mm-row:active{transform:scale(.98);border-radius:18px;background:color-mix(in srgb,var(--c) 12%,var(--surface))}
+.mm-row:focus-visible{outline:2px solid var(--c);outline-offset:-2px}
+.mm-ic{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-family:var(--f-mono);font-size:14px;font-weight:600;color:color-mix(in srgb,var(--c) 85%,var(--ink));background:color-mix(in srgb,var(--c) 18%,transparent)}
+.mm-t{display:grid;gap:3px;min-width:0}
+.mm-t b{font-size:16px;font-weight:500}
+.mm-t small{font-size:13.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mm-bub{color:var(--faint)}
+.mm-live{font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;color:color-mix(in srgb,var(--c) 80%,var(--ink));background:color-mix(in srgb,var(--c) 16%,transparent)}
+.mm-none{margin:18px 8px 6px;color:var(--muted);font-size:14px;text-align:center}
+
+/* ---------- Bubbles ---------- */
+.qb-layer{position:fixed;inset:0;z-index:85;pointer-events:none}
+.qb-scrim{position:absolute;inset:0;background:rgba(10,10,14,.32);opacity:0;transition:opacity .3s;pointer-events:none}
+.qb-layer.open .qb-scrim{opacity:1;pointer-events:auto}
+.qb-head{position:absolute;left:0;top:env(safe-area-inset-top,0px);width:56px;height:56px;padding:0;border:0;border-radius:50%;cursor:pointer;pointer-events:auto;touch-action:none;-webkit-tap-highlight-color:transparent;
+  background:color-mix(in srgb,var(--c) 22%,var(--surface));color:color-mix(in srgb,var(--c) 85%,var(--ink));box-shadow:0 6px 18px -6px rgba(0,0,0,.35),0 0 0 1px color-mix(in srgb,var(--c) 25%,transparent) inset;
+  display:grid;place-items:center;transition:transform .55s cubic-bezier(.2,1.25,.35,1),opacity .3s,box-shadow .25s;will-change:transform}
+.qb-head > i{font-style:normal;font-family:var(--f-mono);font-size:18px;font-weight:700;pointer-events:none}
+.qb-head.now{transition:none}
+.qb-head.drag{transition:transform .14s ease-out;box-shadow:0 14px 30px -8px rgba(0,0,0,.45)}
+.qb-head.on{box-shadow:0 6px 18px -6px rgba(0,0,0,.35),0 0 0 3px var(--c)}
+.qb-head.pile:not(.lead) > i{opacity:0}
+.qb-head.gone{opacity:0;transition:transform .3s ease-in,opacity .25s}
+.qb-head.gone:not(.drag){transform-origin:center}
+.qb-ans{position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%) scale(.8);opacity:0;font-style:normal;font-family:var(--f-mono);font-size:12px;font-weight:600;white-space:nowrap;padding:3px 9px;border-radius:999px;background:var(--ink);color:var(--surface);pointer-events:none;transition:opacity .25s,transform .35s var(--spring)}
+.qb-head.pile.lead.has-ans:not(.drag) .qb-ans{opacity:1;transform:translateX(-50%) scale(1)}
+.qb-layer.many .qb-head.lead::after{content:var(--qbn);position:absolute;top:-3px;right:-3px;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:var(--c);color:#fff;font-size:11.5px;font-weight:700;display:grid;place-items:center;box-shadow:0 0 0 2px var(--surface)}
+.qb-win{position:absolute;left:max(12px,calc(50% - 270px));right:max(12px,calc(50% - 270px));max-height:calc(100dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - var(--qbt,80px) - 14px);display:flex;flex-direction:column;
+  background:var(--surface);border-radius:28px;box-shadow:0 24px 60px -18px rgba(0,0,0,.5),0 0 0 1px var(--line);pointer-events:auto;transform-origin:calc(var(--ax,100%) - max(12px,50vw - 270px)) -10px;transition:transform .45s cubic-bezier(.2,1.2,.35,1),opacity .25s}
+.qb-win::before{content:'';position:absolute;top:-7px;left:calc(var(--ax,100%) - max(12px,50vw - 270px) - 8px);width:16px;height:16px;background:var(--surface);transform:rotate(45deg);border-radius:3px 0 0 0;box-shadow:-1px -1px 0 var(--line);transition:left .4s var(--spring)}
+.qb-win.drag{transition:transform .12s ease-out,opacity .2s;transform-origin:50% 0}
+.qb-win.back{transition:transform .45s cubic-bezier(.2,1.3,.35,1)}
+.qb-win.in{animation:qbIn .5s cubic-bezier(.2,1.15,.35,1) both}
+.qb-win.swap .qb-body{animation:qbSwap .35s cubic-bezier(.2,1,.35,1) both}
+.qb-win.out{animation:qbOut .26s cubic-bezier(.4,0,.8,.4) both;pointer-events:none}
+.qb-win.out.drop{animation:qbDrop .26s ease-in both}
+@keyframes qbIn{from{opacity:0;transform:scale(.35)}40%{opacity:1}to{opacity:1;transform:none}}
+@keyframes qbOut{to{opacity:0;transform:scale(.2)}}
+@keyframes qbDrop{to{opacity:0;transform:translateY(60px) scale(.85)}}
+@keyframes qbSwap{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+.qb-bar{display:flex;align-items:center;gap:12px;padding:14px 12px 8px 18px;position:relative;cursor:grab;touch-action:none;user-select:none}
+.qb-grip{position:absolute;top:6px;left:50%;width:36px;height:4px;margin-left:-18px;border-radius:4px;background:var(--line-strong)}
+.qb-wic{width:36px;height:36px;border-radius:50%;flex:none;display:grid;place-items:center;font-style:normal;font-family:var(--f-mono);font-size:13px;font-weight:700;color:color-mix(in srgb,var(--c) 85%,var(--ink));background:color-mix(in srgb,var(--c) 18%,transparent)}
+.qb-title{flex:1;min-width:0;font-size:18px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qb-btn{width:40px;height:40px;flex:none;border-radius:50%;border:0;background:var(--surface-2);color:var(--ink);display:grid;place-items:center;cursor:pointer;transition:transform .3s var(--spring),background .2s}
+.qb-btn:active{transform:scale(.86)}
+.qb-body{border-radius:0 0 28px 28px;overflow:auto;overscroll-behavior:contain;padding:4px 16px 0;scrollbar-width:none;flex:1;min-height:0}
+.qb-body::-webkit-scrollbar{display:none}
+.qb-body .composer{border:0;background:none;padding:0;margin:0;animation:none!important}
+.qb-body .cm-top > .cm-back,.qb-body .cm-top > b,.qb-body .cm-top > .cm-x{display:none}
+.qb-body .cm-top:not(:has(.cm-chrow)){display:none}
+.qb-body .cm-top{margin-bottom:10px}
+.qb-body .cm-chrow{max-width:100%;overflow-x:auto;scrollbar-width:none}.qb-body .cm-chrow::-webkit-scrollbar{display:none}
+.qb-body .cm-choose{flex-wrap:nowrap;border:0;border-radius:999px;background:var(--surface-2);padding:4px}.qb-body .cm-choose button{white-space:nowrap;padding:7px 13px;font-size:13px}
+html.is-qb-open .toast{z-index:90}
+.qb-body .cm-f{border-radius:16px;border-color:transparent;background:var(--surface-2)}
+.qb-body .cm-keys button{border:0;background:var(--surface-2);border-radius:14px}
+.qb-body .cm-prev{border:0;border-radius:20px;background:color-mix(in srgb,var(--c,var(--ai-c)) 9%,var(--surface-2))}
+.qb-body .cm-res b{font-size:22px}
+.qb-body .cm-act{position:sticky;bottom:0;margin:12px -16px 0;padding:10px 16px calc(14px + env(safe-area-inset-bottom,0px) * 0);background:linear-gradient(to bottom,transparent,var(--surface) 10px);display:flex;align-items:center;gap:8px}
+.qb-body .cm-act .btn{border-radius:999px;height:42px}
+.qb-body .qb-sp{flex:1}
+.qb-ghost{background:var(--surface-2)!important;border-color:transparent!important}
+.qb-steps{list-style:none;counter-reset:qs;margin:10px 0 0;padding:4px 0;display:grid;gap:2px;border-radius:20px;overflow:hidden;animation:stIn .4s var(--spring,ease) both}
+.qb-steps li{counter-increment:qs;display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:12px;row-gap:4px;padding:10px 14px;background:var(--surface-2);border-radius:6px}
+.qb-steps li::before{content:counter(qs);grid-row:1/3;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;background:var(--surface);color:var(--muted)}
+.qb-steps li span{font-size:13.5px;color:var(--muted)}
+.qb-steps li b{font-weight:500;font-size:16px;overflow-wrap:anywhere}
+.qb-steps li.none::before{display:none}
+.qb-x{position:absolute;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 40px);width:72px;height:72px;margin-left:-36px;display:grid;place-items:center;opacity:0;transform:translateY(40px) scale(.7);transition:opacity .25s,transform .4s var(--spring)}
+.qb-x span{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:rgba(20,20,24,.72);color:#fff;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:transform .3s var(--spring),background .2s}
+.qb-x.show{opacity:1;transform:none}
+.qb-x.near span{transform:scale(1.22);background:#D9433A}
+.qb-layer::after{content:'';position:absolute;left:0;right:0;bottom:0;height:220px;background:linear-gradient(to top,rgba(0,0,0,.35),transparent);opacity:0;transition:opacity .25s;pointer-events:none}
+.qb-layer.dragging::after{opacity:1}
+@media (prefers-reduced-motion:reduce){.qb-head,.qb-win,.qb-x{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
@@ -3195,9 +3313,11 @@ html.is-kp-sel .kp-fab{opacity:0!important;pointer-events:none!important;transfo
 <div class="guide" id="guide" role="dialog" aria-modal="true" aria-label="Guide" hidden inert><div class="gd-card" id="gdCard"></div></div>
 <div class="spot" id="spot" hidden><div class="spot-hole"></div><div class="spot-tip" role="status"></div></div>
 <div class="nav-panel" id="navPanel" role="menu" aria-label="Go to" inert>
-  <button type="button" role="menuitem" data-nav="sheet"><span class="nv-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/></svg></span><span class="nv-t"><b>Sheet</b><small>Lines that calculate as you type</small></span><i class="nv-b" data-from="tbSheet"></i></button>
+  <button type="button" role="menuitem" data-nav="sheet"><span class="nv-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/></svg></span><span class="nv-t"><b>Sheets</b><small>Notes that do the maths</small></span><i class="nv-b" data-from="tbSheet"></i></button>
   <button type="button" role="menuitem" data-nav="basket"><span class="nv-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1.5 11h-11z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg></span><span class="nv-t"><b>Basket</b><small>Shopping, budget, splitting</small></span><i class="nv-b" data-from="tbBasket"></i></button>
-  <button type="button" role="menuitem" data-nav="tasks" class="nv-set"><span class="nv-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="7" height="14" rx="2"/><rect x="14" y="5" width="7" height="14" rx="2"/></svg></span><span class="nv-t"><b>Open tasks</b><small>Or tap the screen three times</small></span></button>
+  <button type="button" role="menuitem" data-nav="calc"><span class="nv-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2.5" width="14" height="19" rx="3"/><rect x="8" y="5.5" width="8" height="4" rx="1"/><path d="M8.5 13h.01M12 13h.01M15.5 13h.01M8.5 16.5h.01M12 16.5h.01M15.5 16.5h.01"/></svg></span><span class="nv-t"><b>Calculator</b><small>Keys, scientific</small></span></button>
+  <button type="button" role="menuitem" data-nav="graph"><span class="nv-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M6 17c2.5-9 4.5-9 6-5s3.5 4 6-5"/></svg></span><span class="nv-t"><b>Graphing calculator</b><small>Graphs, tables, equations</small></span></button>
+  <button type="button" role="menuitem" data-nav="tasks" class="nv-set" hidden><span class="nv-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="7" height="14" rx="2"/><rect x="14" y="5" width="7" height="14" rx="2"/></svg></span><span class="nv-t"><b>Open tasks</b><small>Or tap the screen three times</small></span></button>
   <button type="button" role="menuitem" data-nav="settings" class="nv-set"><span class="nv-ic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></span><span class="nv-t"><b>Settings</b><small>Theme, sounds, learning, your data</small></span></button>
 </div>
 <button class="nav-fab" id="navFab" type="button" aria-expanded="false" aria-controls="navPanel" aria-label="Sheet, Basket and Settings" title="Sheet, Basket and Settings">
@@ -3205,6 +3325,7 @@ html.is-kp-sel .kp-fab{opacity:0!important;pointer-events:none!important;transfo
   <i class="nv-dot" hidden></i>
 </button>
 <button class="search-fab" id="searchFab" type="button" aria-label="Search" title="Search"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg></button>
+<button class="tasks-fab" id="tasksFab" type="button" aria-label="Open tasks" title="Open tasks"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="7" height="14" rx="2.2"/><rect x="13.5" y="5" width="7" height="14" rx="2.2"/></svg><span class="tk-n" id="tasksFabN" hidden></span></button>
 <button class="tape-fab" id="tapeFab" type="button" aria-expanded="false" aria-controls="tapeSheet" aria-label="Open your tape" title="Your tape">
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16v4z"/><path d="m13.5 6.5 4 4"/><path d="M14 20h6" opacity=".55"/></svg>
   <span class="tf-n" id="tapeFabN" hidden></span>
@@ -3251,7 +3372,7 @@ html.is-kp-sel .kp-fab{opacity:0!important;pointer-events:none!important;transfo
     <div class="mt-ctl">
       <button type="button" class="mt-cb" id="mtEarlier" title="Forgot to press start? Move the start back 5 minutes"><span class="mt-ci"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v4h4"/><path d="M12 8v4l2.5 1.5"/></svg></span><span class="mt-cl">−5 min</span></button>
       <button type="button" class="mt-cb mt-play" id="mtPlay" aria-label="Pause"><span class="mt-ci" id="mtPlayI"></span><span class="mt-cl" id="mtPlayL">Pause</span></button>
-      <button type="button" class="mt-cb" id="mtStop" title="Stop and keep the result on the Tape"><span class="mt-ci"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2.5"/></svg></span><span class="mt-cl">Stop &amp; keep</span></button>
+      <button type="button" class="mt-cb" id="mtStop" title="Stop and keep the result"><span class="mt-ci"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2.5"/></svg></span><span class="mt-cl">Stop &amp; keep</span></button>
     </div>
     <div class="mt-km" id="mtKm" hidden><span id="mtGps">Distance from GPS while it runs</span><button type="button" class="mt-chip" data-km="0.1">+0.1 km</button><button type="button" class="mt-chip" data-km="1">+1 km</button></div>
     <div class="mt-tabs" role="tablist" aria-label="Meter options">
@@ -3265,7 +3386,7 @@ html.is-kp-sel .kp-fab{opacity:0!important;pointer-events:none!important;transfo
       <div class="mt-roundrow"><span>Bill time in</span><div class="mt-seg" id="mtRound" role="group" aria-label="Round each session up to"><button type="button" data-r="0">exact</button><button type="button" data-r="15">15 min</button><button type="button" data-r="30">30 min</button><button type="button" data-r="60">1 h</button></div></div>
       <p class="mt-note" id="mtRoundNote" hidden></p>
       <ol class="mt-log" id="mtLog"></ol>
-      <div class="mt-row mt-actions"><button type="button" class="mt-chip" id="mtCopyLog"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>Copy summary</button><button type="button" class="mt-chip" id="mtFresh" title="Keep the total on the Tape and start a new period with the same rate">Bill &amp; start fresh</button></div>
+      <div class="mt-row mt-actions"><button type="button" class="mt-chip" id="mtCopyLog"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>Copy summary</button><button type="button" class="mt-chip" id="mtFresh" title="Keep the total and start a new period with the same rate">Bill &amp; start fresh</button></div>
     </div>
     <div class="mt-pane" data-pane="people" hidden>
       <div class="mt-mode" id="mtMode"><span id="mtModeRow"><button type="button" data-mode="split" aria-pressed="true">Share the cost</button><button type="button" data-mode="each">Each costs the rate</button></span></div>
@@ -3884,7 +4005,7 @@ const Engine = (() => {
     if (right && !tgt && !SIZEWORDS.test(right) && !/\b(womens?|mens?|size)\b/.test(right)) return null;
     if (!sizeCtx && !(tgt && (src || /^\s*[\d.,]+\s*$/.test(left.replace(/\b(eu|uk|us|fr|it|jp|au)\b/g, ''))))) return null;
     { const pq = parseQty(left); if (pq && pq.unit && !SIZEWORDS.test(s)) return null; }
-    if (/\b(each|bought|buy|costs?|price|paid|at \d)\b/.test(s) && !/\bsize\b/.test(s)) return null;
+    if (/\b(each|bought|buy|costs?|price|paid|at \d|vat|iva|tax|discount|off|sale|euros?|dollars?)\b|[€$£]|\d[.,]\d\d\b/.test(s) && !/\bsize\b/.test(s)) return null;
     // category
     const t = s;
     let cat = /\b(bras?|cup)\b/.test(t) || /(?:^|\s)\d{2,3}\s?(?:aa|a|b|c|d|dd|ddd|e|f|ff|g|gg|h)\b/.test(left) && !/\b(shoes?|dress)\b/.test(t) ? 'bra'
@@ -5040,7 +5161,7 @@ const Engine = (() => {
         if (!sm[6] && !sm[3] && b <= a && b <= 12) b += 12; if (b <= a) b += 24;
         const k = /half/.test(sm[7] || '') ? 0.5 : /^\d/.test(sm[7] || '') ? +sm[7] : 1, off = /^h/.test(sm[8]) ? k : k / 60, tot = b - a - off;
         if (+sm[1] < 24 && +sm[4] < 24 && (+sm[2] || 0) < 60 && (+sm[5] || 0) < 60 && tot > 0 && tot < 24) { const hm = x => { const mnt = Math.round(x * 60); return `${Math.floor(mnt / 60)} h${mnt % 60 ? ' ' + (mnt % 60) + ' min' : ''}`; }, hh = x => { const mnt = Math.round((x % 24) * 60); return `${String(Math.floor(mnt / 60)).padStart(2, '0')}:${String(mnt % 60).padStart(2, '0')}`; };
-          return { kind: 'Time', label: `${hh(a)} → ${hh(b)}, less ${hm(off)}`, value: hm(tot), num: +tot.toFixed(6), steps: [['whole span', hm(b - a)], ['break', hm(off)], ['in hours', `${+tot.toFixed(4)} h`]] }; } } }
+          return { kind: 'Time', label: `${hh(a)} → ${hh(b)}, less ${hm(off).replace(/^0 h /, '')}`, value: hm(tot), num: +tot.toFixed(6), steps: [['whole span', hm(b - a)], ['break', hm(off)], ['in hours', `${+tot.toFixed(4)} h`]] }; } } }
     const N = '(-?\\d+(?:\\.\\d+)?)'; let m;
     const geo = (label, v, steps) => ({ kind: 'Geometry', label, value: fmt(sig(v, 8)), num: sig(v, 12), steps });
     if ((m = s.match(new RegExp('^(?:the )?area of (?:a |an |the )?(?:trapezoid|trapezium)(?: with)?(?: (?:sides|bases|parallel sides))? ' + N + '(?: and|,)? ' + N + ',?(?: and)?(?: (?:a )?height| h)? ' + N + '$'))) || (m = s.match(new RegExp('^(?:trapezoid|trapezium)(?: area)? ' + N + ',? ' + N + ',? ' + N + '$'))))
@@ -5984,7 +6105,7 @@ const Engine = (() => {
       return Object.assign(r, { label: `${P.expenses.length} amounts added up`, alts: [{ label: 'treat as people sharing costs', q: s.replace(/[\s,;.]+$/, '') + ', who owes who' }] }); }
     const list = P.order.map(k => P.people.get(k));
     const { total, moves, bal, shareOf } = settleUp(P), cur = (s.match(/€|\$|£/) || [''])[0], mon = v => (cur || '') + money(v).replace(/^[€$£]/, '');
-    const say = mv => mv.from === 'You' ? `You pay ${mv.to} ${mon(mv.amt)}` : mv.to === 'You' ? `${mv.from} pays you ${mon(mv.amt)}` : `${mv.from} pays ${mv.to} ${mon(mv.amt)}`;
+    const say = mv => (mv = { ...mv, from: /^(?:me|i|myself)$/i.test(mv.from) ? 'You' : mv.from, to: /^(?:me|i|myself)$/i.test(mv.to) ? 'You' : mv.to }, mv.from === 'You') ? `You pay ${mv.to} ${mon(mv.amt)}` : mv.to === 'You' ? `${mv.from} pays you ${mon(mv.amt)}` : `${mv.from} pays ${mv.to} ${mon(mv.amt)}`;
     const value = moves.length ? (moves.length === 1 ? say(moves[0]) : `${moves.length} payments`) : 'All square';
     const uneven = P.expenses.some(e => e.who) || P.excluded.size || list.some(p => p.w !== 1) || P.debts.length;
     const steps = [['total spent', mon(total)]];
@@ -6173,7 +6294,9 @@ const Engine = (() => {
     if (!vars.size && sides.length === 1) {
       traceArith.fr = false; const T = traceArith(JSON.parse(JSON.stringify(trees[0]))); if (!T || !T.steps.length || (T.steps.length < 2 && !traceArith.fr)) return null;
       const v = qv(T.v), exact = !T.v.f && T.v.d !== 1 && !decMode;
-      return { kind: 'Math', label: pretty, value: exact ? rqs(T.v) : fmt(sig(v, 12)), num: v, work: [['Start with', pretty]].concat(T.steps.map(([why, e]) => [why, e])), steps: exact ? [['as a decimal', fmt(sig(v, 10))]] : [] };
+      // a short decimal (7.5, 0.25) reads better than 15/2; long ones (1/3) stay as the exact fraction
+      const shortDec = exact && Math.abs(v * 1e4 - Math.round(v * 1e4)) < 1e-9 && !/\/\s*\d/.test(String(raw || ''));
+      return { kind: 'Math', label: pretty, value: exact && !shortDec ? rqs(T.v) : fmt(sig(v, 12)), num: v, work: [['Start with', pretty]].concat(T.steps.map(([why, e]) => [why, e])), steps: exact ? [[shortDec ? 'as a fraction' : 'as a decimal', shortDec ? rqs(T.v) : fmt(sig(v, 10))]] : [] };
     }
     if (vars.size !== 1) return null; const x = [...vars][0];
     if (sub) {
@@ -6410,7 +6533,7 @@ const Engine = (() => {
   // everyday phrasings that the readers below get wrong if read word for word
   function preWords(raw) { let t = String(raw || '').trim(); const l = t.toLowerCase().replace(/[?!.]+$/, '').replace(/\s+/g, ' '), N = '(\\d+(?:[.,]\\d+)?)'; let m;
     const pf = (x, n) => x.replace(/\bbetween me and (\d+) (?:friends|others|people|mates|colleagues|of them|more)\b/, (m0, k) => `between ${+k + n}`);
-    if (/\bbetween me and \d+ (?:friends|others|people|mates|colleagues|of them|more)\b/.test(l)) return pf(l, 1);
+    if (/\bbetween me and \d+ (?:friends|others|people|mates|colleagues|of them|more)\b/.test(l) && !/\b(?:pays?|gets?|has|owes?)\s+(?:double|twice|triple|half)\b/.test(l)) return pf(l, 1);
     // "we're 6 people and the bill is 230 with 10% tip, how much each"
     if ((m = l.match(new RegExp(`(?:we(?:'re| are| were)|there (?:are|were)|for) (\\d+)(?: people| of us| persons| friends)?\\b.*?\\b(?:bill|check|total|dinner|meal|tab)(?: is| was| came to| comes to| of)? (?:€|\\$|£)?${N}.*?\\b${N} ?(?:%|percent) tip`))) || (m = l.match(new RegExp(`\\b(?:bill|check|total|dinner|meal|tab)(?: is| was| came to| comes to| of)? (?:€|\\$|£)?${N}.*?\\b${N} ?(?:%|percent) tip.*?\\b(\\d+) (?:people|of us|persons|friends|ways)`)))) {
       const [n, b, p] = /^(?:we|there|for)/.test(m[0]) ? [m[1], m[2], m[3]] : [m[3], m[1], m[2]]; return `bill ${b} for ${n} people with ${p}% tip`; }
@@ -6425,6 +6548,122 @@ const Engine = (() => {
     { const FW = { half: 2, halves: 2, third: 3, thirds: 3, quarter: 4, quarters: 4, fourth: 4, fourths: 4, fifth: 5, fifths: 5, sixth: 6, sixths: 6, seventh: 7, sevenths: 7, eighth: 8, eighths: 8, ninth: 9, ninths: 9, tenth: 10, tenths: 10 }, NW = { a: 1, an: 1, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9 };
       if ((m = l.match(/^(?:what'?s |whats |what is )?(\d+|a|an|one|two|three|four|five|six|seven|eight|nine) (halves|half|thirds?|quarters?|fourths?|fifths?|sixths?|sevenths?|eighths?|ninths?|tenths?) (?:as|in|to) (?:a )?(percentage|percent|%|decimal)$/))) return `${NW[m[1]] || m[1]}/${FW[m[2]]} as a ${m[3] === 'decimal' ? 'decimal' : 'percentage'}`; }
     if (/^(?:what(?:'s| is)? (?:the )?)?(?:current )?week(?: number)?(?: is it| are we in| is this| of the year| today| now)?$|^which week (?:is it|are we in|of the year is it)$/.test(l)) return 'week number';
+    // "i got a 3% raise on 2500", "salary 2500 with a 3% raise"
+    if ((m = l.match(/\b(?:got|get|getting|gets|given|with|after|add) (?:a |an )?(\d+(?:\.\d+)?) ?(?:%|percent) (?:pay )?(?:raise|rise|increase|bump|pay rise)\b.*?\b(\d+(?:\.\d+)?)\b/)) || ((m = l.match(/\b(\d+(?:\.\d+)?)\b[^%]*?\b(?:with|after|plus|and) (?:a |an )?(\d+(?:\.\d+)?) ?(?:%|percent) (?:pay )?(?:raise|rise|increase|bump)\b/)) && (m = [m[0], m[2], m[1]]))) return `${m[2]} + ${m[1]}%`;
+    if ((m = l.match(/\b(\d+(?:\.\d+)?) ?(?:%|percent) (?:pay )?(?:raise|rise|increase|bump) (?:on|of|from|to) (?:my |a )?(?:salary of |wage of |pay of )?(\d+(?:\.\d+)?)/))) return `${m[2]} + ${m[1]}%`;
+    // "how much more is 152 than 87 in percent", "by what percent is 152 more than 87"
+    if ((m = l.match(/\b(?:how much|how many percent|by how much|by what percent(?:age)?|what percent(?:age)?) (?:more|bigger|higher|larger|greater|less|smaller|lower|cheaper) is (\d+(?:\.\d+)?) than (\d+(?:\.\d+)?)(?: in (?:percent|%|percentage))?/)) && (/percent|%/.test(l))) return `${m[2]} to ${m[1]} percentage change`;
+    if ((m = l.match(/\b(?:by )?(?:how much|what percent(?:age)?|how many percent) (?:is|was) (\d+(?:\.\d+)?) (?:more|bigger|higher|larger|greater|less|smaller|lower) than (\d+(?:\.\d+)?)/)) && /percent|%/.test(l)) return `${m[2]} to ${m[1]} percentage change`;
+    // "what number is 20% bigger than 50"
+    if ((m = l.match(/\b(?:what|which) (?:number|value|amount|price) is (\d+(?:\.\d+)?) ?(?:%|percent) (more|bigger|higher|larger|greater|above|less|smaller|lower|below|under|cheaper) than (\d+(?:\.\d+)?)/))) return `${m[3]} ${/more|bigger|higher|larger|greater|above/.test(m[2]) ? '+' : '-'} ${m[1]}%`;
+    // "me, ana and joao spent 30, 40 and 50": names, then their amounts, in the same order
+    if ((m = l.match(/^(?:so )?((?:(?:me|i|[a-zà-ÿ]{2,14})(?:,\s*|\s+and\s+|\s+&\s+|\s+))+?)(?:spent|paid|put in|chipped in|gave)\s+((?:(?:€|\$|£)?\d+(?:\.\d+)?(?:,\s*|\s+and\s+|\s+&\s+|\s+)?)+)(.*)$/))) { const N = m[1].split(/,\s*|\s+and\s+|\s+&\s+|\s+/).filter(Boolean).filter(w => !/^(?:we|us|together|the|bill|all)$/.test(w)), A = (m[2].match(/\d+(?:\.\d+)?/g) || []); if (N.length >= 2 && N.length === A.length) return N.map((n, i) => `${/^(?:me|i)$/.test(n) ? 'me' : n} ${A[i]}`).join(', ') + ', who owes who'; }
+    // "8:45 to 17:15 minus 1 hour lunch": a working day less the break
+    if ((m = l.match(/(?:from )?(\d{1,2}[:.h]\d{2}|\d{1,2} ?(?:am|pm)) (?:to|till|until|-) (\d{1,2}[:.h]\d{2}|\d{1,2} ?(?:am|pm))\b.*?\b(?:minus|less|without|take away|except|not counting|with) (?:an? |one )?(\d+(?:\.\d+)?|half an?|an?)? ?(hours?|hrs?|h|minutes?|mins?|m)\b/))) { const n = /half/.test(m[3] || '') ? 0.5 : /^an?$/.test((m[3] || 'a').trim()) ? 1 : +m[3]; return `${m[1]} to ${m[2]} minus ${/^m/.test(m[4]) ? n + ' minutes' : n * 60 + ' minutes'}`; }
+    // "when is easter next year", "easter this year"
+    if ((m = l.match(/\b(easter|christmas|new year'?s?(?: day)?|halloween|valentine'?s?(?: day)?)\b.*\b(next|this|last) year\b/))) { const y = new Date().getFullYear() + (m[2] === 'next' ? 1 : m[2] === 'last' ? -1 : 0); return `${m[1]} ${y}`; }
+    // "how many months until i've saved 10000 at 400 a month", "how long to save 3000 at 75 a week"
+    if ((m = l.match(/\b(?:how (?:many (?:months|weeks|years)|long)) (?:until|till|before|to|will it take (?:me )?to)? ?(?:i(?:'ve| have| will have)? )?(?:save|saved|have|reach|get to) (?:€|\$|£)?(\d+(?:\.\d+)?)\b.*?\b(?:at|saving|if i save|putting away|with) (?:€|\$|£)?(\d+(?:\.\d+)?) (?:a|per|each|every) (month|week|day|year)/))) return `if i save ${m[2]} a ${m[3]} how long until i have ${m[1]}`;
+    // "1.5 cups in grams of sugar" → 1.5 cups of sugar in grams
+    if ((m = l.match(/^(?:what'?s |whats |what is |how much is |convert )?(\d+(?:[.,]\d+)?|a|one|half a) (cups?|tbsp|tablespoons?|tsp|teaspoons?|ml|grams?|g) (?:in|to|into) (grams?|g|ml|cups?|tbsp|tablespoons?|tsp|teaspoons?) of ([a-z ]+?)\??$/))) return `${m[1]} ${m[2]} of ${m[4]} in ${m[3]}`;
+    // "what time is it in new york when it's 3pm in lisbon"
+    if ((m = l.match(/\bwhat time (?:is it|will it be|is that) in ([a-z .]+?) (?:when|if) (?:it'?s|it is) (\d{1,2}(?:[:.h]\d{2})? ?(?:am|pm)?) (?:in|here in|at) ([a-z .]+?)\??$/))) return `${m[2]} in ${m[3]} in ${m[1]} time`;
+    if ((m = l.match(/\b(?:how many )?hours? (?:difference|ahead|behind|apart)? ?(?:between|from) ([a-z .]+?) (?:and|to) ([a-z .]+?)\??$/)) && !/\d/.test(l)) return `time difference between ${m[1]} and ${m[2]}`;
+    // "i scored 34 out of 40", "34 out of 40 what's my grade"
+    if ((m = l.match(/\b(\d+(?:\.\d+)?) (?:out of|of|\/) (\d+(?:\.\d+)?)\b/)) && /\b(?:scor|grade|mark|test|exam|got|result|percent|%|correct|right)/.test(l) && !/\bper ?cent of\b/.test(l)) return `${m[1]} out of ${m[2]} as a percentage`;
+    // "3 hours at 15 an hour plus 20 travel"
+    if ((m = l.match(/\b(\d+(?:\.\d+)?) ?(?:h|hrs?|hours?) (?:at|@) (?:€|\$|£)?(\d+(?:\.\d+)?) (?:an?|per|\/) ?(?:h|hr|hour)\b.*?\b(?:plus|and|\+) (?:€|\$|£)?(\d+(?:\.\d+)?)\b/))) return `${m[1]} × ${m[2]} + ${m[3]}`;
+    // "we paid 48 for 4 pizzas and 12 for drinks, 5 of us": everything paid, shared
+    { const amts = [...l.matchAll(/(?:€|\$|£)?(\d+(?:\.\d+)?)\s*(?:€|euros?)?\s+for\s+(?!\d+\s*(?:people|of us|persons|nights?|days?))/g)].map(x => +x[1]), ppl = (l.match(/\b(\d+) (?:of us|people|persons|friends)\b|\bwe(?:'re| are| were) (\d+)\b/) || []); const n = +(ppl[1] || ppl[2] || 0);
+      if (amts.length >= 2 && n >= 2 && /\b(?:each|per person|how much|split|share)\b/.test(l)) return `split ${amts.reduce((a, b) => a + b, 0)} between ${n}`; }
+    // sharing a stay: "6 people share a 900 airbnb for 3 nights" (the nights don't change the share)
+    if ((m = l.match(/\b(\d+) (?:people|of us|persons|friends)\b.*?\b(?:share|split|sharing|splitting)\b.*?(?:€|\$|£)?(\d+(?:\.\d+)?)\b(?: ?(?:€|euros?))?(?:[a-z ]*?)\bfor (\d+) (nights?|days?|weeks?)\b/))) return `split ${m[2]} between ${m[1]}`;
+    if ((m = l.match(/\b(vat|iva|tax|sales tax)\b(?: (?:on|for|of))? (?:a |an |the |my )?(?:€|\$|£)?(\d+(?:\.\d+)?)\s*(?:€|euros?|dollars?)?\s+[a-zà-ÿ][a-zà-ÿ ]*$/)) && !/\b(?:in|to|per|a|each|for)\s+\d/.test(l.slice(m.index + m[0].indexOf(m[2])))) return `${m[1]} on ${m[2]}`;
+    // "whats 20 of 50 off" / "bought shoes 80 sale 25" / "cut 15 off 80"
+    if ((m = l.match(/\b(\d+(?:\.\d+)?) (?:of|on) (\d+(?:\.\d+)?) off\b/))) return `${m[1]}% off ${m[2]}`;
+    if ((m = l.match(/\b(\d+(?:\.\d+)?)\b[^\d%]*?\b(?:sale|discount|reduced|off|markdown)\s+(\d+(?:\.\d+)?)\s*%?$/)) && +m[2] < 100 && +m[1] > +m[2]) return `${m[2]}% off ${m[1]}`;
+    if ((m = l.match(/^(?:cut|take|knock|shave|remove|deduct)\s+(\d+(?:\.\d+)?)\s*(%)?\s+(?:off|from)\s+(\d+(?:\.\d+)?)$/))) return m[2] ? `${m[1]}% off ${m[3]}` : `${m[3]} - ${m[1]}`;
+    // "my rent is 900 how much a year": rent, salary and bills are monthly unless you say otherwise
+    if ((l.match(/\d+(?:\.\d+)?/g) || []).length === 1 && (m = l.match(/\b(rent|salary|wage|pay|mortgage|bills?|subscription|netflix|gym|phone|insurance|allowance|pocket money|coffee|lunch|groceries)\b[^\d]*?(\d+(?:\.\d+)?)\b(?![^\d]*\b(?:a|per|each|every) (?:day|week|month|year)\b[^\d]*\bhow)[^\d]*\b(?:how much|what(?:'s| is)?(?: that)?)?\s*(?:in|a|per|each|over a|for a) (day|week|month|year)\b/)) && !/\b(?:a|per|each|every) (?:day|week|month|year)\b.*\b(?:a|per|each|every|in a|for a) (?:day|week|month|year)\b/.test(l)) { const src = /coffee|lunch/.test(m[1]) ? 'day' : /groceries/.test(m[1]) ? 'week' : 'month'; if (src !== m[3]) return `${m[2]} a ${src} per ${m[3]}`; }
+    // "flight 6 hours 20 leaves 14:30 when do i land"
+    if ((m = l.match(/(\d+) ?(?:h|hrs?|hours?)(?: and)? ?(\d+)?(?: ?(?:m|mins?|minutes?))?\b.*?\b(?:leav\w*|depart\w*|start\w*|at|from)\s+(\d{1,2}[:.h]\d{2}|\d{1,2} ?(?:am|pm))/)) || ((m = l.match(/(?:leav\w*|depart\w*|start\w*|at)\s+(\d{1,2}[:.h]\d{2}|\d{1,2} ?(?:am|pm))\b.*?\b(\d+) ?(?:h|hrs?|hours?)(?: and)? ?(\d+)?/)) && (m = [m[0], m[2], m[3], m[1]]))) { if (/\b(?:land|arriv\w*|get there|finish|end|done|back)\b/.test(l)) return `${m[3]} + ${m[1]} h${m[2] ? ' ' + m[2] + ' min' : ''}`; }
+    // "i need 2 litres of paint per 10m2 how much for 35m2"
+    if ((m = l.match(/(\d+(?:\.\d+)?)\s*([a-z]+)?\b[^\d]*?\bper\s+(\d+(?:\.\d+)?)\s*([a-z0-9²]+)?\b[^\d]*?\b(?:for|on|with|cover)\s+(\d+(?:\.\d+)?)\s*([a-z0-9²]+)?/)) && /\bhow (?:much|many)\b/.test(l)) return `${m[1]} / ${m[3]} × ${m[5]}`;
+    // "each of 5 people pays 12, total?"
+    if ((m = l.match(/\beach of (?:the )?(\d+)\b[^\d]*?(?:pays?|gives?|puts? in|costs?|spends?)\s+(?:€|\$|£)?(\d+(?:\.\d+)?)/)) || (m = l.match(/\b(\d+) (?:people|of us|friends|kids)\b[^\d]*?\beach (?:pays?|gives?|puts? in|spends?)?\s*(?:€|\$|£)?(\d+(?:\.\d+)?)/))) return `${m[1]} × ${m[2]}`;
+    // "fuel 45 litres 1.79": litres at a price
+    if ((m = l.match(/\b(?:fuel|petrol|diesel|gas|gasoline)\b[^\d]*?(\d+(?:\.\d+)?)\s*(?:l|litres?|liters?)\b[^\d]*?(?:€|\$|£)?(\d+(?:\.\d+)?)\b(?!\s*(?:km|l\/|mpg))/)) && +m[2] < 5) return `${m[1]} × ${m[2]}`;
+    // "mix 3 parts water 1 part juice for 2 litres"
+    if ((m = l.match(/(\d+(?:\.\d+)?) parts? ([a-z]+)\b.*?(\d+(?:\.\d+)?) parts? ([a-z]+)\b.*?\b(?:for|to make|make|total|in)\s+(\d+(?:\.\d+)?)\s*([a-z]+)?/))) return `split ${m[5]} in ratio ${m[1]}:${m[3]}`;
+    // "the 3 lamps were 45 how much each": a total shared out
+    if ((m = l.match(/\b(\d+) ([a-zà-ÿ]{3,}?s?) (?:were|was|cost|costs|came to|for|are)\s+(?:€|\$|£)?(\d+(?:\.\d+)?)\b(?!\s*(?:each|a piece|apiece))/)) && !/^(?:we|us|they|you|there|people|of)$/.test(m[2]) && +m[1] <= 100 && +m[1] < +m[3] && /\bhow much (?:is |was |did |does |do )?(?:it )?(?:each|one|a piece|per (?:one|item|piece))\b|\beach\?*$|\bwhat (?:does|did|is) (?:each|one)\b/.test(l)) return `${m[3]} / ${m[1]}`;
+    // "gave the cashier 50 for 37.80": the change
+    if ((m = l.match(/\b(?:gave|give|handed|hand|paid with|pay with)\b[^\d]*?(?:€|\$|£)?(\d+(?:\.\d+)?)\s*(?:€|euros?|note)?\s+(?:for|on|to pay)\s+(?:€|\$|£)?(\d+(?:\.\d+)?)\b(?!\s*(?:weeks?|days?|months?|items?|people|hours?))/)) && +m[1] > +m[2]) return `change from ${m[1]} for ${m[2]}`;
+    // "bag holds 12, have 50 items": how many bags
+    if ((m = l.match(/\b(?:holds?|fits?|carries|seats?|capacity(?: of)?)\s+(\d+)\b.*?\b(?:have|got|need|there are)\s+(\d+)\b/))) return `ceil(${m[2]} / ${m[1]})`;
+    // "2 rooms 4x3 and 5x4": several areas, added
+    { const A = [...l.matchAll(/(\d+(?:\.\d+)?)\s*(?:m\s*)?(?:x|×|by)\s*(\d+(?:\.\d+)?)/g)]; if (A.length >= 2 && !/\bx\s*\d+\s*(?:x|×|by)/.test(l) && /\b(?:rooms?|floors?|walls?|area|m2|m²|square|tiles?|carpet|paint)\b/.test(l)) return A.map(x => `${x[1]} × ${x[2]}`).join(' + '); }
+    // "clock 9 to 17 lunch 1h pay 11": paid hours × the rate
+    if ((m = l.match(/\b(\d{1,2})(?:[:.h](\d{2}))?\s*(?:am|pm)?\s*(?:to|till|until|-)\s*(\d{1,2})(?:[:.h](\d{2}))?\s*(?:am|pm)?\b.*?\b(?:pay|paid|rate|at|wage|earn\w*)\s*(?:€|\$|£)?(\d+(?:\.\d+)?)/))) { let h = (+m[3] + (+m[4] || 0) / 60) - (+m[1] + (+m[2] || 0) / 60); if (h <= 0) h += 12; const br = (l.match(/\b(?:lunch|break|minus|less)\s*(\d+(?:\.\d+)?)\s*(h|hours?|m|mins?|minutes?)?/) || []); if (br[1]) h -= /^m/.test(br[2] || '') ? +br[1] / 60 : +br[1]; if (h > 0 && h < 24) return `${+h.toFixed(4)} × ${m[5]}`; }
+    // "34 apples 6 boxes how many each": shared out evenly
+    if ((m = l.match(/\b(\d+(?:\.\d+)?) ([a-zà-ÿ]+)\b.*?\b(\d+) (boxes|bags|people|kids|children|friends|plates|teams|groups|tables|rows|persons|baskets|jars|shelves)\b/)) && /\bhow many (?:\w+ )?(?:each|in each|per (?:box|bag|person|plate|team|group|table|row|basket|jar|shelf))\b|\beach get\b|\bin each\b/.test(l) && !/[×*+\/]/.test(l) && !/\bfor \d+\s*(?:people|persons)?\??$/.test(l)) return `${m[1]} / ${m[3]}`;
+    // "phone 699 12 months no interest", "120 spread over 8 weeks"
+    if ((m = l.match(/(?:€|\$|£)?(\d+(?:\.\d+)?)\b[^\d]*?\b(?:over|in|for|across|spread over)?\s*(\d+)\s*(months?|weeks?|payments?|instal?ments?)\b/)) && /\b(?:no interest|interest[- ]free|0 ?%|monthly|a month|per month|instal|spread|payments?|weekly|a week|per week|over)\b/.test(l) && +m[1] > +m[2]) return `${m[1]} / ${m[2]}`;
+    if ((m = l.match(/\bsplit\b[^\d]*(?:€|\$|£)?(\d+(?:\.\d+)?)\s*(?:between |among |by )?(\d+)\s*(?:rooms|flatmates|housemates|roommates|people|ways|of us)\b/))) return `split ${m[1]} between ${m[2]}`;
+    // "paid 60 for 4 tickets and 2 drinks at 3.50": what was paid, plus the extras
+    if ((m = l.match(/(?:€|\$|£)?(\d+(?:\.\d+)?)\s*(?:€|euros?)?\s+for\s+\d+\s+[a-zà-ÿ]+\s+and\s+(\d+)\s+[a-zà-ÿ]+\s+(?:at|for|@)\s+(?:€|\$|£)?(\d+(?:\.\d+)?)\s*(each)?/))) return `${m[1]} + ${m[2]} × ${m[3]}`;
+    // "trip 450 km car does 6l per 100 diesel 1.65"
+    if ((m = l.match(/(\d+(?:\.\d+)?)\s*km\b.*?(\d+(?:\.\d+)?)\s*(?:l|litres?|liters?)\s*(?:per|\/|every|a)\s*100\b.*?(?:€|\$|£)?(\d+(?:\.\d+)?)\b/)) && +m[3] < 5 && +m[3] !== 100) return `cost of ${m[1]} km at ${m[2]} l/100km with petrol at ${m[3]}`;
+    // "12% tip plus 6% tax on 80"
+    if ((m = l.match(/(\d+(?:\.\d+)?)\s*%\s*(tip|tax|vat|service|fee)\s*(?:plus|and|\+|with)\s*(\d+(?:\.\d+)?)\s*%\s*(tip|tax|vat|service|fee)\s*(?:on|for|of)\s*(?:€|\$|£)?(\d+(?:\.\d+)?)/))) return `${m[5]} + ${+m[1] + +m[3]}%`;
+    // "my hourly is 14, 7.5 hours a day, 22 days"
+    if ((m = l.match(/(?:hourly|an hour|per hour|\/h|\/hr|rate)\b[^\d]*?(?:is )?(?:€|\$|£)?(\d+(?:\.\d+)?)\b.*?(\d+(?:\.\d+)?)\s*(?:h|hrs?|hours?)\s*(?:a|per|each)\s*day\b.*?(\d+)\s*days?\b/)) || (m = l.match(/(?:€|\$|£)?(\d+(?:\.\d+)?)\s*(?:an|per|\/)\s*(?:hour|hr|h)\b.*?(\d+(?:\.\d+)?)\s*(?:h|hrs?|hours?)\s*(?:a|per|each)\s*day\b.*?(\d+)\s*days?\b/))) return `${m[1]} × ${m[2]} × ${m[3]}`;
+    // "order 3 pizzas 11.90 each delivery 2.50"
+    if ((m = l.match(/\b(\d+)\s+[a-zà-ÿ]+\s+(?:at\s+)?(?:€|\$|£)?(\d+(?:\.\d+)?)\s*(?:€|euros?)?\s+each\b.*?\b(?:delivery|shipping|postage|fee|plus|service|tip|deposit)\s+(?:of\s+|is\s+)?(?:€|\$|£)?(\d+(?:\.\d+)?)/))) return `${m[1]} × ${m[2]} + ${m[3]}`;
+    // "split 75 between me and 2 friends, ana pays double"
+    if ((m = l.match(/\bsplit\s+(?:€|\$|£)?(\d+(?:\.\d+)?)\b.*?\bbetween (?:me and )?(\d+)\b.*?\b(?:pays?|gets?|has|owes?)\s+(double|twice|triple|half)\b/))) { const n = +m[2] + (/between me and/.test(l) ? 1 : 0), w = { double: 2, twice: 2, triple: 3, half: 0.5 }[m[3]]; if (n >= 2 && n <= 12) return `split ${m[1]} in ratio ${Array(n - 1).fill(1).concat([w]).join(':')}`; }
+    // "from monday to friday how many hours if 7.5 a day"
+    { const D = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']; if ((m = l.match(/\b(monday|tuesday|wednesday|thursday|friday|saturday|sunday)\s+(?:to|till|until|through|-)\s+(monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b.*?(?:€|\$|£)?(\d+(?:\.\d+)?)\s*(?:h|hrs?|hours?)?\s*(?:a|per|each)\s*day/))) { let n = (D.indexOf(m[2]) - D.indexOf(m[1]) + 7) % 7 + 1; return `${n} × ${m[3]}`; } }
+    // "born on 3 april 1992 how many days old"
+    if ((m = l.match(/\bborn (?:on |in )?(.+?)\s+how many (days|weeks|months|hours|minutes|seconds) (?:old|alive|have i (?:been )?(?:lived|alive))/))) return `${m[2]} since ${m[1]}`;
+    // "bake 25 min per kg, turkey 5.5kg"
+    if ((m = l.match(/(\d+(?:\.\d+)?)\s*(?:min(?:ute)?s?|m)\s*(?:per|a|every|\/)\s*(kg|kilo|lb|pound|500 ?g|450 ?g)\b.*?(\d+(?:\.\d+)?)\s*(kg|kilos?|lbs?|pounds?|g)\b/))) { let w = +m[3]; const per = m[2].replace(/\s/g, ''); if (/^g$/.test(m[4])) w /= 1000; const unitW = /^(?:500g)$/.test(per) ? 0.5 : /^(?:450g)$/.test(per) ? 0.45 : 1; return `${Math.round(+m[1] * w / unitW)} min to h and min`; }
+    // "need 3 eggs for 12 cookies how many for 30": scale a recipe
+    if ((m = l.match(/(\d+(?:\.\d+)?)\s+([a-zà-ÿ]+)\s+(?:for|to make|makes?)\s+(\d+(?:\.\d+)?)\s+([a-zà-ÿ]+)\b.*?\b(?:how (?:many|much)\b.*?\b(?:for|to make)|for)\s+(\d+(?:\.\d+)?)\b/)) && !/[€$£]|\b(?:euros?|dollars?|cost|costs|price|paid|each|spend|spent|bought|buy)\b|\d[.,]\d/.test(l)) return `${m[1]} × ${m[5]} ÷ ${m[3]}`;
+    // "800 calories burned per hour, how many in 45 minutes"
+    if ((m = l.match(/(\d+(?:\.\d+)?)\s*([a-zà-ÿ ]*?)\s*(?:per|an|a|every|\/)\s*(?:hour|hr|h)\b.*?\b(?:in|for|after)\s+(\d+(?:\.\d+)?)\s*(?:min|mins|minutes)\b/))) return `${m[1]} × ${m[3]} / 60`;
+    // "1 coffee a day at 1.20, how much a year"
+    if ((m = l.match(/\b(\d+)\s+[a-zà-ÿ]+\s+(?:a|per|each)\s+(day|week|month)\s+(?:at|for|@)\s+(?:€|\$|£)?(\d+(?:\.\d+)?)\b.*?\b(?:a|per|in a|each|every)\s+(day|week|month|year)\b/)) && m[2] !== m[4]) return `${+(+m[1] * +m[3]).toFixed(2)} a ${m[2]} per ${m[4]}`;
+    // "15 squared plus 20 squared root"
+    if ((m = l.match(/^(?:what'?s |whats |what is |how much is )?(.+?)\s+(?:square\s+)?root$/)) && /\b(?:squared|plus|minus|times)\b/.test(m[1])) return `sqrt(${m[1].replace(/\bsquared\b/g, '^2').replace(/\bplus\b/g, '+').replace(/\bminus\b/g, '-').replace(/\btimes\b/g, '*')})`;
+    // "double 125 and halve it": one step after another
+    if ((m = l.match(/^(double|triple|halve|half|square)\s+(\d+(?:\.\d+)?)\s+and\s+(.+)$/))) return `${m[1]} ${m[2]} then ${m[3]}`;
+    // "2 hours 15 minutes to decimal"
+    if ((m = l.match(/(\d+)\s*(?:h|hrs?|hours?)\s*(?:and\s*)?(\d+)\s*(?:m|mins?|minutes?)\s*(?:to|in|as)\s*(?:a\s*)?(?:decimal|hours?)\b/))) return `${m[1]} h ${m[2]} min to hours`;
+    // "4 nights at 89 plus 10 tourist tax a night"
+    if ((m = l.match(/\b(\d+)\s*(nights?|days?|tickets?|people|persons|rooms?)\s+(?:at|@|for)\s+(?:€|\$|£)?(\d+(?:\.\d+)?)\b.*?\b(?:plus|\+|and)\s+(?:€|\$|£)?(\d+(?:\.\d+)?)(?!\s*[a-zà-ÿ]+\s+(?:at|@|for)\b)\s*([a-z ]*?)\s*((?:a|per|each)\s+(?:night|day|person|ticket|room))?\b/)) && !/%/.test(l) && /\b(?:plus|\+)\b|\b(?:tax|fee|cleaning|service|deposit|charge|booking)\b/.test(l)) { const perEach = /\b(?:a|per|each)\s+(?:night|day|person|ticket|room)\b/.test(l.slice(l.indexOf(m[4], m.index + m[0].indexOf(m[3]) + m[3].length))); return perEach ? `${m[1]} × (${m[3]} + ${m[4]})` : `${m[1]} × ${m[3]} + ${m[4]}`; }
+    // "gave 20 got 7.35 change what did it cost"
+    if ((m = l.match(/\b(?:gave|paid|handed)\s+(?:€|\$|£)?(\d+(?:\.\d+)?)\b.*?\b(?:got|received|gave me|get)\s+(?:€|\$|£)?(\d+(?:\.\d+)?)\s*(?:back|change|in change)/))) return `${m[1]} - ${m[2]}`;
+    // "area of a pizza 30cm diameter"
+    if ((m = l.match(/\b(?:area|size)\s+of\s+(?:a|an|the|my)?\s*(?:[a-z]+\s+)?(\d+(?:\.\d+)?)\s*(cm|m|in|inch|inches|mm|ft)?\s*(?:diameter|wide|across|round)\b/)) || ((m = l.match(/\b(?:area|size)\s+of\s+(?:a|an|the|my)?\s*[a-z]+\s+(?:with\s+(?:a\s+)?)?(?:diameter\s+(?:of\s+)?)(\d+(?:\.\d+)?)\s*(cm|m|in|inch|inches|mm|ft)?/)))) return `area of a circle with diameter ${m[1]}${m[2] ? ' ' + m[2] : ''}`;
+    // "netflix 13.99 spotify 10.99 gym 35 per month, total a year"
+    { const A = (l.match(/(?:€|\$|£)?\d+(?:\.\d+)?/g) || []).map(x => x.replace(/[€$£]/g, '')); const per = (l.match(/\b(?:a|per|each|every)\s+(day|week|month|year)\b|\b(daily|weekly|monthly|yearly)\b/) || []); const p0 = per[1] || { daily: 'day', weekly: 'week', monthly: 'month', yearly: 'year' }[per[2]]; const tgt = (l.match(/\b(?:total|in|a|per|for a|over a)\s+(day|week|month|year)\s*\??$/) || [])[1];
+      const named = [...l.matchAll(/\b([a-zà-ÿ]{3,})\s+(?:€|\$|£)?\d+(?:\.\d+)?\b/g)].filter(x => !/^(?:hours?|days?|weeks?|months?|years?|for|at|earn|work|make|rate|shifts?|and|plus|with|about|around|is|was|are|per|every|each|of|the|than|from|to)$/.test(x[1]));
+      if (A.length >= 2 && named.length === A.length && p0 && tgt && p0 !== tgt && !/[×*+\/]|\bx\b|\bhours?\b|\ban hour\b|\bearn|\bwork|\bsalary\b/.test(l)) { const PY = { day: 365, week: 52, month: 12, year: 1 }, f = PY[p0] / PY[tgt]; return `(${A.join(' + ')}) × ${+f.toFixed(6)}`; } }
+    // "1250 every 2 weeks, how much a year"
+    if ((m = l.match(/(?:€|\$|£)?(\d+(?:\.\d+)?)\s*(?:€|euros?)?\s+every\s+(\d+)\s+(days?|weeks?|months?)\b/)) && (m[4] = (l.match(/\b(?:a|per|in a|each)\s+(day|week|month|year)\b/) || [])[1])) { const PY = { day: 365, week: 52, month: 12, year: 1 }, unit = m[3].replace(/s$/, ''), f = PY[unit] / +m[2] / PY[m[4]]; return `${m[1]} × ${+f.toFixed(4)}`; }
+    // "electricity bill 84 for 2 months, how much a day"
+    if ((m = l.match(/(?:€|\$|£)?(\d+(?:\.\d+)?)\s*(?:€|euros?)?\s+(?:for|over|every|covers?)\s+(\d+(?:\.\d+)?)\s+(days|weeks|months|years)\b.*?\b(?:a|per|each)\s+(day|week|month|year)\b/)) && m[3].replace(/s$/, '') !== m[4]) return `${+(+m[1] / +m[2]).toFixed(4)} a ${m[3].replace(/s$/, '')} per ${m[4]}`;
+    // "party 18 people 2 slices each, pizza has 8 slices: how many pizzas"
+    if ((m = l.match(/\b(\d+)\s+(?:people|guests|kids|friends|persons|of us)\b.*?\b(\d+(?:\.\d+)?)\s+([a-zà-ÿ]+)\s+each\b.*?\b(?:has|have|with|of|holds|contains?)\s+(\d+)\s+\3\b/)) || ((m = l.match(/\b(\d+)\s+(?:people|guests|kids|friends|persons)\b.*?\b(\d+(?:\.\d+)?)\s+([a-zà-ÿ]+)\s+each\b.*?\b(\d+)\s+\3\s+(?:per|a|each|in a|in each)\b/)))) return `ceil(${m[1]} × ${m[2]} ÷ ${m[4]})`;
+    // "1 in 5 people of 3000"
+    if ((m = l.match(/\b(\d+)\s+(?:in|out of)\s+(\d+)\b.*?\b(?:of|from|among|in)\s+(\d+(?:\.\d+)?)\b/)) && +m[1] < +m[2]) return `${m[3]} × ${m[1]} ÷ ${m[2]}`;
+    // "whats the tip if i leave 10 on 72" → what percent that is
+    if ((m = l.match(/\b(?:leave|leaving|left|tip|tipped|give|gave)\s+(?:a\s+)?(?:€|\$|£)?(\d+(?:\.\d+)?)\s*(?:€|euros?)?\s+(?:on|for)\s+(?:a\s+|the\s+)?(?:€|\$|£)?(\d+(?:\.\d+)?)/)) && /\btip/.test(l) && !/%/.test(l) && +m[1] < +m[2]) return `${m[1]} is what % of ${m[2]}`;
+    // "watch 3 episodes of 45 minutes starting 21:00, when do i finish"
+    if ((m = l.match(/\b(\d+)\s+[a-zà-ÿ]+\s+(?:of|at|lasting)\s+(\d+)\s*(min|mins|minutes|h|hours?)\b.*?\b(?:start\w*|from|at|begin\w*)\s+(\d{1,2}[:.h]\d{2}|\d{1,2}\s*(?:am|pm))/))) { const per = /^h/.test(m[3]) ? +m[2] * 60 : +m[2], tot = +m[1] * per; return `${m[4]} + ${Math.floor(tot / 60)} h ${tot % 60} min`; }
+    // "3 kg of apples at 1.99 per kg and 2 kg pears 2.49 per kg"
+    { const A = [...l.matchAll(/(\d+(?:\.\d+)?)\s*(kg|g|l|litres?|lb)\s+(?:of\s+)?[a-zà-ÿ]+\s+(?:at\s+|for\s+)?(?:€|\$|£)?(\d+(?:\.\d+)?)\s*(?:€|euros?)?\s*(?:per|a|\/)\s*(?:kg|kilo|l|litre|lb)\b/g)]; if (A.length >= 2) return A.map(x => `${/^g$/.test(x[2]) ? +x[1] / 1000 : x[1]} × ${x[3]}`).join(' + '); }
     // sizes typed halfway: "men's 10 us to e" → to eu
     if (/\b(?:us|uk|eu|fr|it|jp)\b|\b(?:men'?s|women'?s|ladies)\b|\bsize\b/.test(l) && /\d/.test(l) && /\s(?:to|in) e$/.test(l)) return l.replace(/e$/, 'eu');
     return t; }
@@ -6432,11 +6671,43 @@ const Engine = (() => {
     if (solveNest > 24) return null;
     if (!depth && solveNest === 0) raw = preWords(raw);
     if (!depth && solveNest === 0) { const l = String(raw || '').toLowerCase(); let m;
+      // a device used N hours a day: kWh a day, a month, a year (and the cost when there's a price)
+      if ((m = l.match(/(\d+(?:\.\d+)?)\s*(w|watts?|kw|kilowatts?)\b.*?\b(\d+(?:\.\d+)?)\s*(?:h|hrs?|hours?) (?:a|per|each|every) day\b/))) { const kw = /^k/.test(m[2]) ? +m[1] : +m[1] / 1000, h = +m[3], day = kw * h; const per = /\byear|annual/.test(l) ? 'year' : /\bweek/.test(l) ? 'week' : /\bmonth/.test(l) ? 'month' : 'month'; const k = { week: 7, month: 30, year: 365 }[per], tot = day * k;
+        const price = (l.match(/(?:€|\$|£)?\s*(\d+(?:\.\d+)?)\s*(?:€|euros?|cents?)?\s*(?:a|per|\/)\s*kwh/) || [])[1]; const c = price ? tot * (+price > 5 ? +price / 100 : +price) : null;
+        return { kind: 'Energy', label: `${fmt(sig(kw * 1000, 6))} W, ${fmt(h)} h a day, a ${per}`, value: c != null ? money(c) : fmt(sig(tot, 4)), unit: c != null ? '' : 'kWh', num: sig(c != null ? c : tot, 10), steps: [['a day', `${fmt(sig(day, 4))} kWh`], [`a ${per} (${k} days)`, `${fmt(sig(tot, 4))} kWh`], ['a year', `${fmt(sig(day * 365, 4))} kWh`]].concat(c != null ? [['at', `${price} per kWh`]] : [['cost', 'add “at 0.22 per kwh”']]) }; }
+      // boxes, tanks, pools and rooms: length × width × depth, and how many litres that holds
+      { const U = '(mm|cm|m|metres?|meters?|in|inch(?:es)?|ft|feet|foot)?'; const re = new RegExp(`(\\d+(?:\\.\\d+)?) ?${U} ?(?:x|×|by|\\*) ?(\\d+(?:\\.\\d+)?) ?${U} ?(?:x|×|by|\\*) ?(\\d+(?:\\.\\d+)?) ?${U}`);
+        if ((m = l.match(re)) && /\b(?:volume|litres?|liters?|cubic|m3|m³|cm3|cm³|capacity|hold|holds|fill|water|pool|tank|aquarium|box|container|crate|fridge|bath|tub|pond)\b/.test(l)) { const fac = u => /^mm/.test(u) ? .001 : /^cm/.test(u) ? .01 : /^m/.test(u) ? 1 : /^in/.test(u) ? .0254 : /^(?:ft|feet|foot)/.test(u) ? .3048 : null;
+          const last = m[6] || m[4] || m[2] || (/\bcm\b/.test(l) ? 'cm' : /\bmm\b/.test(l) ? 'mm' : /\b(?:ft|feet)\b/.test(l) ? 'ft' : 'm'); const d = [[m[1], m[2] || last], [m[3], m[4] || last], [m[5], m[6] || last]].map(([v, u]) => +v * fac(u)); if (d.every(x => isFinite(x) && x > 0)) { const m3 = d[0] * d[1] * d[2], L = m3 * 1000; const wantL = /\b(?:litres?|liters?|water|pool|tank|aquarium|hold|holds|fill|capacity|bath|tub|pond)\b/.test(l) || L < 1000;
+            return { kind: 'Geometry', label: `${m[0].replace(/\s*(?:x|\*|by)\s*/g, ' × ')}${/pool|tank|aquarium|pond/.test(l) ? ' (full)' : ''}`, value: wantL ? fmt(sig(L, 6)) : fmt(sig(m3, 6)), unit: wantL ? 'litres' : 'm³', num: sig(wantL ? L : m3, 10), steps: [['volume', `${fmt(sig(m3, 6))} m³`], ['in litres', `${fmt(sig(L, 6))} L`], ['1 m³', '1,000 litres'], L >= 1000 ? ['in tonnes of water', fmt(sig(L / 1000, 4))] : ['in ml', fmt(sig(L * 1000, 6))]] }; } } }
+      // a running pace as a speed: "18 min per km in km/h", "5:30 /km to mph"
+      if ((m = l.match(/(\d+)(?::(\d{2}))?\s*(?:min(?:utes?)?|m)?\s*(?:per|\/|a)\s*(km|mi|mile)\b.*?\b(?:in|to|as)\s*(km\/h|kmh|kph|mph)\b/))) { const mins = +m[1] + (m[2] ? +m[2] / 60 : 0), perKm = /^k/.test(m[3]) ? mins : mins / 1.609344, kmh = 60 / perKm, out = /mph/.test(m[4]) ? kmh / 1.609344 : kmh;
+        return { kind: 'Units', label: `Pace ${m[1]}${m[2] ? ':' + m[2] : ''} per ${m[3] === 'km' ? 'km' : 'mile'} → ${/mph/.test(m[4]) ? 'mph' : 'km/h'}`, value: fmt(sig(out, 4)), unit: /mph/.test(m[4]) ? 'mph' : 'km/h', num: sig(out, 10), steps: [['work', `60 ÷ ${fmt(sig(perKm, 4))} min per km`], ['other way', /mph/.test(m[4]) ? `${fmt(sig(kmh, 4))} km/h` : `${fmt(sig(kmh / 1.609344, 4))} mph`]] }; }
+      // saving up to a date: "need 1200 by june how much a week", "save 3000 by christmas"
+      if ((m = l.match(/(?:€|\$|£)?(\d+(?:\.\d+)?)\s*(?:€|euros?|dollars?)?\b[^\d]*?\b(?:by|before|until|till)\s+([a-z0-9 ]+?)(?:,|\s+how\b|\s+what\b|$)/)) && /\b(?:save|saving|need|want|put aside|have)\b/.test(l)) { let d = null; try { const ds = m[2].trim(); d = parseDate(ds) || (/^(?:january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|jun|jul|aug|sep|sept|oct|nov|dec)$/.test(ds) ? parseDate('1 ' + ds) : null); } catch {} if (d && d.getTime) { const now = new Date(), days = Math.ceil((d - now) / 864e5); if (days > 0) { const per = /\bday\b|daily/.test(l) ? 'day' : /\bmonth|monthly/.test(l) ? 'month' : 'week', k = { day: 1, week: 7, month: 30.44 }[per], v = +m[1] / (days / k);
+        return { kind: 'Money', label: `${money(+m[1])} by ${d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: d.getFullYear() !== now.getFullYear() ? 'numeric' : undefined })}`, value: money(v), unit: `a ${per}`, num: sig(v, 10), steps: [['time left', `${days} days`], ['a day', money(+m[1] / days)], ['a week', money(+m[1] / (days / 7))], ['a month', money(+m[1] / (days / 30.44))]] }; } } }
+      // steps in a distance (an average stride of 0.76 m)
+      if ((m = l.match(/\bhow many steps\b.*?(\d+(?:\.\d+)?)\s*(km|k|kilometres?|kilometers?|mi|miles?|m|metres?|meters?)\b/)) || (m = l.match(/(\d+(?:\.\d+)?)\s*(km|k|kilometres?|kilometers?|mi|miles?)\b.*?\bsteps\b/))) { const d = +m[1] * (/^(?:mi|mile)/.test(m[2]) ? 1609.344 : /^(?:km|k|kilo)/.test(m[2]) ? 1000 : 1), st = Math.round(d / 0.762);
+        return { kind: 'Health', label: `Steps in ${fmt(+m[1])} ${m[2]}`, value: fmt(st), unit: 'steps', num: st, steps: [['average stride', '0.76 m (about 1,300 steps per km)'], ['taller people', `≈ ${fmt(Math.round(d / 0.83))} steps`], ['shorter people', `≈ ${fmt(Math.round(d / 0.68))} steps`]] }; }
+      // "how many sundays until christmas"
+      if ((m = l.match(/\bhow many (mondays|tuesdays|wednesdays|thursdays|fridays|saturdays|sundays|weekends)\s+(?:until|till|before|to|left (?:until|before|till))\s+(.+?)\??$/))) { let d = null; try { d = parseDate(m[2]); } catch {} if (d && d.getTime) { const target = { mondays: 1, tuesdays: 2, wednesdays: 3, thursdays: 4, fridays: 5, saturdays: 6, sundays: 0, weekends: 6 }[m[1]], now = new Date(); now.setHours(0, 0, 0, 0); let n = 0; for (let t = new Date(now.getTime() + 864e5); t < d; t = new Date(t.getTime() + 864e5)) if (t.getDay() === target) n++;
+        return { kind: 'Date', label: `${cap(m[1])} until ${d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })}`, value: String(n), num: n, steps: [['days left', String(Math.round((d - now) / 864e5))]] }; } }
+      // "rope 25 m cut into 7 pieces"
+      if ((m = l.match(/(\d+(?:\.\d+)?)\s*(m|cm|mm|metres?|meters?|ft|feet|in|inch(?:es)?|kg|g|l|litres?|liters?|ml)\b.*?\b(?:cut|split|divided|shared|sliced|portioned)\s+(?:into|in|between|among)\s+(\d+)\s*(?:pieces|parts|bits|lengths|portions|equal|people|bags|jars|bottles|glasses)?/))) { const v = +m[1] / +m[3]; return { kind: 'Units', label: `${fmt(+m[1])} ${m[2]} in ${m[3]} pieces`, value: fmt(sig(v, 6)), unit: m[2], num: sig(v, 10), steps: [['work', `${fmt(+m[1])} ÷ ${m[3]}`]] }; }
+      // "when is 1000 hours from now", "what date is it in 500 days"
+      if ((m = l.match(/\b(?:when|what (?:time|date|day)|which day)\b.*?\b(\d+(?:\.\d+)?)\s*(minutes?|mins?|hours?|hrs?|days?|weeks?)\s*(?:from now|from today|later|time)?\b/)) && /\bfrom now|\bin\s+\d|\blater\b|\bfrom today\b/.test(l)) { const k = { m: 6e4, h: 36e5, d: 864e5, w: 6048e5 }[m[2][0]], t = new Date(Date.now() + +m[1] * k);
+        return { kind: 'Date', label: `${fmt(+m[1])} ${m[2]} from now`, value: t.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: t.getFullYear() !== new Date().getFullYear() ? 'numeric' : undefined }) + (/^[mh]/.test(m[2]) ? ', ' + t.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) : ''), steps: [['that is', `${fmt(sig(+m[1] * k / 864e5, 4))} days`]] }; }
+      // "sell for 45 bought for 30, profit percent"
+      if ((m = l.match(/\b(?:sell|sold|selling)\s+(?:it\s+)?(?:for|at)\s+(?:€|\$|£)?(\d+(?:\.\d+)?)\b.*?\b(?:bought|buy|paid|cost)\s+(?:it\s+)?(?:for|at)?\s*(?:€|\$|£)?(\d+(?:\.\d+)?)/)) || ((m = l.match(/\b(?:bought|buy|paid|cost)\s+(?:it\s+)?(?:for|at)?\s*(?:€|\$|£)?(\d+(?:\.\d+)?)\b.*?\b(?:sell|sold|selling)\s+(?:it\s+)?(?:for|at)\s+(?:€|\$|£)?(\d+(?:\.\d+)?)/)) && (m = [m[0], m[2], m[1]]))) { if (/\bprofit\b.*\b(?:percent|%)|\b(?:percent|%)\b.*\bprofit|\breturn\b|\bmarkup\b/.test(l)) { const S = +m[1], B = +m[2], p = (S - B) / B * 100;
+        return { kind: 'Money', label: `Bought ${money(B)}, sold ${money(S)}`, value: `${fmt(sig(p, 4))}%`, unit: 'profit on cost', num: sig(p, 8), steps: [['profit', money(S - B)], ['margin (of the price)', `${fmt(sig((S - B) / S * 100, 4))}%`]] }; } }
       // calories from a run, walk, ride or swim: about 1 kcal per kg per km running (walking ~0.55, cycling ~0.3, swimming ~2.5 per km)
       if (/\b(?:calories|kcal|cals)\b/.test(l) && (m = l.match(/\b(run(?:ning)?|jog(?:ging)?|walk(?:ing)?|hik(?:e|ing)|cycl(?:e|ing)|bik(?:e|ing)|swim(?:ming)?)\b/))) { const act = m[1].replace(/ning$|ging$|ing$|e$/, '').replace(/^jog$/, 'run').replace(/^hik$/, 'walk').replace(/^bik$/, 'cycl'); const K = { run: 1.0, walk: 0.55, cycl: 0.3, swim: 2.5 }[act] || 1; const name = { run: 'running', walk: 'walking', cycl: 'cycling', swim: 'swimming' }[act];
         const km = (l.match(/(\d+(?:\.\d+)?)\s*(?:k|km|kms|kilometres?|kilometers?)\b/) || [])[1], mi = (l.match(/(\d+(?:\.\d+)?)\s*(?:mi|miles?)\b/) || [])[1], kg = (l.match(/(\d+(?:\.\d+)?)\s*(?:kg|kgs|kilos?)\b/) || [])[1], lb = (l.match(/(\d+(?:\.\d+)?)\s*(?:lb|lbs|pounds?)\b/) || [])[1];
         const d = km ? +km : mi ? +mi * 1.609344 : null, w = kg ? +kg : lb ? +lb * 0.4536 : null;
         if (d && w) { const v = Math.round(K * w * d); return { kind: 'Health', label: `Calories ${name} ${fmt(sig(d, 4))} km at ${fmt(sig(w, 4))} kg`, value: fmt(v), unit: 'kcal', num: v, steps: [['rule of thumb', `≈ ${K} kcal per kg per km ${name}`], ['work', `${K} × ${fmt(sig(w, 4))} × ${fmt(sig(d, 4))}`], ['note', 'pace, hills and fitness change it by ±20%']] }; } }
+      // multibuy deals: "3 for 2 on 4.50 items, buying 6"
+      if ((m = l.match(/\b(\d+) for (\d+)\b.*?(?:€|\$|£)?(\d+(?:\.\d+)?)\b.*?\b(?:buy|buying|get|getting|take|taking)\s+(\d+)\b/)) && +m[1] > +m[2]) { const A = +m[1], B = +m[2], p0 = +m[3], n = +m[4], pay = Math.floor(n / A) * B + n % A, tot = pay * p0;
+        return { kind: 'Money', label: `${A} for ${B} on ${money(p0)}, buying ${n}`, value: money(tot), num: sig(tot, 12), steps: [['you pay for', `${pay} of ${n}`], ['free', String(n - pay)], ['saving', money((n - pay) * p0)], ['each works out at', money(tot / n)]] }; }
       // which is cheaper: "45 for 3 kg or 14 per kg", "2.40 for 500 g vs 4.20 a kilo"
       if (/\b(?:better|cheaper|cheapest|best|deal|worth|which|compare|vs|versus|or)\b/.test(l)) { const U = { kg: ['kg', 1], kgs: ['kg', 1], kilo: ['kg', 1], kilos: ['kg', 1], g: ['kg', .001], grams: ['kg', .001], gram: ['kg', .001], l: ['L', 1], litre: ['L', 1], litres: ['L', 1], liter: ['L', 1], liters: ['L', 1], ml: ['L', .001], cl: ['L', .01] };
         const re = /(?:€|\$|£)?\s*(\d+(?:\.\d+)?)\s*(?:€|euros?|dollars?)?\s*(?:(for|per|a|an|\/|each)\s*(\d+(?:\.\d+)?)?\s*(kg|kgs|kilos?|grams?|g|l|litres?|liters?|ml|cl)\b)|(\d+(?:\.\d+)?)\s*(kg|kgs|kilos?|grams?|g|l|litres?|liters?|ml|cl)\s*(?:for|at|@)\s*(?:€|\$|£)?\s*(\d+(?:\.\d+)?)/g; const offers = []; let mm;
@@ -6461,6 +6732,7 @@ const Engine = (() => {
       // still nothing: tidy it up (text-speak, words run together, misspellings) and try again
       if (!depth && solveNest === 1 && (!r || r.error || r.kind === 'Not sure')) { let h = null; try { h = heal(raw, ctx); } catch {} if (h) r = h; }
       if (!depth && solveNest === 1 && r && !r.error) { const pm = String(raw || '').trim().toLowerCase().match(/^(?:percent|percentage|pct)\s+(\d+(?:\.\d+)?)\s+of\s+(\d+(?:\.\d+)?)$/); if (pm) r.alts = [...(r.alts || []), { label: `${pm[1]}% of ${pm[2]}`, q: `${pm[1]}% of ${pm[2]}` }]; }
+      if (!depth && solveNest === 1 && r && !r.error && Array.isArray(r.steps)) { const want = /\btotal interest\b|\binterest in total\b|\bhow much interest\b|\binterest (?:paid|cost)\b/.test(String(raw).toLowerCase()) ? /^interest$/ : /\btotal (?:paid|cost|repaid|to pay)\b|\bpay back in total\b/.test(String(raw).toLowerCase()) ? /^total paid$/ : null; const st = want && r.steps.find(x => x && want.test(x[0])); if (st) { r = { ...r, value: st[1], unit: st[0] === 'interest' ? 'interest in total' : 'in total', num: parseFloat(String(st[1]).replace(/,/g, '')), steps: [['a month', `${r.value}`]].concat(r.steps.filter(x => x !== st)) }; } }
       return r; } finally { solveNest--; }
   }
   function solveA(raw, ctx = {}, depth = 0) {
@@ -7233,7 +7505,7 @@ const Engine = (() => {
     if (endsOp) {
       const nums = []; try { if (ctx.ans) nums.push(['ans', Engine.fmt(ctx.ans)]); for (const it of tape) { if (nums.length >= 4) break; if (typeof it.num === 'number' && isFinite(it.num) && !it.ex && !nums.some(n => n[1] === Engine.fmt(it.num))) nums.push([String(+it.num.toPrecision(10)), Engine.fmt(+it.num.toPrecision(8))]); } } catch {}
       const items = [['(', '(']].concat(nums.map(([ins, show]) => [ins, show]));
-      return `<span class="ops" role="group" aria-label="Insert">${items.map((x, i) => `<button type="button" class="op num" data-ins="${esc(x[0])}" style="--i:${i}" title="${x[0] === 'ans' ? 'Last answer' : x[0] === '(' ? 'Open bracket' : 'From your tape'}">${x[0] === 'ans' ? `<i>ans</i> ${esc(x[1])}` : esc(x[1])}</button>`).join('')}</span>`;
+      return `<span class="ops" role="group" aria-label="Insert">${items.map((x, i) => `<button type="button" class="op num" data-ins="${esc(x[0])}" style="--i:${i}" title="${x[0] === 'ans' ? 'Last answer' : x[0] === '(' ? 'Open bracket' : 'Earlier answer'}">${x[0] === 'ans' ? `<i>ans</i> ${esc(x[1])}` : esc(x[1])}</button>`).join('')}</span>`;
     }
     return '';
   }
@@ -7941,7 +8213,7 @@ const Engine = (() => {
     [/^(\d[\d.,]*) (minutes?|mins?|min)$/, m => [`${m[1]} minutes in hours`, `timer ${m[1]} minutes`, `${m[1]} minutes from now`]],
     [/^(?:what is |whats |what's )?(\d{1,3})\/(\d{1,3})$/, m => [`${m[1]}/${m[2]} as a percent`, `${m[1]}/${m[2]} of 80`, `${m[1]}/${m[2]} + 1/4`]],
     [/^(\d[\d.,]*) ?% of (\d[\d.,]*)$/, m => [`${m[1]}% off ${m[2]}`, `${m[2]} + ${m[1]}%`, `${m[1]}% tip on ${m[2]}`]],
-    [/^(?:op|ope|open)$/, ['open tape', 'open calculator', 'open sheet']],
+    [/^(?:op|ope|open)$/, ['open calculator', 'open sheet', 'open basket']],
     [/^(?:da|dar|dark|li|lig|ligh|light)$/, m => /^d/.test(m[0]) ? ['dark mode'] : ['light mode']],
     [/^(?:cl|cle|clea|clear)$/, ['clear tape', 'empty basket', 'clear ticked']],
     [/^(?:he|hel|help)$/, ['help', 'what can i say']],
@@ -8038,6 +8310,9 @@ const Engine = (() => {
   const STOP = new Set(['the','a','an','of','to','in','is','what','how','much','many','for','and','on','at','my','i','it','with','from','by','me','do']);
   /* ---------- half-understood requests: work out what you're trying to do, use what you gave, and ask only for what's missing ---------- */
   const INTENT_STRONG = /\bbmi\b|\bbody mass\b|\btiles?\b|\bpaint(?:ing)?\b|\b(?:earn|salary|income|wage)\b.*\btax\b|\btax\b.*\b(?:earn|salary|income|wage)\b|\bloan\b|\bmortgage\b|\bborrow|\bsav(?:e|ing)\b.*\bfor\b|\bcalories\b.*\b(?:run|walk|cycl|swim|jog)|^-?\d[\d.]*\s+-?\d[\d.]*$|^(?:what'?s |whats |what is |how much is )?\d+(?:\.\d+)? of \d+(?:\.\d+)?\??$|^(?:convert|change|turn) \d+(?:\.\d+)?$/;
+  // the engine's last-resort guess ("Read as 3 × 45") while the words say something else
+  const guessOnly = (q, r) => { if (!r || r.error || !Array.isArray(r.steps)) return false; const ra = r.steps.find(x => x && /^read as$/i.test(x[0])); if (!ra && !/^Read as /.test(r.label || '')) return false; const txt = String(ra ? ra[1] : r.label.replace(/^Read as /, '')); if (!/^[\d.,\s×÷+−*\/()-]+$/.test(txt)) return false; const words = (String(q).toLowerCase().match(/[a-zà-ÿ]{3,}/g) || []).filter(w => !/^(?:the|and|what|whats|how|much|many|is|are|was|were|for|with|plus|minus|times|divided|by|of|to|in|on|it|that|this|then|equals?|calculate|work|out|please)$/.test(w)); return words.length >= 1; };
+  intentRead.guessOnly = guessOnly;
   intentRead.over = (q, r) => !!r && !r.error && (INTENT_STRONG.test(String(q || '').toLowerCase().trim()) || (r.steps || []).some(x => x && x[0] === 'ignored') || !!r.guess);
   function intentRead(q0, r) {
     const q = String(q0 || '').trim(), l = q.toLowerCase().replace(/[’']/g, "'").replace(/(\d),(\d{1,2})(?!\d)/g, '$1.$2'); if (!l || l.length > 140) return null;
@@ -8067,12 +8342,13 @@ const Engine = (() => {
     if (/^how much will i (?:have|get|make|earn)$/.test(l)) return card('Growing money', 'How much, at what rate, for how long?', '{amount} at {rate}% for {years} years', ['1000 at 5% for 10 years', 'if i save 200 a month how long until i have 5000']);
     // a tip with no bill yet
     if (/\btip(?:ping)?\b/.test(l) && !N.length) return card('A tip', 'On how much? And what percent (10–15% is usual)', '{percent}% tip on {bill}', ['10% tip on 50', '15% tip on 50', '20% tip on 50']);
+    if ((m = l.match(/\b(\d+) ([a-zà-ÿ]{3,}?s?)\b/)) && N.length === 1 && /\b(?:how much|pay|cost|price|spend|total)\b/.test(l) && !/\b(?:hours?|minutes?|days?|weeks?|months?|years?|people|persons|km|miles?|kg|litres?|liters?)\b/.test(m[2])) { const n = m[1], it = m[2]; return card(`${n} ${it}: how much is one?`, 'Tell me the price of one and I’ll do the rest', `${n} × {price}`, [`${n} × 1.50`, `${n} × 2.50`]); }
     // BMI
     if (/\bbmi\b|\bbody mass\b/.test(l) && !/bmi/.test(lab)) { const w = nu('kg') || nu('lb') || bare.find(n => n.v >= 30 && n.v <= 250), h = nu('cm') || nu('m') || nu('ft') || bare.find(n => n !== w && n.v >= 120 && n.v <= 230);
       if (w && h) { const d = done(`bmi ${f(w.v)} ${w.u || 'kg'} ${f(h.v)} ${h.u || 'cm'}`); if (d) return d; }
       return card(`Sounds like you want your BMI${w ? ` · ${f(w.v)} ${w.u || 'kg'}` : ''}${h ? ` · ${f(h.v)} ${h.u || 'cm'}` : ''}`, `I still need your ${!w && !h ? 'weight and height' : !w ? 'weight' : 'height'}`, `bmi ${w ? f(w.v) : '{weight}'} ${w ? w.u || 'kg' : 'kg'} ${h ? f(h.v) : '{height}'} ${h ? h.u || 'cm' : 'cm'}`, [w && !h ? `bmi ${f(w.v)} ${w.u || 'kg'} 170 cm` : '', w && !h ? `bmi ${f(w.v)} ${w.u || 'kg'} 180 cm` : '', h && !w ? `bmi 70 kg ${f(h.v)} ${h.u || 'cm'}` : ''].filter(Boolean)); }
     // paint
-    if (/\bpaint(?:ing)?\b/.test(l) && !/paint/.test(lab)) { const a = nu('m2'); if (a) { const d = done(`paint ${f(a.v)} m2 2 coats`); if (d) return d; }
+    if (/\bpaint(?:ing)?\b/.test(l) && !/paint/.test(lab) && !/\bper\s+\d/.test(l)) { const a = nu('m2'); if (a) { const d = done(`paint ${f(a.v)} m2 2 coats`); if (d) return d; }
       if ((m = l.match(/(\d+(?:\.\d+)?)\s*(?:m\s*)?(?:by|x|×)\s*(\d+(?:\.\d+)?)/))) { const A = +m[1], B = +m[2], hh = (l.match(/(\d+(?:\.\d+)?)\s*m?\s*(?:high|tall|height|ceiling)/) || [])[1];
         if (/\broom|walls?|bedroom|kitchen|living|office|bathroom\b/.test(l) && hh) { const d = done(`paint a room ${A} by ${B} m ${hh} m high`); if (d) return d; }
         if (/\broom|walls|bedroom|kitchen|living|office|bathroom\b/.test(l)) return card(`Painting the walls of a ${f(A)} × ${f(B)} m room`, 'How high are the walls? The usual is 2.4–2.7 m', `paint a room ${f(A)} by ${f(B)} m {height} m high`, [`paint a room ${f(A)} by ${f(B)} m 2.5 m high`, `paint a room ${f(A)} by ${f(B)} m 2.7 m high`, `paint ${f(A * B)} m2 2 coats`]);
@@ -8098,6 +8374,7 @@ const Engine = (() => {
       if (d0) return card(`Calories ${act.replace(/^run$/, 'running')} ${d0[1]} ${/^k/.test(d0[2]) ? 'km' : 'miles'}`, 'It depends on your weight. How much do you weigh?', `calories ${act} ${d0[1]} ${/^k/.test(d0[2]) ? 'km' : 'miles'} {weight} kg`, [60, 70, 80].map(w => `calories ${act} ${d0[1]} ${/^k/.test(d0[2]) ? 'km' : 'miles'} ${w} kg`)); }
     // per person with nights or items but no head count
     if (/\b(?:per person|each|per head|a head|split|share|between us)\b/.test(l) && !/\b\d+\s*(?:people|persons|of us|friends|ways)\b|\bbetween \d|\bsplit \d+ (?:ways|between)/.test(l) && N.length && (!ok || ignored)) { const nights = nu('night'), price = N.filter(n => !n.u).sort((a, b) => b.v - a.v)[0];
+      { const sm = N.filter(n => !n.u && n !== price && n.v >= 2 && n.v <= 30)[0]; if (price && sm && !nights) { const d = done(`split ${f(price.v)} between ${f(sm.v)}`); if (d) return d; } }
       if (price) { const tot = nights ? null : price.v; return card(`${nights ? `${f(price.v)} for ${f(nights.v)} nights` : f(price.v)}, shared`, 'How many people?', nights ? `${f(price.v)} split between {people}` : `${f(price.v)} split between {people}`, nights ? [`${f(price.v)} split between 2`, `${f(price.v)} × ${f(nights.v)} split between 2`, `${f(price.v)} ÷ ${f(nights.v)}`] : [`${f(tot)} split between 2`, `${f(tot)} split between 3`, `${f(tot)} split between 4`]); } }
     // distance between places: no maps offline
     if (/\bhow far\b|\bdistance\b|\bkm (?:from|to|between)\b/.test(l) && !N.length) { let C = []; try { C = Engine.cities(); } catch {} const found = C.filter(c => new RegExp(`\\b${c.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`).test(l)).slice(0, 2);
@@ -8132,11 +8409,38 @@ const Engine = (() => {
     return null;
   }
   /* ---------- when it can't answer yet: say what it understood and offer the likeliest questions, never "I couldn't read that" ---------- */
+  // guesses built from your own numbers and the words around them ("off", "each", "from … to", "left", "split", "%")
+  function cueCands(q) { const l = String(q || '').toLowerCase(), raw = (l.match(/-?\d[\d.,]*\s*%?/g) || []).map(x => x.trim()), pct = raw.filter(x => /%$/.test(x)).map(x => x.replace(/\s*%$/, '')), N = raw.filter(x => !/%$/.test(x)).map(x => x.replace(/,(?=\d{1,2}$)/, '.').replace(/,/g, '')), out = [];
+    const add = (t, w) => { if (t && !out.some(o => o[0] === t)) out.push([t, w]); }, has = re => re.test(l);
+    const [a, b] = N, nums = N.map(Number), big = nums.length >= 2 ? String(Math.max(nums[0], nums[1])) : a, small = nums.length >= 2 ? String(Math.min(nums[0], nums[1])) : b;
+    if (pct.length && N.length) { add(`${pct[0]}% of ${N[0]}`, 3); if (has(/\boff\b|discount|sale|cheaper|less|minus|reduc/)) add(`${pct[0]}% off ${N[0]}`, 4); if (has(/\bplus\b|more|increase|raise|add|vat|tax|tip|markup/)) add(`${N[0]} + ${pct[0]}%`, 4); }
+    if (N.length >= 2) {
+      if (has(/\boff\b|discount|sale|reduced|markdown|deal/)) { if (+small <= 90) add(`${small}% off ${big}`, 5); add(`${big} - ${small}`, 3); }
+      if (has(/\beach\b|\bper\b|apiece|a piece|for one|each one|\bx\b|times|lots of|of them/)) add(`${a} × ${b}`, 4);
+      if (has(/\bfrom\b.*\bto\b|went|rose|fell|grew|dropped|increase|decrease|change|up|down|was\b.*\bnow\b/)) add(`${a} to ${b} percentage change`, 4);
+      if (has(/\bleft\b|remain|what'?s left|how much (?:is )?left/)) add(`${big} - ${small}`, 6);
+      if (has(/\blost\b|\blose\b|\bused\b|\bate\b|gave away|paid off|\bnow\b|after|spen[dt]|minus|take away|\bless\b|difference|change from|\bback\b/)) add(`${big} - ${small}`, 4.5);
+      if (has(/\btotal\b|together|altogether|in all|sum|combined|plus|and\b/)) add(N.length > 2 ? `${N.join(' + ')}` : `${a} + ${b}`, 3);
+      if (has(/\bshare|split|per person|each person|between|divide|among|of us|people/)) add(`split ${big} between ${small}`, 4);
+      if (has(/\baverage|mean|typical/)) add(`average of ${N.join(' ')}`, 5);
+      if (has(/percent|%|ratio|proportion|share of|out of/)) { add(`${small} is what % of ${big}`, 3); add(`${small} out of ${big} as a percentage`, 2); }
+      if (has(/\bper (?:hour|day|week|month|year)\b|an hour|a day|a week|a month|a year/)) add(`${a} × ${b}`, 2);
+      add(`${a} + ${b}`, 1); add(`${a} × ${b}`, 1); add(`${big} - ${small}`, 1); add(`${a} ÷ ${b}`, 0.5); add(`${small} is what % of ${big}`, 0.5);
+    } else if (N.length === 1) {
+      const u = (l.match(new RegExp(N[0].replace('.', '\\.') + '\\s*([a-z°/²]+)')) || [])[1];
+      if (has(/\ba (?:day|week|month|year)\b|per (?:day|week|month|year)|daily|weekly|monthly|yearly|annual/)) { const per = (l.match(/\b(day|week|month|year)\b/) || [])[1] || 'month'; ['day', 'week', 'month', 'year'].filter(x => x !== per).slice(0, 2).forEach(x => add(`${a} a ${per} per ${x}`, 3)); }
+      if (has(/\bvat|iva|tax\b/)) { add(`vat on ${a}`, 4); add(`${a} + 23% vat`, 3); add(`${a} including 23% vat without vat`, 2); }
+      if (has(/\btip\b/)) [10, 15, 20].forEach(p => add(`${p}% tip on ${a}`, 3));
+      if (has(/\bsplit|share|per person|each\b/)) [2, 3, 4].forEach(n => add(`split ${a} between ${n}`, 3));
+      if (u) { let ch = null; try { ch = Engine.unitChoices(u); } catch {} (ch || []).filter(x => x !== u).slice(0, 3).forEach(x => add(`${a} ${u} to ${x}`, 2)); }
+    }
+    return out.sort((p, q2) => q2[1] - p[1]).map(o => o[0]); }
   function softNotSure(q, r) {
     q = (q || '').trim(); if (!q) return r;
     const Q = sQuery(q), numsRaw = q.match(/-?\d[\d.,]*\s*%?/g) || [], nums = numsRaw.map(x => x.trim()).filter(Boolean).slice(0, 4);
-    const ignW = (Q.ignored || []).filter(w => w.length > 2).map(w => w.toLowerCase()); const tries = [], seen = new Set(), put = t => { if (!t || seen.has(t) || /\{/.test(t) || !sSane(t) || ignW.some(w => new RegExp(`\\b${w}\\b`, 'i').test(t))) return; const pv = preview(t); if (pv) { seen.add(t); tries.push([t, pv]); } };
-    // the questions it can answer that use your words and your numbers
+    const ignW = (Q.ignored || []).filter(w => w.length > 2).map(w => w.toLowerCase()); const tries = [], seen = new Set(), put = t => { if (!t || seen.has(t) || seen.has(String(t).replace(/[−–]/g, '-').replace(/\s+/g, '')) || /\{/.test(t) || !sSane(t) || ignW.some(w => new RegExp(`\\b${w}\\b`, 'i').test(t))) return; const pv = preview(t); if (pv) { seen.add(t); seen.add(String(t).replace(/[−–]/g, '-').replace(/\s+/g, '')); tries.push([t, pv]); } };
+    // guesses from your numbers and the words around them come first, then known questions that use your words
+    try { for (const t of cueCands(q)) { if (tries.length >= 3) break; put(t); } } catch {}
     if (Q.words.length) for (const t of searchCatalog(Q, q)) { if (tries.length >= 3) break; put(t); }
     for (const t of sugg) { if (tries.length >= 3) break; if (!/\s$/.test(t)) put(t); }
     // just numbers it can't place: the usual things to do with them
@@ -8153,7 +8457,9 @@ const Engine = (() => {
     else if (Q.words.length) { label = `“${said.join(' ')}”: add the numbers and I’ll work it out`; }
     else { label = 'Keep going: type a calculation, or ask in your own words. Extra words and names are fine, I skip what I don’t need.'; }
     if (ign.length && nums.length && tries.length) label += ` (I skipped “${ign[0]}”.)`;
-    return { ...r, kind: 'Almost', soft: true, label, value: '', steps: [], tries, blank };
+    // the likeliest reading leads, with its answer, one tap from being the question
+    const best = tries.length && nums.length ? tries[0] : null; if (best) { label = 'Did you mean this?'; if (ign.length) label += ` I skipped “${ign[0]}”.`; }
+    return { ...r, kind: 'Almost', soft: true, label, value: '', steps: [], tries: best ? tries.slice(1) : tries, best, blank: best ? null : blank };
   }
 
   function suggestFor(q) {
@@ -8236,15 +8542,16 @@ const Engine = (() => {
     let actions = '', secondary = '';
     if (r.error) {
       const near = r.soft ? r.tries : [...sugg.filter(x => !/\s$/.test(x)), ...suggestFor((AQ || $('#q').value))].filter((x, i, a) => a.indexOf(x) === i).map(x => [x, preview(x)]).filter(x => x[1]).slice(0, 3);
+      const bestH = r.soft && r.best ? `<button type="button" class="soft-best" data-try="${esc(r.best[0])}"><span class="sb-q">${esc(r.best[0])}</span><span class="sb-v">${esc(r.best[1])}</span><span class="sb-go">Use it ↵</span></button>` : '';
       const blankH = r.soft && r.blank ? `<div class="suggest"><span class="lbl">Fill in</span><button type="button" class="ex blank-ex" data-fillq="${esc(r.blank)}">${r.blank.split(/(\{[a-z]+\})/).map(x => /^\{[a-z]+\}$/.test(x) ? `<i class="ph">${x.slice(1, -1)}</i>` : esc(x)).join('')}</button></div>` : '';
-      if (r.soft && r.blank && !(r.intent && near.length)) actions = blankH;
-      else if (!near.length && r.soft) actions = '';
-      else actions = blankH + `<div class="suggest"><span class="lbl">${r.intent ? (r.blank ? 'Or' : 'Try') : r.soft ? 'Maybe' : near.length && sugg.length ? 'Closest' : 'Try'}</span>${near.map(([x, pv]) => `<button type="button" class="ex" data-try="${esc(x)}">${esc(x)}<b class="pvb">${esc(pv)}</b></button>`).join('')}</div>`;
+      if (r.soft && r.blank && !(r.intent && near.length)) actions = bestH + blankH;
+      else if (!near.length && r.soft) actions = bestH;
+      else actions = bestH + blankH + `<div class="suggest"><span class="lbl">${r.intent ? (r.blank ? 'Or' : 'Try') : r.soft ? 'Maybe' : near.length && sugg.length ? 'Closest' : 'Try'}</span>${near.map(([x, pv]) => `<button type="button" class="ex" data-try="${esc(x)}">${esc(x)}<b class="pvb">${esc(pv)}</b></button>`).join('')}</div>`;
     } else if (r.kind !== 'Help') {
       const primary = example ? `<button class="btn primary" data-act="try" type="button">Try it</button><button class="btn" data-act="examples" type="button">Browse examples</button>`
-        : `<button class="btn primary" data-act="keep" type="button">${r.doLabel ? esc(r.doLabel) : r.assign ? 'Store ' + esc(r.assign.name) : '<svg class="kp-ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v10M7.5 9.5 12 14l4.5-4.5"/><path d="M4 16v2.5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5V16"/></svg>Keep<span class="kl2"> on tape</span>'} <span class="kbd kb-hint" style="border-color:color-mix(in srgb,var(--surface) 30%,transparent);color:inherit;opacity:.7">↵</span></button>`;
+        : `<button class="btn primary" data-act="keep" type="button">${r.doLabel ? esc(r.doLabel) : r.assign ? 'Store ' + esc(r.assign.name) : '<svg class="kp-ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 14h6M13 11v6"/></svg>Add<span class="kl2"> to sheet</span>'} <span class="kbd kb-hint" style="border-color:color-mix(in srgb,var(--surface) 30%,transparent);color:inherit;opacity:.7">↵</span></button>`;
       secondary = example || r.paste || r.run ? '' : `${canSend ? `<button class="btn" data-act="send" type="button">Send to calculator</button>` : ''}
-        ${!example && !r.plot ? `<button class="btn" data-act="sheet" type="button">Add to sheet</button>` : ''}
+        
         ${!example && /^(Money|Stats|Health|Percent|Numbers)$/.test(r.kind) && (r.steps || []).filter(s => s && s[1] != null && /\d/.test(String(s[1])) && !/^(read as|ignored|changed|using|ans|rate|formula|note|assumes|why|method|exact|in words|fraction)$/.test(s[0])).length >= 2 ? `<button class="btn" data-act="bdsheet" type="button">Breakdown to sheet</button>` : ''}
         ${!example ? `<button class="btn" data-act="copyall" type="button">Copy summary</button>` : ''}
         ${!example && r.kind === 'Money' && typeof r.num === 'number' && !(r.links || []).some(l => l.src === 'basket') && !/per (hour|day|week|month|year)|mortgage|loan|borrow|interest|salary|invest|save|saving|inflation/i.test(r.label + ' ' + (r.unit || '') + ' ' + (AQ || $('#q').value)) ? `<button class="btn" data-act="basket" type="button">Add to basket</button>` : ''}
@@ -8411,7 +8718,7 @@ const Engine = (() => {
       ctx.lastUnit = current.kind === 'Units' && current.unit ? current.unit : (/^[\d.,]+ (days?|weeks?|hours?|minutes?|months?|years?)\b/.exec(current.value || '') || [])[1] || (/^(days?|weeks?|hours?|minutes?|months?|years?)$/.test(current.unit || '') ? current.unit : null);
       saveCtx(); renderCtx();
     }
-    toast('Kept on the tape');
+    try { const b = $('#answer [data-act="keep"]'); sheetPicker(b || $('#answer .a-actions') || $('#answer'), current.asked || q); } catch { addToSheet(current.asked || q); }
   }
   const SAMPLE = '18% tip on 64,50 for 3 people';
 
@@ -8657,6 +8964,8 @@ const Engine = (() => {
     // still typing a word ("5us sh", "3 cups of fl", "350 ml in o"): when a suggestion finishes it and keeps everything typed, its answer is the answer
     if (!fromScrub && !/\s$/.test(v)) { try { const f = finishWord(v, r); if (f) r = f; } catch {} }
     if (!(r && (r.run || r.track || r.doLabel))) { try { const ir = intentRead(v, r); if (ir && (!r || r.error || r.kind === 'Not sure' || r.kind === 'Almost' || intentRead.over(v, r))) r = ir; } catch {} }
+    // a bare guess with words left over: show the likely readings (with the guess among them) instead of a confident wrong number
+    if (r && !r.error && !r.run && intentRead.guessOnly(v, r)) { try { const g = softNotSure(v, { error: true, kind: 'Not sure' }); const gv = `${r.value}${r.unit ? ' ' + r.unit : ''}`, gq = ((r.steps || []).find(x => x && /^read as$/i.test(x[0])) || [])[1]; const nz = x => String(x || '').replace(/[−–]/g, '-').replace(/[×*]/g, 'x').replace(/,/g, '').replace(/\s+/g, ''); if (g && g.best && nz(g.best[0]) !== nz(gq)) { g.tries = [...(gq ? [[gq, gv]] : []), ...(g.tries || []).filter(t => nz(t[0]) !== nz(gq) && nz(t[0]) !== nz(g.best[0]))].slice(0, 3); r = g; } } catch {} }
     noteLast(v.trim(), r); if (r && typeof r === 'object') r.__q = v.trim();
     { const looksCalc = /[\d)]\s*%?\s*$/.test(v.trim()) && /[+\-*/×÷^%!√()]|\b(?:times|plus|minus|divided|squared|cubed|root|of|mod)\b/i.test(v) && v.trim().length <= 48;
       inlineEq = r && !r.error && !r.run && looksCalc && r.value && String(r.value).length <= 16 && /^(Math|Percent|Numbers|Money)$/.test(r.kind) && !r.lines ? { q: v, v: r.value } : null; } renderGhost();
@@ -9489,7 +9798,7 @@ const Engine = (() => {
     if (T.all.ms || T.all.amt) addTape({ q: `${m.name} · ${T.S.length} session${T.S.length === 1 ? '' : 's'} · ${mShortDur(T.all.ms)}`, r: mFmt(m, T.all.amt, true), num: +T.all.amt.toFixed(6), src: 'ask' });
     m.runs = run ? [[now, null]] : []; m.dist = 0; m.said = -1; m.overSaid = false;
     m.people.forEach(p => { const here = p.in.length && p.in[p.in.length - 1][1] == null; p.in = here && run ? [[now, null]] : []; });
-    mSave(); mRender(true); islUpdate(true); mList(); toast('Kept on the Tape. New period started'); });
+    mSave(); mRender(true); islUpdate(true); mList(); toast('New period started'); });
   // drag to look ahead: the further you pull, the further into the future (minutes, then days, then a year)
   const mAheadMs = x => x <= 0 ? 0 : 6e4 * (Math.pow(525601, x / 1000) - 1);
   $('#mtAhead').addEventListener('input', e => { mAhead = mAheadMs(+e.target.value); e.target.style.setProperty('--ap', (+e.target.value / 1000).toFixed(4)); $('#mtAheadL').textContent = mAhead ? `in ${mDur(mAhead)}` : 'now'; mRender(false); });
@@ -9597,7 +9906,7 @@ const Engine = (() => {
 
   // what can be tracked in this sentence, and how
   { /* explicit tracker words always win over a sum */ }
-  function trackFrom(q) { const r = trackFrom0(q); if (r && /^\s*(?:countdown|count down|timer|stopwatch|remind|reminder|alarm|wake me)\b/i.test(String(q || ''))) r.strong = true; return r; }
+  function trackFrom(q) { { const l = String(q || '').toLowerCase(); /* "add 2h 45m and 1h 30m" is a sum of times, not a timer called Add */ if (/^(?:add|sum|plus|total|what'?s|whats|what is|how much is|calculate)\b/.test(l) && ((l.match(/\d+(?:\.\d+)?\s*(?:h|hrs?|hours?|m|mins?|minutes?|s|secs?|seconds?)\b/g) || []).length >= 2) && /\band\b|\+|\bplus\b/.test(l)) return null; } const r = trackFrom0(q); if (r && /^\s*(?:countdown|count down|timer|stopwatch|remind|reminder|alarm|wake me)\b/i.test(String(q || ''))) r.strong = true; return r; }
   function trackFrom0(q) {
     const raw = String(q || '').trim(); if (!raw || raw.length > 100 || /[=+*\/^]|\d\s*-\s*\d/.test(raw)) return null;
     const s = raw.toLowerCase().replace(/[’']/g, "'").replace(/(\d),(\d{1,2})\b/g, '$1.$2').replace(/\s+/g, ' ').replace(/[?!.]+$/, '').trim();
@@ -10633,7 +10942,7 @@ const Engine = (() => {
   document.body.appendChild($('#kpFab'));
   { const sc = document.createElement('div'); sc.className = 'kp-scrim'; sc.id = 'kpScrim'; document.body.appendChild(sc); const d = document.createElement('div'); d.className = 'kp-dial'; d.id = 'kpDialBox'; d.setAttribute('role', 'menu'); d.setAttribute('aria-label', 'New sheet'); document.body.appendChild(d); const a = document.createElement('div'); a.className = 'kp-act'; a.id = 'kpActBox'; a.setAttribute('role', 'dialog'); a.setAttribute('aria-label', 'Sheet actions'); document.body.appendChild(a); }
   function kpDial(open) { const H = document.documentElement, on = H.classList.contains('is-kp-dial'); if (open == null) open = !on; if (open === on) return;
-    if (open) { const order = ['note', 'calc', 'list', 'shop', 'budget', 'table', 'trip', 'answers']; const L = order.map(k => SHEET_TPL.find(t => t.k === k)).filter(t => t && (t.k !== 'answers' || tape.some(x => !x.ex && x.src !== 'calc')));
+    if (open) { const order = ['note', 'calc', 'list', 'shop', 'budget', 'table', 'trip', 'answers']; const L = order.map(k => SHEET_TPL.find(t => t.k === k)).filter(t => t && t.k !== 'answers');
       $('#kpDialBox').innerHTML = L.map((t, i) => `<button type="button" role="menuitem" data-kpt="${t.k}" style="--i:${i}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${KP_IC[t.k] || KP_IC.note}</svg><span>${t.k === 'note' ? 'Note' : esc(t.t)}</span></button>`).join('');
       void $('#kpDialBox').offsetWidth; H.classList.add('is-kp-dial'); $('#kpFab').setAttribute('aria-expanded', 'true'); $('#kpFab').setAttribute('aria-label', 'Close'); try { buzz(); } catch {} }
     else { H.classList.remove('is-kp-dial'); $('#kpFab').setAttribute('aria-expanded', 'false'); $('#kpFab').setAttribute('aria-label', 'New sheet'); } }
@@ -11167,7 +11476,7 @@ const Engine = (() => {
   /* views: Ask, Sheet and Basket */
   /* ---------- Links: the bar, answers, Basket, Sheet, Pins and Tape share one live picture ---------- */
   let linkVer = 0, linkLast = '', linkLastT = null, linkPending = false, sheetTotalCache = 0;
-  const LINK_SRC = { basket: 'Basket', sheet: 'Sheet', tape: 'Tape', memory: 'Memory' };
+  const LINK_SRC = { basket: 'Basket', sheet: 'Sheet', tape: 'Earlier', memory: 'Memory' };
   function sheetLive() {
     if (sheet.ex) return { vars: {}, total: null };
     if (sheetVarsStale || !Object.keys(lastSheetVars).length) { const ev = evalSheet(); lastSheetVars = evalVarsOf(ev.out); sheetTotalCache = ev.total; sheetVarsStale = false; }
@@ -11263,7 +11572,7 @@ const Engine = (() => {
 
   // the last question that had an answer, so "track it" or "add it to the sheet" know what "it" is
   const FOLLOWRE = /^(?:and|but|ok|so|now|then|what about|how about|what if|if|suppose|say|with|for|at|of|in|to|into|as|instead|make it|change it to|without|plus|minus|times|double|half|round)\b/i;
-  function noteLast(q, r) { clearTimeout(linkLastT); if (!r || r.error || r.run || r.followOf || q.length < 3) return; linkLastT = setTimeout(() => { if ($('#q').value.trim() === q) linkLast = q; }, 900); }
+  function noteLast(q, r) { clearTimeout(linkLastT); if (!r || r.error || (r.run && r.kind !== 'Split') || r.followOf || q.length < 3) return; linkLastT = setTimeout(() => { if ($('#q').value.trim() === q) linkLast = q; }, 900); }
   function lastThing() { return linkLast || (tape.find(t => !t.ex && t.src === 'ask') || {}).q || ctx.lastQ || hist[0] || ''; }
 
   /* ---------- What if: change one number and see everything it touches, before you commit ---------- */
@@ -11334,8 +11643,13 @@ const Engine = (() => {
           return { info: true, kind: 'Money', label: `No ${a.toUpperCase()} → ${b.toUpperCase()} rate yet`, value: 'Add a rate', steps: [['why', 'Quotient works offline, so it can’t look rates up'], ['tell it once', `type “1 ${a} = 1.08 ${b}” with today’s rate`], ['then', 'every conversion uses it, both ways']] }; } } }
     if (s === 'basket left') { const L = bk.ex ? [] : bk.items.filter(i => !i.got); return L.length ? info('Basket', `${L.length} still to get${bk.items.length > L.length ? ` · ${bk.items.length - L.length} ticked` : ''}`, L.slice(0, 6).map(i => (i.qty > 1 ? i.qty + ' × ' : '') + i.name).join(', ') + (L.length > 6 ? ` +${L.length - 6}` : '')) : info('Basket', bk.items.length ? 'Everything’s ticked' : 'Your list is empty', bk.items.length ? 'All done' : '—'); }
     if (/^(?:what(?:'s| is) )?the meaning of life(?:,? the universe and everything)?$|^the answer to (?:life|everything)/.test(s)) return info('Quotient', 'The answer to life, the universe and everything', '42');
+    // a follow-up about a figure in the last answer: "how much interest do i pay in total on that", "and the total paid?"
+    if (/\b(?:that|it|this|then|in total|altogether|overall|the same)\b|^(?:and|so|what about) /.test(s) && /\b(?:interest|total paid|total|payments?|vat|tax|tip|each|saving|you saved|discount|per (?:hour|day|week|month|year)|a (?:day|week|month|year))\b/.test(s) && !/\d/.test(s)) { const lq = linkLast || lastThing(); let r0 = null; try { r0 = lq ? (splitCommand(lq) || solveLinked(lq)) : null; } catch {}
+      if (r0 && !r0.error) { const want = (s.match(/\b(total paid|interest|payments?|vat|tax|tip|each|you saved|saving|discount)\b/) || [])[1] || (/\btotal\b/.test(s) ? 'total' : ''); const st = want && (r0.steps || []).find(x => x && x[1] != null && new RegExp(`\\b${want.replace(/s$/, '')}`, 'i').test(x[0]));
+        if (st) return { ...info(r0.kind || 'Money', `${cap1(st[0])} · from “${String(lq).slice(0, 44)}”`, String(st[1])), followOf: lq };
+        const ln = want && (r0.lines || []).find(x => new RegExp(`\\b${want.replace(/s$/, '')}`, 'i').test(x)); if (ln) { const v = (ln.match(/(?:€|\$|£)?\s*-?\d[\d.,]*\s*$/) || [ln])[0].trim(); return { ...info(r0.kind || 'Money', `${cap1(want)} · from “${String(lq).slice(0, 44)}”`, v), followOf: lq }; } } }
     // the last thing you asked
-    if (/^(?:what (?:did|was) (?:i|my) (?:ask|asked|last (?:ask|question|answer)|question)(?: (?:before|last|earlier|just now|previously))?|what was the last (?:thing i asked|question|answer)|(?:my )?last (?:question|answer)|previous (?:question|answer))$/.test(s)) { const L = tape.filter(t => !t.ex)[0]; return L ? info('Tape', `You last asked “${L.q}”`, String(L.r || '')) : info('Tape', 'Nothing on your tape yet', '—'); }
+    if (/^(?:what (?:did|was) (?:i|my) (?:ask|asked|last (?:ask|question|answer)|question)(?: (?:before|last|earlier|just now|previously))?|what was the last (?:thing i asked|question|answer)|(?:my )?last (?:question|answer)|previous (?:question|answer))$/.test(s)) { const L = tape.filter(t => !t.ex)[0]; return L ? info('Recent', `You last asked “${L.q}”`, String(L.r || '')) : info('Recent', 'Nothing asked yet', '—'); }
     // a sheet by its name: "rename trip to lisbon", "rename the trip sheet to lisbon"
     if ((m = s.match(/^(?:rename|call) (?:the |my )?(.+?)(?: sheet)? (?:to|as) (.+)$/)) && !/^(?:sheet|this|it)$/.test(m[1])) { const f = findSheet(m[1]), tr = typeof tcFind === 'function' ? tcFind(m[1]) : null; if (f && !tr) { const nn = cap1(String(raw).trim().replace(/[.!?]+$/, '').slice(-m[2].length)).slice(0, 40); return C('Sheet', `Rename “${f.title}”`, nn, 'Rename', () => { f.title = nn; if (f === sheet) saveSheet(); else store.set('quotient.sheets', sheets.filter(x => !x.ex)); try { renderLines(); setView(view); } catch {} toast(`Sheet renamed to ${nn}`, 'sheet'); }); } }
     // a little small talk, kept short
@@ -11366,8 +11680,8 @@ const Engine = (() => {
     if (/^(?:delete|cancel|remove|clear) (?:all|every)(?: (?:my|the))? timers?$/.test(s)) { const T = trackers.filter(t => t.type === 'timer'); if (!T.length) return info('Tracker', 'No timers to cancel', 'None');
       return C('Tracker', `Cancel ${T.length} timer${T.length === 1 ? '' : 's'}`, T.map(t => t.name).slice(0, 3).join(', '), 'Cancel all', () => { const snap = liveSnap(); const ids = new Set(T.map(t => t.id)); if (tOpenId && ids.has(tOpenId)) tClose(); trackers = trackers.filter(t => !ids.has(t.id)); pillSel = pillSel.filter(k => !ids.has(k.slice(2))); store.set('quotient.pill', pillSel); tSave(); islDuoKey = ''; islUpdate(true); mList(); undoToast(`${T.length} timer${T.length === 1 ? '' : 's'} cancelled`, snap); }); }
     // keep the answer you just got
-    if (/^(?:keep it|keep that|keep this|save it|save that|save this|keep the (?:answer|result)|save the (?:answer|result))$/.test(s)) { const q = lastThing(); if (!q) return info('Tape', 'Ask something first, then keep it', '—'); let r = null; try { r = solveLinked(q); } catch {} if (!r || r.error) return info('Tape', 'Nothing to keep yet', '—');
-      return C('Tape', `Keep “${q.slice(0, 40)}” on your tape`, String(r.value || r.label).slice(0, 24), 'Keep', () => { $('#q').value = q; runAsk(); setTimeout(() => { try { keep(); } catch {} }, 80); }); }
+    if (/^(?:keep it|keep that|keep this|save it|save that|save this|keep the (?:answer|result)|save the (?:answer|result))$/.test(s)) { const q = lastThing(); if (!q) return info('Sheet', 'Ask something first, then add it', '—'); let r = null; try { r = solveLinked(q); } catch {} if (!r || r.error) return info('Tape', 'Nothing to keep yet', '—');
+      return C('Sheet', `Add “${q.slice(0, 40)}” to a sheet`, String(r.value || r.label).slice(0, 24), 'Add to sheet', () => { $('#q').value = q; runAsk(); setTimeout(() => { try { keep(); } catch {} }, 80); }); }
     // a sheet by its name: its total, or share it
     if ((m = s.match(/^total of (?:the |my )?(.+?) sheet$/))) { const f = findSheet(m[1]); if (f) { const was = sheet; let tot = null; try { sheet = f; tot = evalSheet().total; } catch {} finally { sheet = was; } return { kind: 'Sheet', label: `“${f.title || 'Untitled sheet'}” total`, value: tot != null ? m2(tot) : '—', num: tot, steps: [['lines', String(f.lines.filter(x => x.trim()).length)]], doLabel: 'Open', quiet: true, run: () => setTimeout(() => { openSheet(f.id); setView('sheet'); }, 30) }; } }
     if ((m = s.match(/^share (?:the |my )?(.+?) sheet$/)) && !/^(?:this|my|the)$/.test(m[1])) { const f = findSheet(m[1]); if (f) return C('Share', `Share “${f.title || 'Untitled sheet'}”`, 'QR code · link · code', 'Share', () => { openSheet(f.id); shareOpen('s'); }); }
@@ -11388,7 +11702,7 @@ const Engine = (() => {
     // motion back to full
     if (/^(?:calm motion off|full motion|normal motion|all (?:the )?animations|full animations|animations on)$/.test(s)) return C('Setting', 'Full motion: every animation back', 'Full', 'Turn on', () => { store.set('quotient.calm', false); document.documentElement.classList.remove('calm'); setRe(); toast('Full motion back'); });
     // your data
-    if (/^(?:back ?up|backup(?: my)?(?: data| everything| stuff| things)?|back up (?:my )?(?:data|everything|stuff|things)|export (?:my )?(?:data|everything|all)|save (?:a )?backup|make a backup)$/.test(s)) return C('Data', 'Copy a backup of everything: sheets, tape, basket, trackers', 'Backup', 'Copy', () => { const o = {}; try { Object.keys(localStorage).filter(x => x.startsWith('quotient.')).forEach(x => { o[x] = localStorage.getItem(x); }); } catch {} copy('QUOTIENT-BACKUP ' + JSON.stringify(o)); toast('Backup copied: paste it somewhere safe'); });
+    if (/^(?:back ?up|backup(?: my)?(?: data| everything| stuff| things)?|back up (?:my )?(?:data|everything|stuff|things)|export (?:my )?(?:data|everything|all)|save (?:a )?backup|make a backup)$/.test(s)) return C('Data', 'Copy a backup of everything: sheets, basket, trackers', 'Backup', 'Copy', () => { const o = {}; try { Object.keys(localStorage).filter(x => x.startsWith('quotient.')).forEach(x => { o[x] = localStorage.getItem(x); }); } catch {} copy('QUOTIENT-BACKUP ' + JSON.stringify(o)); toast('Backup copied: paste it somewhere safe'); });
     if (/^(?:restore|load|import)(?: (?:a |my |the )?(?:backup|data|from (?:a )?backup))?$/.test(s) && s !== 'load') return C('Data', 'Restore a backup: paste it in Settings', 'Restore', 'Open', () => { setOpen(); setTimeout(() => { const f = $('#setRestore'); if (f) { f.hidden = false; f.scrollIntoView({ block: 'center' }); setTimeout(() => $('#setRestoreIn').focus(), 200); } }, 450); });
     if (/^(?:install|add to (?:my )?home ?screen|download)(?: (?:the |this )?(?:app|quotient))?$/.test(s) && s !== 'download') { const b = $('#installBtn'), std = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
       return std ? info('Setting', 'Quotient is already installed', 'Installed') : b && !b.hidden ? C('Setting', 'Install Quotient: offline, from your home screen', 'Install', 'Install', () => b.click()) : info('Setting', 'Use your browser’s menu: “Add to Home screen” or “Install app”', 'Install'); }
@@ -11418,7 +11732,7 @@ const Engine = (() => {
     { const rc = String(raw || '').trim().match(/^(?:open |join |load )?([sabp])-([0-9A-Za-z]{6,})$/i); if (rc && /^[sabp]-/.test(String(raw).trim().replace(/^(?:open |join |load )/i, ''))) { const kind = SH_KIND[rc[1]]; return C('Share', `Open the shared ${kind}`, 'Shared ' + kind, 'Open', () => shareImport(String(raw).trim().replace(/^(?:open |join |load )/i, ''))); } }
     if ((m = s.match(/^(?:share|send|qr(?: code)?(?: for| of)?|(?:make|create|get) (?:a )?(?:qr(?: code)?|code|link) (?:for|of))(?: this| my| the)? (sheet|page|note|basket|list|shopping list|cart|groceries)(?: (?:as|with|by) (?:a )?(?:qr(?: code)?|code|link))?$/))) { const k = /sheet|page|note/.test(m[1]) ? 's' : 'b'; return C('Share', k === 's' ? `Share “${sheet.title || 'your sheet'}”` : 'Share your basket', 'QR code · link · code', 'Share', () => shareOpen(k)); }
     // places
-    if (new RegExp(`^(?:${P} )?(?:the |my )?(?:tape|history|kept answers|saved answers)$`).test(s)) return C('Go', tape.length ? `Your tape · ${tape.length} kept` : 'Your tape is empty', 'Tape', 'Open tape', () => tapeOpen(true));
+    if (new RegExp(`^(?:${P} )?(?:the |my )?(?:tape|kept answers|saved answers)$`).test(s)) return C('Go', 'Your sheets', 'Sheets', 'Open', () => setView('sheet'));
     if (/^(?:open |show |use )?(?:the |my )?(?:graphing|graph|advanced|scientific|college) calc(?:ulator)?$/.test(s)) return C('Go', 'The graphing calculator: graphs, tables, equations, statistics', 'Graphing calculator', 'Open', () => gcOpen());
     if (new RegExp(`^(?:${P} )?(?:the |my )?(?:calculator|keypad|calc)$`).test(s)) return C('Go', 'The calculator, with scientific keys', 'Calculator', 'Open', () => setCalc(true));
     if (new RegExp(`^(?:${P} )?(?:the )?(?:number pad|numpad|num pad)$`).test(s)) return C('Go', 'Number pad under the bar', 'Number pad', 'Open', () => qpOpen(true));
@@ -11431,9 +11745,7 @@ const Engine = (() => {
     if ((m = s.match(/^(?:(?:use|switch to|set|change to|work in|angles? in|go to) )?(degrees?|deg|radians?|rad)(?: mode)?$/)) && (s !== 'degree' && s !== 'radian')) { const want = /^d/.test(m[1]); if (deg === want) return info('Setting', `Already working in ${want ? 'degrees' : 'radians'}`, want ? 'DEG' : 'RAD');
       return C('Setting', `Work in ${want ? 'degrees' : 'radians'}`, want ? 'DEG' : 'RAD', 'Switch', () => { deg = want; store.set('quotient.deg', deg); syncToggles(); try { calc.refresh(); } catch {} toast(want ? 'Angles in degrees' : 'Angles in radians'); }); }
     // the tape
-    if (/^(?:clear|empty|wipe|delete|erase) (?:the |my )?(?:tape|history|kept answers)$/.test(s)) return tape.length ? C('Tape', `Clear your tape · ${tape.length} kept`, 'Clear tape', 'Clear tape', () => { tape = []; store.set('quotient.tape.v1', tape); renderTape(); linksChanged(); toast('Tape cleared'); }) : info('Tape', 'Your tape is already empty', '—');
-    if (/^(?:undo|undo (?:that|keep|the last (?:one|keep))|remove (?:the )?last (?:one |answer )?(?:from (?:the |my )?tape)?|unkeep|forget (?:that|the last one))$/.test(s)) return tape.length ? C('Tape', `Take “${String(tape[0].q).slice(0, 40)}” off your tape`, String(tape[0].r || '').slice(0, 24), 'Remove', () => { const x = tape.shift(); store.set('quotient.tape.v1', tape); renderTape(); linksChanged(); toast(`Removed “${String(x.q).slice(0, 30)}”`); }) : info('Tape', 'Nothing on your tape to undo', '—');
-    if (/^(?:copy|export|share) (?:the |my )?(?:tape|history)$/.test(s)) return tape.length ? C('Tape', `Copy your tape · ${tape.length} lines`, 'Copy', 'Copy tape', () => { copy(tape.filter(x => !x.ex).map(x => `${x.q} = ${x.r}`).reverse().join('\n')); }) : info('Tape', 'Your tape is empty', '—');
+    if (/^(?:clear|empty|wipe|delete|erase) (?:the |my )?(?:history|recent questions|search history)$/.test(s)) return C('Data', 'Clear your recent questions', `${hist.length} remembered`, 'Clear', () => { hist = []; store.set('quotient.hist', hist); toast('Recent questions cleared'); });
     if (/^(?:copy|copy (?:it|that|this|the (?:last )?(?:answer|result)))$/.test(s)) { const q = lastThing(); let r = null; try { r = q ? solveLinked(q) : null; } catch {} if (q && r && !r.error) { const v = (r.value || r.label) + (r.unit && r.unit.length < 10 ? ' ' + r.unit : ''); return C('Copy', `Copy the answer to “${q.slice(0, 36)}”`, v, 'Copy', () => copy(String(v))); } return info('Copy', 'Nothing to copy yet', 'Ask something first'); }
     // the basket
     if (/^(?:clear|empty|wipe|delete|reset) (?:the |my )?(?:basket|cart|trolley|shopping list)$/.test(s)) return !bk.ex && bk.items.length ? C('Basket', `Empty the Basket · ${bk.items.length} item${bk.items.length === 1 ? '' : 's'}`, m2(bkTotals().tot), 'Empty basket', () => { bk.items = []; saveBk(); renderBasket(); toast('Basket emptied', 'basket'); }) : info('Basket', 'Your basket is already empty', '—');
@@ -11447,7 +11759,7 @@ const Engine = (() => {
     if ((m = s.match(/^rename (?:the |this |my )?sheet (?:to|as) (.+)$/)) && !sheet.ex) { const nn = cap1(String(raw).trim().replace(/[.!?]+$/, '').slice(-m[1].length)).slice(0, 40); return C('Sheet', `Rename “${sheet.title || 'your sheet'}”`, nn, 'Rename', () => { sheet.title = nn; saveSheet(); renderLines(); try { setView(view); } catch {} toast(`Sheet renamed to ${nn}`, 'sheet'); }); }
     if (/^(?:clear|empty|wipe) (?:the |this |my )?sheet$/.test(s) && !sheet.ex && sheet.lines.some(x => x.trim())) return C('Sheet', `Clear every line of “${sheet.title || 'your sheet'}”`, `${sheet.lines.filter(x => x.trim()).length} lines`, 'Clear sheet', () => { sheet.lines = ['']; saveSheet(); renderLines(); toast('Sheet cleared', 'sheet'); });
     // start over
-    if (/^(?:(?:erase|delete|clear|wipe) (?:my (?:stuff|things|content|data)|everything|all(?: my)? data)|reset(?: the)? (?:app|quotient|everything)|start (?:over|fresh))(?: but|,)? (?:keep|keeping|except) (?:what (?:you|it|quotient) (?:has )?learn(?:ed|t)|the learning|my habits|learned stuff|what you know(?: about me)?)$|^(?:erase|delete|clear) my (?:stuff|things|content)$/.test(s)) return C('Setting', 'Erase sheets, tape, basket, trackers and recent questions. Keep what Quotient learned and your settings', 'Erase my things', 'Erase', () => eraseApp(true));
+    if (/^(?:(?:erase|delete|clear|wipe) (?:my (?:stuff|things|content|data)|everything|all(?: my)? data)|reset(?: the)? (?:app|quotient|everything)|start (?:over|fresh))(?: but|,)? (?:keep|keeping|except) (?:what (?:you|it|quotient) (?:has )?learn(?:ed|t)|the learning|my habits|learned stuff|what you know(?: about me)?)$|^(?:erase|delete|clear) my (?:stuff|things|content)$/.test(s)) return C('Setting', 'Erase sheets, basket, trackers and recent questions. Keep what Quotient learned and your settings', 'Erase my things', 'Erase', () => eraseApp(true));
     if (/^(?:reset (?:the )?(?:app|quotient|everything)|erase (?:everything|all(?: my)? data)|delete (?:everything|all(?: my)? data)|start (?:over|fresh|from scratch)|factory reset)(?: including (?:what (?:you|it) learn(?:ed|t)|the learning|my habits))?$/.test(s)) return C('Setting', 'Erase everything, including what Quotient learned about you and your settings', 'Start fresh', 'Erase everything', () => eraseApp(false));
     return null;
   }
@@ -11460,7 +11772,7 @@ const Engine = (() => {
       ['test alarm', 'hear play sound'], ['next sound', 'alarm change'], ['silence the alarm', 'stop'], ['vibration off', 'no'], ['vibration on', ''], ['badge off', 'hide'], ['badge on', 'show'],
       ['notifications on', 'show'], ['notifications off', 'stop hide no'], ['notifications all in one', 'together single combine group'], ['notifications one each', 'separate per'], ['notifications like the pill', 'same only'],
       ['show my trackers', 'what running list'], ['clear finished trackers', 'tidy'], ['pause all', 'everything stop timers'], ['resume all', 'everything timers'], ['unpin all from the pill', 'reset everything clear'],
-      ['open tape', ''], ['clear tape', ''], ['copy tape', ''], ['undo', 'remove last tape'], ['copy the answer', ''], ['open calculator', ''], ['open graphing calculator', ''], ['open basket', ''], ['open sheet', ''], ['my sheets', 'list all'], ['open the guide', ''], ['examples', 'ideas'],
+      ['copy the answer', ''], ['open calculator', ''], ['open graphing calculator', ''], ['open basket', ''], ['open sheet', ''], ['my sheets', 'list all'], ['open the guide', ''], ['examples', 'ideas'],
       ['empty basket', 'clear'], ['clear ticked', 'basket bought done'], ['tick all', 'basket check'], ['share my basket', ''], ['split basket between 2', 'divide'], ['new sheet', 'start create'], ['share my sheet', ''], ['clear sheet', ''],
       ['what have you learned', 'habits'], ['stop learning', 'off'], ['start learning', 'on'], ['forget what you learned', 'erase clear'], ['clear recent questions', 'history searches'],
       ['backup my data', ''], ['restore backup', ''], ['erase my things', 'keep learned'], ['reset everything', 'factory erase all'], ['install the app', ''], ['what version is this', ''], ['split the bill', 'new'], ['what can you do', 'help commands'], ['how do i use this', 'help work'], ['new timer', 'start'], ['start a stopwatch', 'new'], ['pomodoro', 'focus']]
@@ -11893,11 +12205,11 @@ const Engine = (() => {
   let disc = store.get('quotient.discover', null); if (!disc || typeof disc !== 'object') disc = { done: {}, seen: {}, hidden: false };
   const saveDisc = () => store.set('quotient.discover', disc);
   try { if (!disc.done.ask && (hist.length || tape.some(t => !t.ex))) { disc.done.ask = disc.done.keep = 1; saveDisc(); } } catch {}
-  const QVER = '713b74a0';
+  const QVER = '51daec28';
   const SAMPLE_PASTE = 'Coffee 2.40\nCroissant 1.80\nOrange juice 3.20\nTotal 7.40';
   const FEATS = [
     { id: 'ask', t: 'Ask in your own words', d: 'Type it the way you would say it', q: '18% tip on 64,50 for 3 people' },
-    { id: 'keep', t: 'Keep answers on the tape', d: 'Press Enter after an answer', q: '120 km/h to mph', tip: 'Now press Enter' },
+    { id: 'keep', t: 'Add answers to a sheet', d: 'Press Enter after an answer', q: '120 km/h to mph', tip: 'Now press Enter' },
     { id: 'follow', t: 'Carry on from an answer', d: 'After keeping one, type “times 2” or “in miles”', q: '5 km to miles', tip: 'Press Enter, then type “times 2”' },
     { id: 'scrub', t: 'Drag a number', d: 'Slide a number under the bar and watch the answer move', q: 'loan 200k at 3.5% for 30 years', tip: 'Drag a number just under the bar' },
     { id: 'units', t: 'Convert anything', d: 'Units, sizes, time zones, cooking', q: '3 cups of flour in grams' },
@@ -11936,7 +12248,7 @@ const Engine = (() => {
     if (!r || r.error || r.kind === 'Help' || r.run) return null;
     if (coachTip && !disc.done[coachTip.id]) return coachTip;
     const numeric = typeof r.num === 'number' && isFinite(r.num);
-    if (numeric && !disc.done.keep && !disc.seen.keep) return { id: 'keep', text: 'Press <kbd>Enter</kbd> to keep this answer on your tape. Quotient then remembers it for your next question.' };
+    if (numeric && !disc.done.keep && !disc.seen.keep) return { id: 'keep', text: 'Press <kbd>Enter</kbd> to add this answer to a sheet.' };
     if (numeric && disc.done.keep && !disc.done.follow && !disc.seen.follow && ctx.lastQ) return { id: 'follow', text: 'It remembers your last answer: type <b>times 2</b>, <b>in miles</b> or <b>what about 20%?</b> to carry on.' };
     if (numeric && disc.done.keep && !disc.done.scrub && !disc.seen.scrub && $('#scrub').offsetParent && $('#scrub').offsetHeight > 4) return { id: 'scrub', text: 'Drag a number just under the bar left or right: the answer follows.' };
     if (!$('#answer [data-act="more"]') || disc.seen.details || !disc.done.keep) return null;
@@ -12050,7 +12362,11 @@ const Engine = (() => {
       if (M) { cmBridge = s; bridge = `<button type="button" class="mm-bridge" data-cmbridge><i>${esc(M.g)}</i><span><em>Edit this in ${esc(M.t)}</em><b>${esc(q)}</b></span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>`; } } catch {}
     try { const rs = (JSON.parse(localStorage.getItem('quotient.cmrecent') || '[]') || []).map(k => CM_MODES.find(x => x.k === k)).filter(Boolean).slice(0, 4);
       if (rs.length) rec = `<div class="mm-rec"><span>Recent</span>${rs.map(x => `<button type="button" data-cm="${x.k}"><i>${esc(x.g)}</i>${esc(x.t)}</button>`).join('')}</div>`; } catch {}
-    m.innerHTML = `<div class="mm-head">Maths tools <span>pick one, then fill it in</span><button type="button" class="mm-x" data-mmclose aria-label="Close maths tools" title="Close">×</button></div>${bridge}${rec}<div class="mm-grid">${CM_MODES.map((x, i) => `<button type="button" data-cm="${x.k}" style="--i:${i}"><i>${esc(x.g)}</i><b>${esc(x.t)}</b><span>${esc(x.d)}</span></button>`).join('')}</div>`;
+    const MM_G = [['Everyday', '#E3A12F', ['pct', 'ratio', 'expr', 'frac']], ['Algebra', '#8B7CF6', ['eq', 'quad', 'sys', 'fx']], ['Powers & numbers', '#3D8BEF', ['pow', 'num', 'comb']], ['Shapes & angles', '#2FAE7A', ['geo', 'trig']], ['Data & calculus', '#E5675C', ['stats', 'calc', 'graph']]];
+    let ri = 0; const live = k => { try { return QB.list.some(b => b.k === k); } catch { return false; } };
+    const secs = MM_G.map(([name, hue, ks]) => `<section class="mm-sec" style="--c:${hue}"><h4>${esc(name)}</h4><div class="mm-box">${ks.map(k => CM_MODES.find(x => x.k === k)).filter(Boolean).map(x => `<button type="button" class="mm-row" data-cm="${x.k}" data-s="${esc((x.t + ' ' + x.d + ' ' + x.k + ' ' + name).toLowerCase())}" style="--i:${ri++}"><i class="mm-ic" aria-hidden="true">${esc(x.g)}</i><span class="mm-t"><b>${esc(x.t)}</b><small>${esc(x.d)}</small></span>${live(x.k) ? '<span class="mm-live">Open</span>' : '<svg class="mm-bub" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="7" width="13" height="13" rx="3.5"/><circle cx="17.5" cy="6.5" r="3.5"/></svg>'}</button>`).join('')}</div></section>`).join('');
+    if (rec) rec = rec.replace('<span>Recent</span>', '<span>Recent</span>');
+    m.innerHTML = `<div class="mm-top"><div class="mm-tt"><b>Maths tools</b><small>Each opens in a bubble. Keep a few going.</small></div><button type="button" class="mm-x" data-mmclose aria-label="Close maths tools" title="Close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><label class="mm-search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg><input type="search" data-mmq placeholder="Search tools" aria-label="Search maths tools" autocomplete="off" spellcheck="false"></label>${bridge}${rec}<div class="mm-secs">${secs}</div><p class="mm-none" hidden>No tool by that name. Try the search bar.</p>`;
     m.hidden = false; m.classList.remove('leaving'); if (!REDUCE) { m.classList.remove('in'); void m.offsetWidth; m.classList.add('in'); }
     document.querySelector('.qlead').setAttribute('aria-expanded', 'true'); try { found('tools'); } catch {}
   }
@@ -12386,6 +12702,176 @@ const Engine = (() => {
     if (e.target.closest('[data-cmsteps]')) { const q = cmQuery(); if (!q) return; const spec = { k: cm.M.k, choice: cm.choice, vals: cm.M.frac ? null : [...$('#composer').querySelectorAll('.cm-in')].map(x => x.value), fr: cm.M.frac ? JSON.parse(JSON.stringify(cm.fr)) : null }, T = cmTarget || { i: ntCaret.i, replace: false }; closeComposer(); mathMenu(false); goSteps(q, T.i, { tool: spec, target: T }); }
   });
 
+  /* ---------- Bubbles: every maths tool floats in its own window, answers live inside it ----------
+     tap a tool → a bubble window opens; minimise it and it becomes a round head at the edge of the screen.
+     open several, switch between them from the row of heads, and drag one down onto the X to close it. */
+  const QB = { list: [], on: null, open: false, seq: 0, side: 'right', y: null, steps: false };
+  const QB_HUE = { pct: '#E3A12F', ratio: '#E3A12F', expr: '#E3A12F', frac: '#E3A12F', eq: '#8B7CF6', quad: '#8B7CF6', sys: '#8B7CF6', fx: '#8B7CF6', pow: '#3D8BEF', num: '#3D8BEF', comb: '#3D8BEF', geo: '#2FAE7A', trig: '#2FAE7A', stats: '#E5675C', calc: '#E5675C', graph: '#E5675C' };
+  const QB_SZ = 56, QB_GAP = 10;
+  let qbL = null;
+  const qbSafe = () => { try { const v = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--qb-st')); return isFinite(v) ? v : 0; } catch { return 0; } };
+  function qbLayer() {
+    if (qbL) return qbL;
+    qbL = document.createElement('div'); qbL.id = 'qbLayer'; qbL.className = 'qb-layer';
+    qbL.innerHTML = `<div class="qb-scrim" data-qbmin></div>
+      <section class="qb-win" role="dialog" aria-modal="false" aria-label="Maths tool" hidden>
+        <header class="qb-bar" data-qbgrab><span class="qb-grip" aria-hidden="true"></span><i class="qb-wic" aria-hidden="true"></i><b class="qb-title"></b>
+          <button type="button" class="qb-btn" data-qbmin aria-label="Minimise to a bubble" title="Minimise"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 12h12"/></svg></button>
+          <button type="button" class="qb-btn" data-qbclose aria-label="Close this bubble" title="Close"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></header>
+        <div class="qb-body"></div>
+      </section>
+      <div class="qb-x" aria-hidden="true"><span><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></span></div>`;
+    document.body.appendChild(qbL);
+    qbL.addEventListener('click', qbClick); qbL.addEventListener('pointerdown', qbDown);
+    addEventListener('resize', () => { if (QB.list.length) qbLayout(true); });
+    return qbL;
+  }
+  const qbB = id => QB.list.find(b => b.id === id);
+  const qbM = b => CM_MODES.find(x => x.k === b.k);
+  function qbHead(b) {
+    const M = qbM(b), h = document.createElement('button'); h.type = 'button'; h.className = 'qb-head'; h.dataset.qb = b.id; h.style.setProperty('--c', QB_HUE[b.k] || 'var(--ai-c)');
+    h.setAttribute('aria-label', M.t + ' bubble'); h.innerHTML = `<i>${esc(M.g)}</i><em class="qb-ans"></em>`; qbLayer().appendChild(h); b.el = h; return h;
+  }
+  // where every head sits: in a row above the open window, or piled at the edge when minimised
+  function qbLayout(now) {
+    const W = innerWidth, H = innerHeight, top = qbSafe() + 12, n = QB.list.length; if (!qbL) return;
+    if (QB.y == null) QB.y = Math.round(H * .42);
+    QB.y = Math.max(top, Math.min(H - QB_SZ - 90, QB.y));
+    const rowW = n * QB_SZ + (n - 1) * QB_GAP, right = Math.min(W - 12, Math.max(W / 2 + 270, 0));
+    const x0 = Math.max(12, Math.min(W - 12, right) - rowW);
+    const pile = QB.list.slice().sort((a, b) => (b.id === QB.on) - (a.id === QB.on));
+    QB.list.forEach((b, i) => { const h = b.el || qbHead(b); if (h._drag) return; let x, y, s = 1, z;
+      if (QB.open) { x = x0 + i * (QB_SZ + QB_GAP); y = top; z = 5; }
+      else { const j = pile.indexOf(b); x = QB.side === 'right' ? W - QB_SZ - 8 + Math.min(j, 3) * 3 * 0 : 8; y = QB.y + Math.min(j, 3) * 5; s = j ? 1 - Math.min(j, 3) * .06 : 1; z = 10 - j; }
+      h.classList.toggle('on', QB.open && b.id === QB.on); h.classList.toggle('pile', !QB.open); h.style.zIndex = z;
+      if (now) h.classList.add('now'); h.style.transform = `translate3d(${x}px,${y}px,0) scale(${s})`; b.x = x; b.y = y;
+      if (now) requestAnimationFrame(() => h.classList.remove('now')); });
+    const top1 = pile[0]; qbL.style.setProperty('--qbn', n > 1 && !QB.open ? `"${n}"` : '""');
+    qbL.classList.toggle('many', n > 1 && !QB.open); if (top1 && top1.el) qbL.querySelectorAll('.qb-head').forEach(h => h.classList.toggle('lead', h === top1.el));
+    const on = qbB(QB.on), win = qbL.querySelector('.qb-win');
+    if (on && QB.open) { win.style.setProperty('--ax', (on.x + QB_SZ / 2) + 'px'); QB.wt = top + QB_SZ + 12; win.style.top = `calc(env(safe-area-inset-top,0px) + ${QB.wt}px)`; win.style.setProperty('--qbt', QB.wt + 'px'); }
+    qbL.classList.toggle('has', n > 0); qbL.classList.toggle('open', QB.open);
+    document.documentElement.classList.toggle('is-qb-open', QB.open);
+  }
+  // keep each bubble's own numbers, so switching never loses what you typed
+  function qbSave() {
+    const b = qbB(QB.on); if (!b || !cm || cmHost !== 'bubble') return;
+    b.choice = cm.choice; if (cm.M.frac) b.fr = JSON.parse(JSON.stringify(cm.fr)); else b.vals = [...$('#composer').querySelectorAll('.cm-in')].map(i => i.value);
+    let v = ''; if (cm.q && cm.q !== b.q0) { try { const r = solveLinked(cm.q); if (r && !r.error && r.kind !== 'Graph' && r.value != null) v = String(r.value).replace(/\s+/g, ' ') + (r.unit && r.unit.length < 10 ? ' ' + r.unit : ''); } catch {} b.ans = v; } else if (!cm.q) b.ans = ''; b.q0 = cm.q; b.q = cm.q || null;
+    if (b.el) { const e = b.el.querySelector('.qb-ans'); e.textContent = b.ans.length > 9 ? b.ans.slice(0, 8) + '…' : b.ans; b.el.classList.toggle('has-ans', !!b.ans); }
+  }
+  function qbOpen(k, pre) {
+    qbLayer(); mathMenu(false);
+    let b = !pre && QB.list.find(x => x.k === k);
+    if (!b) { b = { id: 'b' + (++QB.seq), k, choice: pre ? pre.choice || 0 : 0, vals: pre && pre.vals ? pre.vals.slice() : null, fr: pre && pre.fr ? JSON.parse(JSON.stringify(pre.fr)) : null };
+      if (QB.list.length >= 5) { const old = QB.list.find(x => x.id !== QB.on); if (old) qbKill(old, true); }
+      QB.list.push(b); const h = qbHead(b); const lead = document.querySelector('.qlead'), r = lead ? lead.getBoundingClientRect() : { left: innerWidth / 2, top: innerHeight / 2 };
+      h.classList.add('now'); h.style.transform = `translate3d(${r.left}px,${r.top}px,0) scale(.3)`; h.style.opacity = '0'; void h.offsetWidth; h.classList.remove('now'); h.style.opacity = ''; }
+    buzz(); qbExpand(b.id);
+  }
+  function qbExpand(id) {
+    const b = qbB(id); if (!b) return; if (QB.open && QB.on === id) return;
+    if (QB.open) qbSave(); clearTimeout(QB._home); QB.on = id; QB.steps = false; const wasOpen = QB.open; QB.open = true;
+    const win = qbLayer().querySelector('.qb-win'), M = qbM(b);
+    cmMount('bubble'); openComposer(b.k, (b.fr || (b.vals && b.vals.some(v => v))) ? b : b.choice ? { choice: b.choice } : null);
+    win.style.setProperty('--c', QB_HUE[b.k] || 'var(--ai-c)'); win.querySelector('.qb-wic').textContent = M.g; win.querySelector('.qb-title').textContent = M.t;
+    qbFoot(); qbLayout();
+    win.hidden = false; win.style.transform = ''; win.classList.remove('out');
+    if (!REDUCE) { win.classList.remove('in', 'swap'); void win.offsetWidth; win.classList.add(wasOpen ? 'swap' : 'in'); }
+    const c = $('#composer'); c.classList.remove('in', 'leaving');
+  }
+  // the bubble's own buttons: the answer stays here, ready to copy, keep or see worked out
+  function qbFoot() {
+    const act = $('#composer .cm-act'); if (!act || !cm) return; const g = cm.M.k === 'graph';
+    act.innerHTML = `<button type="button" class="btn qb-ghost" data-qbsteps aria-expanded="false">${g ? 'Open in search' : 'Show working'}</button><span class="qb-sp"></span><button type="button" class="btn qb-ghost" data-qbcopy>Copy</button><button type="button" class="btn primary" id="cmGo" disabled>Add to sheet</button>`;
+    let st = $('#composer .qb-steps'); if (!st) { st = document.createElement('ol'); st.className = 'qb-steps'; st.hidden = true; act.before(st); }
+    cmUpdate();
+  }
+  function qbSteps() {
+    const st = $('#composer .qb-steps'); if (!st || !cm) return; if (!QB.steps || !cm.q) { st.hidden = true; return; }
+    let r = null; try { r = solveLinked(cm.q); } catch {}
+    const rows = r && !r.error ? (r.work && r.work.length ? r.work : (r.steps || []).filter(x => x && !/^(read as|ignored|changed)$/.test(x[0]))) : [];
+    st.innerHTML = rows.length ? rows.slice(0, 12).map(([a, v]) => `<li><span>${esc(a)}</span>${v != null && v !== '' ? `<b>${prettyMath(v)}</b>` : ''}</li>`).join('') : '<li class="none"><span>No extra working for this one — the answer is direct.</span></li>';
+    st.hidden = false;
+  }
+  function qbCollapse() {
+    if (!QB.open) return; qbSave(); QB.open = false; QB.steps = false;
+    const win = qbL.querySelector('.qb-win'); try { document.activeElement && win.contains(document.activeElement) && document.activeElement.blur(); } catch {}
+    const on = qbB(QB.on); qbLayout();
+    if (on && !REDUCE) { win.style.setProperty('--ox', (on.x + QB_SZ / 2) + 'px'); win.style.setProperty('--oy', (on.y + QB_SZ / 2 - (QB.wt || 0)) + 'px'); win.classList.remove('in', 'swap'); win.classList.add('out'); }
+    clearTimeout(QB._home); QB._home = setTimeout(() => { if (QB.open) return; win.hidden = true; win.classList.remove('out'); win.style.transform = ''; if (cmHost === 'bubble') cmMount('ask'); }, REDUCE ? 0 : 280);
+  }
+  function qbKill(b, quiet) {
+    const i = QB.list.indexOf(b); if (i < 0) return; QB.list.splice(i, 1); const h = b.el;
+    if (h) { h._drag = false; h.classList.add('gone'); setTimeout(() => h.remove(), 320); }
+    if (quiet) return;
+    if (QB.on === b.id) { const nx = QB.list[Math.min(i, QB.list.length - 1)];
+      if (!nx) { if (QB.open) { QB.open = false; const win = qbL.querySelector('.qb-win'); win.classList.remove('in', 'swap'); win.classList.add('out', 'drop'); setTimeout(() => { win.hidden = true; win.classList.remove('out', 'drop'); win.style.transform = ''; if (cmHost === 'bubble') cmMount('ask'); }, REDUCE ? 0 : 260); } QB.on = null; qbLayout(); return; }
+      if (QB.open) { QB.open = false; qbExpand(nx.id); return; } QB.on = nx.id; }
+    qbLayout();
+  }
+  function qbClick(e) {
+    if (e.target.closest('[data-qbclose]')) { const b = qbB(QB.on); b && qbKill(b); buzz(); return; }
+    if (e.target.closest('[data-qbmin]')) { qbCollapse(); return; }
+    if (e.target.closest('[data-qbcopy]')) { const b = qbB(QB.on); qbSave(); const t = b && b.ans; if (!t) return; const ok = () => toast('Copied ' + t);
+      try { navigator.clipboard.writeText(t).then(ok, () => toast('Couldn’t copy')); } catch { toast('Couldn’t copy'); } return; }
+    if (e.target.closest('[data-qbsteps]')) { if (cm && cm.M.k === 'graph') { const q = cm.q; if (!q) return; qbCollapse(); setView('ask'); answerGo(q); runAsk(); return; }
+      QB.steps = !QB.steps; e.target.closest('[data-qbsteps]').setAttribute('aria-expanded', String(QB.steps)); e.target.closest('[data-qbsteps]').textContent = QB.steps ? 'Hide working' : 'Show working'; qbSteps(); return; }
+    const h = e.target.closest('.qb-head'); if (h && !h._moved) { const b = qbB(h.dataset.qb); if (!b) return; buzz();
+      if (!QB.open) qbExpand(b.id); else if (b.id === QB.on) qbCollapse(); else qbExpand(b.id); }
+  }
+  // dragging: a head (or the whole pile) follows your finger; pull it down and an X appears; let go on it to close
+  function qbDown(e) {
+    if (e.button > 0) return; const h = e.target.closest('.qb-head'), grab = !h && e.target.closest('[data-qbgrab]') && !e.target.closest('button');
+    if (!h && !grab) return; const x0 = e.clientX, y0 = e.clientY, X = qbL.querySelector('.qb-x'), win = qbL.querySelector('.qb-win');
+    const pileAll = h && !QB.open, b = h ? qbB(h.dataset.qb) : qbB(QB.on); if (!b) return;
+    const heads = pileAll ? QB.list.map(q => q.el) : h ? [h] : [];
+    const st = heads.map(el => { const m = /translate3d\(([-\d.]+)px,\s*([-\d.]+)px/.exec(el.style.transform) || [0, 0, 0]; return { el, x: +m[1], y: +m[2] }; });
+    let moved = false, near = false, lastY = y0, lastT = performance.now(), vy = 0; if (h) h._moved = false;
+    const xc = () => { const r = X.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; };
+    const mv = ev => { const dx = ev.clientX - x0, dy = ev.clientY - y0;
+      if (!moved) { if (Math.hypot(dx, dy) < 8) return; if (grab && dy < 0 && Math.abs(dy) > Math.abs(dx)) return; moved = true; if (h) h._moved = true; st.forEach(s => { s.el._drag = true; s.el.classList.add('drag'); }); win.classList.remove('in', 'swap'); win.classList.add('drag'); qbL.classList.add('dragging'); try { (h || e.target).setPointerCapture(e.pointerId); } catch {} }
+      ev.preventDefault(); const t = performance.now(); vy = (ev.clientY - lastY) / Math.max(1, t - lastT); lastY = ev.clientY; lastT = t;
+      const c = xc(), showX = h ? (ev.clientY > innerHeight * .45 || dy > 40) : dy > 50; X.classList.toggle('show', showX);
+      near = showX && Math.hypot(ev.clientX - c.x, ev.clientY - c.y) < 90; if (near !== X.classList.contains('near')) { X.classList.toggle('near', near); if (near) buzz(); }
+      if (h) st.forEach((s, j) => { let x = s.x + dx, y = s.y + dy; if (near) { x = c.x - QB_SZ / 2; y = c.y - QB_SZ / 2; } s.el.style.transform = `translate3d(${x}px,${y}px,0) scale(${near ? .9 : 1.06})`; s.el.style.transitionDelay = pileAll ? j * 18 + 'ms' : ''; });
+      else { const d = Math.max(0, dy); win.style.transform = `translateY(${d}px) scale(${near ? .6 : 1 - Math.min(d, 500) / 1400})`; win.style.opacity = near ? .5 : ''; } };
+    const up = ev => { removeEventListener('pointermove', mv); removeEventListener('pointerup', up); removeEventListener('pointercancel', up);
+      X.classList.remove('show', 'near'); qbL.classList.remove('dragging'); win.classList.remove('drag'); st.forEach(s => { s.el._drag = false; s.el.classList.remove('drag'); s.el.style.transitionDelay = ''; });
+      if (!moved) return; setTimeout(() => { if (h) h._moved = false; }, 0);
+      if (near) { win.style.opacity = ''; if (pileAll) { [...QB.list].forEach(q => qbKill(q, true)); QB.on = null; qbLayout(); toast('Bubbles closed'); } else qbKill(b); buzz(); return; }
+      if (pileAll) { QB.side = ev.clientX + vy * 0 < innerWidth / 2 ? 'left' : 'right'; QB.y = st[0].y + (ev.clientY - y0) + vy * 60; qbLayout(); return; }
+      if (h) { if (!QB.open) return qbLayout(); return qbLayout(); }
+      const dy = ev.clientY - y0; win.style.opacity = ''; if (dy > 110 || vy > .7) { win.style.transform = ''; qbCollapse(); } else { win.classList.add('back'); win.style.transform = ''; setTimeout(() => win.classList.remove('back'), 400); } };
+    addEventListener('pointermove', mv, { passive: false }); addEventListener('pointerup', up); addEventListener('pointercancel', up);
+  }
+  // the composer moves into the open bubble; leaving the bubble puts it back where it lives
+  { const cmMount0 = cmMount;
+    cmMount = function (where) {
+      if (!cmHome.menu) { const mm = $('#mathMenu'), cp = $('#composer'); cmHome.menu = [mm.parentNode, mm.nextSibling]; cmHome.comp = [cp.parentNode, cp.nextSibling]; }
+      if (where === 'bubble') { if (cmHost === 'sheet') { mathMenu(false); closeComposer(); cmMount0('ask'); } if (cmHost !== 'bubble') { const cp = $('#composer'); cp.hidden = true; qbLayer().querySelector('.qb-body').appendChild(cp); cmHost = 'bubble'; } return; }
+      if (cmHost === 'bubble') { if (QB.open) { qbSave(); QB.open = false; const win = qbL.querySelector('.qb-win'); win.hidden = true; win.classList.remove('in', 'swap', 'out'); qbLayout(); }
+        const cp = $('#composer'); cp.hidden = true; cm = null; cmHost = 'ask'; $('#mathMenu').after(cp); if (where === 'ask') return; }
+      return cmMount0(where);
+    };
+    const oc0 = openComposer;
+    openComposer = function (k, pre) { if (cmHost === 'ask') { qbOpen(k, pre); return; } const r = oc0.apply(this, arguments); if (cmHost === 'bubble') { const c = $('#composer'); c.classList.remove('in'); } return r; };
+    const cu0 = cmUpdate;
+    cmUpdate = function () { const r = cu0.apply(this, arguments); if (cmHost === 'bubble' && cm) { qbSave(); if (QB.steps) qbSteps(); } return r; };
+    const cg0 = cmGo;
+    cmGo = function () { if (cmHost !== 'bubble') return cg0.apply(this, arguments); const q = cmQuery(); if (!q) return; qbSave(); try { addToSheet(q); } catch { toast('Couldn’t add it'); } buzz(); };
+    // Enter in a bubble just shows the answer and puts the keyboard away
+    $('#composer').addEventListener('keydown', e => { if (cmHost === 'bubble' && e.key === 'Enter') { e.preventDefault(); e.stopImmediatePropagation(); try { e.target.blur(); } catch {} } if (cmHost === 'bubble' && e.key === 'Escape') { e.preventDefault(); e.stopImmediatePropagation(); qbCollapse(); } }, true);
+    $('#composer').addEventListener('click', e => { if (cmHost === 'bubble' && e.target.closest('[data-cmback], [data-cmclose]')) { e.stopImmediatePropagation(); qbCollapse(); } }, true);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && QB.open && cmHost !== 'bubble') qbCollapse(); });
+  }
+  // the tools menu: grouped like the settings, with a search
+  $('#mathMenu').addEventListener('input', e => { const q = e.target.closest('[data-mmq]'); if (!q) return; const s = q.value.trim().toLowerCase(), m = $('#mathMenu');
+    m.querySelectorAll('.mm-row').forEach(r => { r.hidden = !!s && !r.dataset.s.includes(s); });
+    m.querySelectorAll('.mm-sec').forEach(sec => { sec.hidden = ![...sec.querySelectorAll('.mm-row')].some(r => !r.hidden); });
+    const none = m.querySelector('.mm-none'); if (none) none.hidden = [...m.querySelectorAll('.mm-row')].some(r => !r.hidden);
+    m.querySelectorAll('.mm-rec, .mm-bridge').forEach(x => x.hidden = !!s); });
+  $('#mathMenu').addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.closest('[data-mmq]')) { e.preventDefault(); const r = [...$('#mathMenu').querySelectorAll('.mm-row')].find(x => !x.hidden); r && openComposer(r.dataset.cm); } });
   /* ---------- the smart button: "Next" opens the moves that fit what's on screen, each with its result ---------- */
   const SM_IC = {
     pin: '<path d="M12 17v5M8 3h8l-1 6 3 3v2H6v-2l3-3z"/>',
@@ -12672,7 +13158,7 @@ const Engine = (() => {
     if (has(/^(?:settings?|prefs?|preferences|options|definições|definicoes|config\w*)$/)) return 'open settings';
     if (has(/^(?:basket|cart|trolley|shopping(?: list)?|list|cesto|compras)$/)) return 'open basket';
     if (has(/^(?:sheets?|folhas?|notes?)$/)) return 'open sheet';
-    if (has(/^(?:tape|history|fita)$/)) return 'open tape';
+    if (has(/^(?:tape|fita)$/)) return 'open sheet';
     if (has(/^(?:pill|live|trackers?|timers?|island)$/)) return 'show my trackers';
     if (has(/^(?:calc\w*|keypad|calculadora)$/)) return 'open calculator';
     if (has(/^(?:graph\w*|plot)$/)) return 'open graphing calculator';
@@ -12714,7 +13200,7 @@ const Engine = (() => {
   /* ---------- moving around with your fingers: swipe sideways between Ask, Sheet and Basket; tap three times for every task you have open ---------- */
   const VIEWS = ['ask', 'sheet', 'basket'], viewEl = v => v === 'sheet' ? $('#sheet') : v === 'basket' ? $('#basket') : document.querySelector('.grid > .col');
   const SPRING_E = (() => { try { return CSS.supports('animation-timing-function', 'linear(0, 1)') ? getComputedStyle(document.documentElement).getPropertyValue('--spring').trim() || 'cubic-bezier(.2,.9,.25,1.04)' : 'cubic-bezier(.2,.9,.25,1.04)'; } catch { return 'cubic-bezier(.2,.9,.25,1.04)'; } })();
-  const overlayOpen = () => document.documentElement.classList.contains('sh-open') || document.documentElement.classList.contains('kp-on') || document.documentElement.classList.contains('is-kp-dial') || document.documentElement.classList.contains('is-kp-act') || document.documentElement.classList.contains('is-kp-sel') || document.documentElement.classList.contains('gc-open') || $('#island').classList.contains('open') || !!document.querySelector('.tsw') || filling || (typeof tOpenId !== 'undefined' && tOpenId) || [...document.querySelectorAll('dialog[open], .dlg:not([hidden]), [role="dialog"]:not([hidden])')].some(d => d.offsetParent !== null && !d.closest('#fillbar'));
+  const overlayOpen = () => document.documentElement.classList.contains('sh-open') || document.documentElement.classList.contains('is-qb-open') || document.documentElement.classList.contains('kp-on') || document.documentElement.classList.contains('is-kp-dial') || document.documentElement.classList.contains('is-kp-act') || document.documentElement.classList.contains('is-kp-sel') || document.documentElement.classList.contains('gc-open') || $('#island').classList.contains('open') || !!document.querySelector('.tsw') || filling || (typeof tOpenId !== 'undefined' && tOpenId) || [...document.querySelectorAll('dialog[open], .dlg:not([hidden]), [role="dialog"]:not([hidden])')].some(d => d.offsetParent !== null && !d.closest('#fillbar'));
   const noGesture = el => !!(el && el.closest && el.closest('input, textarea, select, [contenteditable="true"], button, a, label.searchbar, .sl, #fill, #fillbar, .mtl, #islPanel, #gcalc, .smart-menu, .sugg, #opsRow, .ops, .sw-row, .qpad, .calc, #calc, .keys, canvas, svg.plot, .plot, .slider, input[type=range], .tsw'));
   const scrollsX = el => { for (let e = el; e && e !== document.body; e = e.parentElement) { const cs = getComputedStyle(e); if (/(auto|scroll)/.test(cs.overflowX) && e.scrollWidth > e.clientWidth + 2) return true; } return false; };
   // swipe between the three views like turning a page: the next one rides in beside the current one under your finger,
@@ -12978,7 +13464,7 @@ const Engine = (() => {
     { id: 'ask', sec: 'basics', t: 'Ask the way you talk', s: 'Answers appear while you type', d: 'Type a question in your own words. Extra words, names and commas are fine: the answer appears as you type, with nothing to press.', ex: ['18% tip on 64,50 for 3 people', '3pm lisbon to tokyo', 'how long between 9:15 and 17:40', '350 g of ham at 12.90 per kg'], q: '18% tip on 64,50 for 3 people', v: '25.37', u: 'each', ui: 'answer', spot: '.searchbar', tip: 'Type anything here, in your own words.' },
     { id: 'messy', sec: 'basics', t: 'Typos and messy questions', s: 'Glued words, typos, Portuguese', d: 'Write it however it comes out: missing spaces, spelling slips, text-speak or Portuguese. It reads it the way you meant and tells you how it read it.', ex: ['whats 15 percnt of 80', 'half of 3o', 'me and my 3 friends had pizza for 48', 'quanto é 20% de 50'], q: 'whats 15 percnt of 80', v: '12', u: '', ui: 'answer', spot: '#answer', tip: 'It shows how it read your question, just under the answer.' },
     { id: 'chips', sec: 'basics', t: 'Change it with one tap', s: 'Other units and rates under the answer', d: 'Under most answers are the other units, rates or sizes. Tap one and the answer follows; Back undoes it.', ex: ['5 km to miles', '20% off 80', '30 c to f'], q: '5 km to miles', v: '3.107', u: 'mi', ui: 'chips', spot: '#answer .a-opts', tip: 'Tap a chip to switch. The answer follows.' },
-    { id: 'keep', sec: 'basics', t: 'Keep answers on your tape', s: 'Enter saves it, the pencil opens the tape', d: 'Press Keep or Enter to save an answer. Then carry on from it: “times 2”, “in miles”, “what about 20%”.', ex: ['120 km/h to mph', 'times 2', 'in km/h'], q: '5 km to miles', q2: 'times 2', v: '6.214', u: 'mi', ui: 'follow', spot: '#answer', tip: 'It used your last answer.' },
+    { id: 'keep', sec: 'basics', t: 'Carry on from an answer', s: 'Enter adds it to a sheet', d: 'Carry on from the last answer: “times 2”, “in miles”, “what about 20%”. Press Enter (or Add) to put an answer on a sheet.', ex: ['120 km/h to mph', 'times 2', 'in km/h'], q: '5 km to miles', q2: 'times 2', v: '6.214', u: 'mi', ui: 'follow', spot: '#answer', tip: 'It used your last answer.' },
     { id: 'bar', sec: 'do', t: 'Tell it what to do', s: 'Timers, reminders, settings, in plain words', d: 'Ask the way you would ask an assistant. It works out what to do, shows you, and does it when you tap. Two things at once work too.', ex: ['set a timer for 12 minutes for the rice', 'remind me tomorrow at 9 to call the bank', 'open settings and turn on dark mode', 'lembra-me de ligar à mãe às 18h'], q: 'set a timer for 12 minutes for the rice', v: 'Rings in 12 min', u: '', ui: 'cmd', spot: '#answer', tip: 'The button on the right does it.' },
     { id: 'smart', sec: 'do', t: 'The button on the right', s: 'It becomes whatever you’re asking for', d: 'For a command it shows that command’s icon (Start, Switch, Add): tap and it happens, and a live event flies into the pill. After you do something it offers what comes next. A single word works too: “vibration” turns it off if it’s on.', ex: ['pasta 9 minutes', 'days until christmas', 'hotel 300', 'vibration', 'eggs'], q: 'pasta 9 minutes', v: 'Start', u: '', ui: 'next', spot: '#smartBtn', tip: 'Tap this button: it does what you asked.' },
     { id: 'split', sec: 'money', t: 'Split the bill', s: 'Each person’s share, who paid, a QR for the table', d: 'Say it the way you would at the table. People can be left out of an item, Enter opens the split, and everyone can open their own part from a QR code.', ex: ['pizza 18, wine 24, Ana didn’t drink, 4 of us, 10% tip', 'we were 4 and the bill was 86.40', 'split 120 between me ana and joão'], q: 'pizza 18, wine 24, Ana didn’t drink, 4 of us, 10% tip', v: 'You 12.50 · Ana 4.50 …', u: '', ui: 'split', spot: '#answer', tip: 'Enter opens the split.' },
@@ -13226,6 +13712,10 @@ const Engine = (() => {
     const t0 = String(raw || '').trim().replace(/[’]/g, "'"); if (t0.length < 6 || t0.length > 400) return null; const low = t0.toLowerCase();
     if (!/\bwith\s+(?:[A-ZÀ-Ý][a-zà-ÿ]+|me)\b.*\b(?:and|&)\b/.test(t0) && !/\bsplit|\bof us\b|\bbetween\b|\bamong\b|\bways\b|\bper (?:person|head)\b|\bdidn'?t\b|\bdoesn'?t\b|\bdid not\b|\bdivid|\bpeople\b|\bfriends\b|\bwho owes\b|\bhad the\b/.test(low)) return null;
     if (/\b(?:paid|put in|gave|spent)\s+(?:€|\$|£)?\d/i.test(t0) || /[=^√]|\b(?:mortgage|loan|salary|interest|km|miles|hours?)\b/i.test(low)) return null;
+    if (/\bparts?\b|\bratio\b/.test(low)) return null;
+    if (/\b\d{1,2}[:h]\d{2}\b/.test(low) && /\b(?:minutes?|hours?|mins?|long|time|between|from)\b/.test(low) && !/[€$£]|\beuros?\b|\bbill\b/.test(low)) return null;
+    if (/\bdivid/.test(low) && !/\bsplit|\bof us\b|\bbetween\b|\bamong\b|\bways\b|\bper (?:person|head)\b|\bpeople\b|\bfriends\b|\bbill\b|\bdinner\b|\blunch\b|€|\$|£|\beach\b/.test(low)) return null;
+    if (/factorial|\d!|\b(?:rounded|round|squared|cubed|root|percent|%)\b/.test(low) && !/\bsplit|\bbetween\b|\bpeople\b|\bbill\b|\btip\b/.test(low)) return null;
     const cur = curOf((t0.match(/€|\$|£|\beur\b|\busd\b|\bgbp\b/i) || [''])[0]);
     const wnum = w => /^\d+$/.test(w) ? +w : SP_NUMW[w] || 0, NAME = "[A-ZÀ-Ý][A-Za-zÀ-ÿ'-]+";
     let count = 0, txt = t0; const meIn = /\b(?:me|i|we|us|myself|our)\b/i.test(t0);
@@ -13516,7 +14006,7 @@ const Engine = (() => {
         glBadgeOK() ? row('Number on the app icon', 'What’s left on your timer, days to go…', sw('badge', badge)) : row('Number on the app icon', /android/i.test(navigator.userAgent) ? 'Android doesn’t show numbers on app icons for web apps. Use “Show in notifications” below instead' : mInFrame ? 'Only in the installed app, not inside another app’s window' : 'Works once Quotient is installed (and on iPhone, with notifications allowed)', '<span class="set-tag">Not here</span>'),
         glNoteOK() ? row('Show in notifications', 'A quiet note with what’s coming, like “Pasta · rings at 14:35”. It stays right even when the app is closed', sw('gnote', glOn())) : '', glNoteOK() && glOn() ? gnRows() : ''], 2),
       group('learn', 'Learning', [row('Learn from what I ask', 'Your usual tip, VAT, who you split with', sw('learn', learnOn)), row('What Quotient has learned', hb ? `${hb} thing${hb === 1 ? '' : 's'}` : 'Nothing yet', '<button type="button" class="mt-chip set-btn" data-set="habits">See</button>'), row('Recent questions', `${hist.length} remembered`, `<button type="button" class="mt-chip set-btn" data-set="clearhist"${hist.length ? '' : ' disabled'}>Clear</button>`)], 3),
-      group('data', 'Your data', [row('Everything stays on this device', 'No account, no internet needed', ''), row('Back up', 'Copies all your sheets, tape, basket and trackers as text', '<button type="button" class="mt-chip set-btn" data-set="backup">Copy</button>'), row('Restore', 'Paste a backup', '<button type="button" class="mt-chip set-btn" data-set="restore">Paste…</button>'), `<form class="set-restore" id="setRestore" hidden autocomplete="off"><textarea id="setRestoreIn" rows="3" placeholder="Paste your backup here" spellcheck="false"></textarea><button type="submit" class="mt-chip set-btn">Restore</button></form>`, row('Tape', `${kept} kept answer${kept === 1 ? '' : 's'}`, `<button type="button" class="mt-chip set-btn" data-set="cleartape"${kept ? '' : ' disabled'}>Clear</button>`), row('Erase my things, keep what it learned', 'Sheets, tape, basket, trackers, recent questions. Your settings and learned habits stay', '<button type="button" class="mt-chip set-btn set-danger" data-set="erasec">Erase</button>'), row('Erase everything', 'All of the above plus what Quotient has learned and your settings', '<button type="button" class="mt-chip set-btn set-danger" data-set="erase">Erase all</button>')], 4),
+      group('data', 'Your data', [row('Everything stays on this device', 'No account, no internet needed', ''), row('Back up', 'Copies all your sheets, basket and trackers as text', '<button type="button" class="mt-chip set-btn" data-set="backup">Copy</button>'), row('Restore', 'Paste a backup', '<button type="button" class="mt-chip set-btn" data-set="restore">Paste…</button>'), `<form class="set-restore" id="setRestore" hidden autocomplete="off"><textarea id="setRestoreIn" rows="3" placeholder="Paste your backup here" spellcheck="false"></textarea><button type="submit" class="mt-chip set-btn">Restore</button></form>`, row('Tape', `${kept} kept answer${kept === 1 ? '' : 's'}`, `<button type="button" class="mt-chip set-btn" data-set="cleartape"${kept ? '' : ' disabled'}>Clear</button>`), row('Erase my things, keep what it learned', 'Sheets, basket, trackers, recent questions. Your settings and learned habits stay', '<button type="button" class="mt-chip set-btn set-danger" data-set="erasec">Erase</button>'), row('Erase everything', 'All of the above plus what Quotient has learned and your settings', '<button type="button" class="mt-chip set-btn set-danger" data-set="erase">Erase all</button>')], 4),
       group('info', 'About', [row('Guide', 'Everything Quotient can do', '<button type="button" class="mt-chip set-btn" data-set="guide">Open</button>'), std || !$('#installBtn') || $('#installBtn').hidden ? '' : row('Install as an app', 'Works offline, from your home screen', '<button type="button" class="mt-chip set-btn" data-set="install">Install</button>'), row('Version', 'Tip: almost all of this can be typed in the search bar too, like “dark mode”', `<span class="set-tag">${esc(QVER === '__QVER__' ? 'preview' : QVER)}</span>`)], 5)
     ].join(''); }
   function setOpen(from) { const pg = $('#setPage'); setRender(); pg.hidden = false; pg.inert = false; document.documentElement.classList.add('sh-open'); const card = $('#setCard'); card.scrollTop = 0;
@@ -13595,6 +14085,10 @@ const Engine = (() => {
 
   $('#setPage').addEventListener('submit', e => { if (e.target.id !== 'setRestore') return; e.preventDefault(); const t = $('#setRestoreIn').value.trim().replace(/^QUOTIENT-BACKUP\s*/, ''); let o; try { o = JSON.parse(t); } catch { toast('That isn’t a Quotient backup'); return; } const keys = Object.keys(o || {}).filter(x => x.startsWith('quotient.')); if (!keys.length) { toast('That isn’t a Quotient backup'); return; } try { keys.forEach(x => localStorage.setItem(x, String(o[x]))); } catch { toast('Couldn’t restore here'); return; } toast('Restored. Reloading…'); setTimeout(() => location.reload(), 700); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#setPage').hidden) { e.preventDefault(); e.stopPropagation(); setClose(); } }, true);
+  $('#tasksFab').addEventListener('click', () => { try { buzz(); } catch {} tasksOpen(); });
+  { const tkN = () => { try { const n = tasks.filter(taskValid).length; const el = $('#tasksFabN'); el.hidden = n < 2; el.textContent = n; } catch {} }; setInterval(tkN, 1500); setTimeout(tkN, 300); }
+  $('#navPanel').addEventListener('click', e => { const b = e.target.closest('[data-nav="tape"], [data-nav="calc"], [data-nav="graph"]'); if (!b) return; e.stopPropagation(); try { buzz(); } catch {} navOpen(false); const k = b.dataset.nav;
+    setTimeout(() => { if (k === 'tape') $('#tapeFab').click(); else { const it = $(`#calcMenu [data-cmenu="${k === 'graph' ? 'graph' : 'basic'}"]`); if (it) it.click(); } }, 160); }, true);
   $('#navPanel').addEventListener('click', e => { const b = e.target.closest('[data-nav="tasks"]'); if (!b) return; e.stopPropagation(); buzz(); navOpen(false); setTimeout(() => tasksOpen(), 160); }, true);
   $('#navPanel').addEventListener('click', e => { const b = e.target.closest('[data-nav="settings"]'); if (!b) return; e.stopPropagation(); buzz(); navOpen(false); setTimeout(() => setOpen($('#navFab')), 120); }, true);
   if (store.get('quotient.calm', false)) document.documentElement.classList.add('calm');

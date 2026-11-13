@@ -1,5 +1,5 @@
 // Quotient service worker: works fully offline after the first visit.
-const VERSION = 'quotient-713b74a0';
+const VERSION = 'quotient-51daec28';
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', './maskable-512.png', './home-icon-180.png'];
 // each file is cached on its own, so one missing file never stops the app from installing
 self.addEventListener('install', e => { e.waitUntil(caches.open(VERSION).then(c => Promise.allSettled(CORE.map(u => c.add(new Request(u, { cache: 'reload' }))))).then(() => self.skipWaiting())); });
