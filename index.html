@@ -3268,6 +3268,155 @@ html.v-home .search-fab:not(.home-fab){opacity:0;transform:translateX(-40px) sca
 .fy-pt b{font-size:15px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .fy-pt small{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 html.fs-on #forYou{display:none!important}
+.nl.blk{position:relative;z-index:2;margin-right:calc(-1 * var(--rw,0px) - 8px)!important}
+/* ---------- Objects on a sheet ---------- */
+.nl.blk{display:block;margin:10px 0;padding:0!important;cursor:default;-webkit-user-select:none;user-select:none;white-space:normal;max-width:none}
+.nl.blk input{-webkit-user-select:text;user-select:text}
+.nl.blk.arrive{animation:blArrive .55s cubic-bezier(.2,1.2,.35,1) both}
+@keyframes blArrive{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
+.nl.blk.gone{animation:blGone .24s ease-in both}
+@keyframes blGone{to{opacity:0;transform:scale(.94);max-height:0}}
+.nl.blk.nudge > *{animation:blNudge .4s}
+@keyframes blNudge{25%{transform:translateX(-5px)}50%{transform:translateX(4px)}75%{transform:translateX(-2px)}}
+.bl-tbl,.bl-prog,.bl-chart{background:var(--surface-2);border-radius:24px;padding:12px 12px 10px;display:flex;flex-direction:column;gap:10px}
+.bl-head{display:flex;align-items:center;gap:10px;min-width:0}
+.bl-ic{width:32px;height:32px;flex:none;border-radius:50%;display:grid;place-items:center;color:#3D8BEF;background:color-mix(in srgb,#3D8BEF 16%,transparent)}
+.bl-ic.g{color:#E3A12F;background:color-mix(in srgb,#E3A12F 16%,transparent)}.bl-ic.b{color:#8B7CF6;background:color-mix(in srgb,#8B7CF6 16%,transparent)}
+.bl-name{flex:1;min-width:0;border:0;background:none;outline:none;font:inherit;font-size:16px;font-weight:600;color:var(--ink);padding:4px 0}
+.bl-name::placeholder{color:var(--faint);font-weight:500}
+.bl-val{font-family:var(--f-mono);font-size:12px;color:var(--muted);white-space:nowrap}
+.bl-menu{width:34px;height:34px;flex:none;border-radius:50%;border:0;background:none;color:var(--muted);display:grid;place-items:center;cursor:pointer;transition:background .2s,transform .3s var(--spring)}
+.bl-menu:hover{background:var(--surface)}.bl-menu:active{transform:scale(.85)}
+/* table */
+.tb-scroll{overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;margin:0 -12px;padding:0 12px}
+.tb-scroll::-webkit-scrollbar{display:none}
+.tb{border-collapse:separate;border-spacing:0 2px;min-width:100%;font-size:15px}
+.tb th,.tb td{padding:0}
+.tb th{text-align:left;animation:chipIn .4s var(--spring) both;animation-delay:calc(var(--i,0) * 30ms)}
+.tb-h{display:flex;align-items:center;gap:2px;padding:0 4px 4px}
+.tb-h input{flex:1;min-width:64px;width:100%;border:0;background:none;outline:none;font:inherit;font-size:12.5px;font-weight:600;color:var(--muted);padding:4px 6px;border-radius:8px}
+.tb-h input:focus{background:var(--surface);color:var(--ink)}
+.tb-cm{flex:none;height:24px;min-width:24px;padding:0 4px;border-radius:999px;border:0;background:none;color:var(--faint);display:inline-flex;align-items:center;gap:2px;cursor:pointer;font:inherit;font-size:12px}
+.tb-cm b{font-style:italic;color:var(--ai-c);font-family:var(--f-mono)}
+.tb-cm:hover{background:var(--surface)}
+.tb tbody tr{animation:chipIn .4s var(--spring) both;animation-delay:calc(min(var(--i,0),8) * 30ms)}
+.tb tbody tr.gone{animation:blRowOut .22s ease-in both}
+@keyframes blRowOut{to{opacity:0;transform:translateX(-24px)}}
+.tb tbody td{background:var(--surface)}
+.tb tbody td:first-child{border-radius:12px 0 0 12px}
+.tb tbody td:nth-last-child(2){border-radius:0 12px 12px 0}
+.tb tbody td.tb-rx{background:none}
+.tb td input{width:100%;min-width:60px;border:0;background:none;outline:none;font:inherit;font-size:15px;color:var(--ink);padding:11px 10px;border-radius:10px;font-variant-numeric:tabular-nums}
+.tb td input:focus{box-shadow:inset 0 0 0 2px var(--ai-c);background:color-mix(in srgb,var(--ai-c) 5%,var(--surface))}
+.tb td input::placeholder{color:var(--faint);opacity:.6}
+.tb td input.calc{font-family:var(--f-mono);font-size:14px;color:color-mix(in srgb,var(--ai-c) 70%,var(--ink));cursor:default}
+.tb td input.calc:focus{box-shadow:none;background:none}
+.tb td input.swap{animation:valIn .4s var(--spring) both}
+.tb-rx button{width:30px;height:30px;border-radius:50%;border:0;background:none;color:var(--faint);display:grid;place-items:center;cursor:pointer;opacity:.55;transition:opacity .2s,background .2s,transform .3s var(--spring)}
+.tb tr:hover .tb-rx button,.tb tr:focus-within .tb-rx button{opacity:1}
+.tb-rx button:active{transform:scale(.8);background:color-mix(in srgb,var(--bad) 14%,transparent);color:var(--bad)}
+.tb-addc{width:34px;vertical-align:top}
+.tb-addc button{width:28px;height:28px;border-radius:50%;border:0;background:var(--surface);color:var(--ink);font:inherit;font-size:17px;cursor:pointer;transition:transform .3s var(--spring)}
+.tb-addc button:active,.tb-addr:active{transform:scale(.88)}
+.tb tfoot td{padding-top:4px}
+.tb-ft{width:100%;min-height:36px;border:0;background:none;text-align:left;font:inherit;padding:4px 10px;border-radius:10px;cursor:pointer;display:flex;flex-direction:column;gap:1px;transition:background .2s}
+.tb-ft:hover{background:var(--surface)}
+.tb-ft small{font-size:10.5px;font-weight:600;letter-spacing:.04em;color:var(--muted)}
+.tb-ft small.add{opacity:0;transition:opacity .2s}
+.tb-ft:hover small.add,.tb-ft:focus small.add{opacity:1}
+.tb-ft b{font-family:var(--f-mono);font-size:15px;font-weight:600;color:var(--ink)}
+.tb-ft.swap b{animation:valIn .4s var(--spring) both}
+.tb-addr{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;border:0;background:var(--surface);color:var(--ink);font:inherit;font-size:13.5px;font-weight:500;padding:8px 14px 8px 11px;border-radius:999px;cursor:pointer;transition:transform .3s var(--spring)}
+.tb tr.fresh{animation:blArrive .45s cubic-bezier(.2,1.2,.35,1) both}
+/* progress */
+.pg-pct{font-family:var(--f-mono);font-size:15px;color:color-mix(in srgb,#E3A12F 75%,var(--ink))}
+.pg-track{height:14px;border-radius:999px;background:color-mix(in srgb,#E3A12F 16%,var(--surface));overflow:hidden;position:relative}
+.pg-track i{position:absolute;inset:0 auto 0 0;width:calc(var(--p,0) * 100%);border-radius:inherit;background:linear-gradient(90deg,#E3A12F,color-mix(in srgb,#E3A12F 60%,var(--ai-c)));transition:width .9s cubic-bezier(.2,1.2,.35,1)}
+.pg-track.done i{background:var(--good)}
+.pg-f{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.pg-f label{display:flex;align-items:center;gap:8px;background:var(--surface);border-radius:999px;padding:0 6px 0 14px;height:40px;flex:1 1 120px;min-width:0}
+.pg-f label span{font-size:12.5px;color:var(--muted)}
+.pg-f input{flex:1;min-width:0;border:0;background:none;outline:none;font:inherit;font-size:15px;color:var(--ink);font-family:var(--f-mono)}
+.pg-left{font-style:normal;font-size:13px;color:var(--muted);flex:1 0 100%;padding:0 6px}
+/* chart */
+.ch-seg{display:inline-flex;background:var(--surface);border-radius:999px;padding:3px;flex:none}
+.ch-seg button{border:0;background:none;font:inherit;font-size:12.5px;font-weight:500;padding:5px 10px;border-radius:999px;color:var(--muted);cursor:pointer;transition:background .25s,color .25s}
+.ch-seg button[aria-checked="true"]{background:color-mix(in srgb,#8B7CF6 22%,var(--surface));color:var(--ink)}
+.ch-bars{display:grid;gap:8px;padding:2px 2px 4px}
+.ch-row{display:grid;grid-template-columns:minmax(0,7em) minmax(0,1fr) auto;align-items:center;gap:10px;font-size:13.5px}
+.ch-row span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--muted)}
+.ch-row i{height:14px;border-radius:999px;background:var(--surface);position:relative;overflow:hidden}
+.ch-row i::after{content:'';position:absolute;inset:0 auto 0 0;width:var(--w);border-radius:inherit;background:var(--c);animation:chGrow .8s cubic-bezier(.2,1.1,.35,1) both;animation-delay:calc(var(--i) * 60ms);transform-origin:left}
+@keyframes chGrow{from{transform:scaleX(0)}}
+.ch-row b{font-family:var(--f-mono);font-weight:500;font-size:13px}
+.ch-ring{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.ch-ring svg{width:140px;height:140px;flex:none}
+.ch-ring circle{animation:chRing .9s cubic-bezier(.2,1,.35,1) both;animation-delay:calc(var(--i) * 70ms)}
+@keyframes chRing{from{stroke-dasharray:0 400}}
+.ch-tl{font-size:8px;fill:var(--muted)}.ch-tv{font-size:12px;font-weight:600;fill:var(--ink);font-family:var(--f-mono)}
+.ch-ring ul{list-style:none;margin:0;padding:0;display:grid;gap:6px;flex:1;min-width:140px}
+.ch-ring li{display:flex;align-items:center;gap:8px;font-size:13.5px;animation:chipIn .4s var(--spring) both;animation-delay:calc(var(--i) * 50ms)}
+.ch-ring li i{width:10px;height:10px;border-radius:50%;background:var(--c);flex:none}
+.ch-ring li span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted)}
+.ch-ring li b{font-family:var(--f-mono);font-weight:500}
+.ch-empty{margin:4px 6px;font-size:13.5px;color:var(--muted);line-height:1.5}
+/* divider */
+.bl-div{display:flex;align-items:center;gap:6px;height:34px}
+.bl-div i{flex:1;height:2px;border-radius:2px;background:var(--line-strong)}
+.bl-div .bl-menu{opacity:0;transition:opacity .2s}
+.nl.blk:hover .bl-div .bl-menu,.bl-div:focus-within .bl-menu{opacity:1}
+@media (hover:none){.bl-div .bl-menu{opacity:.6}}
+/* the small menus */
+.bl-pop{position:fixed;z-index:95;background:var(--surface);border-radius:20px;padding:6px;box-shadow:0 22px 50px -16px rgba(0,0,0,.5),0 0 0 1px var(--line);display:flex;flex-direction:column;gap:2px;transform-origin:top right;transform:scale(.9);opacity:0;transition:transform .3s cubic-bezier(.2,1.2,.35,1),opacity .15s}
+.bl-pop.in{transform:none;opacity:1}
+.bl-pop > button{border:0;background:none;text-align:left;font:inherit;font-size:14.5px;color:var(--ink);padding:11px 14px;border-radius:14px;cursor:pointer}
+.bl-pop > button:hover{background:var(--surface-2)}
+.bl-pop > button.bad{color:var(--bad)}
+.bl-pop .sep{height:1px;background:var(--line);margin:4px 8px}
+.bl-fx{display:flex;flex-direction:column;gap:4px;padding:8px 10px}
+.bl-fx span,.bl-segrow > span{font-size:12px;font-weight:600;color:var(--muted)}
+.bl-fx input{border:0;outline:none;background:var(--surface-2);border-radius:12px;padding:10px 12px;font:inherit;font-family:var(--f-mono);font-size:14px;color:var(--ink)}
+.bl-fx input:focus{box-shadow:0 0 0 2px var(--ai-c)}
+.bl-segrow{display:flex;flex-direction:column;gap:6px;padding:6px 10px 8px}
+.bl-segrow div{display:flex;flex-wrap:wrap;gap:4px}
+.bl-segrow button{border:0;background:var(--surface-2);font:inherit;font-size:12.5px;padding:6px 10px;border-radius:999px;color:var(--ink);cursor:pointer}
+.bl-segrow button[aria-checked="true"]{background:color-mix(in srgb,var(--ai-c) 22%,var(--surface));font-weight:600}
+/* Insert sheet */
+.nt-ins{color:var(--ai-c)!important}
+.ins{position:fixed;inset:0;z-index:92}
+.ins-scrim{position:absolute;inset:0;background:rgba(10,10,14,.4);opacity:0;transition:opacity .3s}
+.ins.in .ins-scrim{opacity:1}
+.ins-card{position:absolute;left:0;right:0;bottom:0;margin:0 auto;max-width:560px;background:var(--surface);border-radius:30px 30px 0 0;padding:10px 16px calc(18px + env(safe-area-inset-bottom,0px));transform:translateY(100%);transition:transform .45s cubic-bezier(.2,1,.3,1);max-height:85dvh;overflow-y:auto;touch-action:none}
+.ins.in .ins-card{transform:none}
+.ins.out .ins-card{transform:translateY(100%);transition:transform .26s cubic-bezier(.4,0,.8,.4)}
+.ins.out .ins-scrim{opacity:0}
+.ins-grip{display:block;width:36px;height:4px;border-radius:4px;background:var(--line-strong);margin:0 auto 12px}
+.ins-top{display:flex;align-items:baseline;gap:10px;margin:0 6px 14px}
+.ins-top b{font-size:22px;font-weight:500}
+.ins-top span{font-size:13px;color:var(--muted)}
+.ins-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media (min-width:480px){.ins-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.ins-grid button{display:flex;flex-direction:column;align-items:flex-start;gap:4px;border:0;background:var(--surface-2);border-radius:22px;padding:14px;text-align:left;font:inherit;color:var(--ink);cursor:pointer;opacity:0;transform:translateY(12px);transition:transform .3s var(--spring),background .2s}
+.ins.in .ins-grid button{animation:insTile .45s cubic-bezier(.2,1.2,.35,1) both;animation-delay:calc(60ms + var(--i) * 28ms)}
+@keyframes insTile{from{opacity:0;transform:translateY(16px) scale(.94)}to{opacity:1;transform:none}}
+.ins-grid button:active{transform:scale(.95)!important;background:color-mix(in srgb,var(--c) 12%,var(--surface-2))}
+.ins-ic{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;color:var(--c);background:color-mix(in srgb,var(--c) 16%,transparent);margin-bottom:6px;flex:none}
+.ins-grid b{font-size:15px;font-weight:500}
+.ins-grid small{font-size:12.5px;color:var(--muted)}
+.ins-conv{display:flex;align-items:center;gap:12px;width:100%;border:0;border-radius:22px;padding:12px 14px;margin-bottom:10px;background:color-mix(in srgb,#3D8BEF 12%,var(--surface-2));text-align:left;font:inherit;color:var(--ink);cursor:pointer}
+.ins-conv span:last-child{display:grid;gap:2px}.ins-conv small{font-size:12.5px;color:var(--muted)}.ins-conv .ins-ic{margin:0}
+/* previews on the sheets grid */
+.kp-tb{margin:4px 0;font-size:12px}
+.kp-tb > b{display:block;font-size:12.5px;margin-bottom:3px}
+.kp-tb table{border-collapse:collapse;width:100%}
+.kp-tb th{text-align:left;font-weight:600;color:var(--muted);font-size:11px;padding:2px 4px;border-bottom:1px solid var(--line)}
+.kp-tb td{padding:2px 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:80px}
+.kp-tb tr.t td{font-family:var(--f-mono);font-weight:600;padding-top:4px}
+.kp-pg{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:6px;font-size:12px;margin:4px 0}
+.kp-pg i{height:6px;border-radius:6px;background:linear-gradient(90deg,#E3A12F calc(var(--p) * 100%),color-mix(in srgb,#E3A12F 20%,transparent) 0)}
+.kp-pg b{font-family:var(--f-mono);font-weight:500}
+.kp-ln.kp-div{height:1px;background:var(--line);margin:6px 0}
+@media (prefers-reduced-motion:reduce){.nl.blk *,.ins *{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -11026,7 +11175,7 @@ const Engine = (() => {
     { k: 'list', t: 'To-do list', d: 'Tick things off as you go', lines: ['- [ ] '] },
     { k: 'shop', t: 'Shopping list', d: 'Items with prices, a running total', lines: ['- [ ] milk 1.09', '- [ ] bread 0.85', '- [ ] coffee 4.99', '- [ ] '] },
     { k: 'budget', t: 'Monthly budget', d: 'Income, spending, what’s left', lines: ['Income: 2000', '', '# Spending', 'Rent: 850', 'Groceries: 300', 'Transport: 60', 'Phone: 15', 'Spent: total', '', 'Left: income − spent'] },
-    { k: 'table', t: 'Table', d: 'Columns that add themselves up', lines: ['Item | Qty | Price', 'Coffee | 2 | 1.20', 'Cake | 1 | 3.50', ' |  | '] },
+    { k: 'table', t: 'Table', d: 'Columns that add themselves up', lines: [String.raw`⟦tbl {"n":"","c":["Item","Qty","Price","Total"],"f":["","","","qty × price"],"ft":[null,null,null,null],"r":[["","","",""],["","","",""],["","","",""]],"ph":[["Coffee","2","1.20"],["Cake","1","3.50"],["Juice","3","2.10"]]}⟧`, ''] },
     { k: 'trip', t: 'Trip costs', d: 'Split costs, count down the days', lines: SHEET_EX.lines.slice() },
     { k: 'answers', t: 'From my answers', d: 'Everything you kept on the tape', lines: null },
   ];
@@ -11078,7 +11227,7 @@ const Engine = (() => {
   function kpCard(s, k) {
     const ev = kpEval(s), L = s.lines, rows = []; let shown = 0, chk = 0, done = 0, summed = false;
     L.forEach((raw, i) => { const o = ev.out[i] || {}; if (o.summed) summed = true; const t0 = raw.trim(); const mm = t0.match(/^(?:[-*•]\s+)?\[( |x|X)?\]/); if (mm) { chk++; if (/x/i.test(mm[1] || '')) done++; } });
-    for (let i = 0; i < L.length && shown < 8; i++) { const raw = L[i]; if (!raw.trim()) continue; const o = ev.out[i] || {}; let cls = '', pre = '', t = raw.trim(), m;
+    for (let i = 0; i < L.length && shown < 8; i++) { const raw = L[i]; if (!raw.trim()) continue; const o = ev.out[i] || {}; let cls = '', pre = '', t = raw.trim(), m; { const bb = /^\s*⟦/.test(raw) ? blkOf(raw) : null; if (bb) { const h = blkCard(bb, s); if (h) { rows.push(h); shown++; } continue; } }
       if (/^#/.test(t)) { cls = 'h'; t = t.replace(/^#+\s*/, ''); }
       else if ((m = t.match(/^(?:[-*•]\s+)?\[( |x|X)?\]\s*/))) { const x = /x/i.test(m[1] || ''); pre = `<i class="bx${x ? ' x' : ''}"></i>`; if (x) cls = 'done'; t = t.slice(m[0].length); }
       else if ((m = t.match(/^[-*•]\s+/))) { pre = '<i class="dot"></i>'; t = t.slice(m[0].length); }
@@ -11159,7 +11308,7 @@ const Engine = (() => {
   $('#kpFab').addEventListener('click', () => kpDial());
   $('#kpScrim').addEventListener('click', () => { if (Date.now() - kpLpAt < 700) return; kpDial(false); kpActClose(); });
   $('#kpDialBox').addEventListener('click', e => { const b = e.target.closest('[data-kpt]'); if (!b) return; const k = b.dataset.kpt, T = SHEET_TPL.find(t => t.k === k); kpFrom = b; kpDial(false);
-    newSheet(k, k === 'note' ? '' : T ? T.t : ''); if (k === 'note') sheet.title = ''; sheet.lines = /^(?:list|shop)$/.test(k) ? ['- [ ] '] : ['']; if (k !== 'note' && k !== 'answers') sheet.ph = k; try { saveSheet(); renderLines(0); kpGhostSync(); } catch {}
+    newSheet(k, k === 'note' ? '' : T ? T.t : ''); if (k === 'note') sheet.title = ''; sheet.lines = /^(?:list|shop)$/.test(k) ? ['- [ ] '] : k === 'table' ? [blkTok('tbl', TBL_NEW()), ''] : ['']; if (k !== 'note' && k !== 'answers' && k !== 'table') sheet.ph = k; try { saveSheet(); renderLines(0); kpGhostSync(); } catch {}
     setTimeout(() => { try { if (k === 'note') $('#sheetTitle').focus(); else { const ed = ntEd(); ed && ed.focus(); } } catch {} }, 460); });
   // selecting several sheets (long press, then tap others): pin, colour, copy, delete them together
   function kpSelSync() { const n = kpSel.size, H = $('#kpHome'); H.classList.toggle('selecting', n > 0); document.documentElement.classList.toggle('is-kp-sel', n > 0); if (!n) { $('#kpSelPop').hidden = true; } $('#kpSelN').textContent = n;
@@ -12441,7 +12590,7 @@ const Engine = (() => {
   let disc = store.get('quotient.discover', null); if (!disc || typeof disc !== 'object') disc = { done: {}, seen: {}, hidden: false };
   const saveDisc = () => store.set('quotient.discover', disc);
   try { if (!disc.done.ask && (hist.length || tape.some(t => !t.ex))) { disc.done.ask = disc.done.keep = 1; saveDisc(); } } catch {}
-  const QVER = 'eb658026';
+  const QVER = 'bba3fd9a';
   const SAMPLE_PASTE = 'Coffee 2.40\nCroissant 1.80\nOrange juice 3.20\nTotal 7.40';
   const FEATS = [
     { id: 'ask', t: 'Ask in your own words', d: 'Type it the way you would say it', q: '18% tip on 64,50 for 3 people' },
@@ -13436,7 +13585,7 @@ const Engine = (() => {
   /* ---------- moving around with your fingers: swipe sideways between Ask, Sheet and Basket; tap three times for every task you have open ---------- */
   const VIEWS = ['ask', 'sheet', 'basket'], viewEl = v => v === 'sheet' ? $('#sheet') : v === 'basket' ? $('#basket') : document.querySelector('.grid > .col');
   const SPRING_E = (() => { try { return CSS.supports('animation-timing-function', 'linear(0, 1)') ? getComputedStyle(document.documentElement).getPropertyValue('--spring').trim() || 'cubic-bezier(.2,.9,.25,1.04)' : 'cubic-bezier(.2,.9,.25,1.04)'; } catch { return 'cubic-bezier(.2,.9,.25,1.04)'; } })();
-  const overlayOpen = () => document.documentElement.classList.contains('sh-open') || document.documentElement.classList.contains('fs-on') || document.documentElement.classList.contains('is-qb-open') || document.documentElement.classList.contains('kp-on') || document.documentElement.classList.contains('is-kp-dial') || document.documentElement.classList.contains('is-kp-act') || document.documentElement.classList.contains('is-kp-sel') || document.documentElement.classList.contains('gc-open') || $('#island').classList.contains('open') || !!document.querySelector('.tsw') || filling || (typeof tOpenId !== 'undefined' && tOpenId) || [...document.querySelectorAll('dialog[open], .dlg:not([hidden]), [role="dialog"]:not([hidden])')].some(d => d.offsetParent !== null && !d.closest('#fillbar'));
+  const overlayOpen = () => document.documentElement.classList.contains('sh-open') || document.documentElement.classList.contains('is-ins') || document.documentElement.classList.contains('fs-on') || document.documentElement.classList.contains('is-qb-open') || document.documentElement.classList.contains('kp-on') || document.documentElement.classList.contains('is-kp-dial') || document.documentElement.classList.contains('is-kp-act') || document.documentElement.classList.contains('is-kp-sel') || document.documentElement.classList.contains('gc-open') || $('#island').classList.contains('open') || !!document.querySelector('.tsw') || filling || (typeof tOpenId !== 'undefined' && tOpenId) || [...document.querySelectorAll('dialog[open], .dlg:not([hidden]), [role="dialog"]:not([hidden])')].some(d => d.offsetParent !== null && !d.closest('#fillbar'));
   const noGesture = el => !!(el && el.closest && el.closest('input, textarea, select, [contenteditable="true"], button, .bk-item, .qb-layer, a, label.searchbar, .sl, #fill, #fillbar, .mtl, #islPanel, #gcalc, .smart-menu, .sugg, #opsRow, .ops, .sw-row, .qpad, .calc, #calc, .keys, canvas, svg.plot, .plot, .slider, input[type=range], .tsw'));
   const scrollsX = el => { for (let e = el; e && e !== document.body; e = e.parentElement) { const cs = getComputedStyle(e); if (/(auto|scroll)/.test(cs.overflowX) && e.scrollWidth > e.clientWidth + 2) return true; } return false; };
   // swipe between the three views like turning a page: the next one rides in beside the current one under your finger,
@@ -14366,6 +14515,188 @@ const Engine = (() => {
       if (!LEARN_OFF.has('me:tpl')) { const dd = Object.entries(ME.tpl).filter(([, e]) => meDayNear(e) >= .5).sort((a, b) => b[1].n - a[1].n)[0]; if (dd) H('me:tpl', `On ${DAYN[meDay()]} you ask`, dd[0].replace('{n}', '…')); }
       return out; }; }
   { const hf2 = habForget; habForget = function (k) { if (k === 'me:pg') { ME.pg = {}; meSave(); return; } if (k === 'me:words') { ME.words = {}; meSave(); return; } hf2(k); try { fyRender(); } catch {} }; }
+  /* ---------- Things you can put on a sheet: tables, progress bars, charts, dividers ----------
+     each one lives on a single line as ⟦kind {data}⟧ and is drawn as a little object you can edit in place */
+  const BLK_RE = /^⟦(tbl|prog|chart|div)(?: (.*))?⟧$/;
+  function blkOf(t) { const m = BLK_RE.exec(String(t || '').trim()); if (!m) return null; let d = {}; try { d = m[2] ? JSON.parse(m[2]) : {}; } catch { return null; } return { k: m[1], d: d || {} }; }
+  const blkTok = (k, d) => `⟦${k}${d && Object.keys(d).length ? ' ' + JSON.stringify(d) : ''}⟧`;
+  const blkFmt = v => v == null || !isFinite(v) ? '' : Engine.fmt(Math.abs(v) >= 100 ? Math.round(v * 100) / 100 : +(+v).toPrecision(8));
+  const blkVars = () => { let sv = {}; try { sv = lastSheetVars || {}; } catch {} return { ...(ctx.vars || {}), ...sv }; };
+  const blkNum = (expr, extra) => { const s = String(expr ?? '').trim(); if (!s) return null; const n = numOf(s); if (n != null) return n; try { const r = Engine.solve(s.replace(/^=\s*/, ''), { ...ctx, vars: { ...blkVars(), ...(extra || {}) } }); return r && !r.error && typeof r.num === 'number' && isFinite(r.num) ? r.num : null; } catch { return null; } };
+  const TBL_NEW = () => ({ n: '', c: ['Item', 'Qty', 'Price', 'Total'], f: ['', '', '', 'qty × price'], ft: [null, null, null, null], r: [['', '', '', ''], ['', '', '', ''], ['', '', '', '']], ph: [['Coffee', '2', '1.20'], ['Cake', '1', '3.50'], ['Juice', '3', '2.10']] });
+  // a table works itself out: numbers, a formula for a whole column, and a footer under each column
+  function tblCalc(d, base) {
+    const C = d.c.length, S = d.c.map(h => slug(h || '')), rows = [], dp = Array(C).fill(0);
+    d.r.forEach(row => row.forEach((x, j) => { const m = /^\s*[€$£]?\s*-?\d[\d,]*[.,](\d{1,2})\s*[€$£]?\s*$/.exec(String(x ?? '')); if (m && !(m[1].length === 3)) dp[j] = Math.max(dp[j], m[1].length); }));
+    const tdp = Math.max(0, ...dp); d.f.forEach((f, j) => { if ((f || '').trim()) dp[j] = tdp; });
+    const F = (v, j) => v == null ? '' : dp[j] ? Number(v).toFixed(dp[j]) : blkFmt(v);
+    for (const row of d.r) { const vals = {}, cells = []; let any = false;
+      for (let j = 0; j < C; j++) { const raw = String(row[j] ?? ''); if (raw.trim()) any = true; const v = raw.startsWith('=') ? null : numOf(raw); cells.push({ v, txt: raw, f: false }); if (S[j] && v != null) vals[S[j]] = v; }
+      for (let pass = 0; pass < 2; pass++) for (let j = 0; j < C; j++) { const raw = String(row[j] ?? ''), f = raw.startsWith('=') ? raw.slice(1) : (d.f[j] || '').trim(); if (!f || !any) continue; if (!raw.startsWith('=') && raw.trim() && !d.f[j]) continue;
+        let v = null; try { const r = Engine.solve(f.replace(/×/g, '*').replace(/÷/g, '/').replace(/−/g, '-'), { ...ctx, vars: { ...(base || {}), ...vals } }); if (r && !r.error && typeof r.num === 'number' && isFinite(r.num)) v = r.num; } catch {}
+        cells[j] = { v, txt: v == null ? '' : F(v, j), f: true }; if (S[j] && v != null) vals[S[j]] = v; }
+      rows.push({ cells, any }); }
+    const foot = d.c.map((_, j) => { const nums = rows.filter(r => r.any).map(r => r.cells[j].v).filter(v => v != null), filled = rows.filter(r => r.any && String(r.cells[j].txt).trim()).length;
+      let k = d.ft[j]; if (k == null) k = j > 0 && nums.length && nums.length >= filled * 0.6 ? 'sum' : '';
+      const v = !nums.length ? null : k === 'sum' ? nums.reduce((a, b) => a + b, 0) : k === 'avg' ? nums.reduce((a, b) => a + b, 0) / nums.length : k === 'max' ? Math.max(...nums) : k === 'min' ? Math.min(...nums) : k === 'count' ? filled : null;
+      return { k, v: k === 'count' ? filled : v, txt: v == null ? '—' : k === 'count' ? String(filled) : F(v, j) }; });
+    let value = null; for (let j = C - 1; j >= 0; j--) if (foot[j].k === 'sum' && foot[j].v != null) { value = foot[j].v; break; }
+    return { rows, foot, value, vtxt: value == null ? '' : (() => { for (let j = C - 1; j >= 0; j--) if (foot[j].k === 'sum' && foot[j].v != null) return foot[j].txt; return ''; })() };
+  }
+  const FT_LAB = { sum: 'Sum', avg: 'Average', max: 'Highest', min: 'Lowest', count: 'Count', '': 'None' }, FT_SYM = { sum: 'Σ', avg: 'x̄', max: '↑', min: '↓', count: '#', '': '' };
+  const blkMenuBtn = `<button type="button" class="bl-menu" data-bl="menu" aria-label="More"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="19" cy="12" r="1.7"/></svg></button>`;
+  function blkHtml(b) {
+    const { k, d } = b;
+    if (k === 'div') return `<div class="bl-div" data-bl="sel"><i></i>${blkMenuBtn}</div>`;
+    if (k === 'tbl') { const C = d.c.length;
+      return `<div class="bl-tbl"><div class="bl-head"><span class="bl-ic" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><path d="M3.5 9.5h17M3.5 14.5h17M9.5 9.5v10"/></svg></span><input class="bl-name" data-tf="n" value="${esc(d.n || '')}" placeholder="Name this table" aria-label="Table name"><span class="bl-val"></span>${blkMenuBtn}</div>
+        <div class="tb-scroll"><table class="tb"><thead><tr>${d.c.map((h, j) => `<th style="--i:${j}"><div class="tb-h"><input data-th="${j}" value="${esc(h)}" placeholder="Column" aria-label="Column ${j + 1} name"><button type="button" class="tb-cm" data-bl="col" data-j="${j}" aria-label="Column options">${d.f[j] ? '<b>ƒ</b>' : ''}<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></div></th>`).join('')}<th class="tb-addc"><button type="button" data-bl="addc" aria-label="Add a column">+</button></th></tr></thead>
+        <tbody>${d.r.map((row, r) => `<tr style="--i:${r}">${d.c.map((_, j) => { const ph = d.ph && d.ph[r] && d.ph[r][j] != null ? d.ph[r][j] : ''; return `<td><input data-r="${r}" data-c="${j}" value="${esc(row[j] ?? '')}" ${d.f[j] ? 'readonly tabindex="-1" class="calc"' : ''} placeholder="${esc(ph)}" ${j > 0 ? 'inputmode="text"' : ''} aria-label="${esc(d.c[j] || 'Column ' + (j + 1))}, row ${r + 1}"></td>`; }).join('')}<td class="tb-rx"><button type="button" data-bl="delr" data-r="${r}" aria-label="Remove row ${r + 1}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></td></tr>`).join('')}</tbody>
+        <tfoot><tr>${d.c.map((_, j) => `<td><button type="button" class="tb-ft" data-bl="ft" data-j="${j}"></button></td>`).join('')}<td></td></tr></tfoot></table></div>
+        <button type="button" class="tb-addr" data-bl="addr"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Row</button></div>`; }
+    if (k === 'prog') return `<div class="bl-prog"><div class="bl-head"><span class="bl-ic g" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 12h9"/><path d="M4 12h16" opacity=".3"/></svg></span><input class="bl-name" data-pf="n" value="${esc(d.n || '')}" placeholder="What’s it for? e.g. Holiday fund" aria-label="Progress name"><b class="pg-pct"></b>${blkMenuBtn}</div>
+        <div class="pg-track"><i></i></div>
+        <div class="pg-f"><label><span>Now</span><input data-pf="v" value="${esc(d.v ?? '')}" placeholder="300 or a name" aria-label="Amount now"></label><label><span>Goal</span><input data-pf="g" value="${esc(d.g ?? '')}" placeholder="1000" aria-label="Goal"></label><em class="pg-left"></em></div></div>`;
+    if (k === 'chart') return `<div class="bl-chart"><div class="bl-head"><span class="bl-ic b" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M5 20V11M12 20V5M19 20v-6"/></svg></span><input class="bl-name" data-cf="n" value="${esc(d.n || '')}" placeholder="Chart" aria-label="Chart title"><div class="ch-seg" role="radiogroup"><button type="button" data-bl="ctype" data-t="bar" aria-checked="${d.t !== 'pie'}">Bars</button><button type="button" data-bl="ctype" data-t="pie" aria-checked="${d.t === 'pie'}">Ring</button></div>${blkMenuBtn}</div><div class="ch-body"></div></div>`;
+    return '';
+  }
+  // the parts that follow the numbers: computed cells, footers, bars and charts
+  const CH_COL = ['var(--ai-c)', 'var(--accent)', 'var(--good)', '#3D8BEF', '#E5675C', '#8B7CF6', '#2FAE7A', '#E3A12F'];
+  function blkRefresh(ln, out) {
+    const b = blkOf(ln.dataset.raw); if (!b) return; const { k, d } = b;
+    if (k === 'tbl') { const T = tblCalc(d, blkVars());
+      T.rows.forEach((row, r) => row.cells.forEach((c, j) => { if (!c.f) return; const inp = ln.querySelector(`input[data-r="${r}"][data-c="${j}"]`); if (inp && inp.value !== c.txt) { inp.value = c.txt; if (!REDUCE) { inp.classList.remove('swap'); void inp.offsetWidth; inp.classList.add('swap'); } } }));
+      T.foot.forEach((f, j) => { const btn = ln.querySelector(`.tb-ft[data-j="${j}"]`); if (!btn) return; const txt = f.k ? `${FT_SYM[f.k]} ${f.txt}` : ''; if (btn.dataset.t !== txt) { btn.dataset.t = txt; btn.innerHTML = f.k ? `<small>${FT_LAB[f.k]}</small><b>${esc(f.txt)}</b>` : '<small class="add">+ total</small>'; if (!REDUCE && f.k) { btn.classList.remove('swap'); void btn.offsetWidth; btn.classList.add('swap'); } } });
+      const v = ln.querySelector('.bl-val'); if (v) v.textContent = T.value != null && d.n ? `${slug(d.n)} = ${T.vtxt}` : ''; }
+    if (k === 'prog') { const now = blkNum(d.v), goal = blkNum(d.g), p = now != null && goal ? Math.max(0, Math.min(1, now / goal)) : 0;
+      ln.querySelector('.pg-track i').style.setProperty('--p', p.toFixed(4)); ln.querySelector('.pg-track').classList.toggle('done', p >= 1);
+      ln.querySelector('.pg-pct').textContent = now != null && goal ? Math.round(now / goal * 100) + '%' : '';
+      ln.querySelector('.pg-left').textContent = now != null && goal ? (goal - now > 0 ? `${blkFmt(goal - now)} to go` : 'Goal reached 🎉'.replace(' 🎉', ' ✓')) : ''; }
+    if (k === 'chart') { const ed = ntEd(), i = [...ed.children].indexOf(ln); let O = out; if (!O) try { O = evalSheet().out; } catch { O = []; }
+      const items = []; for (let x = 0; x < i; x++) { const o = O[x] || {}; if (/^⟦chart/.test((sheet.lines[x] || '').trim())) items.length = 0; else if ((o.t === 'ok' || o.t === 'sum') && o.label && typeof o.num === 'number' && isFinite(o.num) && o.t !== 'sum' && !/^(?:total|sum|subtotal|grand total|left|spent)$/i.test(o.label)) items.push([o.label, o.num]); }
+      const L = items.slice(-8), body = ln.querySelector('.ch-body'), sig = JSON.stringify([d.t, L]); if (body._sig === sig) return; body._sig = sig;
+      if (!L.length) { body.innerHTML = '<p class="ch-empty">Name some numbers above, like <b>Rent: 850</b> and <b>Food: 300</b>, and they’ll show here.</p>'; return; }
+      if (d.t === 'pie') { const pos = L.filter(x => x[1] > 0), T = pos.reduce((a, b) => a + b[1], 0) || 1; let a0 = 0; const R = 42, C = 2 * Math.PI * R;
+        body.innerHTML = `<div class="ch-ring"><svg viewBox="0 0 100 100" aria-hidden="true">${pos.map(([, v], j) => { const len = v / T * C, seg = `<circle cx="50" cy="50" r="${R}" fill="none" stroke="${CH_COL[j % 8]}" stroke-width="13" stroke-dasharray="${Math.max(0, len - 1.2).toFixed(2)} ${C.toFixed(2)}" stroke-dashoffset="${(-a0).toFixed(2)}" style="--i:${j}" transform="rotate(-90 50 50)"/>`; a0 += len; return seg; }).join('')}<text x="50" y="47" text-anchor="middle" class="ch-tl">Total</text><text x="50" y="60" text-anchor="middle" class="ch-tv">${esc(blkFmt(T))}</text></svg><ul>${pos.map(([l, v], j) => `<li style="--c:${CH_COL[j % 8]};--i:${j}"><i></i><span>${esc(l)}</span><b>${Math.round(v / T * 100)}%</b></li>`).join('')}</ul></div>`; }
+      else { const M = Math.max(...L.map(x => Math.abs(x[1]))) || 1; body.innerHTML = `<div class="ch-bars">${L.map(([l, v], j) => `<div class="ch-row" style="--w:${(Math.abs(v) / M * 100).toFixed(1)}%;--c:${CH_COL[j % 8]};--i:${j}"><span>${esc(l)}</span><i></i><b>${esc(blkFmt(v))}</b></div>`).join('')}</div>`; } }
+  }
+  function blkRefreshAll(out) { const ed = ntEd(); if (!ed) return; [...ed.querySelectorAll('.nl.blk')].forEach(ln => { try { blkRefresh(ln, out); } catch {} }); }
+  // draw a block line instead of its text
+  { const np0 = ntPaint; ntPaint = function (ln, t) { const b = blkOf(t);
+      if (!b) { if (ln.classList.contains('blk')) { ln.removeAttribute('contenteditable'); delete ln.dataset.raw; ln._t = null; } return np0.apply(this, arguments); }
+      ln.dataset.raw = t; ln.setAttribute('contenteditable', 'false'); ln.className = 'nl blk blk-' + b.k;
+      if (ln._t !== t || !ln.firstElementChild) { const keep = ln.contains(document.activeElement) ? document.activeElement : null; if (!keep) { ln.innerHTML = blkHtml(b); ln._t = t; requestAnimationFrame(() => blkRefresh(ln)); } else ln._t = t; } }; }
+  // read a block back as its line, never as the text drawn inside it
+  { const nr0 = ntRead; ntRead = function () { const ed = ntEd(), L = nr0.apply(this, arguments); if (!ed) return L; const kids = [...ed.childNodes]; if (kids.length === L.length) kids.forEach((n, i) => { if (n.nodeType === 1 && n.classList.contains('blk') && n.dataset.raw) L[i] = n.dataset.raw; }); return L; }; }
+  // the sheet's maths sees a table as its total (named after the table), and the other objects as blank lines
+  { const es0 = evalSheet; evalSheet = function () { const saved = sheet.lines; if (!saved.some(l => l.charCodeAt(0) === 0x27E6 || /^\s*⟦/.test(l))) return es0.apply(this, arguments);
+      const base = (() => { try { return { ...(ctx.vars || {}) }; } catch { return {}; } })();
+      sheet.lines = saved.map(l => { const b = blkOf(l); if (!b) return l; if (b.k === 'tbl') { try { const T = tblCalc(b.d, base); if (T.value == null) return ''; return `${b.d.n ? b.d.n.replace(/[:#]/g, '') : 'Table'}: ${+T.value.toFixed(10)}`; } catch { return ''; } } return ''; });
+      try { return es0.apply(this, arguments); } finally { sheet.lines = saved; } }; }
+  { const us0 = updateSheet; updateSheet = function () { const r = us0.apply(this, arguments); try { if (sheet.lines.some(l => /^\s*⟦/.test(l))) { const ev = evalSheet(); blkRefreshAll(ev.out); } } catch {} return r; }; }
+  { const pl0 = ntPlace; ntPlace = function () { pl0.apply(this, arguments); const ed = ntEd(), rs = $('#lines .nt-rs'); if (!ed || !rs) return; [...rs.children].forEach(r => { const ln = ed.children[+r.dataset.i]; if (ln && ln.classList.contains('blk')) r.hidden = true; }); }; }
+  // editing inside an object: the object's own data changes, the rest of the page stays put
+  const blkLine = el => { const ln = el.closest('.nl.blk'), ed = ntEd(); return ln && ed ? { ln, i: [...ed.children].indexOf(ln) } : null; };
+  let blkSaveT = 0;
+  function blkWrite(ln, i, b, redraw) { const tok = blkTok(b.k, b.d); sheet.lines[i] = tok; ln.dataset.raw = tok; ln._t = tok; clearTimeout(blkSaveT); blkSaveT = setTimeout(() => { touchSheet(); try { kpSync(); } catch {} }, 350); saveSheet();
+    if (redraw) { const f = document.activeElement, fr = f && ln.contains(f) ? { r: f.dataset.r, c: f.dataset.c, th: f.dataset.th } : null; ln.innerHTML = blkHtml(b); blkRefresh(ln); if (fr) { const sel = fr.th != null ? `input[data-th="${fr.th}"]` : `input[data-r="${fr.r}"][data-c="${fr.c}"]`; const x = ln.querySelector(sel); if (x) x.focus({ preventScroll: true }); } }
+    try { updateSheet(); } catch {} }
+  const L$ = $('#lines');
+  ['keydown', 'keyup', 'beforeinput', 'paste', 'cut', 'copy', 'compositionstart', 'compositionend'].forEach(ev => L$.addEventListener(ev, e => { if (!e.target.closest || !e.target.closest('.nl.blk')) return; e.stopPropagation();
+    if (ev === 'keydown' && e.key === 'Enter' && e.target.matches('input')) { e.preventDefault(); const x = blkLine(e.target); if (!x) return; const b = blkOf(x.ln.dataset.raw), inp = e.target;
+      if (b.k === 'tbl' && inp.dataset.r != null) { const r = +inp.dataset.r, c = +inp.dataset.c; if (r === b.d.r.length - 1) { b.d.r.push(b.d.c.map(() => '')); blkWrite(x.ln, x.i, b, true); } const nx = x.ln.querySelector(`input[data-r="${r + 1}"][data-c="${c}"]`); if (nx) nx.focus(); return; }
+      if (b.k === 'tbl' && inp.dataset.th != null) { const nx = x.ln.querySelector(`input[data-r="0"][data-c="${inp.dataset.th}"]`); if (nx && !nx.readOnly) nx.focus(); else inp.blur(); return; }
+      inp.blur(); } }, true));
+  L$.addEventListener('input', e => { const inp = e.target; if (!inp.matches || !inp.matches('.nl.blk input')) return; e.stopImmediatePropagation(); const x = blkLine(inp); if (!x) return; const b = blkOf(x.ln.dataset.raw); if (!b) return; const d = b.d, v = inp.value;
+    if (inp.dataset.tf) d.n = v; else if (inp.dataset.th != null) { d.c[+inp.dataset.th] = v; } else if (inp.dataset.r != null) { const r = +inp.dataset.r, c = +inp.dataset.c; d.r[r][c] = v; if (d.ph && d.ph[r]) { d.ph = null; x.ln.querySelectorAll('tbody input').forEach(q => q.placeholder = ''); } }
+    else if (inp.dataset.pf) d[inp.dataset.pf] = v; else if (inp.dataset.cf) d[inp.dataset.cf] = v;
+    blkWrite(x.ln, x.i, b, false); blkRefresh(x.ln); }, true);
+  // buttons inside objects, and a small menu for each
+  function blkPop(anchor, items) { document.querySelector('.bl-pop')?.remove(); const p = document.createElement('div'); p.className = 'bl-pop'; p.innerHTML = items.map(it => it.sep ? '<i class="sep"></i>' : it.seg ? `<div class="bl-segrow"><span>${esc(it.seg)}</span><div>${it.opts.map(o => `<button type="button" data-pa="${esc(o[0])}" aria-checked="${o[2] ? 'true' : 'false'}">${esc(o[1])}</button>`).join('')}</div></div>` : it.input ? `<label class="bl-fx"><span>${esc(it.input)}</span><input data-pin="${esc(it.k)}" value="${esc(it.v || '')}" placeholder="${esc(it.ph || '')}"></label>` : `<button type="button" data-pa="${esc(it.a)}" class="${it.bad ? 'bad' : ''}">${esc(it.t)}</button>`).join('');
+    document.body.appendChild(p); const r = anchor.getBoundingClientRect(), W = Math.min(270, innerWidth - 24); p.style.width = W + 'px'; let left = Math.min(innerWidth - W - 12, Math.max(12, r.right - W)), top = r.bottom + 6; p.style.left = left + 'px'; p.style.top = top + 'px';
+    requestAnimationFrame(() => { const pr = p.getBoundingClientRect(); if (pr.bottom > (window.visualViewport ? visualViewport.height : innerHeight) - 8) p.style.top = Math.max(8, r.top - pr.height - 6) + 'px'; p.classList.add('in'); });
+    return new Promise(res => { const off = ev => { if (p.contains(ev.target)) return; close(null); }, close = v => { p.classList.remove('in'); setTimeout(() => p.remove(), 160); document.removeEventListener('pointerdown', off, true); res(v); };
+      p.addEventListener('click', ev => { const b = ev.target.closest('[data-pa]'); if (b) { const inp = p.querySelector('[data-pin]'); close({ a: b.dataset.pa, v: inp ? inp.value : null }); } });
+      p.addEventListener('keydown', ev => { if (ev.key === 'Enter' && ev.target.matches('[data-pin]')) { ev.preventDefault(); close({ a: 'fx', v: ev.target.value }); } if (ev.key === 'Escape') close(null); });
+      setTimeout(() => document.addEventListener('pointerdown', off, true), 0); }); }
+  L$.addEventListener('mousedown', e => { if (e.target.closest('.nl.blk button')) e.preventDefault(); }, true);
+  L$.addEventListener('click', async e => { const btn = e.target.closest('.nl.blk [data-bl]'); if (!btn) return; e.stopPropagation(); e.preventDefault(); const x = blkLine(btn); if (!x) return; let b = blkOf(x.ln.dataset.raw); if (!b) return; const d = b.d, a = btn.dataset.bl; buzz();
+    if (a === 'addr') { d.r.push(d.c.map(() => '')); blkWrite(x.ln, x.i, b, true); const q = x.ln.querySelector(`input[data-r="${d.r.length - 1}"][data-c="0"]`); if (q) { q.focus(); const tr = q.closest('tr'); if (tr && !REDUCE) tr.classList.add('fresh'); } return; }
+    if (a === 'addc') { d.c.push(''); d.f.push(''); d.ft.push(null); d.r.forEach(r => r.push('')); blkWrite(x.ln, x.i, b, true); const q = x.ln.querySelector(`input[data-th="${d.c.length - 1}"]`); if (q) { q.focus(); x.ln.querySelector('.tb-scroll').scrollTo({ left: 9999, behavior: REDUCE ? 'auto' : 'smooth' }); } return; }
+    if (a === 'delr') { const r = +btn.dataset.r, tr = btn.closest('tr'); const go = () => { d.r.splice(r, 1); if (!d.r.length) d.r.push(d.c.map(() => '')); if (d.ph) d.ph = null; blkWrite(x.ln, x.i, b, true); }; if (REDUCE || !tr) go(); else { tr.classList.add('gone'); setTimeout(go, 220); } return; }
+    if (a === 'ft') { const j = +btn.dataset.j, T = tblCalc(d, blkVars()), cur = T.foot[j].k, order = ['sum', 'avg', 'max', 'min', 'count', '']; d.ft[j] = order[(order.indexOf(cur) + 1) % order.length]; blkWrite(x.ln, x.i, b, false); blkRefresh(x.ln); return; }
+    if (a === 'ctype') { d.t = btn.dataset.t; x.ln.querySelectorAll('[data-bl="ctype"]').forEach(q => q.setAttribute('aria-checked', String(q === btn))); blkWrite(x.ln, x.i, b, false); x.ln.querySelector('.ch-body')._sig = ''; blkRefresh(x.ln); return; }
+    if (a === 'col') { const j = +btn.dataset.j, T = tblCalc(d, blkVars()), names = d.c.map(h => slug(h || '')).filter((s, q) => s && q !== j);
+      const res = await blkPop(btn, [{ input: 'Work it out', k: 'fx', v: d.f[j] || '', ph: names.length >= 2 ? `${names[names.length - 2]} × ${names[names.length - 1]}` : 'e.g. qty × price' }, { seg: 'Under it', opts: ['sum', 'avg', 'max', 'min', ''].map(o => ['ft:' + o, o ? FT_LAB[o] : 'None', T.foot[j].k === o]) }, { sep: 1 }, { a: 'left', t: 'Move left' }, { a: 'right', t: 'Move right' }, { a: 'sortu', t: 'Sort low to high' }, { a: 'sortd', t: 'Sort high to low' }, { sep: 1 }, { a: 'del', t: 'Delete column', bad: 1 }]);
+      if (!res) return; b = blkOf(x.ln.dataset.raw); const D = b.d;
+      if (res.a === 'fx' || res.v != null && res.v !== (D.f[j] || '') && !/^ft:/.test(res.a)) { D.f[j] = (res.v || '').replace(/^=\s*/, '').trim(); }
+      if (/^ft:/.test(res.a)) D.ft[j] = res.a.slice(3);
+      const swap = (p, q) => { [D.c[p], D.c[q]] = [D.c[q], D.c[p]]; [D.f[p], D.f[q]] = [D.f[q], D.f[p]]; [D.ft[p], D.ft[q]] = [D.ft[q], D.ft[p]]; D.r.forEach(r => { [r[p], r[q]] = [r[q], r[p]]; }); if (D.ph) D.ph = null; };
+      if (res.a === 'left' && j > 0) swap(j, j - 1); if (res.a === 'right' && j < D.c.length - 1) swap(j, j + 1);
+      if (/^sort/.test(res.a)) { const TT = tblCalc(D, blkVars()), idx = D.r.map((_, q) => q).filter(q => TT.rows[q].any), key = q => { const c = TT.rows[q].cells[j]; return c.v != null ? c.v : String(c.txt).toLowerCase(); }; idx.sort((p, q) => { const A = key(p), B = key(q); const s = typeof A === 'number' && typeof B === 'number' ? A - B : String(A).localeCompare(String(B)); return res.a === 'sortu' ? s : -s; }); const empty = D.r.filter((_, q) => !TT.rows[q].any); D.r = idx.map(q => D.r[q]).concat(empty); if (D.ph) D.ph = null; }
+      if (res.a === 'del') { if (D.c.length <= 1) { toast('A table needs one column'); return; } D.c.splice(j, 1); D.f.splice(j, 1); D.ft.splice(j, 1); D.r.forEach(r => r.splice(j, 1)); if (D.ph) D.ph = null; }
+      blkWrite(x.ln, x.i, b, true); return; }
+    if (a === 'menu') { const res = await blkPop(btn, [{ a: 'up', t: 'Move up' }, { a: 'down', t: 'Move down' }, ...(b.k === 'tbl' ? [{ a: 'copy', t: 'Copy as text' }, { a: 'text', t: 'Turn into plain lines' }] : []), { sep: 1 }, { a: 'del', t: b.k === 'tbl' ? 'Delete table' : 'Delete', bad: 1 }]); if (!res) return;
+      const L = sheet.lines, i = x.i;
+      if (res.a === 'up' && i > 0) { [L[i - 1], L[i]] = [L[i], L[i - 1]]; touchSheet(); renderLines(); return; }
+      if (res.a === 'down' && i < L.length - 1) { [L[i + 1], L[i]] = [L[i], L[i + 1]]; touchSheet(); renderLines(); return; }
+      if (res.a === 'copy' || res.a === 'text') { const T = tblCalc(d, blkVars()), lines = [d.c.join(' | ')].concat(T.rows.filter(r => r.any).map(r => r.cells.map(c => c.txt).join(' | '))); if (res.a === 'copy') { try { await navigator.clipboard.writeText((d.n ? d.n + '\n' : '') + lines.join('\n')); toast('Table copied'); } catch { toast('Couldn’t copy'); } return; } L.splice(i, 1, ...(d.n ? ['# ' + d.n] : []), ...lines); touchSheet(); renderLines(); return; }
+      if (res.a === 'del') { const go = () => { L.splice(i, 1); if (!L.length) L.push(''); touchSheet(); renderLines(Math.min(i, L.length - 1), 0); toast('Removed · undo brings it back'); }; if (REDUCE) go(); else { x.ln.classList.add('gone'); setTimeout(go, 240); } } }
+  });
+  // keep the caret out of objects: Backspace just after one, or Delete just before, doesn't eat it
+  L$.addEventListener('keydown', e => { if (e.target.closest && e.target.closest('.nl.blk')) return; if (e.key !== 'Backspace' && e.key !== 'Delete') return; const c = ntGetCaret(); if (!c || !getSelection().isCollapsed) return; const t = sheet.lines[c.i] ?? '';
+    const near = e.key === 'Backspace' ? (c.o === 0 && c.i > 0 && blkOf(sheet.lines[c.i - 1]) ? c.i - 1 : -1) : (c.o >= t.length && blkOf(sheet.lines[c.i + 1]) ? c.i + 1 : -1); if (near < 0) return;
+    e.preventDefault(); e.stopImmediatePropagation(); if (!t.trim() && sheet.lines.length > c.i + 1 && e.key === 'Backspace') { sheet.lines.splice(c.i, 1); touchSheet(); renderLines(c.i, 0); return; }
+    const ln = ntEd().children[near]; if (ln && !REDUCE) { ln.classList.remove('nudge'); void ln.offsetWidth; ln.classList.add('nudge'); } }, true);
+  // putting one on the page
+  function blkInsert(k, d) { const L = sheet.lines; let i = Math.min(ntCaret.i ?? L.length - 1, L.length - 1); if (i < 0) i = 0; const tok = blkTok(k, d || {});
+    if (!(L[i] || '').trim()) L[i] = tok; else { L.splice(i + 1, 0, tok); i++; }
+    if (i === L.length - 1 || blkOf(L[i + 1])) L.splice(i + 1, 0, '');
+    touchSheet(); renderLines(); const ln = ntEd().children[i]; if (ln && !REDUCE) { ln.classList.remove('arrive'); void ln.offsetWidth; ln.classList.add('arrive'); }
+    setTimeout(() => { try { ln.scrollIntoView({ block: 'center', behavior: REDUCE ? 'auto' : 'smooth' }); const f = k === 'tbl' ? ln.querySelector('tbody input:not([readonly])') : ln.querySelector('input'); if (f && k !== 'div' && k !== 'chart') f.focus({ preventScroll: true }); } catch {} }, 80); buzz(); return i; }
+  // old "a | b | c" lines become a real table
+  function pipeRun() { const L = sheet.lines; for (let i = 0; i < L.length; i++) { if (!/\|/.test(L[i]) || blkOf(L[i])) continue; let j = i; while (j < L.length && /\|/.test(L[j]) && !blkOf(L[j])) j++; if (j - i >= 2) return [i, j]; i = j; } return null; }
+  function pipeToTable() { const run = pipeRun(); if (!run) return; const [i, j] = run, rows = sheet.lines.slice(i, j).map(l => cellsOf(l)), C = Math.max(...rows.map(r => r.length)); const head = rows[0].map(h => h || ''), body = rows.slice(1).filter(r => r.some(c => c));
+    const d = { n: '', c: Array.from({ length: C }, (_, q) => head[q] || ''), f: Array(C).fill(''), ft: Array(C).fill(null), r: (body.length ? body : [Array(C).fill('')]).map(r => Array.from({ length: C }, (_, q) => r[q] || '')) };
+    sheet.lines.splice(i, j - i, blkTok('tbl', d)); if (i === sheet.lines.length - 1) sheet.lines.push(''); touchSheet(); renderLines(); toast('Made it a table'); }
+  // the Insert sheet: everything you can add, in one place
+  const INS = [
+    ['tbl', 'Table', 'Rows and columns that add up', '<rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><path d="M3.5 9.5h17M3.5 14.5h17M9.5 9.5v10"/>', '#3D8BEF'],
+    ['chk', 'Checklist', 'Tick things off', '<rect x="4" y="4" width="16" height="16" rx="4"/><path d="m8.5 12 2.5 2.5 4.5-5"/>', '#2FAE7A'],
+    ['prog', 'Progress bar', 'Towards a goal', '<rect x="3" y="9" width="18" height="6" rx="3"/><path d="M6 12h7" stroke-width="3"/>', '#E3A12F'],
+    ['chart', 'Chart', 'Of the numbers above', '<path d="M5 20V11M12 20V5M19 20v-6"/>', '#8B7CF6'],
+    ['h', 'Heading', 'Starts a section', '<path d="M6 5v14M18 5v14M6 12h12"/>', '#E5675C'],
+    ['bul', 'Bullet list', 'Simple points', '<circle cx="5.5" cy="7" r="1.2"/><circle cx="5.5" cy="12" r="1.2"/><circle cx="5.5" cy="17" r="1.2"/><path d="M10 7h10M10 12h10M10 17h10"/>', '#8A93A6'],
+    ['total', 'Total line', 'Adds the section up', '<path d="M17 5H7l6 7-6 7h10"/>', '#E09612'],
+    ['date', 'Today’s date', 'Stamped where you are', '<rect x="4" y="5" width="16" height="15" rx="2.5"/><path d="M4 10h16M9 3v4M15 3v4"/>', '#2FAE7A'],
+    ['div', 'Divider', 'A line between parts', '<path d="M4 12h16"/>', '#8A93A6'],
+    ['tools', 'Maths tool', 'Fractions, equations…', '<path d="M7 7h4M5 19 19 5M13 17h4"/>', '#8B7CF6'],
+  ];
+  function insOpen() {
+    let s = $('#insSheet'); if (s) s.remove(); try { const c = ntGetCaret(); if (c) ntCaret = c; } catch {}
+    s = document.createElement('div'); s.id = 'insSheet'; s.className = 'ins'; const pr = pipeRun();
+    s.innerHTML = `<div class="ins-scrim" data-insx></div><div class="ins-card" role="dialog" aria-label="Insert"><span class="ins-grip" aria-hidden="true"></span><div class="ins-top"><b>Insert</b><span>Goes where your cursor is</span></div>${pr ? `<button type="button" class="ins-conv" data-ins="pipe"><span class="ins-ic" style="--c:#3D8BEF"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><path d="M3.5 9.5h17M9.5 9.5v10"/></svg></span><span><b>Turn the “ | ” lines into a table</b><small>${pr[1] - pr[0]} lines found on this sheet</small></span></button>` : ''}<div class="ins-grid">${INS.map(([k, t, dd, ic, c], i) => `<button type="button" data-ins="${k}" style="--c:${c};--i:${i}"><span class="ins-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${ic}</svg></span><b>${t}</b><small>${dd}</small></button>`).join('')}</div></div>`;
+    document.body.appendChild(s); document.documentElement.classList.add('is-ins'); requestAnimationFrame(() => s.classList.add('in'));
+    s.addEventListener('click', e => { if (e.target.closest('[data-insx]')) return insClose(); const b = e.target.closest('[data-ins]'); if (!b) return; const k = b.dataset.ins; insClose(); buzz();
+      setTimeout(() => { if (k === 'pipe') return pipeToTable(); if (k === 'tbl') return blkInsert('tbl', TBL_NEW()); if (k === 'prog') return blkInsert('prog', { n: '', v: '', g: '' }); if (k === 'chart') return blkInsert('chart', { n: '', t: 'bar' }); if (k === 'div') return blkInsert('div', {});
+        const i = Math.min(ntCaret.i, sheet.lines.length - 1); if (blkOf(sheet.lines[i])) { sheet.lines.splice(i + 1, 0, ''); ntCaret = { i: i + 1, o: 0 }; touchSheet(); renderLines(i + 1, 0); } ntApply(k); }, REDUCE ? 0 : 120); });
+    // drag the card down to close
+    const card = s.querySelector('.ins-card'); let d0 = null; card.addEventListener('pointerdown', e => { if (e.target.closest('button')) return; d0 = { y: e.clientY }; card.setPointerCapture(e.pointerId); });
+    card.addEventListener('pointermove', e => { if (!d0) return; const dy = Math.max(0, e.clientY - d0.y); card.style.transform = `translateY(${dy}px)`; card.style.transition = 'none'; });
+    card.addEventListener('pointerup', e => { if (!d0) return; const dy = e.clientY - d0.y; d0 = null; card.style.transition = ''; card.style.transform = ''; if (dy > 80) insClose(); });
+  }
+  function insClose() { const s = $('#insSheet'); if (!s) return; s.classList.remove('in'); s.classList.add('out'); document.documentElement.classList.remove('is-ins'); setTimeout(() => s.remove(), REDUCE ? 0 : 260); }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && $('#insSheet')) { e.stopPropagation(); insClose(); } }, true);
+  { const fmt = document.querySelector('#ntBar .nt-fmt'); if (fmt) { const b = document.createElement('button'); b.type = 'button'; b.className = 'nt-ins'; b.title = 'Insert a table, chart, progress bar…'; b.setAttribute('aria-label', 'Insert'); b.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Insert</span>'; fmt.prepend(b);
+    b.addEventListener('mousedown', e => e.preventDefault()); b.addEventListener('click', e => { e.stopPropagation(); buzz(); insOpen(); }); } }
+  // the little preview on the sheets grid
+  function blkCard(b, s) { const { k, d } = b;
+    if (k === 'div') return '<div class="kp-ln kp-div"></div>';
+    if (k === 'tbl') { const keep = sheet; let T; try { T = tblCalc(d, ctx.vars || {}); } catch { return ''; } const rows = T.rows.filter(r => r.any).slice(0, 3), C = Math.min(d.c.length, 3);
+      return `<div class="kp-tb">${d.n ? `<b>${esc(d.n)}</b>` : ''}<table><tr>${d.c.slice(0, C).map(h => `<th>${esc(h)}</th>`).join('')}</tr>${rows.map(r => `<tr>${r.cells.slice(0, C).map(c => `<td>${esc(c.txt)}</td>`).join('')}</tr>`).join('')}</table></div>`; }
+    if (k === 'prog') { const keep = sheet; let now = null, goal = null; try { sheet = s; now = blkNum(d.v); goal = blkNum(d.g); } catch {} finally { sheet = keep; } const p = now != null && goal ? Math.max(0, Math.min(1, now / goal)) : 0; return `<div class="kp-pg"><span>${esc(d.n || 'Progress')}</span><i style="--p:${p.toFixed(3)}"></i><b>${Math.round(p * 100)}%</b></div>`; }
+    if (k === 'chart') return `<div class="kp-ln"><span class="t">▮▮▯ ${esc(d.n || 'Chart')}</span></div>`;
+    return ''; }
   /* ---------- Settings: one page for everything you can also say in the bar ---------- */
   const SET_IC = { look: '<circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 0 0 16z" fill="currentColor" stroke="none"/>', calc: '<rect x="5" y="3" width="14" height="18" rx="3"/><path d="M8.5 7.5h7M8.5 12h1M12 12h1M15 12h.5M8.5 16h1M12 16h1M15 16h.5"/>', bell: '<path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>', learn: '<path d="M12 3l1.8 4.6L18.5 9l-4.7 1.4L12 15l-1.8-4.6L5.5 9l4.7-1.4z"/><path d="M18 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/>', data: '<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/>', info: '<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5M12 7.5v.5"/>' };
   const setSvg = k => `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${SET_IC[k]}</svg>`;
